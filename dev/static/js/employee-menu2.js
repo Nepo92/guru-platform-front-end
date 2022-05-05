@@ -35,11 +35,10 @@ $(document).on('change', '.indicated-select select', function (event) {
 $(document).on('click', '[js-create-examiner]', function (event) {
     $('body').css({ overflow: 'hidden' });
     const menu = document.querySelector('[js-menu-create-examiner]');
-    openModalAnimation(menu);
+    openModalAnimation(menu, true);
 
     addTypeOptions($(this).siblings('[department]').attr("department"));
     addIdDepartment($(this).siblings('[department]').attr("id-department"));
-    checkBodyHidden();
 });
 
 $(document).on('click', '[js-menu-create-examiner-close-btn]', function (event) {
@@ -49,13 +48,12 @@ $(document).on('click', '[js-menu-create-examiner-close-btn]', function (event) 
     closeModalAnimation(menu, wrapper, false, false);
 
     $('[js-examiner-form]').trigger('reset');
-    checkBodyHidden();
 });
 
 $(document).on('click', '[js-create-manager]', function () {
     $('body').css({ overflow: 'hidden' });
     const menu = document.querySelector('[js-menu-create-manager]');
-    openModalAnimation(menu);
+    openModalAnimation(menu, true);
 })
 
 $(document).on('click', '[js-menu-create-manager-close-btn]', function () {
@@ -103,11 +101,10 @@ $(document).ready(function () {
             $('[js-supervisor-password-item]').hide();
         }
 
-        openModalAnimation(menu);
+        openModalAnimation(menu, true);
 
         addTypeOptions(dep);
         addIdDepartment($(this).siblings('[department]').attr("id-department"));
-        checkBodyHidden()
     });
 
     $menuCreateUserCloseBtn.on('click', function () {
@@ -118,7 +115,6 @@ $(document).ready(function () {
         closeModalAnimation(menu, wrapper, false, false);
 
         $createUserForm.trigger('reset');
-        checkBodyHidden()
     });
 
     $saveUserBtn.on('click', function (event) {
@@ -141,65 +137,6 @@ $(document).ready(function () {
     initDatePicker();
 });
 
-function closeModalAnimation(modal, wrapper, isFilter, isClientCard) {
-    if (isFilter) {
-        wrapper.style.top = '-150%';
-    } else {
-        wrapper.style.right = '-100%';
-    }
-
-    if (isClientCard) {
-        setTimeout(() => {
-            modal.style.opacity = '0';
-        }, 400);
-
-        setTimeout(() => {
-            modal.classList.remove('open');
-        }, 600);
-
-        setTimeout(() => {
-            modal.classList.remove('black');
-        }, 600);
-    } else {
-        setTimeout(() => {
-            modal.style.opacity = '0';
-        }, 200);
-
-        setTimeout(() => {
-            modal.classList.remove('open');
-        }, 400);
-
-        setTimeout(() => {
-            modal.classList.remove('black');
-        }, 400);
-    }
-}
-
-function openModalAnimation(modal) {
-    modal.classList.add('open');
-    modal.classList.add('black');
-
-    setTimeout(() => {
-        modal.style.opacity = '1';
-    }, 100);
-
-    const filter = modal.querySelector('.filter__wrapper');
-
-    if (filter) {
-        setTimeout(() => {
-            filter.style.top = '0'
-        }, 100);
-    } else {
-        setTimeout(() => {
-            const modalWindow = modal.querySelector('.platform-modal__wrapper');
-
-            if (modalWindow) {
-              modalWindow.style.right = '0';
-            }
-        }, 0);
-    }
-}
-
 function createEmployee(userData, needLogin) {
     $('[js-save-employee]').prop("disabled", true);
     $('[js-save-examiner]').prop("disabled", true);
@@ -215,7 +152,6 @@ function createEmployee(userData, needLogin) {
 
             $('[js-menu-create-employee]').removeClass('is-open');
             $('[js-menu-create-examiner]').removeClass('is-open');
-            checkBodyHidden();
 
             $('[js-employee-form]').trigger('reset');
             $('[js-examiner-form]').trigger('reset');
@@ -553,3 +489,83 @@ $(document).on('click', '[edit-employee-accept]', function (event) {
         }
     });
 });
+
+
+function openModalAnimation(modal, isOverflowed) {
+    modal.classList.add('open');
+    modal.classList.add('black');
+
+    setTimeout(() => {
+        modal.style.opacity = '1';
+    }, 100);
+
+    const filter = modal.querySelector('.filter__wrapper');
+
+    if (filter) {
+        setTimeout(() => {
+            filter.style.top = '0';
+        }, 100);
+    } else {
+        setTimeout(() => {
+            const modalWindow = modal.querySelector('.platform-modal__wrapper');
+            modalWindow.style.right = '0';
+        }, 0);
+
+        setTimeout(() => {
+            const modalContent = modal.querySelector('.platform-modal__content');
+
+            if (modalContent) {
+                modalContent.style.right = '0';
+            }
+        }, 0);
+    }
+
+    setOverflow(isOverflowed);
+}
+
+function closeModalAnimation(modal, wrapper, isFilter, isOverflowed = null) {
+    if (isFilter) {
+        closeFilter(modal, wrapper);
+    } else {
+        closeMenu(modal, wrapper);
+    }
+
+    setOverflow(isOverflowed);
+}
+
+function closeFilter(modal, wrapper) {
+    wrapper.style.top = '-150%';
+
+    setTimeout(() => {
+        modal.style.opacity = '0';
+    }, 200);
+
+    setTimeout(() => {
+        modal.classList.remove('open');
+    }, 400);
+}
+
+function closeMenu(modal, wrapper) {
+    wrapper.style.right = '-100%';
+    const content = wrapper.querySelector('.platform-modal__content');
+
+    if (content) {
+        content.style.right = '-100%';
+    }
+
+    setTimeout(() => {
+        modal.style.opacity = '0';
+    }, 500);
+
+    setTimeout(() => {
+        modal.classList.remove('open');
+    }, 700);
+}
+
+function setOverflow(isOverflowed) {
+    if (isOverflowed) {
+        document.body.style.overflow = 'hidden';
+    } else if (!isOverflowed && isOverflowed !== null) {
+        document.body.style.overflow = 'auto';
+    }
+}

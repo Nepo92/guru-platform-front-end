@@ -67,7 +67,7 @@
             <tr class="platform-table__row" th:each="rate : ${rates.pageItems}" th:attr="data-rate=${rate.id},data-client=${rate.idClient}">
                 <td class="platform-table__column date-rates" th:utext="${rate.createDate}"></td>
                 <td class="platform-table__column column-client">
-                    <a js-client-card href="" class="platform-table__row--link" th:title="${rate.clientName}"
+                    <a js-client-card href="" class="platform-table__row--link client-name" th:title="${rate.clientName}"
                        th:text="${rate.clientName}"></a>
                     <span js-copy-link th:attr="data-link=${rate.clientPhone}" class="client-phone"
                           th:text="${#strings.isEmpty(rate.clientPhone)} ? '&mdash;' : ${rate.clientPhone}"></span>

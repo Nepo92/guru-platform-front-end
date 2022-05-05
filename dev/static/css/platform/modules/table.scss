@@ -87,6 +87,7 @@
     width: 100%;
     font-size: 12px;
     line-height: 12px;
+    text-align: left;
   }
 }
 
@@ -95,6 +96,7 @@
   min-width: 158px;
   margin-right: 20px;
   cursor: pointer;
+  text-align: left;
 
   &:hover {
     .platform-table__row--link {
@@ -168,6 +170,7 @@
   min-width: 90px;
   width: 90px;
   margin-right: 20px;
+  text-align: left;
 }
 
 .platform-table__column.estimation-column {

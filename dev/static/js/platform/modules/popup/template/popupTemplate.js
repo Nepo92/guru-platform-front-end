@@ -22,7 +22,7 @@ class PopupTemplate {
         <div class="dialog__title">${title}</div>
         <div class="dialog__text">${text}</div>
         <div class="dialog__content">${contentCreator()}</div>
-        <div class="dialog__buttons">
+        <div class="dialog__buttons mt_15">
           <div class="button button_dialog" accept-dialog="">Да</div>
           <div class="button button_dialog button_white" close-dialog>Нет</div>
         </div>

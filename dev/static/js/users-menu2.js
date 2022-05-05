@@ -55,7 +55,6 @@ $(document).ready(function () {
 
     $menuCreateManagerBtn.on('click', function () {
         openModalAnimation($menuCreateManager.get(0), true);
-        checkBodyHidden()
     });
 
     $menuCreateManagerCloseBtn.on('click', function () {
@@ -64,7 +63,6 @@ $(document).ready(function () {
         closeModalAnimation($menuCreateManager.get(0), wrapper, false, false, false);
 
         $createManagerForm.trigger('reset');
-        checkBodyHidden()
     });
 
     $saveManagerBtn.on('click', function (event) {
@@ -89,7 +87,6 @@ $(document).ready(function () {
 
     $menuCreateAdvertiserBtn.on('click', function () {
         openModalAnimation($menuCreateAdvertiser.get(0), true);
-        checkBodyHidden()
     });
 
     $menuCreateAdvertiserCloseBtn.on('click', function () {
@@ -97,7 +94,6 @@ $(document).ready(function () {
         closeModalAnimation($menuCreateAdvertiser.get(0), wrapper, false, false, false);
 
         $createAdvertiserForm.trigger('reset');
-        checkBodyHidden()
     });
 
     $saveAdvertiserBtn.on('click', function (event) {
@@ -127,8 +123,6 @@ $(document).ready(function () {
         TEMP_ROW.find('option:selected').removeAttr('selected');
         TEMP_ROW.val("true");
         TEMP_ROW.closest('[u-dismiss-wrapper]').removeClass('indicated-select_false').addClass('indicated-select_true');
-
-        checkBodyHidden()
     });
 
     initDateUserPicker();
@@ -150,7 +144,6 @@ function createAdvertiser(userData) {
             const wrapper = menu.querySelector('.platform-modal__wrapper');
             closeModalAnimation(menu, wrapper, false, false, false);
 
-            checkBodyHidden();
             $('[js-advertiser-form]').trigger('reset');
             $('[js-save-advertiser]').prop("disabled", false);
         },
@@ -510,22 +503,26 @@ function setAdvertiserTypes(advertiserTypeList) {
 
 $(document).on('change', '[manager-access]', function (event) {
     var attr = $('option:selected', this).attr('data-access');
-    if (typeof attr !== typeof undefined && attr === "false") {
-        TEMP_MANAGER_ID = $(this).siblings('[name="idManagerAccess"]').val()
+
+    if (typeof attr !== typeof undefined && attr === 'false') {
+        TEMP_MANAGER_ID = $(this).siblings('[name="idManagerAccess"]').val();
         TEMP_MANAGER_ID_LIST[TEMP_MANAGER_ID] = null;
         TEMP_ROW = $(this);
 
         $.ajax({
-            type: "POST",
-            contentType: "application/json",
-            url: "getManagers",
+            type: 'POST',
+            contentType: 'application/json',
+            url: 'getManagers',
             dataType: 'json',
             cache: false,
-            success: function (data) {
-                openManagersMenu(data);
+            success(data) {
+                const currentManager = +$(event.target).closest('.staff-table__body-row').find('[u-id-manager]').val();
+                const managersWithoutCurrent = data.filter((el) => el.id !== currentManager);
+
+                openManagersMenu(managersWithoutCurrent);
             },
-            error: function (data) {
-            }
+            error() {
+            },
         });
     }
 });
@@ -760,14 +757,13 @@ $(document).on('submit', '[delete-user-form]', function (event) {
             $('[delete-user]').prop("disabled", false);
         }
     });
-
 });
+
 function openManagersMenu(data) {
     let rows = "";
 
     const menu = $('[js-menu-managers-list]').get(0);
     openModalAnimation(menu, true);
-    checkBodyHidden();
 
     $.each(data, function (index, value) {
         rows += '<div manager-row class="div-table__row">' +
@@ -799,6 +795,7 @@ $(document).on('click', '[js-select-manager-btn]', function (event) {
 });
 $(document).on('submit', '[js-managers-list-form]', function (event) {
     event.preventDefault();
+
     if (validateForm(this)) {
         var requestData = $('[js-managers-list-form]').serializeObject();
         TEMP_MANAGER_ID_LIST[TEMP_MANAGER_ID] = requestData['idManager'];
@@ -808,8 +805,6 @@ $(document).on('submit', '[js-managers-list-form]', function (event) {
         const wrapper = menu.querySelector('.platform-modal__wrapper');
         closeModalAnimation(menu, wrapper, false, false, false);
         $('[manager-list]').html('');
-
-        checkBodyHidden();
     }
 });
 
@@ -819,7 +814,6 @@ $(document).on('click', '[js-set-projects]', function (event) {
 
     const menu = $('[js-menu-set-projects]').get(0);
     openModalAnimation(menu, true)
-    checkBodyHidden();
 });
 
 function setManagerProjectsFormData(idManager) {
@@ -832,7 +826,6 @@ function setManagerProjectsFormData(idManager) {
         dataType: 'json',
         cache: false,
         success: function (data) {
-            console.log(idManager);
             $('[js-projects-form-id-manager]').val(idManager);
 
             $.each(data.projects, function (i, item) {
@@ -852,7 +845,6 @@ $(document).on('click', '[js-menu-set-projects-close-btn]', function (event) {
 
     const wrapper = menu.querySelector('.platform-modal__wrapper');
     closeModalAnimation(menu, wrapper, false, false, false);
-    checkBodyHidden();
 
     $('[js-projects-form]').trigger('reset');
     $('input:checkbox[name="projects"]').attr('checked', false).prop("checked", false);
@@ -886,7 +878,6 @@ function saveManagerProjects(requestData) {
 
             const wrapper = menu.querySelector('.platform-modal__wrapper');
             closeModalAnimation(menu, wrapper, false, false, false);
-            checkBodyHidden();
 
             $('[js-projects-form]').trigger('reset');
             $('input:checkbox[name="projects"]').attr('checked', false).prop("checked", false);
@@ -899,61 +890,81 @@ function saveManagerProjects(requestData) {
     });
 }
 
-function openModalAnimation(modal) {
+function openModalAnimation(modal, isOverflowed) {
     modal.classList.add('open');
     modal.classList.add('black');
 
     setTimeout(() => {
-        modal.style.opacity = '1';
+      modal.style.opacity = '1';
     }, 100);
 
     const filter = modal.querySelector('.filter__wrapper');
 
     if (filter) {
-        setTimeout(() => {
-            filter.style.top = '0'
-        }, 100);
+      setTimeout(() => {
+        filter.style.top = '0';
+      }, 100);
     } else {
-        setTimeout(() => {
-            const modalWindow = modal.querySelector('.platform-modal__wrapper');
+      setTimeout(() => {
+        const modalWindow = modal.querySelector('.platform-modal__wrapper');
+        modalWindow.style.right = '0';
+      }, 0);
 
-            if (modalWindow) {
-              modalWindow.style.right = '0';
-            }
-        }, 0);
+      setTimeout(() => {
+        const modalContent = modal.querySelector('.platform-modal__content');
+
+        if (modalContent) {
+          modalContent.style.right = '0';
+        }
+      }, 0);
     }
-}
 
-function closeModalAnimation(modal, wrapper, isFilter, isClientCard) {
+    setOverflow(isOverflowed);
+  }
+
+  function closeModalAnimation(modal, wrapper, isFilter, isOverflowed = null) {
     if (isFilter) {
-        wrapper.style.top = '-150%';
+      closeFilter(modal, wrapper);
     } else {
-        wrapper.style.right = '-100%';
+      closeMenu(modal, wrapper);
     }
 
-    if (isClientCard) {
-        setTimeout(() => {
-            modal.style.opacity = '0';
-        }, 400);
+    setOverflow(isOverflowed);
+  }
 
-        setTimeout(() => {
-            modal.classList.remove('open');
-        }, 600);
+  function closeFilter(modal, wrapper) {
+    wrapper.style.top = '-150%';
 
-        setTimeout(() => {
-            modal.classList.remove('black');
-        }, 600);
-    } else {
-        setTimeout(() => {
-            modal.style.opacity = '0';
-        }, 200);
+    setTimeout(() => {
+      modal.style.opacity = '0';
+    }, 200);
 
-        setTimeout(() => {
-            modal.classList.remove('open');
-        }, 400);
+    setTimeout(() => {
+      modal.classList.remove('open');
+    }, 400);
+  }
 
-        setTimeout(() => {
-            modal.classList.remove('black');
-        }, 400);
+  function closeMenu(modal, wrapper) {
+    wrapper.style.right = '-100%';
+    const content = wrapper.querySelector('.platform-modal__content');
+
+    if (content) {
+      content.style.right = '-100%';
     }
-}
+
+    setTimeout(() => {
+      modal.style.opacity = '0';
+    }, 500);
+
+    setTimeout(() => {
+      modal.classList.remove('open');
+    }, 700);
+  }
+
+  function setOverflow(isOverflowed) {
+    if (isOverflowed) {
+      document.body.style.overflow = 'hidden';
+    } else if (!isOverflowed && isOverflowed !== null) {
+      document.body.style.overflow = 'auto';
+    }
+  }

@@ -348,6 +348,7 @@
 .rate-employee__list {
   width: 100%;
   height: calc(100vh - 150px);
+  overflow-x: hidden;
 }
 
 .rate-point-pa {

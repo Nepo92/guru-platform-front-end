@@ -1199,3 +1199,17 @@
     margin-right: 3px;
   }
 }
+
+@media (max-width: 315px) {
+  .lessons-about {
+    &__title {
+      font-size: 14px;
+    }
+  }
+
+  .estimation {
+    &__item {
+      width: 20px;
+    }
+  }
+}
