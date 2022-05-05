@@ -1,0 +1,63 @@
+<html lang="ru" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="панель администратора">
+    <title>Учёт рабочих часов, проверенных сделок и ДЗ</title>
+    <th:block th:insert="base :: links"/>
+</head>
+
+<body class="custom-scroll">
+<div th:replace="base :: main-nav"></div>
+<div th:replace="base :: transition-loader"></div>
+<script th:src="@{/js/transition-loader.js}"></script>
+<script th:inline='javascript'>
+    /*<![CDATA[*/
+    showLoader();
+/*]]>*/
+</script>
+
+<div class="platform__wrapper calculate">
+    <div class="platform__header calculate__top">
+        <h1 class="platform__title calculate__title">Расчет вознаграждения</h1>
+    </div>
+
+    <form th:action="@{/workers-salary/}" th:object="${filter}" th:method="post" class="calculate__form">
+        <div class="menu-input__wrapper menu-input__wrapper_select tracker-select__wrapper">
+            <select filter-course-kinds
+                    class="menu-input__input menu-input__input_small menu-input__input_select menu-input__input_white calculate-year__select"
+                    name="year">
+                <option value="0">Выберите год</option>
+                <option th:value="${year}" th:each="year : ${yearOptions}" th:text="${year}"></option>
+            </select>
+        </div>
+        <div class="menu-input__wrapper menu-input__wrapper_select tracker-select__wrapper calculate-month">
+            <select filter-course-kinds calculate-month tracker-months name="month"
+                    class="menu-input__input menu-input__input_small menu-input__input_select menu-input__input_white calculate-months__select">
+                <option value="0">Выберите месяц</option>
+            </select>
+        </div>
+    </form>
+
+    <ul class="calculate__content">
+    </ul>
+</div>
+<div th:replace="base :: salary-about"></div>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var filter = [[${ filter }]];
+    var role = [[${ role }]];
+    var items = [[${deals}]];
+    var today = [[${ today }]];
+    var manager = [[${ manager }]];
+    var company = [[${ company }]];
+    var obj = [[${ employeeRows }]];
+    var filter = [[${filter}]];
+    var managers = null;
+    /*]]>*/
+</script>
+<th:block th:insert="base :: scripts"/>
+</body>
+
+</html>

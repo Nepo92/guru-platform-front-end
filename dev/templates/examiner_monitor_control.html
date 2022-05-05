@@ -1,0 +1,524 @@
+<html lang="ru" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Рабочий стол">
+    <title>Рабочий стол</title>
+    <th:block th:insert="base :: links" />
+</head>
+
+<body th:style="${'background: ' + bgColor.color + ';'}">
+<div th:replace="base :: main-nav"></div>
+<div th:replace="base :: transition-loader"></div>
+<script th:src="@{/js/transition-loader.js}"></script>
+<script th:inline='javascript'>
+    /*<![CDATA[*/
+    showLoader();
+/*]]>*/
+</script>
+
+<div class="main-content content-monitor">
+    <th:block th:unless="${role == 'ROLE_ADMIN'}">
+        <div class="platform__header monitor">
+            <div class="platform__title">Рабочий стол</div>
+        </div>
+    </th:block>
+    <th:block th:if="${role == 'ROLE_ADMIN'}">
+        <div class="content-top content-monitor__top content-top--transparent">
+            <div class="content-top__title">Рабочий стол
+                <div th:if="${role == 'ROLE_ADMIN'}" js-update-background class="theme-setting theme-setting_black content-top__settings--main content-monitor__settings">
+                    <input type="hidden" name="idCompany" th:value="${company.id}" />
+                </div>
+            </div>
+        </div>
+    </th:block>
+    <div class="content-main content-monitor__main">
+        <div class="content-main__panel monitor-panel--notabs content-main__panel_large">
+            <div class="platform__filter--btn no-selector">Фильтр</div>
+
+            <form action="#" th:object="${filter}" th:action="@{/examiner-control/}" th:method="post"
+                  class="content-main__panel-side">
+                <div class="input-element__input input-element__input_black input-element__input_transp input-element__input_row input-element__input_l30">
+                    <div class="input-element__radio input-element__radio_small">
+                        <input th:field="*{period}" th:checked="${filter.period == 1}" filter-parameter type="radio"
+                               id="Сегодня" class="radio radio-mech" th:value="1">
+                        <label for="Сегодня">Сегодня</label>
+                    </div>
+                    <div class="input-element__radio-delim"></div>
+                    <div class="input-element__radio input-element__radio_small">
+                        <input th:field="*{period}" th:checked="${filter.period == 2}" filter-parameter type="radio"
+                               id="Вчера" class="radio radio-mech" th:value="2">
+                        <label for="Вчера">Вчера</label>
+                    </div>
+                    <div class="input-element__radio-delim"></div>
+                    <div class="input-element__radio input-element__radio_small">
+                        <input th:field="*{period}" th:checked="${filter.period == 3}" filter-parameter type="radio"
+                               id="Неделя" class="radio radio-mech" th:value="3">
+                        <label for="Неделя">Неделя</label>
+                    </div>
+                    <div class="input-element__radio-delim"></div>
+                    <div class="input-element__radio input-element__radio_small">
+                        <input th:field="*{period}" th:checked="${filter.period == 4}" filter-parameter type="radio"
+                               id="Месяц" class="radio radio-mech" th:value="4">
+                        <label for="Месяц">Месяц</label>
+                    </div>
+                </div>
+                <div th:if="${role != 'ROLE_ADMIN' && currentManager.isNeedShow}"
+                     class="input-element__input input-element__input_black input-element__input_transp input-element__input_row input-element__input_l30">
+                    <div class="input-element__radio input-element__radio_small">
+                        <input filter-parameter type="radio" id="Все" class="radio radio-mech"
+                               th:field="*{showType}" th:value="all" th:checked="${filter.showType == 'all'}">
+                        <label for="Все">Все</label>
+                    </div>
+                    <div class="input-element__radio-delim"></div>
+                    <div class="input-element__radio input-element__radio_small">
+                        <input filter-parameter type="radio" id="Мои" class="radio radio-mech"
+                               th:field="*{showType}" th:value="self" th:checked="${filter.showType == 'self'}">
+                        <label for="Мои">Мои</label>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="content-main__panel content-main__panel_large content-main__panel_p"
+             th:if="${(role == 'ROLE_MANAGER' || role == 'ROLE_HEAD_MANAGER') && actionBanners != null}">
+            <div class="action-banner">
+                <div class="action-banner__wrapper carousel slide" id="actionSlider" data-ride="carousel">
+                    <div class="action-banner__controls action-banner__controls_dark">
+                        <a class="action-banner__control-prev" href="#actionSlider" role="button"
+                           data-slide="prev"></a>
+                        <a class="action-banner__control-next" href="#actionSlider" role="button"
+                           data-slide="next"></a>
+                    </div>
+                    <ol class="action-banner__indicators carousel-indicators ">
+                        <th:block th:each="actionBanner, stat : ${actionBanners}">
+                            <li data-target="#actionSlider" th:attr="data-slide-to=${stat.index}"
+                                th:classappend="${stat.index == 0} ? active : ''"></li>
+                        </th:block>
+                    </ol>
+                    <div class="carousel-inner">
+                        <th:block th:each="actionBanner, stat : ${actionBanners}">
+                            <div class="carousel-item " th:style="${'background: ' + actionBanner.bgColor + ';'}"
+                                 th:classappend="${stat.index == 0} ? active : ''">
+                                <div class="action-banner__item"
+                                     th:classappend="${'action-banner__item_' + actionBanner.theme}">
+                                    <div class="tile__tooltip c-tooltip inherit right">
+                                        <div class="tooltip-content">
+                                            <div class="c-tooltip__text inherit">Активная акция, в которой вы
+                                                принимаете участие</div>
+                                        </div>
+                                        <span class="inherit">?</span>
+                                    </div>
+                                    <div class="action-banner__info">
+                                        <div class="tile__title tile__title_mb35 tile__title_flash">Акции</div>
+                                        <div class="action-info__title" th:utext="${actionBanner.name}"></div>
+                                        <div class="action-info__type" th:utext="${actionBanner.actionTypeName}">
+                                        </div>
+                                        <th:block th:if="${actionBanner.actionType == 2}">
+                                            <div class="action-info__rating">
+                                                <div class="action-rating"
+                                                     th:each="member, stat : ${actionBanner.members}">
+                                                    <div class="action-rating__place action-caption "
+                                                         th:classappend="${member.place == 1 ? 'place_first' : (member.place == 2 ? 'place_second' : (member.place == 3 ? 'place_third' : '')) }"
+                                                         th:utext="${(member.place != 0) ? (member.place + ' место') : ''}">
+                                                    </div>
+                                                    <div class="action-rating__member">
+                                                        <div class="avatar">
+                                                            <div class="avatar__wrapper avatar__wrapper_medium">
+                                                                    <span class="avatar-image"
+                                                                          th:classappend="${(member.manager.avatar == null || #strings.isEmpty(member.manager.avatar)) ? 'avatar-image_default' : ''}">
+                                                                        <img th:if="${member.manager.avatar}"
+                                                                             th:src="'/' + ${member.manager.avatar}"
+                                                                             alt="">
+                                                                    </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="action-rating__value" th:utext="${member.fact}">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </th:block>
+
+                                        <th:block th:if="${actionBanner.actionType != 2}">
+                                            <div class="action-info__value" th:utext="${actionBanner.fact}"></div>
+                                            <div class="progress-bar progress-bar_large">
+                                                <div class="progress-bar__wrapper">
+                                                    <div class="progress-bar__progress"
+                                                         th:classappend="${actionBanner.percent > 99 ? 'progress_green' : (actionBanner.percent > 69 ? 'progress_yellow' : 'progress_red')}"
+                                                         th:style="${'width: ' + actionBanner.percent + '%;'}"></div>
+                                                    <div class="progress-bar__title inherit "
+                                                         th:classappend="${actionBanner.percent >= 12 ? 'progress-bar__title_white' : ''}"
+                                                         th:utext="${actionBanner.percent + '%'}"></div>
+                                                </div>
+                                                <div class="progress-bar__description action-caption">План <span
+                                                        th:utext="${actionBanner.target}"></span></div>
+                                            </div>
+                                        </th:block>
+                                    </div>
+                                    <div class="action-banner__img">
+                                        <img th:src="@{${actionBanner.imgPath}}" alt="">
+                                    </div>
+                                    <div class="action-banner__info action-banner__info_center ">
+                                        <div class="action-info_prize-title action-caption">Награда</div>
+                                        <th:block>
+                                            <div class="action-info_prize c-tooltip">
+                                                <div class="tooltip-content">
+                                                    <th:block th:if="${#lists.size(actionBanner.prizes) > 1}">
+                                                        <table class="c-tooltip-table">
+                                                            <th:block th:if="${actionBanner.actionType == 2}">
+                                                                <thead class="c-tooltip-table__head">
+                                                                <tr class="c-tooltip-table__head-row">
+                                                                    <td class="c-tooltip-table__head-col"></td>
+                                                                    <td
+                                                                            class="c-tooltip-table__head-col c-tooltip__text inherit c-tooltip__text_title">
+                                                                        Награда</td>
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody class="c-tooltip-table__body">
+                                                                <tr class="c-tooltip-table__body-row"
+                                                                    th:each="prize,stat : ${actionBanner.prizes}">
+                                                                    <td class="c-tooltip-table__body-col c-tooltip__text inherit"
+                                                                        th:utext="${stat.count + 'м.'}"></td>
+                                                                    <td class="c-tooltip-table__body-col c-tooltip__text inherit"
+                                                                        th:if="${actionBanner.bonusType == 1}"
+                                                                        th:utext="${#numbers.formatInteger(prize.bonus,0,'WHITESPACE') + prize.bonusPostfix}">
+                                                                    </td>
+                                                                    <td class="c-tooltip-table__body-col c-tooltip__text inherit"
+                                                                        th:unless="${actionBanner.bonusType == 1}"
+                                                                        th:utext="${prize.bonus + prize.bonusPostfix}">
+                                                                    </td>
+                                                                </tr>
+                                                                </tbody>
+                                                            </th:block>
+                                                            <th:block th:if="${actionBanner.actionType == 3}">
+                                                                <thead class="c-tooltip-table__head">
+                                                                <tr class="c-tooltip-table__head-row">
+                                                                    <td class="c-tooltip-table__head-col"></td>
+                                                                    <td
+                                                                            class="c-tooltip-table__head-col c-tooltip__text inherit c-tooltip__text_title">
+                                                                        Значение</td>
+                                                                    <td
+                                                                            class="c-tooltip-table__head-col c-tooltip__text inherit c-tooltip__text_title">
+                                                                        Награда</td>
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody class="c-tooltip-table__body">
+                                                                <tr class="c-tooltip-table__body-row"
+                                                                    th:each="prize,stat : ${actionBanner.prizes}">
+                                                                    <td class="c-tooltip-table__body-col c-tooltip__text inherit"
+                                                                        th:utext="${stat.count + 'ур.'}"></td>
+                                                                    <td class="c-tooltip-table__body-col c-tooltip__text inherit"
+                                                                        th:utext="${#numbers.formatInteger(prize.value,0,'WHITESPACE') + prize.valuePostfix}">
+                                                                    </td>
+                                                                    <td class="c-tooltip-table__body-col c-tooltip__text inherit"
+                                                                        th:if="${actionBanner.bonusType == 1}"
+                                                                        th:utext="${#numbers.formatInteger(prize.bonus,0,'WHITESPACE') + prize.bonusPostfix}">
+                                                                    </td>
+                                                                    <td class="c-tooltip-table__body-col c-tooltip__text inherit"
+                                                                        th:unless="${actionBanner.bonusType == 1}"
+                                                                        th:utext="${prize.bonus + prize.bonusPostfix}">
+                                                                    </td>
+                                                                </tr>
+                                                                </tbody>
+                                                            </th:block>
+                                                        </table>
+                                                    </th:block>
+                                                    <div class="c-tooltip__text c-tooltip__text_title inherit">
+                                                        Дополнительные условия: </div>
+                                                    <th:block th:each="conditional : ${actionBanner.conditionals}">
+                                                        <div class="c-tooltip__text c-tooltip__text_nowrap inherit"
+                                                             th:utext="${conditional.title + conditional.value}">
+                                                        </div>
+                                                    </th:block>
+                                                </div>
+                                                <th:block th:if="${actionBanner.bonusType == 1}">
+                                                    <th:block th:if="${#lists.size(actionBanner.prizes) > 1}">
+                                                            <span
+                                                                    th:utext="${#numbers.formatInteger(actionBanner.prizes[0].bonus,0,'WHITESPACE') + actionBanner.prizes[0].bonusPostfix + ' - '  + #numbers.formatInteger(actionBanner.prizes[#lists.size(actionBanner.prizes) - 1].bonus,0,'WHITESPACE') + actionBanner.prizes[#lists.size(actionBanner.prizes) - 1].bonusPostfix}"></span>
+                                                    </th:block>
+                                                    <th:block th:unless="${#lists.size(actionBanner.prizes) > 1}">
+                                                            <span
+                                                                    th:utext="${#numbers.formatInteger(actionBanner.prizes[0].bonus,0,'WHITESPACE') + actionBanner.prizes[0].bonusPostfix}"></span>
+                                                    </th:block>
+                                                </th:block>
+                                                <th:block th:unless="${actionBanner.bonusType == 1}">
+                                                    <th:block th:if="${#lists.size(actionBanner.prizes) > 1}">
+                                                            <span
+                                                                    th:utext="${actionBanner.prizes[0].bonus + actionBanner.prizes[0].bonusPostfix + ' - '  + actionBanner.prizes[#lists.size(actionBanner.prizes) - 1].bonus + actionBanner.prizes[#lists.size(actionBanner.prizes) - 1].bonusPostfix}"></span>
+                                                    </th:block>
+                                                    <th:block th:unless="${#lists.size(actionBanner.prizes) > 1}">
+                                                            <span
+                                                                    th:utext="${actionBanner.prizes[0].bonus + actionBanner.prizes[0].bonusPostfix}"></span>
+                                                    </th:block>
+                                                </th:block>
+                                                <div class="action-info_prize-title action-caption">(условия акции)
+                                                </div>
+                                            </div>
+                                        </th:block>
+                                        <div class="action-banner__timer">
+                                            <div class="timer">
+                                                <th:block th:unless="${actionBanner.wasStarted}">
+                                                    <div class="timer__description action-caption">Акция начнется
+                                                    </div>
+                                                    <div class="timer__wrapper">
+                                                        <div class="timer__value">
+                                                            <div class="timer-value"
+                                                                 th:utext="${actionBanner.startDate}"></div>
+                                                        </div>
+                                                    </div>
+                                                </th:block>
+                                                <th:block th:if="${actionBanner.wasStarted}">
+                                                    <div class="timer__description action-caption">Завершится через
+                                                    </div>
+                                                    <div class="timer__wrapper" th:id="${actionBanner.id}">
+                                                        <div class="timer__value">
+                                                            <div class="timer-value days">0</div>
+                                                            <div class="timer-description">д</div>
+                                                        </div>
+                                                        <div class="timer__dots"></div>
+                                                        <div class="timer__value">
+                                                            <div class="timer-value hours">00</div>
+                                                            <div class="timer-description">ч</div>
+                                                        </div>
+                                                        <div class="timer__dots"></div>
+                                                        <div class="timer__value">
+                                                            <div class="timer-value minutes">00</div>
+                                                            <div class="timer-description">м</div>
+                                                        </div>
+                                                        <div class="timer__dots"></div>
+                                                        <div class="timer__value">
+                                                            <div class="timer-value seconds">00</div>
+                                                            <div class="timer-description">с</div>
+                                                        </div>
+                                                    </div>
+                                                </th:block>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </th:block>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-main__panel monitor-panel__widgets widgets content-main__panel_large content-main__panel_p">
+            <div class="tiles widgets__wrapper">
+                <div class="tiles__wrapper">
+                    <div class="tile tile_small tile__control">
+                        <div class="tooltip-item">
+                            <div class="tooltip-content">
+                                <div class="c-tooltip__text">Количество проверенных сделок</div>
+                            </div>
+                            <span>?</span>
+                        </div>
+                        <div class="tile__title tile__title_handshake">Проверено сделок</div>
+                        <div class="tile__text tile__text--control" th:utext="${#numbers.formatInteger(generalRow.dealCount ,0,'WHITESPACE')}"></div>
+                    </div>
+                    <div class="tile tile_small tile__control">
+                        <div class="tooltip-item">
+                            <div class="tooltip-content">
+                                <div class="c-tooltip__text">Количество проставленных оценок</div>
+                            </div>
+                            <span>?</span>
+                        </div>
+                        <div class="tile__title tile__title_estimation">Поставлено оценок</div>
+                        <div class="tile__text tile__text--control" th:utext="${#numbers.formatInteger(generalRow.rateCount ,0,'WHITESPACE')}"></div>
+                    </div>
+                    <div class="tile tile_small tile__control">
+                        <div class="tooltip-item">
+                            <div class="tooltip-content">
+                                <div class="c-tooltip__text">Количество разрешенных споров</div>
+                            </div>
+                            <span>?</span>
+                        </div>
+                        <div class="tile__title tile__title_dispute">Споров отработано</div>
+                        <div class="tile__text tile__text--control" th:text="${#numbers.formatInteger(generalRow.debateCount ,0,'WHITESPACE')}"></div>
+                    </div>
+                    <div class="tile tile_small tile__control">
+                        <div class="tooltip-item">
+                            <div class="tooltip-content">
+                                <div class="c-tooltip__text">Количество измененных оценок в спорах</div>
+                            </div>
+                            <span>?</span>
+                        </div>
+                        <div class="tile__title tile__title_change">Изменений оценок в спорах</div>
+                        <div class="tile__text tile__text--control" th:text="${#numbers.formatInteger(generalRow.debateCount ,0,'WHITESPACE')}"></div>
+                    </div>
+                    <div class="tile tile_small tile__control">
+                        <div class="tooltip-item">
+                            <div class="tooltip-content">
+                                <div class="c-tooltip__text">Средняя оценка менеджеров</div>
+                            </div>
+                            <span>?</span>
+                        </div>
+                        <div class="tile__title average">
+                            <div class="tile__icons">
+                                <span class="tile__icon tile__title_estimation-average"></span>
+                            </div>
+                            Средняя оценка
+                        </div>
+                        <div class="tile__text tile__text--control" th:text="${#numbers.formatInteger(generalRow.score ,0,'WHITESPACE')}"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="content-main__panel monitor-panel__table monitor-table__wrapper content-main__panel_large content-main__panel_p">
+            <div class="big-tile">
+                <div class="tooltip-item">
+                    <div class="tooltip-content">
+                        <div class="c-tooltip__text">Общий монитор работы менеджеров</div>
+                    </div>
+                    <span>?</span>
+                </div>
+                <div class="tile__title tile__title_margin tile__title_cup">
+                    <span>Рейтинг</span>
+                    <form action="#" th:object="${filter}" th:action="@{/examiner-control/}" th:method="post" class="transparent-selector">
+                        <select th:field="*{rowSortType}" filter-parameter class="transparent-selector__selector">
+                            <option value="1">по оценке</option>
+                            <option value="2">по спорам</option>
+                            <option value="3">по сделкам</option>
+                        </select>
+                    </form>
+                </div>
+
+                <table class="monitor-table">
+                    <thead class="monitor-table__header">
+                    <tr class="monitor-table__row monitor-manager">
+                        <td class="monitor-table__col monitor-manager__index"></td>
+                        <td class="monitor-table__col monitor-manager__info no-border">Менеджер</td>
+                        <td class="monitor-table__col monitor-manager__checked no-border">Проверено сделок</td>
+                        <td class="monitor-table__col monitor-manager__estimation no-border">Поставлено оценок
+                        </td>
+                        <td class="monitor-table__col monitor-manager__dispute no-border">Споров отработано</td>
+                        <td class="monitor-table__col monitor-manager__change no-border">Изменений оценок в
+                            спорах</td>
+                        <td class="monitor-table__col monitor-manager__average">Средняя оценка</td>
+                    </tr>
+                    </thead>
+                    <tbody class="monitor-table__body">
+                    <tr class="monitor-table__row monitor-manager" th:each="row, stat : ${managersRows}">
+                        <td class="monitor-table__col monitor-manager__index" th:text="${stat.count}"></td>
+                        <td class="monitor-table__col monitor-manager__info">
+                            <div class="employee">
+                                <div class="employee__avatar c-tooltip">
+                                    <div class="c-tooltip__wrapper c-tooltip__wrapper_avatar"
+                                         th:if="${(row.manager.avatar != null || !#strings.isEmpty(row.manager.avatar))}">
+                                                <span class="c-tooltip__avatar">
+                                                    <img th:if="${row.manager.avatar}" th:src="'/' + ${row.manager.avatar}"
+                                                         alt="">
+                                                </span>
+                                    </div>
+                                    <div class="avatar">
+                                        <div class="avatar__wrapper avatar__wrapper_bordered"
+                                             th:style="'border-color: ' + ${row.manager.type} + ';'">
+                                                    <span class="avatar-image"
+                                                          th:classappend="${(row.manager.avatar == null || #strings.isEmpty(row.manager.avatar)) ? 'avatar-image_default' : ''}">
+                                                        <img th:if="${row.manager.avatar}" th:src="'/' + ${row.manager.avatar}"
+                                                             alt="">
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="employee__desc">
+                                    <div class="employee-name" th:utext="${row.manager.name}"></div>
+                                    <div class="employee-score employee-score__control"
+                                         th:utext="${row.manager.typeTitle}"></div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="monitor-table__col monitor-manager__checked"
+                            th:text="${row.dealCount}"></td>
+                        <td class="monitor-table__col monitor-manager__estimation"
+                            th:text="${row.rateCount}"></td>
+                        <td class="monitor-table__col monitor-manager__dispute"
+                            th:text="${row.debateCount}"></td>
+                        <td class="monitor-table__col monitor-manager__change"
+                            th:text="${row.debateCount}"></td>
+                        <td class="monitor-table__col monitor-manager__average"
+                            th:text="${row.score}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="platform__filter">
+    <div class="filter__wrapper">
+        <div class="filter__head">
+            <h2 class="filter__title">Фильтровать монитор</h2>
+            <span class="platform__close--btn-modal"></span>
+        </div>
+        <div class="filter__content custom-scroll">
+            <form class="filter__form" action="#" th:action="@{/examiner-control/}" th:method="post">
+                <ul class="filter__column">
+                    <li class="filter__item width_100">
+                        <h3 class="filter__subtitle">Параметры</h3>
+                    </li>
+                    <li class="filter__item">
+                        <p class="filter__name">Проекты</p>
+                        <div class="platform-select__wrapper filter__select-wrapper">
+                            <select class="platform__select filter__select" name="projectId">
+                                <option class="filter-select__option" th:value="0" selected>Все проекты</option>
+                                <option class="filter-select__option" th:each="project : ${projects}"
+                                        th:value="${project.id}"
+                                        th:utext="${project.name}"></option>
+                            </select>
+                        </div>
+                    </li>
+                </ul>
+            </form>
+        </div>
+        <div class="filter__footer">
+            <div class="filter__apply">Применить фильтры</div>
+            <form th:if="${filter.canClear}" action="#" th:action="@{/examiner-control/clearFilter}" th:object="${filter}"
+                  th:method="post"
+                  class="filter__stop">
+                <button type="submit" class="filter__reset">
+                    <span class="filter__reset--icon"></span>
+                    Сбросить фильтры
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script th:inline="javascript">
+    window.onload = function () {
+        var theList = [[${actionBanners}]]
+
+        if (theList) {
+            for (i = 0; i < theList.length; i++) {
+                if (theList[i].wasStarted) {
+                    initializeClock(theList[i].id, theList[i].nowDate, theList[i].endDate);
+                }
+            }
+        }
+    };
+</script>
+
+<div class="c-tooltip__wrapper c-tooltip__wrapper_right tooltip-wrapper"></div>
+<div class="c-tooltip__wrapper c-tooltip__wrapper_maxwidth tooltip-wrapper"></div>
+
+<div th:replace="base :: menu-update-background"></div>
+
+<th:block th:insert="base :: scripts" />
+<script th:inline='javascript'>
+    /*<![CDATA[*/
+    var filter = [[${filter}]];
+    var role = [[${role}]];
+    var items = null;
+    var today = null;
+    var manager = null;
+    var company = [[${company}]];
+    var managers = null;
+    /*]]>*/
+</script>
+</body>
+
+</html>

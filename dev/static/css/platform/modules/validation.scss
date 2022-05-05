@@ -1,0 +1,66 @@
+.validate-error {
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+  position: absolute;
+  left: 16px;
+  bottom: -40px;
+  font-size: 12px;
+  line-height: 16px;
+  color: #161718;
+  padding: 14px 14px 9px 14px;
+  z-index: 2;
+  transform: translate3d(0, 0, 1200);
+  transition: 0.8s cubic-bezier(0.86, 0, 0.07, 1);
+}
+
+.validate-error::after {
+  position: absolute;
+  top: -5px;
+  left: 16px;
+  content: "";
+  width: 12px;
+  height: 6px;
+  background: url(../../img/error-arrow.png) no-repeat center;
+  background-size: cover;
+  z-index: 3;
+}
+
+.validate-error__wrapper {
+  position: relative;
+}
+
+.validate-error {
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+  position: absolute;
+  left: 16px;
+  bottom: -40px;
+  font-size: 12px;
+  line-height: 16px;
+  color: #161718;
+  padding: 14px 14px 9px 14px;
+  z-index: 2;
+  background: white;
+  border: 1px solid #c3c2c9;
+  border-radius: 3px;
+  box-shadow: 0px 8px 18px rgba(3, 6, 29, 0.08);
+  z-index: 1000;
+}
+
+.validate-error::after {
+  position: absolute;
+  top: -5px;
+  left: 16px;
+  content: "";
+  width: 12px;
+  height: 6px;
+  background: url(../../img/error-arrow.png) no-repeat center;
+  background-size: cover;
+  z-index: 3;
+}
+
+.validate-error__wrapper {
+  position: relative;
+}

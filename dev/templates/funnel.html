@@ -1,0 +1,330 @@
+<html lang="ru" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Аналитика">
+    <title>Аналитика</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link th:href="@{/css/dashboard.css}" rel="stylesheet">
+    <link th:href="@{/css/datepicker.css}" rel="stylesheet">
+    <link th:href="@{/css/custom.css}" rel="stylesheet">
+    <link th:href="@{/css/main-nav.css}" rel="stylesheet">
+    <link th:href="@{/css/gap.css}" rel="stylesheet">
+    <link th:href="@{/css/datepicker.css}" rel="stylesheet">
+    <link th:href="@{/css/jquery.fancybox.min.css}" rel="stylesheet">
+</head>
+
+<body class="custom-scroll">
+    <div th:replace="base :: main-nav"></div>
+    <div th:replace="base :: transition-loader"></div>
+    <script th:src="@{/js/transition-loader.js}"></script>
+<script th:inline='javascript'>
+    /*<![CDATA[*/
+    showLoader();
+/*]]>*/
+</script>
+
+    <div class="platform__wrapper analytic">
+        <div class="platform__header analytic__top">
+            <h1 class="platform__title">
+                Аналитика
+            </h1>
+                <div th:replace="base :: funnel-tab"></div>
+        </div>
+
+        <div class="analytic__content">
+            <div class="analytic__nav">
+                <div class="nav-right">
+                    <div class="platform__filter--btn no-selector">Фильтр</div>
+                </div>
+                <div class="nav-left">
+                    <form class="analytic__filter-form" action="#" th:action="@{/funnel/}" th:method="post">
+                        <div class="nav-left__start start-icon">
+                            <input type="hidden" js-start-date name="startDate" th:value="${filter.startDate}">
+                            <input placeholder="Выберите начальную дату" js-start-date-wrapper type="text" 
+                                class="datepicker-here-months platform__input nav-left__filter-input">
+                        </div>
+                        <div class="nav-left__end end-icon">
+                            <input type="hidden" js-end-date name="endDate" th:value="${filter.endDate}">
+                            <input placeholder="Выберите конечную дату" js-end-date-wrapper type="text"
+                                class="datepicker-here-months platform__input nav-left__filter-input">
+                        </div>
+
+                        <div class="platform-select__wrapper nav-left__select">
+                            <select js-period class="platform__select" th:value="${filter.idSort}" name="idSort">
+                                <option value="">Выберите период</option>
+                                <option value="2">По дням</option>
+                                <option value="1">По неделям</option>
+                                <option value="0">По месяцам</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div analytics-board class="analytic__board"></div>
+        </div>
+    </div>
+
+    <div class="platform__filter">
+        <div class="filter__wrapper">
+            <div class="filter__head">
+                <h2 class="filter__title">Фильтровать воронку</h2>
+                <span class="platform__close--btn-modal"></span>
+            </div>
+            <div class="filter__content custom-scroll">
+                <form class="filter__form" action="#" th:action="@{/funnel/}" th:method="post">
+                    <ul class="filter__column">
+                        <li class="filter__item width_100">
+                            <h3 class="filter__subtitle">Параметры</h3>
+                        </li>
+                        <li class="filter__item" select-here data-select-type="select-managers">
+                            <p class="filter__name">Менеджер</p>
+                        </li>
+                        <li class="filter__item" select-here data-select-type="select-projects">
+                            <p class="filter__name">Проект</p>
+                        </li>
+                        <li class="filter__item" select-here data-select-type="select-products">
+                            <p class="filter__name">Продукт</p>
+                        </li>
+                        <li class="filter__item" select-here data-select-type="select-deal-type">
+                            <p class="filter__name">Тип сделки</p>
+                        </li>
+                        <li class="filter__item" select-here data-select-type="select-employees">
+                            <p class="filter__name">Сотрудники</p>
+                        </li>
+                        <li class="filter__item" select-here data-select-type="select-funnel">
+                            <p class="filter__name">Воронка</p>
+                        </li>
+                    </ul>
+                </form>
+            </div>
+            <div class="filter__footer">
+                <div class="filter__apply">Применить фильтры</div>
+                <form th:if="${filter.canClear}" action="#" th:action="@{/funnel/clearFilter}" th:object="${filter}"
+                      th:method="post"
+                      class="filter__stop">
+                    <button type="submit" class="filter__reset">
+                        <span class="filter__reset--icon"></span>
+                        Сбросить фильтры
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div th:replace="base :: menu-funnel-setting-short"></div>
+
+    <th:block th:insert="base :: scripts" />
+
+    <script th:inline='javascript' th:fragment="html-props">
+        /*<![CDATA[*/
+        var filter = [[${ filter }]];
+        var role = [[${ role }]];
+
+        var items = null;
+        var today = [[${ today }]];
+        var manager = [[${ manager }]];
+        var company = [[${ company }]];
+        var managers = [[${ managerMap }]];
+
+        /* Выручка общая */
+        var totalRevenue = [[${ proceeds }]];
+        var managerTotalRevenue = [[${ mProceeds }]];
+
+        /* Выручка c траффикa */
+        var trafficRevenue = [[${ trafficMailingProceeds }]];
+        var managerTrafficRevenue = [[${ mTrafficMailingProceeds }]];
+
+        /* Выручка c базы */
+        var additionalRevenue = [[${ additionalProceeds }]];
+        var managerAdditionalRevenue = [[${ mAdditionalProceeds }]];
+
+        /* Расоды на рекламу */
+        var advExpenses = [[${ advPrice }]];
+        var managerAdvExpenses = [[${ mAdvPrice }]];
+
+        /* КПД */
+        var kpd = [[${ kpd }]];
+        var managerKpd = [[${ mKPD }]];
+
+        /* Продажи всего */
+        var sales = [[${ sales }]];
+        var managerSales = [[${ mSales }]];
+
+        /* Продажи трафик */
+        var salesTraffic = [[${ salesTraffic }]];
+        var managerSalesTraffic = [[${ mSalesTraffic }]];
+
+        /* Продажи рассылка */
+        var salesMailing = [[${ salesMailing }]];
+        var managerSalesMailing = [[${ mSalesMailing }]];
+
+        /* Продажи база */
+        var salesAdditional = [[${ salesAdditional }]];
+        var managerSalesAdditional = [[${ mSalesAdditional }]];
+
+        /* Средний чек */
+        var average = [[${ average }]];
+        var managerAverage = [[${ mAverage }]];
+
+        /* Средний чек трафик  */
+        var averageTrafficMailing = [[${ averageTrafficMailing }]];
+        var managerAverageTrafficMailing = [[${ mAverageTrafficMailing }]];
+
+        /* Средний чек база */
+        var averageAdditional = [[${ averageAdditional }]];
+        var managerAverageAdditional = [[${ mAverageAdditional }]];
+
+        /* Выручка общая - расходы на рекламу */
+        var profit = [[${ profit }]];
+        var managerProfit = [[${ mProfit }]];
+
+        /* Ретинг */
+        var rating = [[${ ratesRow }]];
+        var managerRating = [[${ mRatesRow }]];
+
+        /* Количество прописанных людей */
+        var prescribed = [[${ prescribed }]];
+        var managerPrescribed = [[${ mPrescribed }]];
+
+        /* CV из прописанных людей в продажи */
+        var prescribedToSale = [[${ prescribedToSale }]];
+        var managerPrescribedToSale = [[${ mPrescribedToSale }]];
+
+        /* % ДРР (доля рекламных расходов) */
+        var shareAdvExpensesTrafficPage = [[${ profitPercent }]];
+        var managerShareAdvExpensesTrafficPage = [[${ mProfitPercent }]];
+
+        /* Показов */
+        var advShow = [[${ advShows }]];
+        var managerAdvShow = [[${ mAdvShows }]];
+
+        /* Кликов */
+        var advClick = [[${ advClick }]];
+        var managerAdvClick = [[${ mAdvClick }]];
+
+        /* Заявок */
+        var advApplication = [[${ advApplication }]];
+        var managerAdvApplication = [[${ mAdvApplication }]];
+
+        /* Целевых заявок */
+        var importantRow = [[${ importantRow }]];
+        var managerImportantRow = [[${ mImportantRow }]];
+
+        /* Заказов */
+        var invoices = [[${ invoices }]];
+        var managerInvoices = [[${ mInvoices }]];
+
+        /* Продаж */
+        var salesNewClient = [[${ salesNewClient }]];
+        var managerSalesNewClient = [[${ salesMNewClient }]];
+
+        /* Продаж без рассылки */
+        var salesNewClientNM = [[${ salesNewClientNM }]];
+        var salesMNewClientNM = [[${ salesMNewClientNM }]];
+
+        /* Продаж c рассылки */
+        var salesNewClientM = [[${ salesNewClientM }]];
+        var salesMNewClientM = [[${ salesMNewClientM }]];
+
+        /* Отказов */
+        var rejectsRow = [[${ rejectsRow }]];
+        var mRejectsRow = [[${ mRejectsRow }]];
+
+        /* Новых клиентов по ДО */
+        var newClientsDo = [[${ newClientsDo }]];
+        var newMClientsDo = [[${ newMClientsDo }]];
+
+        /* Новых клиентов с трафика за период */
+        var newClientsTraffic = [[${ newClientsTraffic }]];
+        var newMClientsTraffic = [[${ newMClientsTraffic }]];
+
+        /* Дотекло клиентов по ДО */
+        var newClientsAll = [[${ newClientsAll }]];
+        var newMClientsAll = [[${ newMClientsAll }]];
+
+        /* Дотекло клиентов по ДО (без рассылки) */
+        var newClientsWithoutMailing = [[${ newClientsWithoutMailing }]];
+        var newMClientsWithoutMailing = [[${ newMClientsWithoutMailing }]];
+
+        /* Дотекло клиентов по ДО (по рассылке) */
+        var newClientsWithMailing = [[${ newClientsWithMailing }]];
+        var newMClientsWithMailing = [[${ newMClientsWithMailing }]];
+
+        /* Средний чек */
+        var averageCheckTraffic = [[${ averageCheck }]];
+        var managerAverageCheckTraffic = [[${ mAverage }]];
+
+        /* Стоимость 1000 показов */
+        var showPrice = [[${ showPrice }]];
+        var mShowPrice = [[${ mShowPrice }]];
+
+        /* Стоимость клика */
+        var clickPrice = [[${ clickPrice }]];
+        var mClickPrice = [[${ mClickPrice }]];
+
+        /* Стоимость заявки */
+        var applicationPrice = [[${ applicationPrice }]];
+        var mApplicationPrice = [[${ mApplicationPrice }]];
+
+        /* Стоимость целевой заявки */
+        var importantPriceRow = [[${ importantPriceRow }]];
+        var mImportantPriceRow = [[${ mImportantPriceRow }]];
+
+        /* Стоимость заказа */
+        var invoicePrice = [[${ invoicePrice }]];
+        var mInvoicePrice = [[${ mInvoicePrice }]];
+
+        /* Стоимость клиента */
+        var clientPrice = [[${ clientPrice }]];
+        var mClientPrice = [[${ mClientPrice }]];
+
+        /* Стоимость клиента по ДО */
+        var clientPriceDo = [[${ clientPriceDo }]];
+        var mClientPriceDo = [[${ mClientPriceDo }]];
+
+        /* CV из показа в клик */
+        var showToClick = [[${ showToClick }]];
+        var mShowToClick = [[${ mShowToClick }]];
+
+        /* CV1 из клика в заявку */
+        var clickToApplication = [[${ clickToApplication }]];
+        var mClickToApplication = [[${ mClickToApplication }]];
+
+        /* CV2 из заявки в заказ */
+        var applicationToInvoice = [[${ applicationToInvoice }]];
+        var mApplicationToInvoice = [[${ mApplicationToInvoice }]];
+
+        /* CV3 из заказа в оплату */
+        var invoiceToClient = [[${ invoiceToClient }]];
+        var mInvoiceToClient = [[${ mInvoiceToClient }]];
+
+        /* CV4 из заявки в оплату */
+        var applicationToClient = [[${ applicationToClient }]];
+        var mApplicationToClient = [[${ mApplicationToClient }]];
+
+        /* CV4 из заявки в оплату по ДО */
+        var clickToApplicationDo = [[${ clickToApplicationDo }]];
+        var mClickToApplicationDo = [[${ mClickToApplicationDo }]];
+
+        /* CV из целевой заявки в оплату по ДО */
+        var CV5Row = [[${ CV5Row }]];
+        var mCV5Row = [[${ mCV5Row }]];
+
+        /* kpdColor */
+        var kpdColor = [[${ kpdColor }]];
+
+        /* ratingColor */
+        var ratingColor = [[${ ratingColor }]];
+
+        var filterOptions = {
+            managers: [[${managers}]],
+            projects: [[${projects}]],
+            courses: [[${courses}]],
+            employees: [true, false],
+        }
+        /*]]>*/
+    </script>
+</body>
+
+</html>

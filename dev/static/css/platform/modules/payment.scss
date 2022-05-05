@@ -1,0 +1,247 @@
+@import "../../platform/helpers/_variables.scss";
+
+@media (max-width: $mobile) {
+  .payment {
+    &__payment-methods {
+      max-width: 210px;
+      padding: 0 32px;
+    }
+
+    &__product {
+      margin: 25px 25px 0;
+    }
+
+    &__action {
+      margin: 25px 25px 5px;
+    }
+
+    &__agreements {
+      margin: 0 25px;
+    }
+  }
+}
+
+.payment {
+  &__wrapper {
+    width: calc(100% - 40px);
+    max-width: 400px;
+    display: inline-block;
+    height: 100%;
+    background-color: white;
+    box-shadow: 0 0 30px -6px rgb(0 0 0 / 15%);
+    margin: 30px auto;
+    padding-bottom: 30px;
+    border-radius: 30px;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  &__header {
+    padding: 0;
+  }
+
+  &__img {
+    width: 100%;
+    height: auto;
+    border-radius: 30px;
+    background-color: rgba(#00a884, 30%);
+    display: block;
+    aspect-ratio: 1/1;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  &__product {
+    margin: 32px 32px 0;
+    font-size: 26px;
+  }
+
+  &__action {
+    margin: 32px 32px 5px;
+  }
+
+  &__price {
+    font-size: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 420px;
+  }
+
+  &__value {
+    font-size: 36px;
+  }
+
+  &__finance {
+    display: inline-block;
+    font-size: 36px;
+    margin-left: 5px;
+  }
+
+  &__btn {
+    width: 100%;
+    height: 55px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $payment;
+    color: white;
+    border-radius: 4px;
+    font-size: 16px;
+    margin-top: 16px;
+    transition: all 0.2s linear;
+    border: 1px solid $payment;
+    cursor: pointer;
+
+    &:hover {
+      background-color: white;
+      color: #00a884;
+    }
+  }
+
+  &__payment-methods {
+    display: flex;
+    list-style: none;
+    max-width: 334px;
+    height: auto;
+    margin: 0 auto;
+    display: flex;
+    width: 100%;
+    justify-content: space-evenly;
+    align-items: center;
+  }
+
+  &__footer {
+    position: relative;
+    display: flex;
+    justify-content: flex-start;
+    padding: 0 32px;
+  }
+
+  &__agreements {
+    max-width: 100%;
+    margin: 0 5px 0 32px;
+
+    &--link {
+      text-decoration: underline;
+    }
+  }
+
+  &__agreement {
+    display: inline-block;
+    font-size: 12px;
+    margin-left: 12px;
+  }
+
+  &__contact-date {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__name {
+    font-size: 16px;
+
+    &:not(:first-child) {
+      margin-top: 15px;
+    }
+  }
+
+  &__input {
+    height: 40px;
+    padding: 0 15px;
+    border-radius: 4px;
+    border: 0;
+    background-color: rgba(#f1f1f1, 10);
+    margin-top: 5px;
+
+    &:focus {
+      outline-color: black;
+      outline-style: solid;
+      outline-width: 3px;
+    }
+  }
+
+  &__succes {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-size: 22px;
+    font-weight: 500;
+    line-height: 27px;
+    letter-spacing: 0em;
+    margin: 20px 0 10px;
+
+    img {
+      width: calc(100% - 200px);
+    }
+  }
+}
+
+.payment-succes {
+  &__text {
+    color: $billText;
+    margin: 20px 0 0;
+    font-weight: 100;
+    font-size: 18px;
+  }
+}
+
+.payment-methoods {
+  &__item {
+    width: max-content;
+    display: flex;
+    width: 75px;
+    min-width: 75px;
+    height: 75px;
+    min-height: 75px;
+
+    &:first-child {
+      transform: scale(0.85);
+    }
+
+    img {
+      width: 100%;
+      min-height: 100%;
+      height: 100%;
+      display: flex;
+    }
+  }
+}
+
+.payment-agreements {
+  &__checkbox {
+    min-width: 20px;
+    min-height: 20px;
+  }
+}
+
+.contact-date {
+  &__item {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+
+    &:not(:first-child) {
+      margin-top: 15px;
+    }
+  }
+}
+
+@media (max-width: 720px) {
+  .payment-methoods {
+    &__item {
+      width: max-content;
+      display: flex;
+      width: 55px;
+      min-width: 55px;
+      height: 55px;
+      min-height: 55px;
+    }
+  }
+}

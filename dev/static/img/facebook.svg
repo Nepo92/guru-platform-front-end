@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25">
+  <g id="facebook" transform="translate(-5 -5)">
+    <path id="Path_1" data-name="Path 1" d="M17.5,5A12.5,12.5,0,1,0,30,17.5,12.5,12.5,0,0,0,17.5,5Z" fill="#039be5"/>
+    <path id="Path_2" data-name="Path 2" d="M23.112,23.482h3.235l.508-3.286H23.111V18.4c0-1.365.446-2.576,1.723-2.576h2.052V12.956a17.43,17.43,0,0,0-2.564-.155c-3.009,0-4.772,1.589-4.772,5.209V20.2H16.457v3.286H19.55v9.032a11.334,11.334,0,0,0,3.562.027Z" transform="translate(-3.92 -2.669)" fill="#fff"/>
+  </g>
+</svg>

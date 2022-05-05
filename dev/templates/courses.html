@@ -1,0 +1,186 @@
+<html lang="ru" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Оценка работы">
+
+    <title>Продукты</title>
+
+    <th:block th:insert="base :: links" />
+    <link th:href="@{/css/jquery.fancybox.min.css}" rel="stylesheet">
+    <link th:href="@{/css/products.css}" rel="stylesheet">
+    <link th:href="@{/css/tabs.css}" rel="stylesheet">
+    <link th:href="@{/css/modules.css}" rel="stylesheet">
+    <link th:href="@{/css/lesson-constructor.css}" rel="stylesheet">
+    <link th:href="@{/css/jquery.fancybox.min.css}" rel="stylesheet">
+    <link th:href="@{/css/quill.css}" rel="stylesheet">
+    <link th:href="@{/css/tabs.css}" rel="stylesheet">
+    <link th:href="@{/css/banner.css}" rel="stylesheet">
+</head>
+
+<body class="custom-scroll">
+    <div th:replace="base :: transition-loader"></div>
+    <div th:replace="base :: dialog"></div>
+    <div th:replace="base :: main-nav"></div>
+    <script th:src="@{/js/transition-loader.js}"></script>
+<script th:inline='javascript'>
+    /*<![CDATA[*/
+    showLoader();
+/*]]>*/
+</script>
+
+    <div class="platform__wrapper main-content_white-top-medium">
+        <div class="platform__header">
+            <h1 class="platform__title">Продукты</h1>
+            <div th:replace="base :: products-tab"></div>
+        </div>
+        <div class="content-main">
+            <div class="content-main__wrapper">
+                <div
+                    class="content-main__panel content-main__panel_align content-main__panel_p content-main__product content-main__panel_large content-main__panel_col">
+                    <th:block th:each="project : ${projects}">
+                        <div class="products" th:attr="data-project=${project.id}">
+                            <div class="products__wrapper">
+                                <div class="products__title">
+                                    <h2 class="block-title" th:utext="${project.name}"></h2>
+                                    <p class="block-subtitle" th:utext="${project.tag}"></p>
+                                </div>
+                                <div class="products__content">
+                                    <div class="tabs">
+                                        <div class="tabs__wrapper">
+                                            <div class="tabs__list">
+                                                <div class="tabs__list-wrapper">
+                                                    <div js-tab class="tab active" data-tab="all">Все</div>
+                                                    <th:block th:each="courseType, stat : ${courseTypes}">
+                                                        <div js-tab class="tab"
+                                                            th:attr="data-tab=${project.id + 'type' + courseType.id}"
+                                                            th:utext="${courseType.name}"></div>
+                                                    </th:block>
+                                                </div>
+                                            </div>
+                                            <div class="tabs__blocks">
+                                                <div js-tab-panel data-type="all" data-tab="all" class="tab-content is-open">
+                                                    <div class="tab-content__wrapper  tab-content__wrapper_overflow-unset">
+                                                        <div class="products__list">
+                                                            <th:block th:each="courseType, stat : ${courseTypes}">
+                                                                <th:block
+                                                                    th:each="course : ${coursesMap.get(project.id).get(courseType.id)}">
+                                                                    <div js-update-course
+                                                                        th:attr="data-course=${course.id}, data-project=${project.id}, data-type=${courseType.id}"
+                                                                        class="product-block"
+                                                                        th:style="${'background: ' + course.backgroundColor + ';'}"
+                                                                        th:classappend="${course.archive ? 'archive' : ''}">
+                                                                        <div class="product-block__wrapper"
+                                                                            th:classappend="${course.theme}">
+                                                                            <div class="product-block__background"
+                                                                                th:if="${course.backgroundImage != null}">
+                                                                                <img th:src="'/' + ${course.backgroundImage}"
+                                                                                    alt="course-backg">
+                                                                            </div>
+                                                                            <div class="product-block__title"
+                                                                                th:utext="${course.name}"></div>
+                                                                            <div class="product-block__type"
+                                                                                th:utext="${course.courseType}"></div>
+                                                                            <div class="product-block__price"
+                                                                                th:utext="${#numbers.formatInteger(course.price,0,'WHITESPACE') + ' ₽'}">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </th:block>
+                                                            </th:block>
+                                                            <div js-create-course th:attr="data-project=${project.id}"
+                                                                class="product-block product-block_create">
+                                                                <div class="product-block__message">Добавить курс</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <th:block th:each="courseType, stat : ${courseTypes}">
+                                                    <div js-tab-panel
+                                                        th:attr="data-type=${courseType.id}, data-tab=${project.id + 'type' + courseType.id}"
+                                                        class="tab-content ">
+                                                        <div
+                                                            class="tab-content__wrapper tab-content__wrapper_overflow-unset">
+                                                            <div class="products__list">
+                                                                <th:block
+                                                                    th:each="course : ${coursesMap.get(project.id).get(courseType.id)}">
+                                                                    <div js-update-course
+                                                                        th:attr="data-course=${course.id}, data-project=${project.id}, data-type=${courseType.id}"
+                                                                        class="product-block"
+                                                                        th:style="${'background: ' + course.backgroundColor + ';'}">
+                                                                        <div class="product-block__wrapper"
+                                                                            th:classappend="${course.theme}">
+                                                                            <div class="product-block__background"
+                                                                                th:if="${course.backgroundImage != null}">
+                                                                                <img th:src="@{'/' + ${course.backgroundImage}}"
+                                                                                    alt="">
+                                                                            </div>
+                                                                            <div class="product-block__title"
+                                                                                th:utext="${course.name}"></div>
+                                                                            <div class="product-block__type"
+                                                                                th:utext="${course.courseType}"></div>
+                                                                            <div class="product-block__price"
+                                                                                th:utext="${#numbers.formatInteger(course.price,0,'WHITESPACE') + ' ₽'}">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </th:block>
+                                                                <div js-create-course
+                                                                    th:attr="data-type=${courseType.id}, data-project=${project.id}"
+                                                                    class="product-block product-block_create">
+                                                                    <div class="product-block__message">Добавить курс
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </th:block>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </th:block>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="base :: menu-course"></div>
+    <div th:replace="base :: menu-update"></div>
+    <div th:replace="base :: menu-add-module"></div>
+    <div th:replace="base :: menu-update-module"></div>
+    <div th:replace="base :: menu-add-lesson"></div>
+    <div th:replace="base :: menu-update-lesson"></div>
+    <div th:replace="base :: menu-add-block"></div>
+    <div th:replace="base :: menu-update-block"></div>
+    <div th:replace="base :: menu-add-tariff"></div>
+    <div th:replace="base :: menu-update-tariff"></div>
+
+    <th:block th:insert="base :: scripts" />
+    <script th:inline='javascript'>
+        /*<![CDATA[*/
+        var courseIsUsed = null;
+        /*]]>*/
+    </script>
+    <script th:src="@{/js/jquery-ui.min.js}"></script>
+    <script th:src="@{/js/upload-img.js}"></script>
+    <script th:src="@{/js/tabs.js}"></script>
+    <script th:src="@{/js/upload-img.js}"></script>
+    <script th:src="@{/js/quill.js}"></script>
+    <script th:inline='javascript'>
+        /*<![CDATA[*/
+        var filter = [[${filter}]];
+        var role = [[${role}]];
+        var items = null;
+        var today = null;
+        var manager = null;
+        var company = [[${ company }]];
+        var managers = null;
+        /*]]>*/
+    </script>
+</body>
+
+</html>

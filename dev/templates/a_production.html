@@ -1,0 +1,81 @@
+<html lang="ru" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Корпоративный центр">
+
+    <title th:utext="${title}"></title>
+
+    <link th:href="@{/css/quill.css}" rel="stylesheet">
+    <th:block th:insert="base :: links" />
+</head>
+
+<body>
+<div th:replace="base :: main-nav"></div>
+<div th:replace="base :: transition-loader"></div>
+<script th:src="@{/js/transition-loader.js}"></script>
+<script th:inline='javascript'>
+    /*<![CDATA[*/
+    showLoader();
+/*]]>*/
+</script>
+
+<div class="platform__wrapper">
+    <div class="platform__header">
+        <h1 th:attr="type=${subtype}" js-type class="platform__title" th:utext="${title}"></h1>
+    </div>
+    <div class="content-main article-container production">
+        <div js-create-article class="add-button add-button_right add-button_black content-top__add-button">Добавить раздел</div>
+        <th:block th:each="article, cnt : ${articles}">
+            <th:block th:unless="${article.editable}">
+                <div class="theme">
+                    <div class="theme-wrapper theme-wrapper_row">
+                        <div class="theme__text-wrapper">
+                            <img th:if="${article.kind == 1}" class="article__img" th:src="'/' + ${article.previewImg}">
+                            <img th:if="${article.kind == 2}" js-open-article class="article__img article__img_modal" th:src="'/' + ${article.previewImg}">
+                            <a th:if="${article.kind == 3}" target="_blank" th:href="${article.link}">
+                                <img class="article__img" th:src="'/' + ${article.previewImg}">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </th:block>
+            <th:block th:if="${article.editable}">
+                <div class="theme" th:attr="data-article=${article.id}">
+                    <div class="theme-wrapper theme-wrapper_row">
+                        <div class="theme__text-wrapper">
+                            <img th:if="${article.kind == 1}" class="article__img" th:src="'/' + ${article.previewImg}">
+                            <img th:if="${article.kind == 2}" js-open-article class="article__img article__img_modal" th:src="'/' + ${article.previewImg}">
+                            <a th:if="${article.kind == 3}" target="_blank" th:href="${article.link}">
+                                <img class="article__img" th:src="'/' + ${article.previewImg}">
+                            </a>
+                        </div>
+                        <div js-update-article class="theme-setting theme-setting_top theme-setting_big"></div>
+                    </div>
+                </div>
+            </th:block>
+        </th:block>
+    </div>
+</div>
+
+<div th:replace="base :: menu-create-article-production"></div>
+<div th:replace="base :: menu-open-article"></div>
+<div th:replace="base :: menu-update-article-production"></div>
+
+<th:block th:insert="base :: scripts" />
+<script th:src="@{/js/quill.js}"></script>
+<script th:src="@{/js/upload-img.js}"></script>
+<script th:src="@{/js/open-articles.js}"></script>
+<script th:inline='javascript'>
+    /*<![CDATA[*/
+    var filter = [[${filter}]];
+    var role = [[${role}]];
+    var items = null;
+    var today = null;
+    var manager = null;
+    var company = [[${company}]];
+    var managers = null;
+    /*]]>*/
+</script>
+</body>
+</html>

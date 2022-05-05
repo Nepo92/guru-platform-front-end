@@ -1,0 +1,81 @@
+@charset "UTF-8";
+.tabs__blocks {
+  position: relative;
+}
+
+.tabs__list {
+  position: relative;
+  margin-bottom: 40px;
+  width: 1220px;
+}
+
+.tabs__list:after {
+  content: '';
+  position: absolute;
+  background-color: #CFCFD2;
+  width: 100%;
+  height: 1px;
+  left: 0;
+  bottom: -18px;
+  -webkit-transition: 0.4s;
+  -o-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.tabs__list-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  margin-left: -15px;
+  margin-right: -15px;
+}
+
+.tab {
+  margin-left: 15px;
+  margin-right: 15px;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 18px;
+  color: #9c9ba6;
+  position: relative;
+  white-space: nowrap;
+  cursor: pointer;
+  font-weight: 400;
+}
+
+.tab.active,
+.tab:hover {
+  color: black;
+  -webkit-transition: 0.4s;
+  -o-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.tab:hover:after,
+.tab:active:after,
+.tab.active:after {
+  content: '';
+  position: absolute;
+  background-color: black;
+  width: 100%;
+  height: 4px;
+  left: 0;
+  bottom: -18px;
+  -webkit-transition: 0.4s;
+  -o-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.courses-tab {
+  margin-top: 21px;
+}
+
+.mt_30 {
+  margin-top: 30px;
+}

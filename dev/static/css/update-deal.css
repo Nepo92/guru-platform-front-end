@@ -1,0 +1,235 @@
+@charset "UTF-8";
+.update-deal__items {
+  height: calc(100vh - 150px);
+}
+
+.update-deal__textarea {
+  margin-top: 5px;
+  margin-bottom: 0px;
+  height: 80px;
+  width: 100%;
+  padding: 15px 10px;
+  resize: none;
+  border: 1px solid #C3C2C9;
+}
+
+.update-deal__checkbox {
+  margin-right: 10px;
+}
+
+.update-deal__select-wrapper {
+  margin-top: 5px;
+}
+
+.update-deal__select-wrapper.no-angle::after {
+  display: none;
+}
+
+.update-deal__select-wrapper.no-angle .platform-form__calendar {
+  right: 13px;
+}
+
+.update-deal__product {
+  margin-top: 20px;
+  border-top: 1px solid #F1F1F3;
+  padding-top: 20px;
+}
+
+.update-deal__stop-lesson {
+  padding: 20px 0 0 0;
+  border-top: 1px solid #F1F1F3;
+}
+
+.update-deal__name {
+  padding-left: 0;
+}
+
+.update-deal__input {
+  margin: 0;
+}
+
+.update-deal__input--date {
+  padding-right: 60px;
+  color: black;
+}
+
+.update-deal__input--date::-webkit-input-placeholder {
+  color: black;
+}
+
+.update-deal__input--date::-moz-placeholder {
+  color: black;
+}
+
+.update-deal__input--date:-ms-input-placeholder {
+  color: black;
+}
+
+.update-deal__input--date::-ms-input-placeholder {
+  color: black;
+}
+
+.update-deal__input--date::placeholder {
+  color: black;
+}
+
+.platform-checkbox__label.mailing {
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+}
+
+.platform-checkbox__label.trial {
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+}
+
+.platform-checkbox__label.update-deal__stop-lesson {
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+}
+
+.price__wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  width: 350px;
+  height: 73px;
+  background: rgba(244, 244, 246, 0.7);
+  border-radius: 5px;
+  position: relative;
+  padding: 15px 20px;
+}
+
+.price__wrapper::after {
+  content: "₽";
+  position: absolute;
+  top: 40px;
+  right: 20px;
+}
+
+.price__input {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 165px;
+  height: 40px;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border: 1px solid #C3C2C9;
+  border-radius: 5px;
+  padding: 0 20px 0 10px;
+}
+
+.deal-card__create {
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  width: 280px;
+  height: 428px;
+  border: 2px dashed #c1c1c1;
+  border-radius: 10px;
+  color: #c1c1c1;
+  font-size: 12px;
+  position: relative;
+  -webkit-transition: all 0.2s linear;
+  -o-transition: all 0.2s linear;
+  transition: all 0.2s linear;
+}
+
+.deal-card__create--icon {
+  display: inline-block;
+  width: 60px;
+  height: 60px;
+  border-radius: 100%;
+  position: absolute;
+  border: 2px dashed #c1c1c1;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  -webkit-transition: all 0.2s linear;
+  -o-transition: all 0.2s linear;
+  transition: all 0.2s linear;
+}
+
+.deal-card__create--icon::after {
+  content: "";
+  width: 20px;
+  height: 2px;
+  background-color: #c1c1c1;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  -webkit-transition: all 0.2s linear;
+  -o-transition: all 0.2s linear;
+  transition: all 0.2s linear;
+}
+
+.deal-card__create--icon::before {
+  content: "";
+  width: 20px;
+  height: 2px;
+  background-color: #c1c1c1;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%) rotate(90deg);
+  -ms-transform: translate(-50%, -50%) rotate(90deg);
+  transform: translate(-50%, -50%) rotate(90deg);
+  -webkit-transition: all 0.2s linear;
+  -o-transition: all 0.2s linear;
+  transition: all 0.2s linear;
+}
+
+.deal-card__create--title {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  transform: translateX(-50%);
+  -webkit-transition: all 0.15s linear;
+  -o-transition: all 0.15s linear;
+  transition: all 0.15s linear;
+}
+
+.deal-card__create:hover {
+  border: 2px dashed black;
+  color: black;
+}
+
+.deal-card__create:hover .deal-card__create--icon {
+  border: 2px dashed black;
+}
+
+.deal-card__create:hover .deal-card__create--icon::after {
+  background-color: black;
+}
+
+.deal-card__create:hover .deal-card__create--icon::before {
+  background-color: black;
+}
+
+.deal-card__create:hover.deal-card__create--icon {
+  color: black;
+}

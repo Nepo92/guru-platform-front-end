@@ -1,0 +1,83 @@
+<html lang="ru" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Панель администратора">
+
+    <title>Отчеты</title>
+
+    <th:block th:insert="base :: links" />
+</head>
+
+<body class="custom-scroll">
+    <div th:replace="base :: main-nav"></div>
+    <div th:replace="base :: transition-loader"></div>
+    <script th:src="@{/js/transition-loader.js}"></script>
+<script th:inline='javascript'>
+    /*<![CDATA[*/
+    showLoader();
+/*]]>*/
+</script>
+
+    <div class="platform__wrapper">
+        <div class="platform__header">
+            <div class="platform__title">Прописанные</div>
+        </div>
+        <div class="content-main reports">
+            <div class="content-main__panel content-main__panel_large">
+                <div js-create-row class="button button_add">Добавить</div>
+            </div>
+            <div class="content-main__wrapper">
+                <div class="content-main__panel content-main__panel_align content-main__panel_p">
+                    <table class="custom-table">
+                        <tbody class="custom-table__body custom-table__body_white" table-body>
+                            <tr class="custom-table__header-row">
+                                <td class="custom-table__header-col custom-table__header-col_big">#</td>
+                                <td class="custom-table__header-col custom-table__header-col_big">Дата</td>
+                                <td class="custom-table__header-col custom-table__header-col_big">Кол-во</td>
+                                <td class="custom-table__header-col custom-table__header-col_big">Курс</td>
+                                <td class="custom-table__header-col custom-table__header-col_big"></td>
+                            </tr>
+                            <tr class="custom-table__body-row" th:each="row, stat : ${rows}">
+                                <td class="custom-table__body-col" th:utext="${stat.count}"></td>
+                                <td class="custom-table__body-col" th:utext="${row.date}"></td>
+                                <td class="custom-table__body-col" th:utext="${row.count}"></td>
+                                <td class="custom-table__body-col" th:utext="${row.course}"></td>
+
+                                <td class="custom-table__body-col custom-table__body-col_last">
+                                    <div edit-menu class="column-links display-flex-none is-open">
+                                        <form delete-row-form class="column-form" action="#">
+                                            <input type="hidden" th:value="${row.id}" name="id" required>
+                                            <button delete-row type="button"
+                                                class="column_mwidth column_mwidth-delete"></button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="base :: menu-create-row-reports"></div>
+
+    <th:block th:insert="base :: scripts" />
+    <script th:src="@{/js/reports-menu.js}"></script>
+    <script th:inline='javascript'>
+        /*<![CDATA[*/
+        var filter = null;
+        var role = null;
+        var items = null;
+        var today = null;
+        var manager = null;
+        var company = null;
+        var managers = null;
+        var socials = null;
+        /*]]>*/
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,113 @@
+
+.dialog {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(4, 7, 36, 0.4);
+  z-index: 10001;
+  transition: 0.4s;
+}
+
+.dialog__wrapper {
+  width: 380px;
+  height: auto;
+  padding: 34px;
+  background: #ffffff;
+  box-shadow: 0px 5px 25px rgba(7, 2, 14, 0.1);
+  border-radius: 3px;
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.dialog__wrapper_img {
+  padding: 34px 46px;
+}
+
+.dialog__wrapper_img:after {
+  content: "";
+  width: 60px;
+  height: 60px;
+  position: absolute;
+  top: 15px;
+  left: -30px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.dialog__wrapper_img-taboo:after {
+  background-image: url(../../img/taboo.png);
+}
+
+.dialog__wrap {
+  margin-bottom: 16px;
+}
+
+.dialog__title {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 21px;
+  color: #161718;
+  margin-bottom: 10px;
+}
+
+.dialog__text {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 16px;
+  color: #b4b3bb;
+  margin-bottom: 16px;
+  word-break: break-word;
+  overflow-y: auto;
+  max-height: 150px;
+}
+
+.dialog__buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  &.dffe {
+    justify-content: flex-end;
+  }
+}
+
+.button_dialog {
+  width: 140px;
+  text-align: center;
+}
+
+.dialog-content {
+  &__course {
+    max-width: 250px;
+    margin-left: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 12px;
+  }
+
+  &__title {
+    font-size: 12px;
+  }
+
+  &__list {
+    list-style: none;
+    max-height: 250px;
+  }
+
+  &__item {
+    margin-top: 5px;
+
+    &:first-child {
+      margin-top: 10px;
+    }
+  }
+}

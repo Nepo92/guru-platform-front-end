@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <th:block th:insert="base :: links" />
+  <title>Формы оплаты</title>
+</head>
+
+<body class="page">
+  <div th:replace="base :: transition-loader"></div>
+  <div th:replace="base :: main-nav"></div>
+  <script th:src="@{/js/transition-loader.js}"></script>
+<script th:inline='javascript'>
+    /*<![CDATA[*/
+    showLoader();
+/*]]>*/
+</script>
+  <div class="platform__wrapper payment-forms">
+    <div class="platform__header rpayment-forms__top">
+      <h1 class="platform__title payment-forms__title">Формы оплаты</h1>
+    </div>
+
+    <div class="payment-forms__wrapper">
+      <div class="content-main__panel payment-forms__panel">
+        <!-- <form search-client-form action="#" th:action="@{/deals/search/}" th:object="${filter}" th:method="post"
+        class="search-form menu-search__wrapper pament-forms__search">
+        <input search-client id="searchClient" th:field="*{searchRow}"
+          class="menu-search__input menu-search__input_search"
+          placeholder="Введите ссылку, ФИО, № сделки или телефон клиента">
+        <label search-client-btn for="searchClient" class="menu-input_close"
+          th:classappend="${#strings.isEmpty(filter.searchRow)} ? 'is-open' : ''"></label>
+        <label search-client-clear class="clear menu-input_close"
+          th:classappend="${#strings.isEmpty(filter.searchRow)} ? '' : 'is-open'"></label>
+      </form> -->
+        <button js-payment-form-add class="payment-forms__button">Создать форму оплаты</button>
+      </div>
+
+      <div js-payment-forms class="payment-forms__list"></div>
+    </div>
+  </div>
+
+
+  <div th:replace="base :: platform-form-add"></div>
+
+  <div th:replace="base :: scripts"></div>
+  <script th:inline='javascript'>
+    /*<![CDATA[*/
+    var filter = [[${ filter }]];
+    var role = [[${ role }]];
+    var items = null;
+    var today = null;
+    var manager = null;
+    var company = [[${ company }]];
+    var managers = null;
+    /*]]>*/
+  </script>
+</body>
+
+</html>

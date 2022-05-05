@@ -1,0 +1,262 @@
+.lesson-comments {
+  margin-top: 20px;
+}
+
+.comment {
+  width: 68%;
+}
+
+.comment_modal {
+  margin-bottom: 0px;
+}
+
+.comment_large {
+  width: 74%;
+}
+
+.comments__wrapper {
+  overflow: auto;
+}
+
+.comments__board {
+  max-height: 450px;
+  overflow: auto;
+}
+
+.comment__wrapper_black {
+  background-color: #f4f4f6;
+}
+
+.comment__wrapper_black .comment__text {
+  color: black;
+}
+
+.comment:last-child {
+  margin-bottom: 0px;
+}
+
+.comment_right {
+  margin-left: auto;
+}
+
+.comment__header {
+  display: -ms-flexbox;
+  display: box;
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+}
+
+.comment__header-item {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.comment__avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+}
+
+.comment__body {
+  padding: 30px;
+  background: #f4f4f6;
+  border-radius: 10px;
+}
+
+.comment__body_small {
+  padding: 20px;
+}
+
+.comment__text {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 1.4;
+  color: #161718;
+  margin-bottom: 0px;
+}
+
+.comment__text_small {
+  font-size: 12px;
+}
+
+.comment__body_violet {
+  background: #471f8a;
+}
+
+.comment__body_black {
+  background-color: black;
+}
+
+.comment__body_black .comment__text {
+  color: white;
+}
+
+.comment__body_violet .comment__text {
+  color: #ffffff;
+}
+
+.comment__author {
+  margin-right: 0;
+  margin-left: 0;
+}
+
+.homework-rate {
+  -webkit-transform: translateY(-2px);
+  -ms-transform: translateY(-2px);
+  transform: translateY(-2px);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.homework-rate__score {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 17px;
+  height: 17px;
+  position: relative;
+  margin-right: 5px;
+  -webkit-transform: translateY(0px);
+  -ms-transform: translateY(0px);
+  transform: translateY(0px);
+}
+
+.homework-rate__score::before {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  content: "";
+  -webkit-mask-image: url(../../img/star-rate.svg);
+  mask-image: url(../../img/star-rate.svg);
+  background-color: rgb(252, 227, 3);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+}
+
+.homework-rate__text {
+  -webkit-transform: translateY(3px);
+  -ms-transform: translateY(3px);
+  transform: translateY(3px);
+}
+
+.homework-rate__score-empty {
+  display: flex;
+  width: 17px;
+  height: 17px;
+  position: relative;
+  margin-right: 5px;
+  transform: translateY(0);
+}
+
+.homework-rate__score-empty::before {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 17px;
+  height: 17px;
+  content: "";
+  -webkit-mask-image: url(../../img/star-empty.svg);
+  mask-image: url(../../img/star-empty.svg);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  background-color: rgb(252, 227, 3);
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+}
+
+.homework-menu__score-icon {
+  -webkit-transform: translateY(2px);
+  -ms-transform: translateY(2px);
+  transform: translateY(2px);
+}
+
+.homework-menu__score-impty-icon {
+  -webkit-transform: translateY(2px);
+  -ms-transform: translateY(2px);
+  transform: translateY(2px);
+}
+
+.lesson-comment__icon {
+  -webkit-transform: translateY(3px);
+  -ms-transform: translateY(3px);
+  transform: translateY(3px);
+}
+
+.user {
+  margin-top: 20px;
+}
+
+.user:first-child {
+  margin-top: 0;
+}
+
+.user__comment {
+  margin-top: 15px;
+}
+
+.user__inner {
+  max-width: 800px;
+}
+
+.admin {
+  margin-top: 20px;
+}
+
+.admin__inner {
+  max-width: 800px;
+  margin-right: 0;
+  margin-left: auto;
+}
+
+.admin__comment {
+  background-color: black;
+  margin-top: 15px;
+}
+
+.admin__text {
+  color: white;
+}
+
+div[homework-rate] {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  border: 1px solid red;
+}
+
+.deal-price__value--black {
+  color: black;
+}
+
+@media (max-width: 450px) {
+  .user__comment {
+    padding: 30px 20px;
+  }
+  .admin__comment {
+    padding: 30px 20px;
+  }
+}

@@ -1,0 +1,108 @@
+<html lang="ru" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Оценка работы">
+
+    <title>Оценка работы</title>
+
+    <th:block th:insert="base :: links" />
+    <link th:href="@{/css/side-content.css}" rel="stylesheet">
+</head>
+
+<body class="custom-scroll">
+<div th:replace="base :: dialog"></div>
+<div th:replace="base :: main-nav"></div>
+<div th:replace="base :: bill-copy-tooltip"></div>
+<div th:replace="base :: transition-loader"></div>
+<script th:src="@{/js/transition-loader.js}"></script>
+<script th:inline='javascript'>
+    /*<![CDATA[*/
+    showLoader();
+/*]]>*/
+</script>
+
+<div class="main-content main-content_white-top-medium">
+    <div class="platform__header">
+        <h1 class="platform__title">Контроль</h1>
+        <div th:replace="base :: performance-assessment-tab"></div>
+    </div>
+    <div class="content-main list">
+        <div class="content-main__wrapper content-main__wrapper_col">
+            <div class="content-main__panel sales-panel content-main__panel_align content-main__panel_p content-main__panel_large content-main__panel_col">
+                <div class="content-setting">
+<!--                    <div class="block-title">Продажи</div>-->
+                    <div add-template class="add-button add-button_right">Добавить список</div>
+                </div>
+            </div>
+
+            <div class="content-main__panel content-main__panel_align content-main__panel_p content-main__panel_large content-main__panel_col">
+                <table class="custom-table">
+                    <tbody template-list class="custom-table__body custom-table__body_white">
+                        <tr class="custom-table__header-row">
+                            <td class="custom-table__header-col pal-header__col custom-table__header-col_big custom-table__head--text">Название</td>
+                            <td class="custom-table__header-col pal-header__col custom-table__header-col_big custom-table__head--text">Количество пунктов</td>
+                            <td class="custom-table__header-col pal-header__col custom-table__header-col_big custom-table__head--text">Роль</td>
+                            <td class="custom-table__header-col pal-header__col custom-table__header-col_big custom-table__head--text"></td>
+                        </tr>
+                        <th:block th:each="template : ${templates}">
+                            <tr th:attr="data-template=${template.id}" class="custom-table__body-row">
+                                <td class="custom-table__body-col custom-table__body-col_30per">
+                                    <div class="column-text column-text_full pa__list--left pa__list--text" th:utext="${template.name}"></div>
+                                </td>
+                                <td class="custom-table__body-col custom-table__body-col_20per">
+                                    <div class="side-tooltip pal-body__left c-tooltip">
+                                        <div class="c-tooltip__wrapper" th:if="${#lists.size(template.items) > 0}">
+                                            <th:block th:each="item : ${template.items}">
+                                                <div class="c-tooltip__row">
+                                                    <div class="c-tooltip__text pa__list--text" th:utext="${item.name}"></div>
+                                                </div>
+                                            </th:block>
+                                        </div>
+                                        <span th:utext="${#lists.size(template.items) + ' пунктов'}"></span>
+                                    </div>
+                                </td>
+                                <td class="custom-table__body-col custom-table__body-col_40per">
+                                    <div class="side-list">
+                                        <th:block th:each="userType : ${template.userTypes}">
+                                            <span class="side-list__item pa__list--text pa__list--position" th:utext="${userType.title}"></span>
+                                        </th:block>
+                                    </div>
+                                </td>
+                                <td class="custom-table__body-col custom-table__body-col_10per">
+                                    <div class="column-links display-flex-none is-open">
+                                        <div update-template class="column_mwidth div-table__body-col_center column_mwidth-edit"></div>
+                                        <form class="column-form" action="#">
+                                            <button delete-template type="button" class="column_mwidth column_mwidth-delete"></button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        </th:block>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="base :: add-template-menu"></div>
+<div th:replace="base :: update-template-menu"></div>
+
+<th:block th:insert="base :: scripts" />
+<script th:src="@{/js/performance-assessment-template.js}"></script>
+
+<script th:inline='javascript'>
+    /*<![CDATA[*/
+    var filter = [[${ filter }]];
+    var role = [[${ role }]];
+    var items = [[${ deals }]];
+    var today = [[${ today }]];
+    var manager = [[${ manager }]];
+    var company = [[${ company }]];
+    var managers = null;
+    var socials = [[${ socials }]];
+    /*]]>*/
+</script>
+</body>
+</html>

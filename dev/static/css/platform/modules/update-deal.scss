@@ -1,0 +1,118 @@
+@charset "UTF-8";
+.update-deal__items {
+  height: calc(100vh - 150px);
+}
+
+.update-deal__textarea {
+  margin-top: 5px;
+  margin-bottom: 0px;
+  height: 80px;
+  width: 100%;
+  padding: 15px 10px;
+  resize: none;
+  border: 1px solid #C3C2C9;
+  border-radius: 5px;
+
+  &.disable {
+    color: #c3c2c9;
+    border: 1px solid #c3c2c9;
+    pointer-events: none;
+  }
+}
+
+.update-deal__checkbox {
+  margin-right: 10px;
+}
+
+.update-deal__select-wrapper {
+  margin-top: 5px;
+}
+
+.update-deal__select-wrapper.no-angle::after {
+  display: none;
+}
+
+.update-deal__select-wrapper.no-angle .platform-form__calendar {
+  right: 13px;
+}
+
+.update-deal__product {
+  margin-top: 20px;
+  border-top: 1px solid #F1F1F3;
+  padding-top: 20px;
+}
+
+.update-deal__stop-lesson {
+  padding: 20px 0 0 0;
+  border-top: 1px solid #F1F1F3;
+}
+
+.update-deal__name {
+  padding-left: 0;
+}
+
+.update-deal__input {
+  margin: 0;
+
+  &.mt_5 {
+    margin-top: 5px;
+  }
+}
+
+.update-deal__input--date {
+  padding-right: 60px;
+  color: black;
+}
+
+.update-deal__input--date::-moz-placeholder {
+  color: black;
+}
+
+.update-deal__input--date:-ms-input-placeholder {
+  color: black;
+}
+
+.update-deal__input--date::placeholder {
+  color: black;
+}
+
+.platform-checkbox__label.mailing {
+  display: inline-flex;
+}
+
+.platform-checkbox__label.trial {
+  display: inline-flex;
+}
+
+.platform-checkbox__label.update-deal__stop-lesson {
+  display: inline-flex;
+}
+
+.price__wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 350px;
+  height: 73px;
+  background: rgba(244, 244, 246, 0.7);
+  border-radius: 5px;
+  position: relative;
+  padding: 15px 20px;
+}
+
+.price__wrapper::after {
+  content: "₽";
+  position: absolute;
+  top: 40px;
+  right: 20px;
+}
+
+.price__input {
+  display: flex;
+  width: 165px;
+  height: 40px;
+  align-items: center;
+  border: 1px solid #C3C2C9;
+  border-radius: 5px;
+  padding: 0 20px 0 10px;
+}

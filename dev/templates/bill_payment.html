@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>GURU - счет на оплату продукта</title>
+</head>
+
+<body>
+  <div th:replace="base :: transition-loader"></div>
+
+  <div th:if="${bill.payDate == null}" class="payment__wrapper" th:classappend="${bill.payDate != null ? 'pb_10' : ''}">
+    <div class="payment__header">
+      <img th:if="${productImage != null}" th:src="${'/' + productImage}" class="payment__img" alt="course_img">
+    </div>
+    <h1 class="payment__product" th:text="${bill.course}"></h1>
+    <form th:unless="${bill.payDate}" th:action="${'/bill-payment/toPay/' + bill.id}" class="payment__action"
+      th:method="GET">
+      <ul class="payment__contact-date">
+        <li th:if="${(client.name == null || client.name == '')}" class="contact-date__item">
+          <p class="payment__name">Имя</p>
+          <input required class="payment__input" type="text" th:value="${client.name != null ? client.name : ''}"
+            placeholder="Введите имя" name="name">
+        </li>
+        <li th:if="${(client.phone == null || client.phone == '')}" class="contact-date__item">
+          <p class="payment__name">Телефон</p>
+          <input required class="payment__input" type="text" th:value="${client.phone != null ? client.phone : ''}"
+            placeholder="Введите телефон" name="phone">
+        </li>
+        <li th:if="${(client.email == null || client.email == '')}" class="contact-date__item">
+          <p class="payment__name">E-mail</p>
+          <input required class="payment__input" type="text" th:value="${client.email != null ? client.email : ''}"
+            placeholder="Введите e-mail" name="email">
+        </li>
+      </ul>
+      <p class="payment__price" th:classappend="${(client.name != null && client.name != '' && client.phone != null && client.phone != '' && client.email != null && client.email != '') ? '' : 'mt_32'}">
+        Цена:
+        <span class="payment-price__right">
+          <span class="payment__value" th:text="${bill.sum}"></span>
+          <span class="payment__finance">₽</span>
+        </span>
+      </p>
+      <button type="button" class="payment__btn">Перейти к оплате</button>
+    </form>
+    <div th:if="${bill.payDate}" class="payment__succes">
+      <img th:src="@{/img/payment-succes.svg}" alt="payment-succes">
+      <span class="payment-succes__text">Оплата прошла успешно</span>
+      <a class="platform__btn--black report__link--bill" href="/">Перейти к списку курсов</a>
+    </div>
+    <ul class="payment__payment-methods">
+      <li class="payment-methoods__item">
+        <img class="payment__icons" th:src="@{/img/master-card-logo.svg}" alt="img">
+      </li>
+      <li class="payment-methoods__item">
+        <img class="payment__icons" th:src="@{/img/visa-logo.svg}" alt="img">
+      </li>
+      <li class="payment-methoods__item">
+        <img class="payment__icons" th:src="@{/img/mir-logo.svg}" alt="img">
+      </li>
+    </ul>
+    <div th:unless="${bill.payDate}" class="payment__footer">
+      <input type="checkbox" class="platform__checkbox" id="agreements" name="agree" checked required>
+      <label for="agreements" class="platform-checkbox__label payment__aggreements">
+        <span class="platform__checkbox--fake payment-aggreements__checkbox"></span>
+      </label>
+      <span class="payment__agreement">
+        Согласитесь с условием
+        <a target="_blank" oferta class="payment__agreements--link">оферты</a>
+        и
+        <a target="_blank" confidentiality class="payment__agreements--link">политикой конфиденциальности</a>
+      </span>
+    </div>
+  </div>
+
+  <div th:if="${bill.payDate != null}" class="report">
+    <div class="report__wrapper">
+      <div class="report__info">
+        <div class="report__logo success"></div>
+        <h1 class="report__title">Оплата прошла успешно</h1>
+        <p class="report__description">Теперь вы можете воспользоваться курсом который приобрели в вашем личном кабинете</p>
+        <div class="report__nav">
+          <a href="/" class="report__login">Перейти к списку курсов</a>
+        </div>
+      </div>
+      <p class="report__work-link">
+        Работает на платформе <a href="https://gurugroup.online/platform/" class="report__link">guruplatform.ru</a>
+      </p>
+    </div>
+  </div>
+
+  <script th:inline='javascript'>
+    /*<![CDATA[*/
+    var filter = null;
+    var role = null;
+    var items = null;
+    var today = null;
+    var manager = null;
+    var company = null;
+    var managers = null;
+    var client = [[${ client }]];
+    var docs = [[${ docs }]];
+    var bill = [[${ bill }]];
+    /*]]>*/
+  </script>
+</body>
+
+</html>

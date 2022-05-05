@@ -1,0 +1,166 @@
+<html lang="ru" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" th:attr="content=${module.name}">
+
+  <title th:utext="${module.name}"></title>
+
+  <link th:href="@{/css/gap.css}" rel="stylesheet">
+  <link th:href="@{/css/custom-tabs.css}" rel="stylesheet">
+  <link th:href="@{/css/available-course.css}" rel="stylesheet">
+  <link th:href="@{/css/info-blocks.css}" rel="stylesheet">
+  <link th:href="@{/css/progress-bar.css}" rel="stylesheet">
+  <link th:href="@{/css/btn.css}" rel="stylesheet">
+  <link th:href="@{/css/main-nav.css}" rel="stylesheet">
+
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript" >
+   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+   m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+   ym(74362000, "init", {
+        clickmap:true,
+        trackLinks:true,
+        accurateTrackBounce:true,
+        webvisor:true
+   });
+</script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/74362000" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!--/Yandex.Metrika counter -->
+</head>
+
+<body class="body">
+  <div th:replace="base :: user-nav"></div>
+  <div th:replace="base :: user-mobile-nav"></div>
+
+  <div class="body__wrapper">
+    <div class="body__header">
+      <header class="header">
+        <div class="header__box block">
+          <div class="header__wrapper block-wrapper">
+            <div class="header__main">
+              <div class="header__items">
+                <div class="header__items-wrapper">
+                  <div class="header__item header__item_title">
+                    <h3>Уроки курса</h3>
+                  </div>
+                  <div class="header__item header__item_btn">
+                    <a th:if="${idBlock}" th:href="'/user/courses/' + ${idDeal} + '/byTariff/' + ${idBlock}" class="btn btn_outline">
+                      <div class="btn__content btn__content_large">
+                        <span class="btn__title btn__title_small btn__icon btn__icon_arrow-left">
+                          <span class="btn_title-text btn_title-text_small">К списку блоков</span>
+                        </span>
+                      </div>
+                    </a>
+                    <a th:unless="${idBlock}" th:href="'/user/courses/' + ${idDeal} + '/'" class="btn btn_outline">
+                      <div class="btn__content btn__content_large">
+                        <span class="btn__title btn__title_small btn__icon btn__icon_arrow-left">
+                          <span class="btn_title-text btn_title-text_small">К списку модулей</span>
+                        </span>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+    </div>
+    <div class="body__content module__content">
+      <div class="lessons lessons-module">
+        <div class="lessons__wrapper block-wrapper module-wrapper">
+          <div class="lessons__main">
+            <a class="back" th:href="'/user/courses/' + ${idDeal} + '/'">
+              <span class="back__icon"></span>
+              <span class="back__text">
+                <span th:unless="${idBlock}">Назад к списку модулей</span>
+                <span th:if="${idBlock}">Назад к списку блоков</span>
+              </span>
+            </a>
+
+            <div class="block-header lessons-header" th:each="module, stat : ${module}">
+              <div class="title title-h2 -gap_0 title__modules" th:utext="${module.name}"></div>
+              <div class="subtitle subtitle-h5 subtitle__modules" th:utext="'Модуль ' + ${module.index}"></div>
+            </div>
+
+            <div class="block-header__warning">
+              <span>
+                Для полного прохождения модуля необходимо просмотреть все уроки и выполнить домашнее задание <span class="warning__smile">👍🏻</span>
+              </span>
+            </div>
+
+            <div class="block-header__selector"></div>
+
+            <div class="lessons__inner">
+              <th:block th:each="lesson, stat : ${lessons}">
+                <input type="hidden" class="lesson-passed" th:value="${lesson.passed}">
+                <div class="content-element lessons-item">
+                  <div class="lessons-item__inner">
+                    <div class="lessons-item__left">
+                      <div class="lessons-left__inner">
+                        <div class="lessons-item__element" th:utext="${stat.count}"></div>
+                        <div class="lessons-item__element lessons-about">
+                          <div class="lessons-about__title" th:utext="${lesson.moduleLesson.title}"></div>
+                          <div class="lessons-about__content">
+                            <div class="lessons-about__item">
+                              <span class="lessons-about__icon"></span>
+                              <span class="lessons-about__text" th:utext="${lesson.moduleLesson.duration / 60 } + ' ч ' + ${lesson.moduleLesson.duration % 60 } + ' мин'"></span>
+                            </div>
+                            <div class="lessons-about__item">
+                              <span class="lessons-about__icon"></span>
+                              <span class="lessons-about__text" th:utext="${lesson.moduleLesson.documentsCounter} + ' документов'"></span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <th:block th:if="${lesson.enable}">
+                        <a class="lessons-item__button" th:href="'/user/courses/' + ${idDeal} + '/' + ${lesson.moduleLesson.idModule} + '/' + ${lesson.moduleLesson.id} + '/'">
+                          <th:block th:if=" ${lesson.moduleLesson.type}=='homework'">
+                            <span class=" lessons-element__text">Перейти к ДЗ</span>
+                            <span class="lessons-element__icon"></span>
+                          </th:block>
+                          <th:block th:unless="${lesson.moduleLesson.type} == 'homework'">
+                            <span class="lessons-element__text">Перейти к уроку</span>
+                            <span class="lessons-element__icon"></span>
+                          </th:block>
+                      </a>
+                      </th:block>
+                    </div>
+                    <div class="module__lessons-closed" th:unless="${lesson.enable}">
+                      Пройдите предыдущий урок
+                    </div>
+                  </div>
+                </div>
+              </th:block>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+<th:block th:insert="base :: jquery" />
+<script th:src="@{/js/_tabby.js}"></script>
+<script th:src="@{/js/tabs.js}"></script>
+<script th:src="@{/js/progress-bar.js}"></script>
+<script th:src="@{/js/countdown.js}"></script>
+<script th:src="@{/js/media-homeworks.js}"></script>
+<script th:src="@{/js/main.js}"></script>
+<script th:inline='javascript'>
+  /*<![CDATA[*/
+  var filter = null;
+  var role = null;
+  var items = null;
+  var today = null;
+  var manager = null;
+  var company = null;
+  var managers = null;
+  var socials = null;
+  /*]]>*/
+</script>
+</html>

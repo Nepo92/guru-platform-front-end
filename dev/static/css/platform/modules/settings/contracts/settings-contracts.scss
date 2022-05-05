@@ -1,0 +1,569 @@
+@import "../../../helpers/_variables.scss";
+
+@media (max-width: $mobile) {
+  .contract {
+    &__search {
+      width: 100%;
+    }
+
+    &__wrapper {
+      width: calc(100% - 20px);
+    }
+  }
+}
+
+.contract {
+  width: 100%;
+  height: 100%;
+
+  &__wrapper {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid $content-selector;
+  }
+
+  &__search {
+    &.active + .platform__search--start {
+      &::after {
+        background-color: $black;
+      }
+    }
+  }
+
+  &__upload {
+    position: relative;
+    background: $black;
+    border: 1px solid $black;
+    box-sizing: border-box;
+    border-radius: 5px;
+    padding: 10px 20px 10px 50px;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 18px;
+    letter-spacing: 0em;
+    text-align: left;
+    margin-top: 15px;
+    cursor: pointer;
+    transition: all 0.2s linear;
+
+    &-icon {
+      &::after {
+        position: absolute;
+        top: 10px;
+        left: 22px;
+        content: "";
+        width: 20px;
+        height: 20px;
+        display: inline-block;
+        mask-image: url(../../img/upload-icon.svg);
+        background-color: $white;
+        mask-repeat: no-repeat;
+        mask-position: center;
+        mask-size: 100% 100%;
+        transition: all 0.2s linear;
+      }
+
+      &:hover {
+        &::after {
+          background-color: $black;
+        }
+      }
+    }
+  }
+
+  &__table {
+    background-color: $white;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba($black, 0.06);
+    min-width: 1190px;
+    width: 1190px;
+    max-width: 1190px;
+    margin-bottom: 40px;
+  }
+
+  &__row {
+    &--header {
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 17px;
+      letter-spacing: 0em;
+      text-align: left;
+      color: $black;
+    }
+
+    &:not(:first-child) {
+      border-top: 1px solid $content-selector;
+    }
+  }
+
+  &__cell {
+    white-space: nowrap;
+    font-family: Inter;
+    font-size: 12px;
+    line-height: 18px;
+    letter-spacing: 0em;
+    text-align: left;
+
+    &.date {
+      padding: 20px 45px 20px 25px;
+      min-width: 215px;
+      width: 215px;
+    }
+
+    &.name {
+      padding: 20px 150px 20px 0;
+      min-width: 218px;
+      width: 218px;
+    }
+
+    &.who {
+      padding: 20px 115px 20px 0;
+      min-width: 219px;
+      width: 209px;
+    }
+
+    &.status {
+      padding: 20px 150px 20px 0;
+      min-width: 245px;
+      width: 245px;
+
+      &.active {
+        color: $green;
+      }
+
+      &.disable {
+        color: $red;
+      }
+    }
+
+    &.settings {
+      padding-right: 20px;
+      min-width: 60px;
+      width: 60px;
+    }
+
+    &.link {
+      padding: 20px 60px 20px 0;
+      min-width: 201px;
+      width: 201px;
+    }
+  }
+
+  &__preloader {
+    width: 80px;
+    height: 80px;
+    position: relative;
+  }
+
+  &-preloader {
+    &__image {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &__input {
+    width: 100%;
+    height: 40px;
+    padding: 0 15px;
+    font-size: 12px;
+    border-radius: 5px;
+    border: 1px solid $borderInput;
+    margin-top: 5px;
+
+    &.contract-name {
+      padding: 0 20px 0 0;
+    }
+  }
+
+  &__tabs {
+    display: flex;
+    list-style: none;
+    margin-top: auto;
+    margin-bottom: 0;
+    transform: translateY(20px);
+  }
+
+  &__close-edit {
+    &::after {
+      content: "";
+      display: inline-block;
+      width: 15px;
+      height: 15px;
+      mask-image: url(../../img/cancel.svg);
+      background-color: $noactiveItem;
+      mask-repeat: no-repeat;
+      mask-position: center;
+      mask-size: 100% 100%;
+      transition: all 0.2s linear;
+      cursor: pointer;
+    }
+
+    &:hover {
+      &::after {
+        background-color: $black;
+      }
+    }
+  }
+
+  &__navigation {
+    display: flex;
+    align-items: center;
+  }
+
+  &__remove {
+    width: 15px;
+    height: 15px;
+    display: inline-block;
+    margin-left: 5px;
+    position: relative;
+    top: -2px;
+
+    &::after {
+      content: "";
+      width: 100%;
+      height: 100%;
+      display: inline-block;
+      mask-image: url(../../img/delete-btn.svg);
+      background-color: $noactiveItem;
+      mask-repeat: no-repeat;
+      mask-position: center;
+      mask-size: 100% 100%;
+      transition: all 0.2s linear;
+      cursor: pointer;
+    }
+
+    &:hover {
+      &::after {
+        background-color: $black;
+      }
+    }
+  }
+
+  &__accept {
+    width: 15px;
+    height: 11px;
+    position: relative;
+    display: inline-block;
+    margin-right: 10px;
+
+    &::after {
+      content: "";
+      width: 100%;
+      height: 100%;
+      display: inline-block;
+      mask-image: url(../../img/accept.svg);
+      background-color: $noactiveItem;
+      mask-repeat: no-repeat;
+      mask-position: center;
+      mask-size: 100% 100%;
+      transition: all 0.2s linear;
+      cursor: pointer;
+      transform: translateY(-7px);
+    }
+
+    &:hover {
+      &::after {
+        background-color: $black;
+      }
+    }
+  }
+
+  &__settings {
+    &::after {
+      content: "";
+      width: 18px;
+      height: 18px;
+      display: inline-block;
+      mask-image: url(../../img/gear.svg);
+      background-color: $noactiveItem;
+      mask-repeat: no-repeat;
+      mask-position: center;
+      mask-size: 100% 100%;
+      cursor: pointer;
+      transition: all 0.2s linear;
+    }
+
+    &.no-icon {
+      width: 15px;
+
+      &::after {
+        display: none;
+      }
+    }
+
+    &:hover {
+      &::after {
+        background-color: $black;
+      }
+    }
+  }
+
+  &__link-btn {
+    padding: 5px 15px;
+    border-radius: 5px;
+    color: $white;
+    background-color: $black;
+    border: 1px solid $black;
+    cursor: pointer;
+    transition: all 0.2s linear;
+    font-size: 12px;
+    line-height: 12px;
+    padding: 10px 15px;
+
+    &:hover {
+      color: $black;
+      background-color: $white;
+    }
+  }
+
+  &-menu {
+    &__form {
+      background-color: $white;
+    }
+
+    &__content {
+      padding: 25px;
+      background-color: $white;
+      height: calc(100vh - 150px);
+    }
+
+    &__item {
+      &:not(:first-child) {
+        margin-top: 20px;
+      }
+    }
+
+    &__name {
+      font-size: 12px;
+      line-height: 12px;
+    }
+  }
+
+  &-status {
+    position: relative;
+    min-width: 245px;
+    width: 245px;
+
+    &__text {
+      margin-left: 10px;
+    }
+  }
+}
+
+.dialog-content {
+  &__item {
+    display: flex;
+
+    &--contract {
+      flex-direction: column;
+
+      &:not(:first-child) {
+        margin-top: 15px;
+      }
+
+      &:last-child {
+        margin-bottom: 20px;
+      }
+    }
+  }
+}
+
+.active-contract {
+  color: $green;
+}
+
+.no-active-contract {
+  color: $red;
+}
+
+.contract-tabs {
+  &__item {
+    position: relative;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: $noactiveItem;
+    cursor: pointer;
+    transition: all 0.2s linear;
+
+    &:first-child {
+      margin-right: 15px;
+    }
+
+    &::after {
+      content: "";
+      width: 100%;
+      height: 4px;
+      display: block;
+      bottom: -10px;
+      left: 0;
+      position: absolute;
+      background-color: $transparent;
+      transition: all 0.2s linear;
+    }
+
+    &.active {
+      color: $black;
+
+      &::after {
+        background-color: $black;
+      }
+    }
+
+    &:hover {
+      color: $black;
+
+      &::after {
+        background-color: $black;
+      }
+    }
+  }
+}
+
+.contract-doc {
+  &__name {
+    font-size: 13px;
+  }
+}
+
+.contract-disable {
+  .contract__input {
+    border: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    pointer-events: none;
+  }
+
+  .platform__select {
+    border: 0;
+  }
+
+  .platform-select__wrapper {
+    pointer-events: none;
+
+    &::after {
+      display: none;
+    }
+  }
+}
+
+.contract-popup {
+  &__input {
+    width: 100%;
+  }
+}
+
+.contract-link {
+  &__wrapper {
+    position: relative;
+    margin-bottom: 20px;
+  }
+}
+
+.edit-contract {
+  width: 80px;
+  min-width: 80px;
+
+  &__nav {
+    display: flex;
+    align-items: center;
+    position: relative;
+
+    &::after {
+      content: "";
+      width: 1px;
+      height: 17px;
+      display: inline-block;
+      position: absolute;
+      top: 1px;
+      left: 26px;
+      background-color: $content-selector;
+    }
+  }
+
+  &__nav-btn {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    display: inline-block;
+    transition: all 0.2s linear;
+
+    &::after {
+      content: "";
+      display: inline-block;
+      width: 100%;
+      height: 100%;
+      mask-image: url(../../img/gear.svg);
+      background-color: $noactiveItem;
+      mask-repeat: no-repeat;
+      mask-position: center;
+      mask-size: 100% 100%;
+    }
+
+    &:hover {
+      &::after {
+        background-color: $black;
+      }
+    }
+  }
+
+  &__edit-icon {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    transition: all 0.2s linear;
+    cursor: pointer;
+
+    &::after {
+      content: "";
+      display: inline-block;
+      width: 100%;
+      height: 100%;
+      mask-image: url(../../img/edit.svg);
+      background-color: $noactiveItem;
+      mask-repeat: no-repeat;
+      mask-position: center;
+      mask-size: 100% 100%;
+    }
+
+    &:hover {
+      &::after {
+        background-color: $black;
+      }
+    }
+  }
+
+  &__remove-icon {
+    display: inline-block;
+    width: 15px;
+    height: 18px;
+    transition: all 0.2s linear;
+    cursor: pointer;
+    margin-left: 21px;
+
+    &::after {
+      content: "";
+      display: inline-block;
+      width: 100%;
+      height: 100%;
+      mask-image: url(../../img/delete.svg);
+      background-color: $noactiveItem;
+      mask-repeat: no-repeat;
+      mask-position: center;
+      mask-size: 100% 100%;
+    }
+
+    &:hover {
+      &::after {
+        background-color: $black;
+      }
+    }
+  }
+}

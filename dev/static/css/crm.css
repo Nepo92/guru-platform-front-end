@@ -1,0 +1,19 @@
+.crm-controls {
+  max-width: 1274px;
+}
+
+.crm-controls__filter {
+  cursor: pointer;
+}
+
+.crm-controls__filter:hover .crm-controls__icon {
+  background-color: #29006C;
+}
+
+.crm-controls__filter:hover .crm-controls__text {
+  color: #29006C;
+}
+
+.crm-controls__icon {
+  border: 0;
+}

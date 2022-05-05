@@ -1,0 +1,435 @@
+<html lang="ru" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="CRM">
+
+    <title>CRM</title>
+    <link th:href="@{/css/datepicker.css}" rel="stylesheet">
+    <link th:href="@{/css/jquery.fancybox.min.css}" rel="stylesheet">
+</head>
+
+<body class="page custom-scroll">
+    <div th:replace="base :: main-nav"></div>
+    <div th:replace="base :: transition-loader"></div>
+    <div th:replace="base :: bill-copy-tooltip"></div>
+    <script th:src="@{/js/transition-loader.js}"></script>
+<script th:inline='javascript'>
+    /*<![CDATA[*/
+    showLoader();
+/*]]>*/
+</script>
+
+    <div class="platform__wrapper">
+        <div class="platform__header">
+            <h1 class="platform__title">CRM</h1>
+            <div th:replace="base :: transactions-nav"></div>
+        </div>
+        <div class="platform__content overflowed custom-scroll">
+            <div class="platform__nav crm">
+                <div class="platform__nav--left">
+                    <div class="platform__filter--btn">Фильтр</div>
+                    <form th:action="@{/transactions/}" class="platform__search" th:object="${filter}" th:method="post">
+                        <input autocomplete="off" id="searchClient" class="platform__input--search" type="text"
+                            placeholder="Введите ссылку, ФИО, № сделки или телефон клиента" th:field="*{searchRow}">
+                        <label search-client-btn for="searchClient" class="platform__search--start"
+                            th:classappend="${#strings.isEmpty(filter.searchRow) == true}? '' : 'active'"></label>
+                    </form>
+                    <form th:action="@{/transactions/}" class="platform__showed-toggle" method="post">
+                        <span class="showed-toggle__text">Отображать удаленные</span>
+                        <input th:if="${filter.hidden == false}" type="hidden" name="hiddenClient" th:value="${null}">
+                        <input th:if="${filter.hidden == null}" type="hidden" name="hiddenClient" th:value="${null}">
+                        <input class="platform__checkbox" checked th:if="${filter.hidden == false}" id="hidden" type="checkbox" name="hidden" th:value="null" js-filter-hidden-deals>
+                        <input class="platform__checkbox" checked th:if="${filter.hidden == null}" id="hidden" type="checkbox" name="hidden" th:value="false" js-filter-hidden-deals>
+                        <label for="hidden" class="platform__toggle"
+                            th:classappend="${filter.hidden == null ? 'active' : ''}">
+                            <span class="platform__thumb"></span>
+                        </label>
+                    </form>
+                </div>
+                <div class="platform__nav--right">
+                    <span class="platform-nav__right--counter" deals-counter
+                          th:utext="${dealCounter.count} + ' сделки на сумму ' + ${#numbers.formatInteger(dealCounter.price,0,'WHITESPACE')} + ' / ' + ${#numbers.formatInteger(dealCounter.paid,0,'WHITESPACE') + ' ₽'}"></span>
+                    <div search-client-add-deal class="platform__download--btn search">Добавить сделку</div>
+                </div>
+            </div>
+
+            <table class="platform-table crm" th:classappend="${deals.pagesAvailable == 1 ? 'mb_40' : ''}">
+                <tbody class="custom-table__body custom-table__body_white custom-table__body--crm deals-table__wrapper">
+                    <tr class="platform-table__row--header">
+                        <td class="platform-table__column date">Дата</td>
+                        <td class="platform-table__column client-column">Клиент</td>
+                        <td class="platform-table__column link">Ссылка</td>
+                        <td class="platform-table__column column-manager">Менеджер</td>
+                        <td class="platform-table__column course">Продукт</td>
+                        <td class="platform-table__column price">Цена / Получено</td>
+                        <td class="platform-table__column crm-deals__status status">Статус сделки</td>
+                        <td class="platform-table__column">Задача</td>
+                        <td class="platform-table__column column-hide"></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="platform__pagination pagination hide" th:if="${deals.pagesAvailable > 1}" th:with="left=4,right=5">
+                <div class="pagination__wrapper">
+                    <a th:attrappend="href=${deals.pageNumber - 1 > 0} ? 'page?id=' + ${deals.pageNumber - 1} : ''"
+                        th:classappend="${deals.pageNumber - 1} == 0 ? 'pagination__elem--disabled' : ''"
+                        class="pagination__elem pagination__elem--prev"></a>
+                    <th:block th:if="${deals.pagesAvailable <= 10}" th:with="start=1,end=${deals.pagesAvailable}">
+                        <th:block th:each="i : ${#numbers.sequence(start,end)}">
+                            <a th:attrappend="href='page?id=' + ${i}"
+                                th:classappend="${deals.pageNumber == i} ? 'active' : ''" th:utext="${i}"
+                                class="pagination__elem"></a>
+                        </th:block>
+                    </th:block>
+                    <th:block th:unless="${deals.pagesAvailable <= 10}">
+                        <th:block th:if="${deals.pageNumber > left && deals.pageNumber < (deals.pagesAvailable - right)}"
+                            th:with="start=${deals.pageNumber - left},end=${deals.pageNumber + right}">
+                            <a class="pagination__elem" th:if="${deals.pageNumber > (left + 1)}"
+                                th:attrappend="href='page?id=1'">1</a>
+                            <th:block th:each="i : ${#numbers.sequence(start,end)}">
+                                <a th:attrappend="href='page?id=' + ${i}"
+                                    th:classappend="${deals.pageNumber == i} ? 'active' : ''" th:utext="${i}"
+                                    class="pagination__elem"></a>
+                            </th:block>
+                            <a class="pagination__elem" th:if="${deals.pageNumber <= deals.pagesAvailable - right}"
+                                th:attrappend="href='page?id=' + ${deals.pagesAvailable}"
+                                th:text="${deals.pagesAvailable}"></a>
+                        </th:block>
+                        <th:block th:if="${deals.pageNumber <= left}"
+                            th:with="start=1,end=${deals.pageNumber + (right + 1 + left - deals.pageNumber)}">
+                            <th:block th:each="i : ${#numbers.sequence(start,end)}">
+                                <a th:attrappend="href='page?id=' + ${i}"
+                                    th:classappend="${deals.pageNumber == i} ? 'active' : ''" th:utext="${i}"
+                                    class="pagination__elem"></a>
+                            </th:block>
+                            <a class="pagination__elem" th:if="${deals.pageNumber <= deals.pagesAvailable - right}"
+                                th:attrappend="href='page?id=' + ${deals.pagesAvailable}"
+                                th:text="${deals.pagesAvailable}"></a>
+                        </th:block>
+                        <th:block
+                            th:unless="${(deals.pageNumber > left && deals.pageNumber < (deals.pagesAvailable - right)) || (deals.pageNumber <= left)}"
+                            th:with="start=${deals.pageNumber - (left + right - (deals.pagesAvailable - deals.pageNumber))},end=${deals.pagesAvailable}">
+                            <a class="pagination__elem" th:attrappend="href='page?id=1'">1</a>
+                            <th:block th:each="i : ${#numbers.sequence(start,end)}">
+                                <a th:attrappend="href='page?id=' + ${i}"
+                                    th:classappend="${deals.pageNumber == i} ? 'active' : ''" th:utext="${i}"
+                                    class="pagination__elem"></a>
+                            </th:block>
+                        </th:block>
+                    </th:block>
+                    <a th:attrappend="href=${deals.pageNumber + 1 <= deals.pagesAvailable } ? 'page?id=' + ${deals.pageNumber + 1} : ''"
+                        th:classappend="${deals.pageNumber != deals.pagesAvailable} ? '' : 'pagination__elem--disabled'"
+                        class="pagination__elem pagination__elem--next"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="platform__filter">
+        <div class="filter__wrapper">
+            <div class="filter__head">
+                <h2 class="filter__title">Фильтровать сделки</h2>
+                <span class="platform__close--btn-modal"></span>
+            </div>
+            <div class="filter__content custom-scroll">
+                <form class="filter__form" action="#" th:action="@{/transactions/}" th:method="post">
+                    <ul class="filter__column">
+                        <li class="filter__item width_100">
+                            <h3 class="filter__subtitle">Параметры</h3>
+                        </li>
+                        <li class="filter__item">
+                            <p class="filter__name">Проекты</p>
+                            <div class="platform-select__wrapper filter__select-wrapper">
+                                <select class="platform__select filter__select" name="projectId">
+                                    <option class="filter-select__option" th:value="0" selected>Все проекты</option>
+                                    <option th:each="project : ${projects}" th:value="${project.id}"
+                                        th:utext="${project.name}"></option>
+                                </select>
+                            </div>
+                        </li>
+                        <li class="filter__item">
+                            <p class="filter__name">Способ оплаты</p>
+                            <div class="platform-select__wrapper filter__select-wrapper">
+                                <select class="platform__select filter__select" name="paymentMethod">
+                                    <option class="filter-select__option" th:value="all" selected>Все способы
+                                    </option>
+                                    <option class="filter-select__option" th:each="paymentMethod : ${paymentMethods}"
+                                        th:value="${paymentMethod.title}" th:utext="${paymentMethod.title}">
+                                    </option>
+                                </select>
+                            </div>
+                        </li>
+                        <li class="filter__item">
+                            <p class="filter__name">Тип продажи</p>
+                            <div class="platform-select__wrapper filter__select-wrapper">
+                                <select class="platform__select filter__select" name="saleType">
+                                    <option class="filter-select__option" th:value="all" selected>Все типы продаж
+                                    </option>
+                                    <option class="filter-select__option" th:value="traffic">Трафик</option>
+                                    <option class="filter-select__option" th:value="additional">База</option>
+                                </select>
+                            </div>
+                        </li>
+                        <li class="filter__item">
+                            <p class="filter__name">Продукты</p>
+                            <div class="platform-select__wrapper filter__select-wrapper">
+                                <select tr-social class="platform__select filter__select" name="product">
+                                    <option class="filter-select__option" th:value="all" selected>Все продукты
+                                    </option>
+                                    <option class="filter-select__option" th:each="product : ${products}"
+                                        th:value="${product.name}" th:utext="${product.name}"></option>
+                                </select>
+                            </div>
+                        </li>
+                        <li class="filter__item">
+                            <p class="filter__name">Тип курса</p>
+                            <div class="platform-select__wrapper filter__select-wrapper">
+                                <select filter-course-kinds class="platform__select filter__select" name="kind">
+                                    <option class="filter-select__option" th:value="all" selected>Все типы</option>
+                                </select>
+                            </div>
+                        </li>
+                        <li class="filter__item">
+                            <p class="filter__name">Задачи</p>
+                            <div class="platform-select__wrapper filter__select-wrapper">
+                                <select tr-reminder class="platform__select filter__select" name="reminder">
+                                    <option class="filter-select__option" th:value="0" selected>Не выбрано</option>
+                                    <option class="filter-select__option" th:value="1">Все</option>
+                                    <option class="filter-select__option" th:value="2">На сегодня</option>
+                                    <option class="filter-select__option" th:value="3">На завтра</option>
+                                    <option class="filter-select__option" th:value="4">Просроченные</option>
+                                    <option class="filter-select__option" th:value="5">Без задач</option>
+                                </select>
+                            </div>
+                        </li>
+                        <li class="filter__item">
+                            <p class="filter__name">Соц-сеть</p>
+                            <div class="platform-select__wrapper filter__select-wrapper">
+                                <select tr-social class="platform__select filter__select" name="idSocial">
+                                    <option class="filter-select__option" th:value="0" selected>Все соц.сети
+                                    </option>
+                                    <option class="filter-select__option" th:each="social : ${socials}"
+                                        th:value="${social.id}" th:utext="${social.title}"></option>
+                                </select>
+                            </div>
+                        </li>
+                        <li class="filter__item">
+                            <p class="filter__name">Воронка</p>
+                            <div class="platform-select__wrapper filter__select-wrapper">
+                                <select filter-funnels class="platform__select filter__select" name="idFunnel">
+                                    <option class="filter-select__option" th:value="0" selected>Все воронки</option>
+                                </select>
+                            </div>
+                        </li>
+                        <li class="filter__item width_100">
+                            <p class="filter__name">Пробный период</p>
+                            <div class="filter__labels-wrapper width_100">
+                                <input type="radio" id="trialYes" class="platform__checkbox" value="true" name="trial">
+                                <label for="trialYes" class="platform-checkbox__label--button">Да</label>
+                                <input type="radio" id="trialNo" class="platform__checkbox" value="false" name="trial">
+                                <label for="trialNo" class="platform-checkbox__label--button">Нет</label>
+                                <input type="radio" id="trialAll" class="platform__checkbox" value="all" name="trial">
+                                <label for="trialAll" class="platform-checkbox__label--button">Показать все</label>
+                            </div>
+                        </li>
+                        <li class="filter__item width_100">
+                            <p class="filter__name">Рассылка</p>
+                            <div class="filter__labels-wrapper width_100">
+                                <input type="radio" id="mailingYes" class="platform__checkbox" value="FALSETRUE"
+                                    name="mailing">
+                                <label class="platform-checkbox__label--button" for="mailingYes">Да</label>
+                                <input type="radio" id="mailingNo" class="platform__checkbox" value="FALSEFALSE"
+                                    name="mailing">
+                                <label class="platform-checkbox__label--button" for="mailingNo">Нет</label>
+                                <input type="radio" id="mailingAll" class="platform__checkbox" value="all"
+                                    name="mailing">
+                                <label class="platform-checkbox__label--button" for="mailingAll">Показать все</label>
+                            </div>
+                        </li>
+                        <li class="filter__item width_100">
+                            <p class="filter__name">ID рекламной кампании / Смайлик + база</p>
+                            <div class="platform-input__wrapper filter__input-wrapper width_100 no-icon">
+                                <input type="text" autocomplete="off" class="filter__input width_100"
+                                    placeholder=" Введите ID рекламной кампании / смайлик + база" name="tag">
+                            </div>
+                        </li>
+                        <li class="filter__item width_100">
+                            <p class="filter__name">Комментарий</p>
+                            <div class="platform-input__wrapper filter__input-wrapper width_100 no-icon">
+                                <input type="text" autocomplete="off" class="filter__input width_100"
+                                    placeholder="Введите комментарий" name="comment">
+                            </div>
+                        </li>
+                    </ul>
+                    <ul class="filter__column empty-fields">
+                        <li class="filter__item width_100">
+                            <h3 class="filter__subtitle">Статусы сделок</h3>
+                        </li>
+                        <li class="filter__item width_100">
+                            <div class="input-element__checkbox" th:each="status, stat : ${dealStatuses}"
+                                th:classappend="${(stat.index != 0) ? 'mt_10' : ''}">
+                                <input type="checkbox" th:id="st + ${status.id}" name="statuses"
+                                    class="platform__checkbox" th:value="${status.id}">
+                                <label class="platform-checkbox__label" th:for="st + ${status.id}">
+                                    <span class="platform__checkbox--fake filter__checkbox"></span>
+                                    <span class="platform-checkbox__label--value" th:utext="${status.title}"></span>
+                                </label>
+                            </div>
+                        </li>
+                        <li class="filter__item width_100 mt_30">
+                            <h3 class="filter__subtitle">Пустые поля</h3>
+                        </li>
+                        <li class="filter__item width_100">
+                            <input type="checkbox" th:id="e1" class="platform__checkbox" name="empties" th:value="link">
+                            <label class="platform-checkbox__label" th:for="e1">
+                                <span class="platform__checkbox--fake filter__checkbox"></span>
+                                <span class="platform-checkbox__label--value">Ссылка</span>
+                            </label>
+                        </li>
+                        <li class="filter__item width_100">
+                            <input type="checkbox" th:id="e2" class="platform__checkbox" name="empties"
+                                th:value="phone">
+                            <label class="platform-checkbox__label" th:for="e2">
+                                <span class="platform__checkbox--fake filter__checkbox"></span>
+                                <span class="platform-checkbox__label--value">Номер телефона</span>
+                            </label>
+                        </li>
+                        <li class="filter__item width_100">
+                            <input type="checkbox" th:id="e3" class="platform__checkbox" name="empties"
+                                th:value="comment">
+                            <label class="platform-checkbox__label" th:for="e3">
+                                <span class="platform__checkbox--fake filter__checkbox"></span>
+                                <span class="platform-checkbox__label--value">SMS / Чек</span>
+                            </label>
+                        </li>
+                        <li class="filter__item width_100">
+                            <input type="checkbox" th:id="e4" class="platform__checkbox" name="empties"
+                                th:value="accountNumber">
+                            <label class="platform-checkbox__label" th:for="e4">
+                                <span class="platform__checkbox--fake filter__checkbox"></span>
+                                <span class="platform-checkbox__label--value">№ счёта</span>
+                            </label>
+                        </li>
+                    </ul>
+                    <ul class="filter__column">
+                        <li class="filter__item width_100">
+                            <h3 class="filter__subtitle">Даты</h3>
+                        </li>
+                        <li class="filter__item width_100">
+                            <p class="filter__name">Дата старта (от и до)</p>
+                            <div class="platform-input__wrapper filter__input-wrapper width_100">
+                                <input type="text" autocomplete="off" class="datepicker-here-f filter__input"
+                                    placeholder="Выберите дату от" name="startDateFrom">
+                                <input type="text" autocomplete="off" class="datepicker-here-f filter__input"
+                                    placeholder="Выберите дату до" name="startDateTo">
+                            </div>
+                        </li>
+                        <li class="filter__item width_100">
+                            <p class="filter__name">Дата создания (от и до)</p>
+                            <div class="platform-input__wrapper filter__input-wrapper width_100">
+                                <input type="text" autocomplete="off" class="datepicker-here-f filter__input"
+                                    placeholder="Выберите дату от" name="createDateFrom">
+                                <input type="text" autocomplete="off" class="datepicker-here-f filter__input"
+                                    placeholder="Выберите дату до" name="createDateTo">
+                            </div>
+                        </li>
+                        <li class="filter__item width_100">
+                            <p class="filter__name">Дата обращения (от и до)</p>
+                            <div class="platform-input__wrapper filter__input-wrapper width_100">
+                                <input type="text" autocomplete="off" class="datepicker-here-f filter__input"
+                                    placeholder="Выберите дату от" name="dealDateFrom">
+                                <input type="text" autocomplete="off" class="datepicker-here-f filter__input"
+                                    placeholder="Выберите дату до" name="dealDateTo">
+                            </div>
+                        </li>
+                        <li class="filter__item width_100">
+                            <p class="filter__name">Дата оплаты (от и до)</p>
+                            <div class="platform-input__wrapper filter__input-wrapper width_100">
+                                <input type="text" autocomplete="off" class="datepicker-here-f filter__input"
+                                    placeholder="Выберите дату от" name="payDateFrom">
+                                <input type="text" autocomplete="off" class="datepicker-here-f filter__input"
+                                    placeholder="Выберите дату до" name="payDateTo">
+                            </div>
+                        </li>
+                        <li class="filter__item width_100 mt_10">
+                            <input type="checkbox" th:id="fps" class="platform__checkbox" name="other"
+                                th:value="firstPaymentSearch">
+                            <label class="platform-checkbox__label" th:for="fps">
+                                <span class="platform__checkbox--fake filter__checkbox"></span>
+                                <span class="platform-checkbox__label--value">Первая оплата</span>
+                            </label>
+                        </li>
+                        <li class="filter__item width_100">
+                            <p class="filter__name">Дата задачи (от и до)</p>
+                            <div class="platform-input__wrapper filter__input-wrapper width_100">
+                                <input type="text" autocomplete="off" class="datepicker-here-f filter__input"
+                                    placeholder="Выберите дату от" name="reminderDateFrom">
+                                <input type="text" autocomplete="off" class="datepicker-here-f filter__input"
+                                    placeholder="Выберите дату до" name="reminderDateTo">
+                            </div>
+                        </li>
+                    </ul>
+                    <ul class="filter__column">
+                        <li class="filter__item width_100">
+                            <h3 class="filter__subtitle">Цена</h3>
+                        </li>
+                        <li class="filter__item width_100">
+                            <p class="filter__name">Цена (от и до)</p>
+                            <div class="platform-input__wrapper filter__input-wrapper width_100">
+                                <input type="text" autocomplete="off" class="filter__input" placeholder="Укажите сумму"
+                                    name="priceFrom">
+                                <input type="text" autocomplete="off" class="filter__input" placeholder="Укажите сумму"
+                                    name="priceTo">
+                            </div>
+                        </li>
+                        <li class="filter__item width_100">
+                            <p class="filter__name">Получено (от и до)</p>
+                            <div class="platform-input__wrapper filter__input-wrapper width_100">
+                                <input type="text" autocomplete="off" class="filter__input" placeholder="Укажите сумму"
+                                    name="paidFrom">
+                                <input type="text" autocomplete="off" class="filter__input" placeholder="Укажите сумму"
+                                    name="paidTo">
+                            </div>
+                        </li>
+                    </ul>
+                </form>
+            </div>
+            <div class="filter__footer">
+                <div class="filter__apply">Применить фильтры</div>
+                <form th:if="${filter.canClear}" action="#" th:action="@{/transactions/clearFilter}"
+                    th:object="${filter}" th:method="post" class="filter__stop">
+                    <button type="submit" class="filter__reset">
+                        <span class="filter__reset--icon"></span>
+                        Сбросить фильтры
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="base :: client-card-menu"></div>
+    <div th:replace="base :: deal-menu"></div>
+    <div th:replace="base :: add-bill-new"></div>
+    <div th:replace="base :: pay-menu"></div>
+    <div th:replace="base :: menu-search"></div>
+
+    <script th:inline='javascript'>
+        /*<![CDATA[*/
+        var filter = [[${ filter }]];
+        var role = [[${ role }]];
+        var items = [[${ deals }]];
+        var today = [[${ dates.todayFormatted }]];
+        var manager = [[${ currentManager }]];
+        var company = [[${ company }]];
+        var products = [[${ products }]];
+        var managers = null;
+    /*]]>*/
+    </script>
+    <script th:src="@{/js/jquery-3.4.1.min.js}"></script>
+    <script th:src="@{/js/datepicker.min.js}"></script>
+    <script th:src="@{/js/jquery.fancybox.min.js}"></script>
+</body>
+
+</html>
