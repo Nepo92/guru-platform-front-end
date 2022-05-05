@@ -1,0 +1,57 @@
+<html lang="ru" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Сделки">
+    <title>Шаблоны счетов</title>
+    <link th:href="@{/css/main.css}" rel="stylesheet">
+    <link th:href="@{/css/datepicker.css}" rel="stylesheet">
+    <link th:href="@{/css/jquery.fancybox.min.css}" rel="stylesheet">
+</head>
+
+<body class="page custom-scroll">
+    <div th:replace="base :: main-nav"></div>
+    <div th:replace="base :: transition-loader"></div>
+    <script th:src="@{/js/transition-loader.js}"></script>
+<script th:inline='javascript'>
+    /*<![CDATA[*/
+    showLoader();
+/*]]>*/
+</script>
+
+    <div class="platform__wrapper templates">
+        <div class="platform__header">
+            <h1 class="platform__title">Шаблоны счетов</h1>
+        </div>
+        <div class="platform__content templates__wrapper no-icon">
+            <div class="platform__nav templates__nav">
+                <a href="" class="templates__add-btn">
+                    Добавить шаблон
+                </a>
+            </div>
+            <div class="templates__content">
+
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="base :: menu-template-add"></div>
+
+    <script th:src="@{/js/jquery-3.4.1.min.js}"></script>
+    <script th:src="@{/js/datepicker.min.js}"></script>
+    <script th:src="@{/js/jquery.fancybox.min.js}"></script>
+    <script th:inline='javascript'>
+        /*<![CDATA[*/
+        var filter = [[${ filter }]];
+        var role = [[${ role }]];
+        var items = [[${ deals }]];
+        var today = [[${ today }]];
+        var manager = [[${ manager }]];
+        var company = [[${ company }]];
+        var managers = null;
+        /*]]>*/
+    </script>
+</body>
+
+</html>

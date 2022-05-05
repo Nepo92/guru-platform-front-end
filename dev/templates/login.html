@@ -1,0 +1,75 @@
+<html lang="ru" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="Панель администратора">
+	<title>GuruPlatform Alpha | Вход</title>
+</head>
+
+<body class="custom-scroll">
+	<div class="auth">
+		<div class="auth-background"
+			th:style=" (${background.companyBackground} != null) ? 'background-image:url(/' + ${background.companyBackground} + '); background-size: cover;' : 'background-image: -webkit-linear-gradient(180deg, #8f95c2 0%, #a789b9 100%); background-image: linear-gradient(180deg, #8f95c2 0%, #a789b9 100%);'">
+			<div class="auth-wrapper">
+				<div class="auth-content__form-wrapper">
+					<form action="#" class="auth-form" th:action="@{/perform_login}" method="post">
+						<div class="auth-form__title auth-form__title_black">Вход</div>
+						<div class="auth-form__element">
+							<label for="username" class="auth-element__label">Логин</label>
+							<input id="username" name="username" class="auth-element__input" placeholder="Введите ваш логин" required>
+						</div>
+						<div class="auth-form__element">
+							<label for="password" class="auth-element__label">Пароль</label>
+							<div class="auth-element__password">
+								<input id="password" name="password" type="password" class="auth-element__input"
+									placeholder="Введите ваш пароль" required>
+								<span class="auth-element__eye-open"></span>
+								<span class="auth-element__eye-closed"></span>
+							</div>
+						</div>
+						<div class="auth-form__element remember">
+							<input type="checkbox" name="remember-me" id="remember" class="platform__checkbox">
+							<label for="remember" class="platform-checkbox__label">
+								<span class="platform__checkbox--fake"></span>
+								<span class="remember__text">Запомнить меня</span>
+							</label>
+						</div>
+						<div class="auth-form__delim"></div>
+						<div class="auth-form__element auth-form__element_submit">
+							<button type="submit" class="auth-element__button auth-element__button_light-black">
+								<span class="auth-element__button-value">Войти</span>
+							</button>
+						</div>
+						<div class="auth-form__error">
+							<div class="auth-form__error-msg" th:if="${param.error}">
+								Неверное имя пользователя или пароль
+							</div>
+						</div>
+						<div class="auth-text mt-3 mt_15">Забыли пароль? Пишите <a target="_blank" rel="noopener noreferrer"
+								href="https://vk.com/app5898182_-185779370#s=425692" class="auth-link">сюда</a></div>
+					</form>
+				</div>
+
+				<div class="auth-text auth-text_white auth-text_big auth-text_absolute">Работает на платформе
+					<a target="_blank" rel="noopener noreferrer" href="https://gurugroup.online/platform/" class="auth-link">
+						Guru Platform α</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script th:inline='javascript'>
+		/*<![CDATA[*/
+			var filter = null;
+			var role = null;
+			var items = null;
+			var today = null;
+			var manager = null;
+			var company = null;
+			var managers = null;
+    /*]]>*/
+	</script>
+</body>
+
+</html>

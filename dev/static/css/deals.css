@@ -1,0 +1,177 @@
+.platform-table__column {
+  font-size: 12px;
+  line-height: 12px;
+}
+
+.platform-table__column.appeal {
+  width: 70px;
+  margin-right: 20px;
+}
+
+.platform-table__column.social {
+  width: 30px;
+  margin-right: 10px;
+}
+
+.platform-table__column.date {
+  width: 50px;
+  margin-right: 20px;
+}
+
+.platform-table__column.date__rating {
+  width: 100px;
+  margin-right: 20px;
+}
+
+.platform-table__column.client-column {
+  width: 180px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  margin-right: 40px;
+}
+
+.platform-table__column.link {
+  min-width: 75px;
+  width: 75px;
+  border-right: 1px solid #E4E5E8;
+  padding-right: 25px;
+  margin-right: 20px;
+}
+
+.platform-table__column.link__icon {
+  position: relative;
+}
+
+.platform-table__column.column-manager {
+  width: 115px;
+  margin-right: 20px;
+}
+
+.platform-table__column.course {
+  width: 105px;
+  margin-right: 20px;
+}
+
+.platform-table__column.type {
+  width: 45px;
+  margin-right: 20px;
+  overflow: hidden;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+}
+
+.platform-table__column.price {
+  width: 135px;
+  margin-right: 20px;
+}
+
+.platform-table__column.stream {
+  width: 50px;
+  margin-right: 25px;
+}
+
+.platform-table__column.tag {
+  width: 75px;
+  margin-right: 20px;
+}
+
+.platform-table__column.coupling {
+  width: 45px;
+  background-size: auto;
+  margin-right: 20px;
+}
+
+.platform-table__column.status {
+  width: 170px;
+  margin-right: 15px;
+}
+
+.platform-table__column.reminder {
+  width: 115px;
+  margin-right: 15px;
+  position: relative;
+  height: 100%;
+  cursor: pointer;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.platform-table__column.reminder .column-reminder {
+  width: 100%;
+}
+
+.platform-table__column.reminder:hover .tooltip {
+  opacity: 1;
+}
+
+.platform-table__column.column-hide {
+  width: 13px;
+}
+
+.platform-table__column.action {
+  min-width: 90px;
+  width: 90px;
+  margin-right: 20px;
+}
+
+.platform-table__column.estimation {
+  min-width: 50px;
+  width: 50px;
+}
+
+.platform-table__column .do-rate {
+  width: 100px;
+}
+
+.platform-form__access-btn.rate-btn {
+  min-width: 100px;
+  width: 100px;
+  height: 40px;
+  border-radius: 5px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border: 1px solid black;
+  color: black;
+  -webkit-transition: all 0.2s linear;
+  -o-transition: all 0.2s linear;
+  transition: all 0.2s linear;
+  background-color: transparent;
+  margin: 0;
+}
+
+.platform-form__access-btn.rate-btn:hover {
+  color: white;
+  background-color: black;
+}
+
+.client-phone {
+  margin: 5px 0 0 0;
+}
+
+.crm {
+  margin-top: 20px;
+  border-top: 1px solid rgba(191, 192, 196, 0.4);
+  padding-top: 20px;
+  margin-bottom: 0;
+}
+
+.price-info.green .column_price,
+.price-info.green .column_paid {
+  color: white;
+}

@@ -1,0 +1,83 @@
+<html lang="ru" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Панель администратора">
+
+    <title>Настройки (проекты) | Панель администратора</title>
+
+    <th:block th:insert="base :: links" />
+</head>
+
+<body class="custom-scroll">
+<div th:replace="base :: main-nav"></div>
+<div th:replace="base :: transition-loader"></div>
+<script th:src="@{/js/transition-loader.js}"></script>
+<script th:inline='javascript'>
+    /*<![CDATA[*/
+    showLoader();
+/*]]>*/
+</script>
+
+<div class="platform__wrapper main-content_white-top-small">
+    <div class="platform__header">
+        <div class="platform__title">Проекты</div>
+    </div>
+    <div class="content-main article-container">
+        <div js-create-project class="add-button add-button_right add-button_black content-top__add-button">Добавить проект</div>
+        <div class="content-main__wrapper">
+            <div class="content-main__panel content-main__panel_align content-main__panel_p">
+                <table class="custom-table projects__table">
+                    <tbody projects-table class="custom-table__body custom-table__body_white">
+                        <tr class="custom-table__header-row">
+                            <td class="custom-table__header-col custom-table__header-col_big">#</td>
+                            <td class="custom-table__header-col custom-table__header-col_big">Название</td>
+                            <td class="custom-table__header-col custom-table__header-col_big"></td>
+                        </tr>
+                    <tr class="custom-table__body-row" th:each="project, stat : ${projects}">
+                        <input type="hidden" p-id th:value="${project.id}" name="id" required>
+                        <input type="hidden" p-id-company th:value="${project.idCompany}" name="idCompany" required>
+                        <td class="custom-table__body-col" th:utext="${project.id}"></td>
+                        <td class="custom-table__body-col custom-table__body-col_xxxlarge" >
+                            <input p-name name="name"
+                                   class="menu-input__input menu-input__input_small editable"
+                                   th:attr="title=${project.name}"
+                                   th:value="${project.name}"
+                                   disabled
+                                   placeholder="—">
+                        </td>
+                        <td class="custom-table__body-col custom-table__body-col_last">
+                            <div edit-btns class="column-links display-flex-none">
+                                <div edit-project-accept class="column_mwidth column_mwidth-accept"></div>
+                                <div edit-project-cancel class="column_mwidth column_mwidth-cancel"></div>
+                            </div>
+                            <div edit-menu class="column-links display-flex-none is-open">
+                                <div edit-project class="column_mwidth div-table__body-col_center column_mwidth-edit column_mwidth-edit-b"></div>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="base :: menu-create-project"></div>
+
+<th:block th:insert="base :: scripts" />
+<script th:src="@{/js/projects.js}"></script>
+<script th:inline='javascript'>
+    /*<![CDATA[*/
+    var filter = [[${ filter }]];
+    var role = [[${ role }]];
+    var items = [[${ deals }]];
+    var today = [[${ today }]];
+    var manager = [[${ manager }]];
+    var company = [[${ company }]];
+    var managers = null;
+    var socials = [[${ socials }]];
+    /*]]>*/
+</script>
+</body>
+</html>

@@ -1,0 +1,397 @@
+<html lang="ru" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Счета">
+
+    <title>Счета</title>
+    <link th:href="@{/css/platform/platform.css}" rel="stylesheet">
+    <link th:href="@{/css/datepicker.css}" rel="stylesheet">
+    <link th:href="@{/css/jquery.fancybox.min.css}" rel="stylesheet">
+</head>
+
+<body class="page custom-scroll">
+    <div th:replace="base :: main-nav"></div>
+    <div th:replace="base :: transition-loader"></div>
+    <div th:replace="base :: bill-copy-tooltip"></div>
+    <script th:src="@{/js/transition-loader.js}"></script>
+<script th:inline='javascript'>
+    /*<![CDATA[*/
+    showLoader();
+/*]]>*/
+</script>
+
+    <div class="platform__wrapper">
+        <div class="platform__header">
+            <h1 class="platform__title">CRM</h1>
+            <div th:replace="base :: head-manager-transactions-nav"></div>
+        </div>
+
+        <div class="platform__content">
+            <div class="platform__nav bills">
+                <div class="platform__nav--left">
+                    <div class="platform__filter--btn no-selector">Фильтр</div>
+                </div>
+            </div>
+
+            <table class="platform-table crm">
+                <tbody class="custom-table__body custom-table__body_white custom-table__body--crm">
+                    <tr class="platform-table__row--header">
+                        <td class="platform-table__column bill-status bill-status--header"></td>
+                        <td class="platform-table__column date">Дата</td>
+                        <td class="platform-table__column column-client">Клиент</td>
+                        <td class="platform-table__column course">Продукт</td>
+                        <td class="platform-table__column link">Ссылка</td>
+                        <td class="platform-table__column bills__payment"></td>
+                        <td class="platform-table__column bills__account--number">Номер счета</td>
+                        <td class="platform-table__column bills__add">Чек</td>
+                        <td class="platform-table__column bills__summ">Сумма</td>
+                        <td class="platform-table__column bills__paymentDay">Дата оплаты</td>
+                        <td class="platform-table__column bills__exposed">Статус</td>
+                        <td class="platform-table__column bills__settings"></td>
+                    </tr>
+                    <tr th:attr="data-bill=${bill.id},data-deal=${bill.idDeal},data-client=${bill.idClient},data-hidden=${bill.isHidden}"
+                        class="platform-table__row" th:each="bill, stat : ${bills.pageItems}">
+                        <td class="platform-table__column bill-status">
+                            <div class="column_bstatus"
+                                th:classappend="${bill.status != 2 ? 'column_bstatus_unchecked' : 'column_bstatus_checked'}">
+                            </div>
+                        </td>
+                        <td class="platform-table__column date" th:utext="${bill.billDate}"></td>
+                        <td class="platform-table__column column-client">
+                            <a js-client-card href="" class="platform-table__row--link" th:title="${bill.client}"
+                                th:text="${bill.client}"></a>
+                        </td>
+                        <td class="platform-table__column course">
+                            <form action="#" js-update-deal-form>
+                                <input name="id" type="hidden" th:value="${bill.idDeal}">
+                                <div js-course-card class="column-course"
+                                    th:attr="title=${bill.course + (!#strings.isEmpty(bill.kind) ? ' (' + bill.kind + ')' : '')}"
+                                    th:utext="${bill.course + (!#strings.isEmpty(bill.kind) ? ' (' + bill.kind + ')' : '')}">
+                                </div>
+                            </form>
+                        </td>
+                        <td class="platform-table__column link link__noborder">
+                            <div th:unless="${#strings.isEmpty(bill.link)}" class="link__wrapper bills">
+                                <a class="platform-table__row--link platform__copy--table"
+                                   th:attr="data-link=${#strings.isEmpty(bill.link)} ? '#' : ${bill.link}"></a>
+                                <a class="platform-table__row--link platform__go"
+                                   th:href="${#strings.isEmpty(bill.link)} ? '#' : ${bill.link}" target="_blank"
+                                   rel="noopener noreferrer"></a>
+                            </div>
+                            <div th:if="${#strings.isEmpty(bill.link)}" class="link__wrapper no-selector">
+                              &mdash;
+                            </div>
+                        </td>
+                        <td class="platform-table__column bills__payment">
+                            <div data-bill-pm class="column_pmethod pmethod-sm">
+                                <div b-pm-wrapper class="pmethod-wrapper disabled">
+                                    <select b-pm-selector disabled class="bills__select--payment bills__payment"
+                                        th:classappend="'pmethod_' + ${bill.paymentMethodCode}">' +
+                                        <option th:value="null"
+                                            th:selected="${bill.paymentMethod == 'null' || #strings.isEmpty(bill.paymentMethod)}"
+                                            class="platform__option" disabled>Выберите способ оплаты
+                                        </option>
+                                        <option th:each="paymentMethod : ${paymentMethods}"
+                                            th:attrappend="data-id=${paymentMethod.id}"
+                                            th:attr="data-code=${paymentMethod.code}" th:value="${paymentMethod.title}"
+                                            th:utext="${paymentMethod.title}"
+                                            th:selected="${paymentMethod.title == bill.paymentMethod}"
+                                            class="platform__option"></option>
+                                    </select>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="platform-table__column bills__account--number">
+                            <input b-account-number name="accountNumber" bills-account-number
+                                class="bills__account--number" th:attr="title=${bill.accountNumber}"
+                                th:value="${bill.accountNumber}" disabled placeholder="—">
+                        </td>
+                        <td class="platform-table__column bills__add" data-bill-comment>
+                            <div js-check-add class="check__wrapper payoff no-selector" th:classappend="${#strings.isEmpty(bill.billImage) ? '' : 'active'}"></div>
+                        </td>
+                        <td data-bill-sum class="platform-table__column bills__summ">
+                            <input b-sum name="sum" class="bills__summ" th:value="${bill.sum}+ ' ₽'" disabled
+                                placeholder="0 ₽">
+                        </td>
+                        <td data-bill-pay-date class="platform-table__column bills__paymentDay">
+                            <input b-pay-date name="payDate" class="datepicker-here-cs bills__paymentDay"
+                                autocomplete="off" th:value="${bill.payDate}" disabled data-autoclose="true"
+                                placeholder="—">
+                        </td>
+                        <td data-bill-status class="bills__exposed">
+                            <span th:class="${#strings.isEmpty(bill.payDate)} ? exposed : set"
+                                th:text="${#strings.isEmpty(bill.payDate)} ? 'Выставлен' : 'Оплачен'"></span>
+                        </td>
+                        <td class="platform-table__column bills__settings">
+                            <th:block th:if="${bill.status == 1 && bill.isEditable}">
+                                <div class="bills__nav bills__nav--edit">
+                                    <div js-edit-bill-accept class="bills-nav__item accept"></div>
+                                    <div js-edit-bill-cancel class="bills-nav__item decline"></div>
+                                </div>
+                                <div js-edit-menu class="bills__nav opened">
+                                    <div js-edit-bill class="bills-nav__item edit"></div>
+                                    <div js-delete-bill type="button" class="bills-nav__item delete"></div>
+                                </div>
+                            </th:block>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="platform__pagination pagination" th:if="${bills.pagesAvailable > 1}" th:with="left=4,right=5">
+                <div class="pagination__wrapper">
+                    <a th:attrappend="href=${bills.pageNumber - 1 > 0} ? 'page?id=' + ${bills.pageNumber - 1} : ''"
+                        th:classappend="${bills.pageNumber - 1} == 0 ? 'pagination__elem--disabled' : ''"
+                        class="pagination__elem pagination__elem--prev"></a>
+                    <th:block th:if="${bills.pagesAvailable <= 10}" th:with="start=1,end=${bills.pagesAvailable}">
+                        <th:block th:each="i : ${#numbers.sequence(start,end)}">
+                            <a th:attrappend="href='page?id=' + ${i}"
+                                th:classappend="${bills.pageNumber == i} ? 'active' : ''" th:utext="${i}"
+                                class="pagination__elem"></a>
+                        </th:block>
+                    </th:block>
+                    <th:block th:unless="${bills.pagesAvailable <= 10}">
+                        <th:block
+                            th:if="${bills.pageNumber > left && bills.pageNumber < (bills.pagesAvailable - right)}"
+                            th:with="start=${bills.pageNumber - left},end=${bills.pageNumber + right}">
+                            <a class="pagination__elem" th:if="${bills.pageNumber > (left + 1)}"
+                                th:attrappend="href='page?id=1'">1</a>
+                            <th:block th:each="i : ${#numbers.sequence(start,end)}">
+                                <a th:attrappend="href='page?id=' + ${i}"
+                                    th:classappend="${bills.pageNumber == i} ? 'active' : ''" th:utext="${i}"
+                                    class="pagination__elem"></a>
+                            </th:block>
+                            <a class="pagination__elem" th:if="${bills.pageNumber <= bills.pagesAvailable - right}"
+                                th:attrappend="href='page?id=' + ${bills.pagesAvailable}"
+                                th:text="${bills.pagesAvailable}"></a>
+                        </th:block>
+                        <th:block th:if="${bills.pageNumber <= left}"
+                            th:with="start=1,end=${bills.pageNumber + (right + 1 + left - bills.pageNumber)}">
+                            <th:block th:each="i : ${#numbers.sequence(start,end)}">
+                                <a th:attrappend="href='page?id=' + ${i}"
+                                    th:classappend="${bills.pageNumber == i} ? 'active' : ''" th:utext="${i}"
+                                    class="pagination__elem"></a>
+                            </th:block>
+                            <a class="pagination__elem" th:if="${bills.pageNumber <= bills.pagesAvailable - right}"
+                                th:attrappend="href='page?id=' + ${bills.pagesAvailable}"
+                                th:text="${bills.pagesAvailable}"></a>
+                        </th:block>
+                        <th:block
+                            th:unless="${(bills.pageNumber > left && bills.pageNumber < (bills.pagesAvailable - right)) || (bills.pageNumber <= left)}"
+                            th:with="start=${bills.pageNumber - (left + right - (bills.pagesAvailable - bills.pageNumber))},end=${bills.pagesAvailable}">
+                            <a class="pagination__elem" th:attrappend="href='page?id=1'">1</a>
+                            <th:block th:each="i : ${#numbers.sequence(start,end)}">
+                                <a th:attrappend="href='page?id=' + ${i}"
+                                    th:classappend="${bills.pageNumber == i} ? 'active' : ''" th:utext="${i}"
+                                    class="pagination__elem"></a>
+                            </th:block>
+                        </th:block>
+                    </th:block>
+                    <a th:attrappend="href=${bills.pageNumber + 1 <= bills.pagesAvailable } ? 'page?id=' + ${bills.pageNumber + 1} : ''"
+                        th:classappend="${bills.pageNumber != bills.pagesAvailable} ? '' : 'pagination__elem--disabled'"
+                        class="pagination__elem pagination__elem--next"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="platform__filter black">
+        <div class="filter__wrapper">
+            <div class="filter__head">
+                <h2 class="filter__title">Фильтровать сделки</h2>
+                <span class="platform__close--btn-modal"></span>
+            </div>
+            <div class="filter__content custom-scroll">
+                <form class="filter__form" action="#" th:action="@{/head-manager-transactions/bills/}" th:method="post">
+                    <ul class="filter__column">
+                        <li class="filter__item width_100">
+                            <h3 class="filter__subtitle">Параметры</h3>
+                        </li>
+                        <li class="filter__item">
+                            <p class="filter__name">Проекты</p>
+                            <div class="platform-select__wrapper filter__select-wrapper">
+                                <select projects class="platform__select filter__select" name="projectId">
+                                    <option class="platform__option filter-select__option" th:value="0" selected>Все
+                                        проекты
+                                    </option>
+                                    <option class="platform__option filter-select__option"
+                                        th:each="project : ${projects}" th:value="${project.id}"
+                                        th:utext="${project.name}"></option>
+                                </select>
+                            </div>
+                        </li>
+                        <li class="filter__item">
+                            <p class="filter__name">Продукты</p>
+                            <div class="platform-select__wrapper filter__select-wrapper">
+                                <select products class="platform__select filter__select" name="product">
+                                    <option class="filter-select__option platform__option" th:value="all" selected>
+                                        Все продукты
+                                    </option>
+                                    <option class="filter-select__option platform__option"
+                                        th:each="product : ${products}" th:value="${product.name}"
+                                        th:utext="${product.name}"></option>
+                                </select>
+                            </div>
+                        </li>
+                        <li class="filter__item">
+                            <p class="filter__name">Тип курса</p>
+                            <div class="platform-select__wrapper filter__select-wrapper">
+                                <select course-types class="platform__select filter__select" name="kind">
+                                    <option class="platform__option filter-select__option" th:value="all" selected>
+                                        Все типы
+                                    </option>
+                                </select>
+                            </div>
+                        </li>
+                        <li class="filter__item">
+                            <p class="filter__name">Статус счета</p>
+                            <div class="platform-select__wrapper filter__select-wrapper">
+                                <select status class="platform__select filter__select" name="status">
+                                    <option class="platform__option filter-select__option" th:value="0" selected>Все
+                                        статусы
+                                    </option>
+                                    <option class="platform__option" th:value="0">Все статусы</option>
+                                    <option class="platform__option" th:value="1">Оплачен</option>
+                                    <option class="platform__option" th:value="2">Выставлен</option>
+                                </select>
+                            </div>
+                        </li>
+                        <li class="filter__item">
+                            <p class="filter__name">Способ оплаты</p>
+                            <div class="platform-select__wrapper filter__select-wrapper">
+                                <select payment-method class="platform__select filter__select" name="paymentMethod">
+                                    <option class="platform__option" th:value="all" selected>Все способы</option>
+                                    <option th:each="paymentMethod : ${paymentMethods}"
+                                        th:value="${paymentMethod.title}" th:utext="${paymentMethod.title}"
+                                        class="platform__option">
+                                    </option>
+                                </select>
+                            </div>
+                        </li>
+                        <li class="filter__item">
+                            <p class="filter__name">Имя клиента</p>
+                            <div class="platform-input__wrapper filter__input-wrapper no-icon">
+                                <input autocomplete="off" type="text" class="filter__input width_100"
+                                    placeholder="Введите имя клиента" name="client">
+                            </div>
+                        </li>
+                        <li class="filter__item">
+                            <p class="filter__name">Номер счета</p>
+                            <div class="platform-input__wrapper filter__input-wrapper no-icon">
+                                <input autocomplete="off" type="text" class="filter__input width_100"
+                                    placeholder="Введите номер счета" name="accountNumber">
+                            </div>
+                        </li>
+                    </ul>
+                    <ul class="filter__column">
+                        <li class="filter__item">
+                            <h3 class="filter__subtitle">Даты</h3>
+                        </li>
+                        <li class="filter__item width_100">
+                            <p class="filter__name">Дата создания счета (от и до)</p>
+                            <div class="platform-input__wrapper filter__input-wrapper width_100">
+                                <input autocomplete="off" type="text" class="datepicker-here-f filter__input"
+                                    placeholder="Выберите дату от" name="dealDateFrom">
+                                <input autocomplete="off" type="text" class="datepicker-here-f filter__input"
+                                    placeholder="Выберите дату до" name="dealDateTo">
+                            </div>
+                        </li>
+                        <li class="filter__item width_100">
+                            <p class="filter__name">Дата оплаты (от и до)</p>
+                            <div class="platform-input__wrapper filter__input-wrapper width_100">
+                                <input autocomplete="off" type="text" class="datepicker-here-f filter__input"
+                                    placeholder="Выберите дату от" name="payDateFrom">
+                                <input autocomplete="off" type="text" class="datepicker-here-f filter__input"
+                                    placeholder="Выберите дату до" name="payDateTo">
+                            </div>
+                        </li>
+                    </ul>
+                    <ul class="filter__column">
+                        <li class="filter__item">
+                            <h3 class="filter__subtitle">Сумма</h3>
+                        </li>
+                        <li class="filter__item width_100">
+                            <p class="filter__name">Сумма (от и до)</p>
+                            <div class="platform-input__wrapper filter__input-wrapper width_100">
+                                <input autocomplete="off" type="text" class="filter__input"
+                                    placeholder="Укажите сумму от" name="paidFrom">
+                                <input autocomplete="off" type="text" class="filter__input"
+                                    placeholder="Укажите сумму до" name="paidTo">
+                            </div>
+                        </li>
+                    </ul>
+                    <ul class="filter__column filter__column--column">
+                        <li class="filter__item width_100">
+                            <h3 class="filter__subtitle">Пустые поля</h3>
+                        </li>
+                        <li class="filter__item width_100">
+                            <input type="checkbox" th:id="e1" class="platform__checkbox" name="empties" th:value="link">
+                            <label class="platform-checkbox__label" th:for="e1">
+                                <span class="platform__checkbox--fake filter__checkbox"></span>
+                                <span class="platform-checkbox__label--value">Ссылка</span>
+                            </label>
+                        </li>
+                        <li class="filter__item width_100">
+                            <input type="checkbox" th:id="e2" class="platform__checkbox" name="empties"
+                                th:value="phone">
+                            <label class="platform-checkbox__label" th:for="e2">
+                                <span class="platform__checkbox--fake filter__checkbox"></span>
+                                <span class="platform-checkbox__label--value">Номер телефона</span>
+                            </label>
+                        </li>
+                        <li class="filter__item width_100">
+                            <input type="checkbox" th:id="e3" class="platform__checkbox" name="empties"
+                                th:value="comment">
+                            <label class="platform-checkbox__label" th:for="e3">
+                                <span class="platform__checkbox--fake filter__checkbox"></span>
+                                <span class="platform-checkbox__label--value">Check / Чек</span>
+                            </label>
+                        </li>
+                        <li class="filter__item width_100">
+                            <input type="checkbox" th:id="e4" class="platform__checkbox" name="empties"
+                                th:value="accountNumber">
+                            <label class="platform-checkbox__label" th:for="e4">
+                                <span class="platform__checkbox--fake filter__checkbox"></span>
+                                <span class="platform-checkbox__label--value">№ счёта</span>
+                            </label>
+                        </li>
+                    </ul>
+                </form>
+            </div>
+            <div class="filter__footer">
+                <div class="filter__apply">Применить фильтры</div>
+                <form th:if="${filter.canClear}" action="#" th:action="@{/head-manager-transactions/bills/clearFilter}"
+                    th:object="${filter}" th:method="post" class="filter__stop">
+                    <button type="submit" class="filter__reset">
+                        <span class="filter__reset--icon"></span>
+                        Сбросить фильтры
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="base :: client-card-menu"></div>
+    <div th:replace="base :: deal-menu"></div>
+    <div th:replace="base :: pay-menu"></div>
+    <div th:replace="base :: add-bill-new"></div>
+
+    <script th:inline='javascript'>
+        /*<![CDATA[*/
+        var filter = [[${ filter }]];
+        var role = [[${ role }]];
+        var items = [[${ bills.pageItems }]];
+        var today = null;
+        var manager = [[${ currentManager }]];
+        var company = [[${ company }]];
+        var managers = null;
+    /*]]>*/
+    </script>
+    <script th:src="@{/js/jquery-3.4.1.min.js}"></script>
+    <script th:src="@{/js/datepicker.min.js}"></script>
+    <script th:src="@{/js/jquery.fancybox.min.js}"></script>
+</body>
+
+</html>

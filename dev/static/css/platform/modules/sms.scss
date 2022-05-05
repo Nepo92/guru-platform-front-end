@@ -1,0 +1,301 @@
+.sms {
+  z-index: 5;
+}
+
+.sms__wrapper {
+  flex-flow: row-reverse;
+  background-color: transparent;
+}
+
+.sms__form {
+  width: 1020px;
+  min-height: 100vh;
+  height: 100vh;
+}
+
+.sms__footer {
+  justify-content: space-between;
+  padding: 0 20px;
+  min-height: 80px;
+  height: 80px;
+}
+
+.sms__cancel {
+  margin: 0;
+  padding: 0 10px;
+  width: max-content;
+}
+
+.sms-search {
+  margin: 20px;
+}
+
+.sms-search__title {
+  font-size: 12px;
+  line-height: 12px;
+}
+
+.sms-search__input {
+  font-size: 12px;
+  line-height: 12px;
+  width: 100%;
+  height: 30px;
+  padding: 15px;
+  margin-top: 15px;
+}
+
+.sms-search.hide {
+  display: none;
+}
+
+.sms-list {
+  height: calc(100vh - 260px);
+  margin: 0;
+}
+
+.sms-list__item {
+  display: flex;
+  position: relative;
+}
+
+.sms-list__item--header {
+  margin: 15px 15px 0;
+}
+
+.sms-list__item.hide {
+  display: none;
+}
+
+.sms-add {
+  padding: 0 10px;
+  height: 40px;
+  font-size: 12px;
+  line-height: 12px;
+  background-color: #161718;
+  border: 1px solid #161718;
+  color: #fff;
+  transition: all 0.2s linear;
+  cursor: pointer;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.sms-add__item {
+  display: flex;
+  flex-direction: column;
+  margin: 20px;
+}
+
+.sms-add__item.hide {
+  display: none;
+}
+
+.sms-add__btn {
+  display: inline-block;
+  padding: 10px 12px;
+  font-size: 12px;
+  line-height: 12px;
+  background-color: #161718;
+  border: 1px solid #161718;
+  color: #fff;
+  transition: all 0.2s linear;
+  cursor: pointer;
+  border-radius: 10px;
+  margin-top: 20px;
+  width: max-content;
+}
+
+.sms-add__btn:hover {
+  background-color: #fff;
+  color: #161718;
+}
+
+.sms-new__message {
+  width: 450px;
+  display: inline-block;
+  height: 40px;
+  margin-top: 20px;
+  padding: 0 10px;
+  font-size: 12px;
+  line-height: 12px;
+}
+
+.sms-new__date {
+  width: 150px;
+  height: 40px;
+  padding: 0 10px;
+  font-size: 12px;
+  line-height: 12px;
+}
+
+.sms-new__used {
+  display: flex;
+  margin-top: 20px;
+}
+
+.sms-new__used--item {
+  display: flex;
+}
+
+.sms-used__checkbox {
+  margin-right: 10px;
+}
+
+.sms-label__message {
+  margin-left: 50px;
+  display: flex;
+}
+
+.sms-item__label {
+  margin: 15px;
+  width: calc(100% - 90px);
+  justify-content: space-between;
+}
+
+.sms-item__date--header {
+  margin-left: 70px;
+}
+
+.sms-item__message {
+  margin-left: 20px;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 740px;
+  display: inline-block;
+  text-overflow: ellipsis;
+}
+
+.sms-item__message--header {
+  margin-left: 40px;
+}
+
+.sms-info {
+  display: flex;
+  align-items: center;
+}
+
+.sms-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 40px;
+}
+
+.sms-nav__edit {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  position: relative;
+  cursor: pointer;
+}
+
+.sms-nav__edit::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  mask-image: url("../../img/edit.svg");
+  background-color: #b4b3bb;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: 100% 100%;
+  pointer-events: none;
+}
+
+.sms-nav__delete {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  position: relative;
+  cursor: pointer;
+}
+
+.sms-nav__delete::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  background-color: #f00;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: 100% 100%;
+  pointer-events: none;
+}
+
+.sms-choose {
+  width: max-content;
+  padding: 0 10px;
+  margin: 0;
+}
+
+.sms-add__input-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.error-date {
+  color: #f00;
+  margin-top: 20px;
+  font-size: 12px;
+  line-height: 12px;
+}
+
+.sms-create__label {
+  font-size: 12px;
+  line-height: 12px;
+}
+
+.sms-add__cancel {
+  padding: 0 10px;
+  height: 40px;
+  font-size: 12px;
+  line-height: 12px;
+  background-color: white;
+  border: 1px solid #161718;
+  color: #161718;
+  cursor: pointer;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  transition: all 0.2s linear;
+}
+
+.sms-add__cancel:hover {
+  background-color: #161718;
+  color: #fff;
+}
+
+.sms-save {
+  padding: 0 10px;
+  height: 40px;
+  font-size: 12px;
+  line-height: 12px;
+  background-color: #161718;
+  border: 1px solid #161718;
+  color: #fff;
+  transition: all 0.2s linear;
+  cursor: pointer;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.sms-save:hover {
+  background-color: #fff;
+  color: #161718;
+}
+
+.error {
+  font-size: 12px;
+  line-height: 12px;
+
+  // color: #ff0000;
+  margin-top: 15px;
+}

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Поздравляем! Оплата завершена</title>
+  <link rel="stylesheet" th:href="@{/css/payment-report.css}">
+</head>
+
+<body class="report">
+  <div class="report__wrapper">
+    <div class="report__info">
+      <div class="report__logo success"></div>
+      <h1 class="report__title">Оплата прошла успешно</h1>
+      <p class="report__description">Теперь вы можете воспользоваться курсом который приобрели в вашем личном кабинете
+      </p>
+      <div class="report__nav">
+        <a href="/" class="report__login">Перейти к списку курсов</a>
+        <a href="" class="report__back">Вернуться в магазин</a>
+      </div>
+    </div>
+    <p class="report__work-link">
+      Работает на платформе <a href="https://gurugroup.online/platform/" class="report__link">guruplatform.ru</a>
+    </p>
+  </div>
+  <script th:inline='javascript'>
+    /*<![CDATA[*/
+    var filter = null;
+    var role = null;
+    var items = null;
+    var today = null;
+    var manager = null;
+    var company = [[${ company }]];
+    var managers = null;
+  /*]]>*/
+  </script>
+  <th:block th:insert="base :: scripts" />
+</body>
+
+</html>

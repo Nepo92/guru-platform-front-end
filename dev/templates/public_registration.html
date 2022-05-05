@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title th:text="'GURU - Регистрация на курс:' + ' ' + ${form.course.name}"></title>
+</head>
+
+<body class="custom-scroll"
+    th:style=" (${companyBackground} != null) ? 'background-image:url(/' + ${companyBackground} + '); background-size: cover;' : ''"
+    th:classappend="${companyBackground == null ? 'auth-background' : ''}">
+    <div th:replace="base :: transition-loader"></div>
+
+    <script th:inline='javascript'>
+        /*<![CDATA[*/
+        var filter = null;
+        var role = null;
+        var items = null;
+        var today = null;
+        var manager = null;
+        var company = null;
+        var managers = null;
+        var form = [[${ form }]];
+        var docs = [[${ docs }]];
+    /*]]>*/
+    </script>
+    <th:block th:insert="base :: scripts" />
+</body>
+
+</html>

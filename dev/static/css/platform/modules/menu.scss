@@ -1,0 +1,513 @@
+.platform-menu {
+  display: flex;
+  flex-direction: column;
+  width: 70px;
+  height: 100%;
+  background-color: white;
+  transition: width 0.3s linear;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  box-shadow: 5px 0 25px rgb(7 2 14 / 5%);
+}
+
+.platform-menu:hover {
+  width: 300px;
+}
+
+.platform-menu__selector {
+  opacity: 0;
+  display: flex;
+  background-color: rgb(191 192 196 / 30%);
+  min-height: 1px;
+  height: 1px;
+  width: 100%;
+  transition: opacity 0.5s ease-out;
+  pointer-events: none;
+}
+
+.platform-menu__item.funnel::after {
+  mask-image: url("../../img/nav-finance.svg");
+  mask-size: 22px 22px;
+}
+
+.platform-menu__item.team::after {
+  mask-image: url("../../img/nav-team.svg");
+  mask-size: 24px 22px;
+}
+
+.platform-menu__item.lk::after {
+  mask-image: url("../../img/nav-lk.svg");
+  mask-size: 24px 22px;
+}
+
+.platform-menu__item.products-menu::after {
+  mask-image: url("../../img/nav-products.svg");
+  mask-size: 22px 22px;
+}
+
+.platform-menu__item.settings::after {
+  mask-image: url("../../img/nav-settings.svg");
+  mask-size: 22px 22px;
+}
+
+.platform-menu:hover .platform-menu__selector {
+  opacity: 1;
+}
+
+.platform-logout__selector {
+  display: flex;
+  width: 18px;
+  height: 1px;
+  background: #bfc0c44d;
+  margin: 10px auto 0;
+  transition: width 0.3s linear;
+}
+
+.platform-menu:hover .platform-logout__selector {
+  width: 100%;
+}
+
+.platform-menu__logo {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.platform-menu__list {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  margin: 40px 0 0;
+}
+
+.platform-menu__item {
+  color: #bfc0c4;
+  white-space: nowrap;
+  cursor: default;
+  font-size: 14px;
+  line-height: 14px;
+}
+
+.platform-menu__link.marketing {
+  color: #bfc0c4;
+}
+
+.active.platform-menu__link.marketing {
+  color: black;
+}
+
+.platform-menu__item:hover {
+  color: black;
+}
+
+.platform-menu__item:hover .platform-menu__link::after {
+  background-color: black;
+}
+
+.platform-submenu {
+  position: absolute;
+  top: -111px;
+  left: 100%;
+  right: -100%;
+  width: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: black;
+  color: white;
+  overflow: hidden;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.platform-menu__item:hover .platform-submenu {
+  width: 240px;
+  overflow: hidden;
+}
+
+.platform-menu__item.office::after,
+.platform-menu__item.team::after,
+.platform-menu__item.products-menu::after,
+.platform-menu__item.lk::after,
+.platform-menu__item.settings::after {
+  content: "";
+  display: inline-block;
+  min-width: 70px;
+  width: 70px;
+  min-height: 50px;
+  height: 50px;
+  mask-image: url("../../img/nav-office.svg");
+  background-color: #bfc0c4;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: 22px 14px;
+  position: relative;
+  transition: all 0.2s linear;
+}
+
+.platform-menu__item.finance::after {
+  mask-image: url("../../img/nav-ruble.svg");
+  content: "";
+  display: inline-block;
+  min-width: 70px;
+  min-height: 50px;
+  background-color: #bfc0c4;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: 22px 22px;
+  position: relative;
+  transition: all 0.2s linear;
+}
+
+.platform-menu__item:hover.finance::after,
+.platform-menu__item:hover.team::after,
+.platform-menu__item:hover.lk::after,
+.platform-menu__item:hover.products-menu::after,
+.platform-menu__item:hover.settings::after,
+.platform-menu__item:hover.office::after {
+  background-color: black;
+}
+
+.platform-menu__item.active {
+  color: black;
+}
+
+.platform-menu__item.active .dashboard::after,
+.platform-menu__item.active .analytics::after,
+.platform-menu__item.active .transactions::after,
+.platform-menu__item.active .lk::after,
+.platform-menu__item.active .marketing::after,
+.platform-menu__item.active .office::after,
+.platform-menu__item.active .finance::after,
+.platform-menu__item.active .team::after,
+.platform-menu__item.active .control::after,
+.platform-menu__item.active .products-menu::after,
+.platform-menu__item.active .settings::after {
+  background-color: black;
+}
+
+.platform-menu__item.active.dashboard::after,
+.platform-menu__item.active.analytics::after,
+.platform-menu__item.active.transactions::after,
+.platform-menu__item.active.lk::after,
+.platform-menu__item.active.marketing::after,
+.platform-menu__item.active.office::after,
+.platform-menu__item.active.finance::after,
+.platform-menu__item.active.team::after,
+.platform-menu__item.active.control::after,
+.platform-menu__item.active.products-menu::after,
+.platform-menu__item.active.settings::after {
+  background-color: black;
+}
+
+.platform-menu__link,
+.platform-menu_link {
+  display: flex;
+  transition: all 0.2s linear;
+  flex-flow: row-reverse;
+  align-items: center;
+  justify-content: flex-end;
+  color: inherit;
+  font-size: 14px;
+  line-height: 14px;
+}
+
+.platform-menu__link:hover {
+  color: inherit;
+}
+
+.platform-menu__link.dashboard::after,
+.platform-menu__link.analytics::after,
+.platform-menu__link.transactions::after,
+.platform-menu__link.marketing::after,
+.platform-menu__link.control::after,
+.platform-menu__link.faq::after,
+.platform-menu__link.erp::after,
+.platform-menu_link.marketing::after,
+.platform-menu__link.funnels::after {
+  content: "";
+  display: inline-block;
+  min-width: 70px;
+  width: 70px;
+  min-height: 50px;
+  height: 50px;
+  mask-image: url("../../img/nav-dashboard.svg");
+  background-color: #bfc0c4;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: 22px 22px;
+  position: relative;
+  transition: all 0.2s linear;
+}
+
+.platform-menu__link.analytics::after {
+  mask-image: url("../../img/nav-analytics.svg");
+  mask-size: 23px 22px;
+}
+
+.platform-menu__link.funnels::after {
+  mask-image: url("../../img/nav-funnel.svg");
+  mask-size: 23px 22px;
+}
+
+.platform-menu__link.transactions::after {
+  mask-image: url("../../img/nav-crm.svg");
+  mask-size: 17px 22px;
+}
+
+.platform-menu__link.marketing::after {
+  mask-image: url("../../img/nav-marketing.svg");
+  mask-size: 22px 22px;
+}
+
+.platform-menu__link.control::after {
+  mask-image: url("../../img/nav-control.svg");
+  mask-size: 23px 22px;
+}
+
+.platform-menu_link {
+  color: #bfc0c4;
+}
+
+.platform-menu_link.active {
+  color: black;
+}
+
+.platform-menu__logout {
+  margin-top: auto;
+}
+
+.company__logo {
+  min-width: 70px;
+  max-width: 70px;
+  width: 70px;
+  max-height: 70px;
+  height: 70px;
+  min-height: 70px;
+  display: inline-block;
+}
+
+.company__caption {
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+}
+
+.company-caption__title {
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 18px;
+  letter-spacing: 0;
+  text-align: left;
+  color: #161718;
+}
+
+.company-caption__subtitle {
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 16px;
+  letter-spacing: 0;
+  text-align: left;
+  color: #7d7c85;
+  margin-top: 5px;
+}
+
+.platform-submenu__item {
+  width: 100%;
+  height: auto;
+}
+
+.platform-submenu__item:hover {
+  color: white;
+  background-color: #282828 !important;
+}
+
+.platform-submenu__item.active {
+  color: white;
+  background-color: #282828 !important;
+}
+
+.platform-submenu__link {
+  display: flex;
+  padding: 20px;
+  color: white;
+  font-size: 14px;
+  line-height: 14px;
+}
+
+.platform-submenu__link:hover {
+  color: inherit;
+}
+
+.submenu {
+  display: flex;
+  flex-flow: row-reverse;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.platform-logout__info {
+  display: flex;
+  align-items: center;
+}
+
+.platform-logout__desc {
+  padding-bottom: 0;
+  margin-top: 0;
+  white-space: nowrap;
+  margin-left: 15px;
+}
+
+.platform-logout__name {
+  font-size: 14px;
+  line-height: 14px;
+}
+
+.platform-logout__rating {
+  font-size: 12px;
+  line-height: 12px;
+}
+
+.platform-logout__item {
+  display: flex;
+  flex-flow: row-reverse;
+  align-items: center;
+  justify-content: flex-end;
+  color: #bfc0c4;
+  transition: all 0.2s linear;
+}
+
+.platform-logout__item:hover {
+  color: black;
+}
+
+.platform-logout__item.exit::after {
+  content: "";
+  display: inline-block;
+  min-width: 70px;
+  width: 70px;
+  min-height: 82px;
+  height: 82px;
+  mask-image: url("../../img/nav-exit.svg");
+  background-color: #bfc0c4;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: 22px 22px;
+  position: relative;
+  transition: all 0.2s linear;
+}
+
+.platform-logout__item:hover.exit::after {
+  background-color: black;
+}
+
+.platform-logout__image {
+  min-width: 42px;
+  width: 42px;
+  min-height: 42px;
+  height: 42px;
+  overflow: hidden;
+  border-radius: 100%;
+  margin-left: 14px;
+}
+
+.platform-logout__image img {
+  width: 0;
+  height: 0;
+  margin-left: 0;
+}
+
+@media (min-width: 1260px) {
+  .platform__nav {
+    width: 100%;
+    padding: 0;
+    height: auto;
+  }
+
+  .platform-form__header--update,
+  .platform-form__header--bills {
+    height: 70px;
+    padding: 0 25px;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+  }
+
+  .platform-form__title--value {
+    display: inline-block;
+    width: calc(100% - 23px);
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .platform-form__create-info {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+    border-top: 1px solid #f1f1f3;
+    padding-top: 20px;
+    width: 100%;
+  }
+
+  .platform-form__item {
+    margin: 20px 25px 0;
+    font-size: 12px;
+    line-height: 12px;
+    position: relative;
+    transition: all 0.2s linear;
+    border: 1px solid transparent;
+  }
+
+  .platform-form__item.client {
+    background-color: #e5e5e5;
+  }
+
+  .platform-form__item.client:hover {
+    border: 1px solid black;
+  }
+
+  .platform-form__item.loader {
+    font-style: italic;
+    font-size: 12px;
+    line-height: 12px;
+    background-color: transparent;
+  }
+
+  .platform-form__item.loader:hover {
+    border: 1px solid transparent;
+  }
+
+  .platform-form__item--price {
+    display: flex;
+    background-color: rgb(244 244 246 / 70%);
+    border-radius: 5px;
+    padding: 15px 20px;
+    justify-content: space-between;
+    align-items: center;
+    width: calc(100% - 50px);
+  }
+
+  .platform-form__item--price::after {
+    content: "₽";
+    display: inline-block;
+    width: 7px;
+    height: 18px;
+    position: absolute;
+    color: inherit;
+    top: 35px;
+    right: 35px;
+    pointer-events: none;
+  }
+
+  .platform-form__item--price.disabled::after {
+    color: #c3c2c9;
+  }
+}

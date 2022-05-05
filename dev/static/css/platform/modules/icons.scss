@@ -1,0 +1,77 @@
+.platform-form__calendar {
+  display: inline-block;
+  width: 17px;
+  height: 18px;
+  mask-image: url("../../img/calendar.svg");
+  background-color: #797880;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: 100% 100%;
+  pointer-events: none;
+  position: absolute;
+  top: 11px;
+  right: 35px;
+}
+
+.platform__copy {
+  display: inline-block;
+  position: absolute;
+  top: 36px;
+  right: 43px;
+  width: 15px;
+  height: 15px;
+}
+
+.platform__copy::after {
+  content: "";
+  mask-image: url("../../img/copy.svg");
+  background-color: #7c7b85;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: 100% 100%;
+  transition: all 0.2s linear;
+  cursor: pointer;
+}
+
+.platform__copy:hover::after {
+  background-color: black;
+}
+
+.platform__copy.tel {
+  right: 12px;
+}
+
+.platform__copy.email {
+  right: 12px;
+}
+
+.platform__go {
+  display: inline-block;
+  position: absolute;
+  top: 36px;
+  right: 12px;
+  width: 15px;
+  height: 15px;
+}
+
+.platform__go::after {
+  mask-image: url("../../img/foreign.svg");
+  background-color: #7c7b85;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: 100% 100%;
+  transition: all 0.2s linear;
+  cursor: pointer;
+  content: "";
+  width: 15px;
+  height: 15px;
+  display: inline-block;
+}
+
+.platform__go:hover::after {
+  background-color: black;
+}
+
+.link__wrapper .platform__copy--table:hover::after {
+  background-color: #161718;
+}

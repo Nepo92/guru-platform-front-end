@@ -1,0 +1,251 @@
+<html lang="ru" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Оценка работы">
+
+    <title>Оценка работы</title>
+
+    <th:block th:insert="base :: links"/>
+    <link th:href="@{/css/platform/platform.css}" rel="stylesheet">
+    <link th:href="@{/css/side-content.css}" rel="stylesheet">
+    <link th:href="@{/css/jquery.fancybox.min.css}" rel="stylesheet">
+</head>
+
+<body class="page custom-scroll">
+<div th:replace="base :: main-nav"></div>
+<div th:replace="base :: transition-loader"></div>
+<div th:replace="base :: bill-copy-tooltip"></div>
+<script th:src="@{/js/transition-loader.js}"></script>
+<script th:inline='javascript'>
+    /*<![CDATA[*/
+    showLoader();
+/*]]>*/
+</script>
+
+<div class="platform__wrapper">
+    <div class="platform__header">
+        <h1 class="platform__title">Контроль</h1>
+        <th:block th:if="${role == 'ROLE_ADMIN'}">
+            <div th:replace="base :: performance-assessment-tab"></div>
+        </th:block>
+        <th:block th:if="${role == 'ROLE_MANAGER' || role == 'ROLE_HEAD_MANAGER'}">
+            <div th:replace="base :: m-performance-assessment-tab"></div>
+        </th:block>
+    </div>
+
+    <div class="platform__content overflowed custom-scroll">
+        <div class="platform__nav">
+            <div class="platform__nav--left">
+                <div class="platform__filter--btn">Фильтр</div>
+                <form th:action="@{/performance-assessment/}" class="platform__search" th:object="${filter}"
+                      th:method="post">
+                    <input id="searchClient" class="platform__input--search" type="text"
+                           placeholder="Введите ФИО клиента" th:field="*{searchRow}">
+                    <label search-client-btn for="searchClient" class="platform__search--start"
+                           th:classappend="${#strings.isEmpty(filter.searchRow) == true}? '' : 'active'"></label>
+                </form>
+            </div>
+            <div class="platform__nav--right">
+                <span deals-counter
+                      th:utext="${'оценок: ' + ratesCount.count + ' / со средним рейтингом: ' + (ratesCount.count != 0 ? middleRate : '0')}"></span>
+            </div>
+        </div>
+
+        <table class="platform-table performance-assessment">
+            <tbody class="custom-table__body custom-table__body_white custom-table__body--crm">
+            <tr class="platform-table__row--header">
+                <td class="platform-table__column date-rates">Дата изменения</td>
+                <td class="platform-table__column client-column">Клиент</td>
+                <td class="platform-table__column what-appreciated">Что оценили</td>
+                <td class="platform-table__column list">Список</td>
+                <td class="platform-table__column general">Общая</td>
+                <td class="platform-table__column rate-point-pa">Оценки по пунктам</td>
+                <td class="platform-table__column detail"></td>
+            </tr>
+
+            <tr class="platform-table__row" th:each="rate : ${rates.pageItems}" th:attr="data-rate=${rate.id},data-client=${rate.idClient}">
+                <td class="platform-table__column date-rates" th:utext="${rate.createDate}"></td>
+                <td class="platform-table__column column-client">
+                    <a js-client-card href="" class="platform-table__row--link" th:title="${rate.clientName}"
+                       th:text="${rate.clientName}"></a>
+                    <span js-copy-link th:attr="data-link=${rate.clientPhone}" class="client-phone"
+                          th:text="${#strings.isEmpty(rate.clientPhone)} ? '&mdash;' : ${rate.clientPhone}"></span>
+                </td>
+                <td class="platform-table__column what-appreciated" th:utext="${'Сделка № ' + rate.idDeal}"></td>
+                <td class="platform-table__column list" th:utext="${rate.performanceAssessmentTemplateName}"></td>
+                <td class="platform-table__column general">
+                    <div class="score item-score"
+                         th:classappend="${rate.totalScore > 0} ? 'score_green' : (${rate.totalScore == 0} ? 'score_gray' : 'score_red')"
+                         th:utext="${rate.totalScore > 0} ? ('+' + ${rate.totalScore}) : ${rate.totalScore}"></div>
+                </td>
+                <td class="platform-table__column rate-point-pa">
+                    <th:block th:each="item : ${rate.items}">
+                        <div class="tooltip">
+                            <div class="tooltip__wrapper">
+                                <p th:utext="${item.itemName}"></p>
+                            </div>
+                            <span th:utext="${item.score}"></span>
+                        </div>
+                        <span class="rate-box" th:classappend="${item.score > 0} ? 'green' : 'red'" th:utext="${item.score}"></span>
+                    </th:block>
+                </td>
+                <td class="platform-table__column detail">
+                    <div open-rate class="platform-table__detail-button">Подробнее</div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="platform__pagination pagination" th:if="${rates.pagesAvailable > 1}"
+             th:with="left=4,right=5">
+            <div class="pagination__wrapper">
+                <a th:attrappend="href=${rates.pageNumber - 1 > 0} ? 'page?id=' + ${rates.pageNumber - 1} : ''"
+                   th:classappend="${rates.pageNumber - 1} == 0 ? 'pagination__elem--disabled' : ''"
+                   class="pagination__elem pagination__elem--prev"></a>
+                <th:block th:if="${rates.pagesAvailable <= 10}"
+                          th:with="start=1,end=${rates.pagesAvailable}">
+                    <th:block th:each="i : ${#numbers.sequence(start,end)}">
+                        <a th:attrappend="href='page?id=' + ${i}"
+                           th:classappend="${rates.pageNumber == i} ? 'active' : ''" th:utext="${i}"
+                           class="pagination__elem"></a>
+                    </th:block>
+                </th:block>
+                <th:block th:unless="${rates.pagesAvailable <= 10}">
+                    <th:block
+                            th:if="${rates.pageNumber > left && rates.pageNumber < (rates.pagesAvailable - right)}"
+                            th:with="start=${rates.pageNumber - left},end=${rates.pageNumber + right}">
+                        <a class="pagination__elem" th:if="${rates.pageNumber > (left + 1)}"
+                           th:attrappend="href='page?id=1'">1</a>
+                        <th:block th:each="i : ${#numbers.sequence(start,end)}">
+                            <a th:attrappend="href='page?id=' + ${i}"
+                               th:classappend="${rates.pageNumber == i} ? 'active' : ''" th:utext="${i}"
+                               class="pagination__elem"></a>
+                        </th:block>
+                        <a class="pagination__elem"
+                           th:if="${rates.pageNumber <= rates.pagesAvailable - right}"
+                           th:attrappend="href='page?id=' + ${rates.pagesAvailable}"
+                           th:text="${rates.pagesAvailable}"></a>
+                    </th:block>
+                    <th:block th:if="${rates.pageNumber <= left}"
+                              th:with="start=1,end=${rates.pageNumber + (right + 1 + left - rates.pageNumber)}">
+                        <th:block th:each="i : ${#numbers.sequence(start,end)}">
+                            <a th:attrappend="href='page?id=' + ${i}"
+                               th:classappend="${rates.pageNumber == i} ? 'active' : ''" th:utext="${i}"
+                               class="pagination__elem"></a>
+                        </th:block>
+                        <a class="pagination__elem"
+                           th:if="${rates.pageNumber <= rates.pagesAvailable - right}"
+                           th:attrappend="href='page?id=' + ${rates.pagesAvailable}"
+                           th:text="${rates.pagesAvailable}"></a>
+                    </th:block>
+                    <th:block
+                            th:unless="${(rates.pageNumber > left && rates.pageNumber < (rates.pagesAvailable - right)) || (rates.pageNumber <= left)}"
+                            th:with="start=${rates.pageNumber - (left + right - (rates.pagesAvailable - rates.pageNumber))},end=${rates.pagesAvailable}">
+                        <a class="pagination__elem" th:attrappend="href='page?id=1'">1</a>
+                        <th:block th:each="i : ${#numbers.sequence(start,end)}">
+                            <a th:attrappend="href='page?id=' + ${i}"
+                               th:classappend="${rates.pageNumber == i} ? 'active' : ''" th:utext="${i}"
+                               class="pagination__elem"></a>
+                        </th:block>
+                    </th:block>
+                </th:block>
+                <a th:attrappend="href=${rates.pageNumber + 1 <= rates.pagesAvailable } ? 'page?id=' + ${rates.pageNumber + 1} : ''"
+                   th:classappend="${rates.pageNumber != rates.pagesAvailable} ? '' : 'pagination__elem--disabled'"
+                   class="pagination__elem pagination__elem--next"></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="platform__filter">
+    <div class="filter__wrapper">
+        <div class="filter__head">
+            <h2 class="filter__title">Фильтровать сделки</h2>
+            <span class="platform__close--btn-modal"></span>
+        </div>
+        <div class="filter__content custom-scroll">
+            <h3 class="filter__subtitle">Параметры</h3>
+            <form class="filter__form" action="#" th:action="@{/performance-assessment/}" th:method="post">
+                <ul class="filter__column">
+                    <li class="filter__item">
+                        <p class="filter__name">Оценка</p>
+                        <div class="platform-select__wrapper filter__select-wrapper">
+                            <select class="platform__select filter__select" name="rateParam">
+                                <option selected value="0">Все</option>
+                                <option value="1">Положительная</option>
+                                <option value="2">Нейтральная</option>
+                            </select>
+                        </div>
+                    </li>
+                    <li class="filter__item">
+                        <p class="filter__name">Список</p>
+                        <div class="platform-select__wrapper filter__select-wrapper">
+                            <select tr-hidden class="platform__select filter__select" name="idTemplate">
+                                <option selected value="0">Все</option>
+                                <option th:each="template : ${templateList}"
+                                        th:value="${template.id}"
+                                        th:utext="${template.name}"></option>
+                            </select>
+                        </div>
+                    </li>
+                </ul>
+                <ul class="filter__column">
+                    <li class="filter__item width_100">
+                        <p class="filter__name">Дата создания (от и до)</p>
+                        <div class="platform-input__wrapper filter__input-wrapper width_100">
+                            <input type="text" class="datepicker-here-f filter__input"
+                                   autocomplete="off" placeholder="Выберите дату от"
+                                   name="createDateFrom">
+                            <input type="text" class="datepicker-here-f filter__input"
+                                   autocomplete="off" placeholder="Выберите дату до"
+                                   name="createDateTo">
+                        </div>
+                    </li>
+                </ul>
+            </form>
+        </div>
+        <div class="filter__footer">
+            <div class="filter__apply">Применить фильтры</div>
+
+            <form th:if="${filter.canClear}" action="#" th:action="@{/performance-assessment/clearFilter}" th:object="${filter}" th:method="post"
+                  class="filter__stop">
+                <button type="submit" class="filter__reset">
+                    <span class="filter__reset--icon"></span>
+                    Сбросить фильтры
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div th:replace="base :: client-card-menu"></div>
+<div th:replace="base :: deal-menu"></div>
+<th:block th:unless="${role == 'ROLE_ADMIN'}">
+    <div th:replace="base :: open-comment-menu"></div>
+    <div th:replace="base :: menu-rate"></div>
+</th:block>
+
+<div th:replace="base :: pay-menu"></div>
+<div th:replace="base :: menu-search"></div>
+<div th:replace="base :: add-bill-new"></div>
+
+<th:block th:insert="base :: scripts"/>
+<script th:inline='javascript'>
+    /*<![CDATA[*/
+    var filter = [[${filter}]];
+    var role = [[${role}]];
+    var items = [[${rates.pageItems}]];
+    var today = null;
+    var manager = null;
+    var funnels = null;
+    var company = [[${company}]];
+    var managers = null;
+    /*]]>*/
+</script>
+<script th:src="@{/js/main.js}"></script>
+<script th:src="@{/js/performance-assessment.js}"></script>
+<script th:src="@{/js/upload-files.js}"></script>
+<script th:src="@{/js/copy.js}"></script>
+</body>
+</html>

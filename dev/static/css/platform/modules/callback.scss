@@ -1,0 +1,15 @@
+.platform-callback {
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(180deg, #8f95c2 0%, #a789b9 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.platform-callback h1 {
+  margin-top: 60px;
+  color: white;
+  font-size: 18px;
+  line-height: 18px;
+}
