@@ -160,6 +160,7 @@
   height: 40px;
   margin-top: 20px;
 }
+
 .access-item__btn:hover {
   background-color: transparent;
   color: black;
@@ -203,6 +204,7 @@
   height: 100%;
   position: absolute;
 }
+
 .platform-access__copy:hover::after {
   background-color: black;
 }

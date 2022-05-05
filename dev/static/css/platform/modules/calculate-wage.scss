@@ -48,8 +48,8 @@ ul {
   height: 240px;
   padding: 25px 0 0;
   margin-right: 20px;
-  margin-top: 0px;
-  box-shadow: 0px 10px 20px rgba(8, 15, 32, 0.04);
+  margin-top: 0;
+  box-shadow: 0 10px 20px rgb(8 15 32 / 4%);
   border-radius: 10px;
   cursor: pointer;
 }
@@ -79,12 +79,12 @@ ul {
 }
 
 .calculate__name {
-  font-family: Inter;
+  font-family: Inter, sans-serif;
   font-size: 16px;
   font-style: normal;
   font-weight: 500;
   line-height: 22px;
-  letter-spacing: 0em;
+  letter-spacing: 0;
   text-align: left;
   color: black;
   margin-left: 25px;
@@ -93,12 +93,12 @@ ul {
 }
 
 .calculate__position {
-  font-family: Inter;
+  font-family: Inter, sans-serif;
   font-size: 12px;
   font-style: normal;
   font-weight: 400;
   line-height: 18px;
-  letter-spacing: 0em;
+  letter-spacing: 0;
   text-align: left;
   color: #16171880;
   margin-left: 25px;
@@ -110,7 +110,7 @@ ul {
   display: flex;
   margin-top: auto;
   height: 70px;
-  border-top: 1px solid #F1F1F4;
+  border-top: 1px solid #f1f1f4;
   justify-content: space-between;
   align-items: center;
   padding-left: 25px;
@@ -118,23 +118,23 @@ ul {
 }
 
 .calculate__salary--text {
-  font-family: Inter;
+  font-family: Inter, sans-serif;
   font-size: 12px;
   font-style: normal;
   font-weight: 400;
   line-height: 18px;
-  letter-spacing: 0em;
+  letter-spacing: 0;
   text-align: left;
   color: #16171880;
 }
 
 .calculate__salary--value {
-  font-family: Inter;
+  font-family: Inter, sans-serif;
   font-size: 18px;
   font-style: normal;
   font-weight: 600;
   line-height: 22px;
-  letter-spacing: 0em;
+  letter-spacing: 0;
   text-align: right;
   color: black;
 }
@@ -147,12 +147,12 @@ ul {
 .salary-bonus__item {
   display: flex;
   justify-content: space-between;
-  font-family: Inter;
+  font-family: Inter, sans-serif;
   font-size: 14px;
   font-style: normal;
   font-weight: 500;
   line-height: 22px;
-  letter-spacing: 0em;
+  letter-spacing: 0;
   text-align: left;
   margin-top: 10px;
 }
@@ -164,12 +164,12 @@ ul {
 .salary-fixed__item {
   display: flex;
   justify-content: space-between;
-  font-family: Inter;
+  font-family: Inter, sans-serif;
   font-size: 14px;
   font-style: normal;
   font-weight: 500;
   line-height: 22px;
-  letter-spacing: 0em;
+  letter-spacing: 0;
   text-align: left;
   margin-top: 10px;
 }
@@ -183,56 +183,56 @@ ul {
   justify-content: space-between;
   margin-top: 25px;
   padding-top: 20px;
-  border-top: 1px solid #F1F1F3;
+  border-top: 1px solid #f1f1f3;
 }
 
 .salary-fixed__item--head-text {
-  font-family: Inter;
+  font-family: Inter, sans-serif;
   font-size: 12px;
   font-style: normal;
   font-weight: 400;
   line-height: 18px;
-  letter-spacing: 0em;
+  letter-spacing: 0;
   text-align: left;
 }
 
 .salary-increase__item {
   display: flex;
   justify-content: space-between;
-  font-family: Inter;
+  font-family: Inter, sans-serif;
   font-size: 14px;
   font-style: normal;
   font-weight: 500;
   line-height: 22px;
-  letter-spacing: 0em;
+  letter-spacing: 0;
   text-align: left;
   margin-top: 30px;
 }
 
 .salary-increase__item:first-child {
-  margin-top: 0px;
+  margin-top: 0;
 }
 
 .salary-employee--total {
   display: flex;
   justify-content: space-between;
-  font-family: Inter;
+  font-family: Inter, sans-serif;
   font-size: 14px;
   font-style: normal;
   font-weight: 500;
   line-height: 22px;
-  letter-spacing: 0em;
+  letter-spacing: 0;
   text-align: left;
   margin-top: 30px;
-  border-top: 1px dashed #F1F1F3;
+  border-top: 1px dashed #f1f1f3;
   padding-top: 30px;
-  border-bottom: 1px solid #F1F1F3;
+  border-bottom: 1px solid #f1f1f3;
   padding-bottom: 30px;
 }
 
 .salary-employee__bonus {
   margin-top: 30px;
-  border-top: 1px solid #F1F1F3;
+  border-top: 1px solid #f1f1f3;
   padding-top: 30px;
 }
 
@@ -252,29 +252,29 @@ ul {
 }
 
 .salary-employee__name {
-  font-family: Inter;
+  font-family: Inter, sans-serif;
   font-size: 20px;
   font-style: normal;
   font-weight: 500;
   line-height: 24px;
-  letter-spacing: 0em;
+  letter-spacing: 0;
   text-align: left;
 }
 
 .salary-employee__position {
-  font-family: Inter;
+  font-family: Inter, sans-serif;
   font-size: 12px;
   font-style: normal;
   font-weight: 400;
   line-height: 18px;
-  letter-spacing: 0em;
+  letter-spacing: 0;
   text-align: left;
   margin-top: 5px;
 }
 
 .salary-employee__action {
   margin-top: 30px;
-  border-top: 1px solid #F1F1F3;
+  border-top: 1px solid #f1f1f3;
   padding-top: 30px;
   display: flex;
   justify-content: space-between;
@@ -282,7 +282,7 @@ ul {
 
 .salary-employee__increase {
   margin-top: 30px;
-  border-top: 1px solid #F1F1F3;
+  border-top: 1px solid #f1f1f3;
   padding-top: 30px;
 }
 
@@ -291,39 +291,39 @@ ul {
 }
 
 span[salary-total] {
-  font-family: Inter;
+  font-family: Inter, sans-serif;
   font-size: 18px;
   font-style: normal;
   font-weight: 700;
   line-height: 22px;
-  letter-spacing: 0em;
+  letter-spacing: 0;
   text-align: right;
 }
 
 .salary__menu--head {
   margin-top: 25px;
   padding-top: 20px;
-  border-top: 1px solid #F1F1F3;
+  border-top: 1px solid #f1f1f3;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
 .salary-head__title {
-  font-family: Inter;
+  font-family: Inter, sans-serif;
   font-size: 12px;
   font-style: normal;
   font-weight: 400;
   line-height: 18px;
-  letter-spacing: 0em;
+  letter-spacing: 0;
   text-align: left;
-  color: #7C7B85;
+  color: #7c7b85;
 }
 
 .salary-employee__fixed {
   margin-top: 25px;
   padding-top: 20px;
-  border-top: 1px solid #F1F1F3;
+  border-top: 1px solid #f1f1f3;
 }
 
 .c-tooltip__wrapper--homework {
@@ -341,21 +341,15 @@ span[salary-total] {
 
 .salary-employee__actions {
   margin-top: 30px;
-  border-top: 1px solid #F1F1F3;
+  border-top: 1px solid #f1f1f3;
   padding-top: 30px;
 }
 
 .salary-employee__rating {
-  margin-top: 30px;
-  border-top: 1px solid #F1F1F3;
-  padding-top: 30px;
-  margin-left: 0;
-  margin-right: 0;
-  margin-bottom: 0;
+  margin: 30px 0 0;
+  padding: 30px 0 0;
+  border-top: 1px solid #f1f1f3;
   list-style: none;
-  padding-left: 0;
-  padding-right: 0;
-  padding-bottom: 0;
 }
 
 .salary-rating__item {
@@ -374,38 +368,32 @@ span[salary-total] {
 }
 
 .salary-employee__total {
-  margin-top: 30px;
-  border-top: 3px dashed #F1F1F3;
-  padding-top: 30px;
-  margin-left: 0;
-  margin-right: 0;
-  margin-bottom: 0;
+  border-top: 3px dashed #f1f1f3;
   list-style: none;
-  padding-left: 0;
-  padding-right: 0;
-  padding-bottom: 0;
+  margin: 30px 0 0;
+  padding: 30px 0 0;
 }
 
 .salary-item__value,
 .salary-item__name {
   color: black;
-  font-family: Inter;
+  font-family: Inter, sans-serif;
   font-size: 14px;
   font-style: normal;
   font-weight: 500;
   line-height: 22px;
-  letter-spacing: 0em;
+  letter-spacing: 0;
   text-align: right;
 }
 
 .salary-item__value--total,
 .salary-item__name--total {
-  font-family: Inter;
+  font-family: Inter, sans-serif;
   font-size: 18px;
   font-style: normal;
   font-weight: 700;
   line-height: 22px;
-  letter-spacing: 0em;
+  letter-spacing: 0;
   text-align: right;
   color: black;
 }
@@ -423,6 +411,6 @@ span[salary-total] {
 
 .salary-coeff {
   margin-top: 30px;
-  border-top: 1px solid #F1F1F3;
+  border-top: 1px solid #f1f1f3;
   padding-top: 30px;
 }

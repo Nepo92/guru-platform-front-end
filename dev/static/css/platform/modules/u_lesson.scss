@@ -703,11 +703,13 @@
     margin-left: 0;
   }
 }
+
 @media (max-width: 1075px) {
   .content-element__side {
     padding-left: 30px;
   }
 }
+
 @media (max-width: 1000px) {
   .module-wrapper {
     margin-left: 0;
@@ -774,6 +776,7 @@
     width: 100%;
   }
 }
+
 @media (max-width: 737px) {
   .lessons-document__format {
     width: 60px;
@@ -921,6 +924,7 @@
     margin-top: 5px;
   }
 }
+
 @media (max-width: 576px) {
   .comments__board {
     scrollbar-width: 0;
