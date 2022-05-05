@@ -576,14 +576,8 @@
   color: #c5c5ca;
   margin-top: 14px;
   padding: 0 14px;
-  display: box;
-  display: flexbox;
   display: flex;
-  -webkit-box-pack: start;
-  -ms-flex-pack: start;
   justify-content: flex-start;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
   align-items: center;
   text-align: left;
   cursor: text;
@@ -643,17 +637,11 @@
 .banners__inner {
   width: 100%;
   height: auto;
-  display: box;
-  display: flexbox;
   display: flex;
-  -webkit-box-pack: justify;
-  -ms-flex-pack: justify;
   justify-content: space-between;
 }
 
 .banners__inputs {
-  display: box;
-  display: flexbox;
   display: flex;
 }
 
@@ -683,12 +671,8 @@
 }
 
 .preview {
-  display: box;
-  display: flexbox;
   display: flex;
   width: 100%;
-  -webkit-box-pack: justify;
-  -ms-flex-pack: justify;
   justify-content: space-between;
 }
 

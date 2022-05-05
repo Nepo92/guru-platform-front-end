@@ -95,7 +95,7 @@ class ContentManager {
           courses.init();
           lessonConstuctor.init();
         } else {
-          // homework.init();
+          homework.init();
         }
         break;
       }

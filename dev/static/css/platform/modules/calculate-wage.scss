@@ -1,0 +1,428 @@
+td {
+  text-align: center;
+}
+
+ul {
+  margin-bottom: 0;
+}
+
+.calculate-filter {
+  margin: 30px 0 30px 40px;
+}
+
+.calculate-year__select {
+  width: 95px;
+  height: 40px;
+}
+
+.calculate-month {
+  margin-left: 20px;
+}
+
+.calculate-months__select {
+  width: 190px;
+  height: 40px;
+}
+
+.calculate__form {
+  display: inline-flex;
+  margin-left: 40px;
+  margin-top: 20px;
+}
+
+.calculate__content {
+  display: flex;
+  justify-content: flex-start;
+  flex-flow: row wrap;
+  width: 1220px;
+  margin-left: 40px;
+  margin-top: 20px;
+  margin-bottom: 40px;
+}
+
+.calculate__item {
+  display: inline-flex;
+  flex-direction: column;
+  background-color: white;
+  width: 290px;
+  height: 240px;
+  padding: 25px 0 0;
+  margin-right: 20px;
+  margin-top: 0px;
+  box-shadow: 0px 10px 20px rgba(8, 15, 32, 0.04);
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.calculate__item:nth-child(n+5) {
+  margin-top: 20px;
+}
+
+.calculate__item:nth-child(4n) {
+  margin-right: 0;
+}
+
+.calculate__avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+  margin-left: 25px;
+  margin-right: 25px;
+  overflow: hidden;
+}
+
+.calculate__avatar img,
+.calculate-avatar__img,
+.salary-avatar__img {
+  width: auto;
+  height: auto;
+}
+
+.calculate__name {
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 22px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: black;
+  margin-left: 25px;
+  margin-right: 25px;
+  margin-top: 20px;
+}
+
+.calculate__position {
+  font-family: Inter;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #16171880;
+  margin-left: 25px;
+  margin-right: 25px;
+  margin-top: 5px;
+}
+
+.calculate__salary {
+  display: flex;
+  margin-top: auto;
+  height: 70px;
+  border-top: 1px solid #F1F1F4;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 25px;
+  padding-right: 25px;
+}
+
+.calculate__salary--text {
+  font-family: Inter;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #16171880;
+}
+
+.calculate__salary--value {
+  font-family: Inter;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 22px;
+  letter-spacing: 0em;
+  text-align: right;
+  color: black;
+}
+
+.salary__menu--content {
+  padding: 25px 25px 0;
+  height: 100%;
+}
+
+.salary-bonus__item {
+  display: flex;
+  justify-content: space-between;
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 22px;
+  letter-spacing: 0em;
+  text-align: left;
+  margin-top: 10px;
+}
+
+.salary-bonus__item:first-child {
+  margin-top: 0;
+}
+
+.salary-fixed__item {
+  display: flex;
+  justify-content: space-between;
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 22px;
+  letter-spacing: 0em;
+  text-align: left;
+  margin-top: 10px;
+}
+
+.salary-fixed__item:first-child {
+  margin-top: 0;
+}
+
+.salary-fixed__item--title {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 25px;
+  padding-top: 20px;
+  border-top: 1px solid #F1F1F3;
+}
+
+.salary-fixed__item--head-text {
+  font-family: Inter;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: 0em;
+  text-align: left;
+}
+
+.salary-increase__item {
+  display: flex;
+  justify-content: space-between;
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 22px;
+  letter-spacing: 0em;
+  text-align: left;
+  margin-top: 30px;
+}
+
+.salary-increase__item:first-child {
+  margin-top: 0px;
+}
+
+.salary-employee--total {
+  display: flex;
+  justify-content: space-between;
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 22px;
+  letter-spacing: 0em;
+  text-align: left;
+  margin-top: 30px;
+  border-top: 1px dashed #F1F1F3;
+  padding-top: 30px;
+  border-bottom: 1px solid #F1F1F3;
+  padding-bottom: 30px;
+}
+
+.salary-employee__bonus {
+  margin-top: 30px;
+  border-top: 1px solid #F1F1F3;
+  padding-top: 30px;
+}
+
+.salary-increase__item--info {
+  color: #16171880;
+}
+
+.salary-employee__about {
+  display: flex;
+}
+
+.salary-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 100%;
+  overflow: hidden;
+}
+
+.salary-employee__name {
+  font-family: Inter;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: 0em;
+  text-align: left;
+}
+
+.salary-employee__position {
+  font-family: Inter;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: 0em;
+  text-align: left;
+  margin-top: 5px;
+}
+
+.salary-employee__action {
+  margin-top: 30px;
+  border-top: 1px solid #F1F1F3;
+  padding-top: 30px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.salary-employee__increase {
+  margin-top: 30px;
+  border-top: 1px solid #F1F1F3;
+  padding-top: 30px;
+}
+
+.salary-employee__info {
+  margin-left: 10px;
+}
+
+span[salary-total] {
+  font-family: Inter;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 22px;
+  letter-spacing: 0em;
+  text-align: right;
+}
+
+.salary__menu--head {
+  margin-top: 25px;
+  padding-top: 20px;
+  border-top: 1px solid #F1F1F3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.salary-head__title {
+  font-family: Inter;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #7C7B85;
+}
+
+.salary-employee__fixed {
+  margin-top: 25px;
+  padding-top: 20px;
+  border-top: 1px solid #F1F1F3;
+}
+
+.c-tooltip__wrapper--homework {
+  min-width: 265px;
+  width: 265px;
+  max-width: 265px;
+  transform: translate(-73px, -66px);
+  position: absolute;
+  top: 0;
+}
+
+.c-tooltip.right {
+  cursor: pointer;
+}
+
+.salary-employee__actions {
+  margin-top: 30px;
+  border-top: 1px solid #F1F1F3;
+  padding-top: 30px;
+}
+
+.salary-employee__rating {
+  margin-top: 30px;
+  border-top: 1px solid #F1F1F3;
+  padding-top: 30px;
+  margin-left: 0;
+  margin-right: 0;
+  margin-bottom: 0;
+  list-style: none;
+  padding-left: 0;
+  padding-right: 0;
+  padding-bottom: 0;
+}
+
+.salary-rating__item {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.salary-rating__item:first-child {
+  margin-top: 0;
+}
+
+.salary-actions__item {
+  display: flex;
+  justify-content: space-between;
+}
+
+.salary-employee__total {
+  margin-top: 30px;
+  border-top: 3px dashed #F1F1F3;
+  padding-top: 30px;
+  margin-left: 0;
+  margin-right: 0;
+  margin-bottom: 0;
+  list-style: none;
+  padding-left: 0;
+  padding-right: 0;
+  padding-bottom: 0;
+}
+
+.salary-item__value,
+.salary-item__name {
+  color: black;
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 22px;
+  letter-spacing: 0em;
+  text-align: right;
+}
+
+.salary-item__value--total,
+.salary-item__name--total {
+  font-family: Inter;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 22px;
+  letter-spacing: 0em;
+  text-align: right;
+  color: black;
+}
+
+.salary-total__item,
+.salary-coeff__item {
+  display: flex;
+  justify-content: space-between;
+}
+
+.salary-employee__coeff {
+  list-style: none;
+  padding: 0;
+}
+
+.salary-coeff {
+  margin-top: 30px;
+  border-top: 1px solid #F1F1F3;
+  padding-top: 30px;
+}

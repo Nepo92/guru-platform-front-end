@@ -766,7 +766,7 @@ function openManagersMenu(data) {
     let rows = "";
 
     const menu = $('[js-menu-managers-list]').get(0);
-    openModalAnimation(menu);
+    openModalAnimation(menu, true);
     checkBodyHidden();
 
     $.each(data, function (index, value) {

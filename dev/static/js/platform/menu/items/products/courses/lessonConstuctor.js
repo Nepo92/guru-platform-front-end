@@ -857,8 +857,6 @@ class LessonConstructor {
     $(document).on('click', '[update-module]', openUpdateModuleMenu);
 
     function openUpdateModuleMenu(event) {
-      showLoader();
-
       const menu = document.querySelector('[js-menu-update-module]');
       openModalAnimation(menu);
 
@@ -924,9 +922,11 @@ class LessonConstructor {
         cache: false,
         success: function (data) {
           setUpdateBlockInfo(data);
+          $('[update-module]').prop("disabled", false);
           $('[update-block]').prop("disabled", false);
         },
         error: function (data) {
+          $('[update-module]').prop("disabled", false);
           $('[update-block]').prop("disabled", false);
         }
       });

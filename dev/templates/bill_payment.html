@@ -11,12 +11,6 @@
 <body>
   <div th:replace="base :: transition-loader"></div>
 
-  <script th:inline='javascript'>
-    /*<![CDATA[*/
-      console.log(/*[[${client}]]*/);
-    /*]]>*/
-  </script>
-
   <th:block th:if="${workingLink}">
     <div th:if="${bill.payDate == null}" class="payment__wrapper"
       th:classappend="${bill.payDate != null ? 'pb_10' : ''}">
