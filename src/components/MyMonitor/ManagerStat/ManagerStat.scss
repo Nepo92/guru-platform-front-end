@@ -1,0 +1,15 @@
+@import "../../../assets/scss/variables/variables";
+
+.monitor-stat__header,
+.monitor-stat__row {
+  display: grid;
+  grid-template-columns: 30px 200px 85px 170px 180px 210px 95px 130px 115px;
+  grid-template-areas: "count manager reward order sales revenue left prediction deviation";
+}
+
+.monitor-stat {
+  margin-top: 30px;
+  box-shadow: 0 10px 20px rgb(22 23 24 / 4%);
+  border-radius: 10px;
+  background-color: $white;
+}

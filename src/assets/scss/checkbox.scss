@@ -1,0 +1,58 @@
+@import "./variables/variables";
+
+.checkbox {
+  width: 0;
+  height: 0;
+  opacity: 0;
+
+  &__fake {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border: 1px solid #c3c2c9;
+    border-radius: 3px;
+    transition: all 0.2s linear;
+    position: relative;
+    background-color: #fff;
+
+    &::after {
+      content: "✓";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      transform: translate(-50%, -50%);
+      opacity: 0;
+      color: rgb(255 255 255);
+      font-size: 12px;
+      line-height: 12px;
+      transition: all 0.2s linear 0s;
+    }
+  }
+
+  &__label {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  &__text {
+    margin-left: 10px;
+    font-size: 12px;
+    line-height: 14px;
+  }
+
+  &:checked + label {
+    .checkbox {
+      &__fake {
+        background-color: $black;
+
+        &::after {
+          opacity: 1;
+        }
+      }
+    }
+  }
+}

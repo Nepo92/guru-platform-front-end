@@ -1,0 +1,31 @@
+.monitor {
+  display: grid;
+  grid-template-rows: 100% 100%;
+}
+
+.monitor-content {
+  width: 100%;
+  max-height: calc(100vh - 70px);
+  overflow-y: scroll;
+
+  &__wrapper {
+    max-width: 100%;
+    grid-area: content;
+  }
+}
+
+@media (min-width: 1000px) {
+  .monitor {
+    grid-template-columns: 70px calc(100vw - 70px);
+  }
+
+  .monitor-content {
+    max-height: 100vh;
+
+    &__wrapper {
+      max-width: 1256px;
+      padding-bottom: 40px;
+      padding-left: 40px;
+    }
+  }
+}
