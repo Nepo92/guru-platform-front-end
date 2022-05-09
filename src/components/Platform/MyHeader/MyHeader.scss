@@ -1,15 +1,11 @@
-@import "../../../assets/scss/variables/variables";
-
 .header {
   width: 100%;
   max-width: 1256px;
   min-height: 130px;
   height: 130px;
   display: grid;
-  grid-template-areas:
-    "title",
-    "tabs";
-  padding: 40px 0 0 40px;
+  grid-template-rows: "title tabs";
+  padding: 40px 40px 0;
 
   &__tabs {
     border-bottom: 1px solid $content-delimetr;
@@ -90,5 +86,11 @@
         opacity: 1;
       }
     }
+  }
+}
+
+@media (min-width: 1335px) {
+  .header {
+    padding-right: 0;
   }
 }

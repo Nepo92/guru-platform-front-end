@@ -1,0 +1,13 @@
+@mixin tooltp-monitor {
+  display: inline-flex;
+  width: 24px;
+  height: 24px;
+  background-color: $tooltip-item-bg;
+  color: $tooltip-item-color;
+  position: relative;
+  left: 100%;
+  transform: translateX(-100%);
+  border-radius: 100%;
+  justify-content: center;
+  align-items: center;
+}

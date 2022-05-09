@@ -262,6 +262,20 @@ export const statMonitor = defineStore('statMonitor', {
       data: rows || null,
       // eslint-disable-next-line
       filter: filter || null,
+      managerStat: [
+        {
+          name: 'по оплатам',
+          value: 1,
+        },
+        {
+          name: 'по выручке',
+          value: 2,
+        },
+        {
+          name: 'по рейтингу',
+          value: 3,
+        },
+      ],
     };
-  }
+  },
 });

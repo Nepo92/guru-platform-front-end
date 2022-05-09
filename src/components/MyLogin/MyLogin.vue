@@ -4,8 +4,6 @@ import "./MyLogin.scss";
 import { loginStore } from '@/store/store';
 import { mapActions, storeToRefs } from 'pinia';
 
-console.log('asdas');
-
 export default {
   setup() {
     const store = loginStore();
@@ -31,11 +29,7 @@ export default {
 </script>
 
 <template>
-  <div
-    class="login"
-    custom-scroll
-    :style="{ backgroundImage: background }"
-  >
+  <div class="login" custom-scroll :style="{ backgroundImage: background }">
     <form
       class="login__form"
       action="/perform_login"

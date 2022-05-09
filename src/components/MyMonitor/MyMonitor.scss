@@ -1,12 +1,8 @@
-.monitor {
-  display: grid;
-  grid-template-rows: 100% 100%;
-}
-
 .monitor-content {
   width: 100%;
   max-height: calc(100vh - 70px);
   overflow-y: scroll;
+  grid-area: "content";
 
   &__wrapper {
     max-width: 100%;
@@ -16,7 +12,9 @@
 
 @media (min-width: 1000px) {
   .monitor {
+    display: grid;
     grid-template-columns: 70px calc(100vw - 70px);
+    grid-template-areas: "menu content";
   }
 
   .monitor-content {

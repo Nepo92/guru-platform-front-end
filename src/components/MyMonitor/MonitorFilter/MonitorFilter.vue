@@ -45,8 +45,6 @@ export default {
       const { modal, wrapper } = props;
       this.filterModal = modal;
       this.filterModalWrapper = wrapper;
-
-      console.log(modal);
     },
     changePeriod(e, item) {
       const t = e.target;

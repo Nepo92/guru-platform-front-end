@@ -20,12 +20,7 @@ export default {
   components: {
     MyLoader,
   },
-  props: {
-    title: {
-      type: String,
-      default: 'Фильтр',
-    },
-  },
+  props: ['props'],
   emits: ['create-filter-modal'],
   setup() {
     return {

@@ -160,10 +160,7 @@ export default {
 </script>
 
 <template>
-  <div
-    class="monitor"
-    :style="{ backgroundColor: background }"
-  >
+  <div class="monitor" :style="{ backgroundColor: background }">
     <MyMenu />
     <div class="monitor-content custom-scroll">
       <MyHeader

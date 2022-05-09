@@ -10,4 +10,20 @@ module.exports = {
     ],
   },
   outputDir: path.resolve(__dirname, '../alpha/src/main/resources/static'),
+  // css: {
+  //   loaderOptions: {
+  //     scss: {
+  //       sassOptions: {
+  //         data: `@import "@/assets/scss/variables/_variables.scss";`
+  //       },
+  //     },
+  //   },
+  // },
+  css: {
+    loaderOptions: {
+      scss: {
+        additionalData: `@import "@/assets/scss/variables/_variables.scss";`
+      },
+    }
+  }
 }
