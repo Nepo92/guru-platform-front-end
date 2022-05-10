@@ -218,6 +218,36 @@
         background-image: url("../../../assets/img/i-chart.svg");
       }
     }
+
+    &.deal-count {
+      &::before {
+        background-image: url("../../../assets/img/handshake.svg");
+      }
+    }
+
+    &.rate-count {
+      &::before {
+        background-image: url("../../../assets/img/estimation.svg");
+      }
+    }
+
+    &.debate-count {
+      &::before {
+        background-image: url("../../../assets/img/dispute.svg");
+      }
+    }
+
+    &.debate-count-estimation {
+      &::before {
+        background-image: url("../../../assets/img/change.svg");
+      }
+    }
+
+    &.score {
+      &::before {
+        background-image: url("../../../assets/img/estimation.svg");
+      }
+    }
   }
 
   &__progress {

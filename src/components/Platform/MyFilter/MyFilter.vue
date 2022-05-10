@@ -1,13 +1,13 @@
 <script>
-import './MyFilter.scss';
-import '@/assets/scss/grid.scss';
-import { filterAPI } from '@/api/api.js';
-import MenuUtils from '@/utils/MenuUtils/MenuUtils.js';
-import LoaderUtils from '@/utils/LoaderUtils/LoaderUtils.js';
-import MyLoader from '../MyLoader/MyLoader.vue';
+import "./MyFilter.scss";
+import "@/assets/scss/grid.scss";
+import { filterAPI } from "@/api/api.js";
+import MenuUtils from "@/utils/MenuUtils/MenuUtils.js";
+import LoaderUtils from "@/utils/LoaderUtils/LoaderUtils.js";
+import MyLoader from "../MyLoader/MyLoader.vue";
 
-import { filterStore } from '@/store/store';
-import { storeToRefs } from 'pinia';
+import { filterStore } from "@/store/store";
+import { storeToRefs } from "pinia";
 
 const store = filterStore();
 
@@ -20,16 +20,20 @@ export default {
   components: {
     MyLoader,
   },
-  props: ['props'],
-  emits: ['create-filter-modal'],
+  props: ["props"],
+  emits: ["create-filter-modal"],
   setup() {
     return {
       filter,
       filterOnPage,
     };
   },
+  created() {
+    const { path } = this.$route;
+    this.filterItems = this.filterOnPage.filter((el) => el.pages.includes(path));
+  },
   mounted() {
-    this.$emit('create-filter-modal', {
+    this.$emit("create-filter-modal", {
       modal: this.$refs.filterModal,
       wrapper: this.$refs.filterModalWrapper,
     });
@@ -48,17 +52,20 @@ export default {
         loader.showLoader(this.loader);
       }, 400);
 
-      t.classList.add('disabled');
+      t.classList.add("disabled");
 
-      apply.then(() => {
-        clearTimeout(showLoader);
-        t.classList.remove('disabled');
+      apply.then(
+        () => {
+          clearTimeout(showLoader);
+          t.classList.remove("disabled");
 
-        location.reload();
-      }, () => {
-        clearTimeout(showLoader);
-        t.classList.remove('disabled');
-      });
+          location.reload();
+        },
+        () => {
+          clearTimeout(showLoader);
+          t.classList.remove("disabled");
+        }
+      );
     },
     clearFilter(e) {
       const t = e.target;
@@ -70,17 +77,20 @@ export default {
         loader.showLoader(this.loader);
       }, 400);
 
-      t.classList.add('disabled');
+      t.classList.add("disabled");
 
-      clear.then(() => {
-        clearTimeout(showLoader);
-        t.classList.remove('disabled');
+      clear.then(
+        () => {
+          clearTimeout(showLoader);
+          t.classList.remove("disabled");
 
-        location.reload();
-      }, () => {
-        clearTimeout(showLoader);
-        t.classList.remove('disabled');
-      });
+          location.reload();
+        },
+        () => {
+          clearTimeout(showLoader);
+          t.classList.remove("disabled");
+        }
+      );
     },
     closeFilter() {
       const closeFilterProps = {
@@ -95,8 +105,8 @@ export default {
       const { loader } = props;
       this.loader = loader;
     },
-  }
-}
+  },
+};
 </script>
 
 <template>
@@ -109,14 +119,18 @@ export default {
         <span class="modal-header__close" @click="closeFilter" />
       </div>
       <div class="filter-modal__content custom-scroll">
-        <form ref="filterForm" class="filter-modal__form" action="#" th:action="@{/monitor/}" th:method="post">
+        <form
+          ref="filterForm"
+          class="filter-modal__form"
+          action="#"
+          th:action="@{/monitor/}"
+          th:method="post"
+        >
           <ul class="filter-modal__column">
             <li class="filter-modal__item width_100">
-              <h3 class="filter-modal__subtitle">
-                Параметры
-              </h3>
+              <h3 class="filter-modal__subtitle">Параметры</h3>
             </li>
-            <li v-for="(item, index) of filterOnPage" :key="index" class="filter-modal__item">
+            <li v-for="(item, index) of filterItems" :key="index" class="filter-modal__item">
               <p class="filter-modal__name">
                 {{ item.name }}
               </p>
@@ -132,10 +146,13 @@ export default {
         </form>
       </div>
       <div class="filter-modal__footer">
-        <div class="filter-modal__apply" @click="(e) => applyFilter(e)">
-          Применить фильтры
-        </div>
-        <button v-if="filter.canClear" type="button" class="filter-modal__reset" @click="(e) => clearFilter(e)">
+        <div class="filter-modal__apply" @click="(e) => applyFilter(e)">Применить фильтры</div>
+        <button
+          v-if="filter.canClear"
+          type="button"
+          class="filter-modal__reset"
+          @click="(e) => clearFilter(e)"
+        >
           <span class="filter-modal__reset--icon" />
           Сбросить фильтры
         </button>

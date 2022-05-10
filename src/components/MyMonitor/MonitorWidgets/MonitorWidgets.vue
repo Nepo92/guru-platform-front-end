@@ -1,7 +1,7 @@
 <template>
   <ul class="widgets">
     <li
-      v-for="(item, index) of widgetsData"
+      v-for="(item, index) of currentWidgets"
       :key="index"
       class="widgets__item"
       :class="setItemClass(item)"
@@ -83,6 +83,10 @@ export default {
       widgetsData,
       filter,
     };
+  },
+  created() {
+    const { path } = this.$route;
+    this.currentWidgets = this.widgetsData.filter((el) => el.pages.includes(path));
   },
   methods: {
     setItemName(item) {

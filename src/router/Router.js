@@ -10,6 +10,14 @@ const pages = [
     path: '/monitor/',
     component: defineAsyncComponent(() => import('@/components/MyMonitor/MyMonitor.vue')),
   },
+  {
+    path: '/monitor-control/',
+    component: defineAsyncComponent(() => import('@/components/MyMonitor/MyMonitor.vue')),
+  },
+  {
+    path: '/funnel/',
+    component: defineAsyncComponent(() => import('@/components/MyMonitor/MyMonitor.vue')),
+  },
 ];
 
 export const router = createRouter({

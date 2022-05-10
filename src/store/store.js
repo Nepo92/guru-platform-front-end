@@ -91,7 +91,8 @@ export const filterStore = defineStore('filterStore', {
               name: 'Товарка',
               value: 3,
             }
-          ]
+          ],
+          pages: ['/monitor/'],
         },
         {
           name: 'Проекты',
@@ -111,6 +112,7 @@ export const filterStore = defineStore('filterStore', {
               }
             }),
           ],
+          pages: ['/monitor/', '/monitor-control/'],
         },
         {
           name: 'Отображать',
@@ -130,7 +132,8 @@ export const filterStore = defineStore('filterStore', {
               name: 'Уволенные',
               value: 3,
             },
-          ]
+          ],
+          pages: ['/monitor/'],
         },
       ],
     }
@@ -158,6 +161,8 @@ export const monitorWidgets = defineStore('monitorWidgets', {
   state() {
     // eslint-disable-next-line
     const tilesData = tiles || null;
+    // eslint-disable-next-line
+    const generalRowData = generalRow || null;
 
     return {
       tiles: tilesData,
@@ -176,39 +181,42 @@ export const monitorWidgets = defineStore('monitorWidgets', {
             green: 99,
             yellow: 65,
           },
+          pages: ['/monitor/'],
         },
         {
           name: 'Заказы',
           nameEng: 'application',
-          value: tilesData.bill.value,
-          percent: tilesData.bill.percent,
-          plan: tilesData.bill.plan,
+          value: tilesData?.bill.value,
+          percent: tilesData?.bill.percent,
+          plan: tilesData?.bill.plan,
           description: 'Количество оформленных заказов, учитываются как оплаченные так и не оплаченные',
           period: [null, 4],
           metric: {
             green: 99,
             yellow: 65,
           },
+          pages: ['/monitor/'],
         },
         {
           name: 'Продажи',
           nameEng: 'sales',
-          value: tilesData.sale.value,
-          percent: tilesData.sale.percent,
-          plan: tilesData.sale.plan,
+          value: tilesData?.sale.value,
+          percent: tilesData?.sale.percent,
+          plan: tilesData?.sale.plan,
           description: 'Количество оплаченных заказов, учитываются как предоплаты так и полные оплаты',
           period: [null, 4],
           metric: {
             green: 99,
             yellow: 65,
           },
+          pages: ['/monitor/'],
         },
         {
           name: 'Выручка',
           nameEng: 'revenue',
-          value: tilesData.proceed.value,
-          percent: tilesData.proceed.percent,
-          plan: tilesData.proceed.plan,
+          value: tilesData?.proceed.value,
+          percent: tilesData?.proceed.percent,
+          plan: tilesData?.proceed.plan,
           description: 'Сумма вырученных от продаж денег',
           period: [null, 4],
           metric: {
@@ -216,6 +224,7 @@ export const monitorWidgets = defineStore('monitorWidgets', {
             yellow: 65,
           },
           units: 'roubles',
+          pages: ['/monitor/'],
         },
         {
           name: 'Прогноз',
@@ -230,13 +239,14 @@ export const monitorWidgets = defineStore('monitorWidgets', {
             yellow: 65,
           },
           units: 'roubles',
+          pages: ['/monitor/'],
         },
         {
           name: 'Прогноз',
           nameEng: 'prediction',
-          value: tilesData.prediction.plan,
-          percent: tilesData.deviation.percent,
-          plan: tilesData.deviation.plan,
+          value: tilesData?.prediction.plan,
+          percent: tilesData?.deviation.percent,
+          plan: tilesData?.deviation.plan,
           description: 'Прогноз выручки, считается по формуле: (факт по выручке / на количество прошедших дней) * количество дней в месяце',
           period: [4],
           metric: {
@@ -244,6 +254,62 @@ export const monitorWidgets = defineStore('monitorWidgets', {
             yellow: 65,
           },
           units: 'roubles',
+          pages: ['/monitor/'],
+        },
+        {
+          name: 'Проверено сделок',
+          nameEng: 'deal-count',
+          value: generalRowData?.dealCount,
+          percent: null,
+          description: 'Количество проверенных сделок',
+          period: [null],
+          metric: null,
+          units: null,
+          pages: ['/monitor-control/'],
+        },
+        {
+          name: 'Поставлено оценок',
+          nameEng: 'rate-count',
+          value: generalRowData?.rateCount,
+          percent: null,
+          description: 'Количество разрешенных споров',
+          period: [null],
+          metric: null,
+          units: null,
+          pages: ['/monitor-control/'],
+        },
+        {
+          name: 'Споров отработано',
+          nameEng: 'debate-count',
+          value: generalRowData?.debateCount,
+          percent: null,
+          description: 'Количество измененных оценок в спорах',
+          period: [null],
+          metric: null,
+          units: null,
+          pages: ['/monitor-control/'],
+        },
+        {
+          name: 'Изменений оценок в спорах',
+          nameEng: 'debate-count-estimation',
+          value: generalRowData?.debateCount,
+          percent: null,
+          description: 'Количество измененных оценок в спорах',
+          period: [null],
+          metric: null,
+          units: null,
+          pages: ['/monitor-control/'],
+        },
+        {
+          name: 'Средняя оценка',
+          nameEng: 'score',
+          value: generalRowData?.score,
+          percent: null,
+          description: 'Средняя оценка менеджеров',
+          period: [null],
+          metric: null,
+          units: null,
+          pages: ['/monitor-control/'],
         },
       ],
     };
@@ -262,21 +328,39 @@ export const statMonitor = defineStore('statMonitor', {
   state() {
     return {
       // eslint-disable-next-line
-      data: rows || null,
+      data: rows || managersRows || null,
       // eslint-disable-next-line
       filter: filter || null,
       managerStat: [
         {
           name: 'по оплатам',
           value: 1,
+          pages: ['/monitor/']
         },
         {
           name: 'по выручке',
           value: 2,
+          pages: ['/monitor/']
         },
         {
           name: 'по рейтингу',
           value: 3,
+          pages: ['/monitor/']
+        },
+        {
+          name: 'по оценке',
+          value: '1',
+          pages: ['/monitor-control/'],
+        },
+        {
+          name: 'по спорам',
+          value: '2',
+          pages: ['/monitor-control/'],
+        },
+        {
+          name: 'по сделкам',
+          value: '3',
+          pages: ['/monitor-control/'],
         },
       ],
       imageSize: [
@@ -302,6 +386,88 @@ export const statMonitor = defineStore('statMonitor', {
             height: "auto",
             transform: "scale(1.5)",
           },
+        },
+      ],
+      statDescription: [
+        {
+          value: 'Общий монитор продаж с ранжированием по выбранному критерию',
+          pages: ['/monitor/'],
+        },
+        {
+          value: 'Общий монитор работы менеджеров',
+          pages: ['/monitor-control/'],
+        },
+      ],
+      statsName: [
+        {
+          name: '',
+          nameEng: 'count',
+          pages: ['/monitor/', '/monitor-control/'],
+        },
+        {
+          name: 'Менеджер',
+          nameEng: 'manager',
+          pages: ['/monitor/', '/monitor-control/'],
+        },
+        {
+          name: 'Награды',
+          nameEng: 'reward',
+          pages: ['/monitor/'],
+        },
+        {
+          name: 'Заказы',
+          nameEng: 'order',
+          pages: ['/monitor/'],
+        },
+        {
+          name: 'Продажи',
+          nameEng: 'payment',
+          pages: ['/monitor/'],
+        },
+        {
+          name: 'Выручка',
+          nameEng: 'revenue',
+          pages: ['/monitor/'],
+        },
+        {
+          name: 'Осталось',
+          nameEng: 'left',
+          pages: ['/monitor/'],
+        },
+        {
+          name: 'Прогноз',
+          nameEng: 'prediction',
+          pages: ['/monitor/'],
+        },
+        {
+          name: 'Отклонение',
+          nameEng: 'deviation',
+          pages: ['/monitor/'],
+        },
+        {
+          name: 'Проверенно сделок',
+          nameEng: 'deal-count',
+          pages: ['/monitor-control/'],
+        },
+        {
+          name: 'Поставлено оценок',
+          nameEng: 'rate-count',
+          pages: ['/monitor-control/'],
+        },
+        {
+          name: 'Споров отработано',
+          nameEng: 'debate-count',
+          pages: ['/monitor-control/'],
+        },
+        {
+          name: 'Изменений оценок в спорах',
+          nameEng: 'debate-count-estimation',
+          pages: ['/monitor-control/'],
+        },
+        {
+          name: 'Средняя оценка',
+          nameEng: 'score',
+          pages: ['/monitor-control/'],
         },
       ],
     };

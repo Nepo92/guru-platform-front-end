@@ -5,6 +5,11 @@
   display: grid;
   grid-template-columns: 30px 200px 85px 170px 180px 210px 95px 130px 115px;
   grid-template-areas: "count manager reward order sales revenue left prediction deviation";
+
+  &.control {
+    grid-template-columns: auto 150px 200px 200px 200px 260px 175px;
+    grid-template-areas: "count manager deal-count rate-count debate-count debate-count-estimation score";
+  }
 }
 
 .monitor-stat {
@@ -31,10 +36,6 @@
     }
   }
 
-  &__application {
-    padding: 0 15px;
-  }
-
   &__row {
     height: 55px;
     display: grid;
@@ -57,6 +58,8 @@
   }
 
   &__order {
+    padding: 0 15px;
+
     &.order {
       padding: 0 15px;
       display: grid;
@@ -124,6 +127,14 @@
       grid-template-columns: 30px 1fr;
       align-items: center;
     }
+  }
+
+  &__deal-count,
+  &__rate-count,
+  &__debate-count,
+  &__debate-count-estimation,
+  &__score {
+    text-align: center;
   }
 }
 
