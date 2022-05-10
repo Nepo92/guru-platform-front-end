@@ -20,10 +20,4 @@ export const filterAPI = {
   async clearFilter(url) {
     await axios.post(`${url}clearFilter`);
   },  
-  changePeriodMonitor() {
-
-  },
-  changeUtensilsDealsMonitor() {
-
-  }
 }

@@ -1,7 +1,7 @@
 .monitor {
   &__filter {
     display: grid;
-    grid-template-columns: 90px 701px;
+    grid-template-columns: 90px max-content;
     grid-template-areas: "filter-btn filter-list";
     margin-top: 20px;
     justify-content: space-between;
@@ -14,8 +14,8 @@
   &__list {
     grid-area: filter-list;
     display: grid;
-    grid-template-columns: 440px 220px;
-    grid-template-areas: "period deals";
+    grid-template-columns: 440px;
+    grid-template-areas: "period";
     justify-content: space-between;
   }
 
@@ -33,17 +33,6 @@
     justify-content: flex-start;
     grid-template-areas: "today yesterday week month";
     width: 440px;
-
-    &::after {
-      content: "";
-      width: 1px;
-      height: 41px;
-      display: inline-block;
-      position: absolute;
-      top: 0;
-      right: -20px;
-      background-color: $content-delimetr;
-    }
   }
 
   &__item {
@@ -92,6 +81,17 @@
     display: grid;
     justify-content: flex-start;
     grid-template-areas: "all my";
+
+    &::before {
+      content: "";
+      width: 1px;
+      height: 41px;
+      display: inline-block;
+      position: absolute;
+      top: 0;
+      right: -20px;
+      background-color: $content-delimetr;
+    }
   }
 
   &__item {

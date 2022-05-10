@@ -2,17 +2,17 @@
 import "./MonitorFilter.scss";
 import "../../Platform/MyFilter/MyFilter.scss";
 import "@/assets/scss/modal.scss";
-import MyFilter from '../../Platform/MyFilter/MyFilter.vue';
-import MenuUtils from '@/utils/MenuUtils/MenuUtils.js';
-import { filterAPI } from '@/api/api.js';
-import LoaderUtils from '@/utils/LoaderUtils/LoaderUtils.js';
-import MyLoader from '@/components/Platform/MyLoader/MyLoader.vue';
+import MyFilter from "../../Platform/MyFilter/MyFilter.vue";
+import MenuUtils from "@/utils/MenuUtils/MenuUtils.js";
+import { filterAPI } from "@/api/api.js";
+import LoaderUtils from "@/utils/LoaderUtils/LoaderUtils.js";
+import MyLoader from "@/components/Platform/MyLoader/MyLoader.vue";
 
 const menuUtils = new MenuUtils();
 const loaderUtils = new LoaderUtils();
 
-import { filterStore } from '@/store/store';
-import { storeToRefs } from 'pinia';
+import { filterStore } from "@/store/store";
+import { storeToRefs } from "pinia";
 
 const store = filterStore();
 
@@ -37,7 +37,7 @@ export default {
         menu: this.filterModal,
         wrapper: this.filterModalWrapper,
         isOverflowed: true,
-      }
+      };
 
       menuUtils.openMenu(openFilterProps);
     },
@@ -52,7 +52,7 @@ export default {
       const { path } = this.$route;
 
       const formData = new FormData();
-      formData.set('period', item.value);
+      formData.set("period", item.value);
 
       const apply = filterAPI.applyFilter(path, formData);
 
@@ -60,24 +60,27 @@ export default {
         loaderUtils.showLoader(this.loader);
       }, 400);
 
-      t.classList.add('disabled');
+      t.classList.add("disabled");
 
-      apply.then(() => {
-        clearTimeout(showLoader);
-        t.classList.remove('disabled');
+      apply.then(
+        () => {
+          clearTimeout(showLoader);
+          t.classList.remove("disabled");
 
-        location.reload();
-      }, () => {
-        clearTimeout(showLoader);
-        t.classList.remove('disabled');
-      });
+          location.reload();
+        },
+        () => {
+          clearTimeout(showLoader);
+          t.classList.remove("disabled");
+        }
+      );
     },
     changeDealsUtensils(e, item) {
       const t = e.target;
       const { path } = this.$route;
 
       const formData = new FormData();
-      formData.set('showType', item.value);
+      formData.set("showType", item.value);
 
       const apply = filterAPI.applyFilter(path, formData);
 
@@ -85,17 +88,20 @@ export default {
         loaderUtils.showLoader(this.loader);
       }, 400);
 
-      t.classList.add('disabled');
+      t.classList.add("disabled");
 
-      apply.then(() => {
-        clearTimeout(showLoader);
-        t.classList.remove('disabled');
+      apply.then(
+        () => {
+          clearTimeout(showLoader);
+          t.classList.remove("disabled");
 
-        location.reload();
-      }, () => {
-        clearTimeout(showLoader);
-        t.classList.remove('disabled');
-      });
+          location.reload();
+        },
+        () => {
+          clearTimeout(showLoader);
+          t.classList.remove("disabled");
+        }
+      );
     },
     createLoader(props) {
       const { loader } = props;
@@ -103,7 +109,7 @@ export default {
       this.loader = loader;
     },
   },
-}
+};
 </script>
 
 <template>
@@ -129,24 +135,8 @@ export default {
           </li>
         </ul>
       </li>
-      <li class="monitor-filter__item deals">
-        <ul class="deals__list">
-          <li
-            v-for="(item, index) of monitorDeals"
-            :key="index"
-            :class="filter.showType === item.value ? 'active' : ''"
-            class="monitor-filter__item deals__item"
-            @click="(e) => changeDealsUtensils(e, item)"
-          >
-            {{ item.name }}
-          </li>
-        </ul>
-      </li>
     </ul>
-    <MyFilter
-      :props="filterProps"
-      @create-filter-modal="createFilterModal"
-    />
+    <MyFilter :props="filterProps" @create-filter-modal="createFilterModal" />
     <MyLoader @create-loader="createLoader" />
   </div>
 </template>

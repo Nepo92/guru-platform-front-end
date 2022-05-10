@@ -1,5 +1,50 @@
 @import "../../../assets/scss/mixins/mixins";
 
+.widgets-progress {
+  position: relative;
+  height: 100%;
+
+  &__bar {
+    height: 100%;
+
+    &.red {
+      background-color: $red;
+    }
+
+    &.yellow {
+      background-color: $yellow;
+    }
+
+    &.green {
+      background-color: $green;
+    }
+  }
+
+  &__value {
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 18px;
+    color: $white;
+    position: absolute;
+    top: 50%;
+    left: 14px;
+    z-index: 1;
+    transform: translateY(-50%);
+  }
+
+  &__plan {
+    margin-top: 10px;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 18px;
+    color: $color-tabs;
+
+    &--value {
+      color: $black;
+    }
+  }
+}
+
 .widgets-name {
   &__text {
     grid-area: text;
@@ -12,7 +57,7 @@
 
 .widgets {
   display: grid;
-  grid-template-areas: "order applications payment revenue";
+  grid-template-areas: "order applications payment revenue prediction";
   margin-top: 35px;
   justify-content: start;
 
@@ -22,6 +67,16 @@
     font-weight: 500;
     line-height: 34px;
     color: $black;
+
+    &--value {
+      &.has-tooltip {
+        white-space: nowrap;
+        width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: inline-block;
+      }
+    }
   }
 
   &__plan {
@@ -59,8 +114,12 @@
         color: $white;
       }
 
-      .widgets-progress__plan--value {
+      .widgets-progress__plan {
         color: $white;
+
+        &--value {
+          color: $white;
+        }
       }
     }
 
@@ -186,50 +245,10 @@
     font-weight: 400;
     line-height: 26px;
     width: 190px;
-  }
-}
 
-.widgets-progress {
-  position: relative;
-  height: 100%;
-
-  &__bar {
-    height: 100%;
-
-    &.red {
-      background-color: $red;
+    &--count {
+      left: 0;
+      transform: translateX(0);
     }
-
-    &.yellow {
-      background-color: $yellow;
-    }
-
-    &.green {
-      background-color: $green;
-    }
-  }
-
-  &__value {
-    font-size: 12px;
-    font-weight: 500;
-    line-height: 18px;
-    color: $white;
-    position: absolute;
-    top: 50%;
-    left: 14px;
-    z-index: 1;
-    transform: translateY(-50%);
-  }
-}
-
-@media (min-width: 1115px) {
-  .widgets {
-    grid-template-areas: "order applications payment revenue";
-  }
-}
-
-@media (min-width: 1335px) {
-  .widgets {
-    grid-template-areas: "order applications payment revenue prediction";
   }
 }

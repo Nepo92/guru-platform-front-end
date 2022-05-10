@@ -215,6 +215,7 @@ export const monitorWidgets = defineStore('monitorWidgets', {
             green: 99,
             yellow: 65,
           },
+          units: 'roubles',
         },
         {
           name: 'Прогноз',
@@ -228,6 +229,7 @@ export const monitorWidgets = defineStore('monitorWidgets', {
             green: 99,
             yellow: 65,
           },
+          units: 'roubles',
         },
         {
           name: 'Прогноз',
@@ -241,6 +243,7 @@ export const monitorWidgets = defineStore('monitorWidgets', {
             green: 99,
             yellow: 65,
           },
+          units: 'roubles',
         },
       ],
     };
@@ -274,6 +277,31 @@ export const statMonitor = defineStore('statMonitor', {
         {
           name: 'по рейтингу',
           value: 3,
+        },
+      ],
+      imageSize: [
+        {
+          figure: "rectangle",
+          size: {
+            width: "100%",
+            height: "auto",
+            transform: 'scale(2) translateY(25%)',
+          },
+        },
+        {
+          figure: "square",
+          size: {
+            width: "100%",
+            height: "100%",
+          },
+        },
+        {
+          figure: "vertical-rectangle",
+          size: {
+            width: "100%",
+            height: "auto",
+            transform: "scale(1.5)",
+          },
         },
       ],
     };
