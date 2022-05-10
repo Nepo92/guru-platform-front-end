@@ -115,6 +115,10 @@ class DealRequest {
     const productType = productTypeValue || deal.product;
     const saleType = saleTypeValue || deal.saleType;
 
+    const additionalValue = ['Допродажа', 'База', 'additional', 'допродажа', 'база'];
+
+    const type = (additionalValue.includes(dealType)) ? 'additional' : 'traffic';
+
     return {
       id: idDeal || null,
       idManager,
@@ -132,7 +136,7 @@ class DealRequest {
       comment,
       course,
       social,
-      type: dealType,
+      type,
       product: productType || '',
     };
   }
@@ -275,6 +279,10 @@ class DealRequest {
     const productType = productSelected.getAttribute('data-type');
     const saleType = productSelected.getAttribute('data-type');
 
+    const additionalValue = ['Допродажа', 'База', 'additional', 'допродажа', 'база'];
+
+    const type = (additionalValue.includes(dealTypeValue)) ? 'additional' : 'traffic';
+
     return {
       idManager,
       idClient: idClient || client.id,
@@ -291,7 +299,7 @@ class DealRequest {
       comment: commentValue,
       course,
       social: socialValue,
-      type: dealTypeValue,
+      type,
       product: productType || '',
     };
   }

@@ -11,7 +11,6 @@ class SelectCustom {
       props.targetSelect = targetSelect;
 
       const customSelect = targetSelect.querySelector('[select-head]');
-
       if (customSelect) {
         this.openSelect(props, e);
       }
