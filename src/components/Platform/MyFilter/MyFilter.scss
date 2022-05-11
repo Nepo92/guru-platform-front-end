@@ -128,22 +128,6 @@
   &__select-wrapper {
     margin-top: 5px;
     position: relative;
-
-    &::after {
-      content: "";
-      position: absolute;
-      top: 13px;
-      right: 16px;
-      width: 9px;
-      height: 15px;
-      mask-image: url("../../../assets/img/a-down.svg");
-      background-color: $select-arrow;
-      mask-repeat: no-repeat;
-      mask-position: center;
-      mask-size: 100% 100%;
-      transform: rotate(90deg);
-      pointer-events: none;
-    }
   }
 
   &__select {
@@ -332,49 +316,5 @@
   &_active {
     width: 0;
     padding: 0;
-  }
-}
-
-.filter {
-  &__open {
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 16px;
-    color: $menu-item;
-    transition: all 0.2s linear;
-    cursor: pointer;
-    display: grid;
-    grid-template-areas: "icon text";
-    align-items: center;
-
-    &::before {
-      content: "";
-      display: inline-block;
-      width: 20px;
-      height: 20px;
-      mask-image: url("../../../assets/img/filter.svg");
-      background-color: $menu-item;
-      mask-repeat: no-repeat;
-      mask-position: center;
-      mask-size: 100% 100%;
-      transition: all 0.2s linear;
-      margin-right: 15px;
-    }
-
-    &:hover {
-      color: $black;
-
-      &::before {
-        background-color: $black;
-      }
-    }
-
-    &.active {
-      color: $black;
-
-      &::before {
-        background-color: $black;
-      }
-    }
   }
 }

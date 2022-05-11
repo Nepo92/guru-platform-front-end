@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import { defineAsyncComponent } from 'vue'
+import { defineAsyncComponent } from 'vue';
 
 const pages = [
   {
@@ -16,7 +16,7 @@ const pages = [
   },
   {
     path: '/funnel/',
-    component: defineAsyncComponent(() => import('@/components/MyMonitor/MyMonitor.vue')),
+    component: defineAsyncComponent(() => import('@/components/MyAnalytic/MyAnalytic.vue')),
   },
 ];
 

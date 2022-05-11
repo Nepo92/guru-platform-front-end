@@ -1,17 +1,18 @@
 <script>
 import "./MyFilter.scss";
-import "@/assets/scss/grid.scss";
 import { filterAPI } from "@/api/api.js";
 import MenuUtils from "@/utils/MenuUtils/MenuUtils.js";
 import LoaderUtils from "@/utils/LoaderUtils/LoaderUtils.js";
 import MyLoader from "../MyLoader/MyLoader.vue";
+import "@/assets/scss/grid.scss";
 
 import { filterStore } from "@/store/store";
 import { storeToRefs } from "pinia";
+import MySelect from "../MySelect/MySelect.vue";
 
 const store = filterStore();
 
-const { filter, filterOnPage } = storeToRefs(store);
+const { filter, filterOnPage, selectProps } = storeToRefs(store);
 
 const menuUtils = new MenuUtils();
 const loader = new LoaderUtils();
@@ -19,6 +20,7 @@ const loader = new LoaderUtils();
 export default {
   components: {
     MyLoader,
+    MySelect,
   },
   props: ["props"],
   emits: ["create-filter-modal"],
@@ -26,6 +28,7 @@ export default {
     return {
       filter,
       filterOnPage,
+      selectProps,
     };
   },
   created() {
@@ -105,6 +108,24 @@ export default {
       const { loader } = props;
       this.loader = loader;
     },
+    defaultSelectValue(item) {
+      const filterData = Object.entries(this.filter);
+
+      const currentFilterItem = filterData.find((el) => el[0] === item.nameEng);
+
+      if (currentFilterItem) {
+        return currentFilterItem[1];
+      }
+    },
+    defaultSelectName(item) {
+      const filterData = Object.entries(this.filter);
+
+      const currentFilterItem = filterData.find((el) => el[0] === item.nameEng);
+
+      if (currentFilterItem) {
+        return item.options.find((el) => el.value === currentFilterItem[1])?.name || null;
+      }
+    },
   },
 };
 </script>
@@ -135,11 +156,14 @@ export default {
                 {{ item.name }}
               </p>
               <div class="filter-modal__select-wrapper">
-                <select class="filter-modal__select" :name="item.nameEng" :value="item.value">
-                  <option v-for="(elem, count) of item.options" :key="count" :value="elem.value">
-                    {{ elem.name }}
-                  </option>
-                </select>
+                <MySelect
+                  :props="{
+                    item,
+                    selectProps,
+                    defaultValue: defaultSelectValue(item),
+                    defaultName: defaultSelectName(item),
+                  }"
+                />
               </div>
             </li>
           </ul>

@@ -251,8 +251,6 @@ export default {
     this.managerSort = this.managerStat.filter((el) => el.pages.includes(path));
     this.description = this.statDescription.find((el) => el.pages.includes(path))?.value || "";
     this.stats = this.statsName.filter((el) => el.pages.includes(path));
-
-    console.log(data);
   },
   mounted() {
     const { avatarBig, avatarSmall } = this.$refs;

@@ -13,6 +13,7 @@ const loaderUtils = new LoaderUtils();
 
 import { filterStore } from "@/store/store";
 import { storeToRefs } from "pinia";
+import FilterBtn from "@/components/Platform/MyFilter/FilterBtn/FilterBtn.vue";
 
 const store = filterStore();
 
@@ -22,6 +23,7 @@ export default {
   components: {
     MyFilter,
     MyLoader,
+    FilterBtn,
   },
   setup() {
     return {
@@ -114,13 +116,7 @@ export default {
 
 <template>
   <div class="filter monitor__filter">
-    <div
-      class="filter__open monitor-filter__open"
-      :class="filter.canClear ? 'active' : ''"
-      @click="openFilter"
-    >
-      Фильтр
-    </div>
+    <FilterBtn @open-filter="openFilter" />
     <ul class="monitor-filter__list">
       <li class="monitor-filter__item period">
         <ul class="period__list">

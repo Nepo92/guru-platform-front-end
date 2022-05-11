@@ -1,14 +1,20 @@
 .header {
   width: 100%;
-  max-width: 1256px;
-  min-height: 130px;
-  height: 130px;
-  display: grid;
-  grid-template-rows: "title tabs";
-  padding: 40px 40px 0;
+
+  &__wrapper {
+    width: 100%;
+    max-width: 1256px;
+    min-height: 130px;
+    height: 130px;
+    display: grid;
+    grid-template-rows: "title tabs";
+    padding: 40px 0 0 40px;
+  }
 
   &__tabs {
-    border-bottom: 1px solid $content-delimetr;
+    &.border {
+      border-bottom: 1px solid $content-delimetr;
+    }
   }
 }
 
@@ -49,11 +55,62 @@
 }
 
 .header-tabs {
+  &__link {
+    position: relative;
+  }
+
+  &__settings {
+    display: none;
+    width: 18px;
+    height: 18px;
+    transition: all 0.2s linear;
+    position: absolute;
+
+    &::after {
+      content: "";
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      mask-image: url("../../../assets/img/settings.svg");
+      background-color: $color-tabs;
+      mask-repeat: no-repeat;
+      mask-position: center;
+      mask-size: 100% 100%;
+      transition: all 0.2s linear;
+    }
+
+    &:hover {
+      &::after {
+        background-color: $black;
+      }
+    }
+  }
+
   &__item {
     display: inline-block;
     color: $color-tabs;
     transition: all 0.2s linear;
     position: relative;
+
+    &.analytic {
+      display: inline-block;
+
+      &.active {
+        margin-right: 25px;
+
+        &::before {
+          content: "";
+          display: inline-block;
+          top: 3px;
+          right: -10px;
+          width: 1px;
+          height: 14px;
+          background-color: rgba(191, 192, 196, 0.4);
+          pointer-events: none;
+          position: absolute;
+        }
+      }
+    }
 
     &::after {
       content: "";
@@ -65,6 +122,7 @@
       background-color: black;
       opacity: 0;
       transition: all 0.2s linear;
+      pointer-events: none;
     }
 
     &:not(:first-child) {
@@ -76,6 +134,13 @@
 
       &::after {
         opacity: 1;
+      }
+
+      .header-tabs {
+        &__settings {
+          display: inline-block;
+          margin-left: 18px;
+        }
       }
     }
 

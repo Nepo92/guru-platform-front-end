@@ -1,30 +1,25 @@
 <script>
-import './MyMonitor.scss';
-import MyMenu from '../Platform/MyMenu/MyMenu.vue';
-import MyHeader from '../Platform/MyHeader/MyHeader.vue';
-import BackgroundSettings from './Menus/BackgroundSettings/BackgroundSettings.vue';
-import { monitorAPI } from '@/api/api.js';
-import MonitorFilter from './MonitorFilter/MonitorFilter.vue';
-import MyLoader from '../Platform/MyLoader/MyLoader.vue';
-import MonitorWidgets from './MonitorWidgets/MonitorWidgets.vue';
-import ManagerStat from './ManagerStat/ManagerStat.vue';
-import { monitorStore } from '@/store/store';
-import { storeToRefs } from 'pinia';
+import "./MyMonitor.scss";
+import MyMenu from "../Platform/MyMenu/MyMenu.vue";
+import MyHeader from "../Platform/MyHeader/MyHeader.vue";
+import BackgroundSettings from "./Menus/BackgroundSettings/BackgroundSettings.vue";
+import { monitorAPI } from "@/api/api.js";
+import MonitorFilter from "./MonitorFilter/MonitorFilter.vue";
+import MyLoader from "../Platform/MyLoader/MyLoader.vue";
+import MonitorWidgets from "./MonitorWidgets/MonitorWidgets.vue";
+import ManagerStat from "./ManagerStat/ManagerStat.vue";
+import { monitorStore } from "@/store/store";
+import { storeToRefs } from "pinia";
 
-import LoaderUtils from '@/utils/LoaderUtils/LoaderUtils.js';
-import MenuUtils from '@/utils/MenuUtils/MenuUtils.js';
+import LoaderUtils from "@/utils/LoaderUtils/LoaderUtils.js";
+import MenuUtils from "@/utils/MenuUtils/MenuUtils.js";
 
 const menuUtils = new MenuUtils();
 const loaderUtils = new LoaderUtils();
 
 const store = monitorStore();
 
-const {
-  actionBanners,
-  role,
-  company,
-  background,
-} = storeToRefs(store);
+const { actionBanners, role, company, background } = storeToRefs(store);
 
 export default {
   components: {
@@ -45,19 +40,22 @@ export default {
   data() {
     return {
       props: {
-        title: 'Рабочий стол',
+        title: "Рабочий стол",
         tabs: [
           {
-            name: 'Продажи',
-            link: '/monitor/',
+            name: "Продажи",
+            link: "/monitor/",
+            settings: false,
           },
           {
-            name: 'Контроль',
-            link: '/monitor-control/'
+            name: "Контроль",
+            link: "/monitor-control/",
+            settings: false,
           },
         ],
         color: false,
         settings: true,
+        border: true,
       },
     };
   },
@@ -84,31 +82,34 @@ export default {
         loaderUtils.showLoader(this.loader);
       }, 400);
 
-      t.classList.add('disabled');
+      t.classList.add("disabled");
 
-      getBackground.then((backgroundInfo) => {
-        clearTimeout(loader);
-        loaderUtils.hideLoader(this.loader);
-        t.classList.remove('disabled');
+      getBackground.then(
+        (backgroundInfo) => {
+          clearTimeout(loader);
+          loaderUtils.hideLoader(this.loader);
+          t.classList.remove("disabled");
 
-        const { backgroundInput } = this.headerProps;
+          const { backgroundInput } = this.headerProps;
 
-        const { color } = backgroundInfo;
+          const { color } = backgroundInfo;
 
-        backgroundInput.value = color;
+          backgroundInput.value = color;
 
-        const openModalprops = {
-          menu: this.headerProps.menuBackgroundSettings,
-          wrapper: this.headerProps.menuBackgroundSettingsWrapper,
-          isOverflowed: true,
+          const openModalprops = {
+            menu: this.headerProps.menuBackgroundSettings,
+            wrapper: this.headerProps.menuBackgroundSettingsWrapper,
+            isOverflowed: true,
+          };
+
+          menuUtils.openMenu(openModalprops);
+        },
+        () => {
+          clearTimeout(loader);
+          loaderUtils.hideLoader(this.loader);
+          t.classList.remove("disabled");
         }
-
-        menuUtils.openMenu(openModalprops);
-      }, () => {
-        clearTimeout(loader);
-        loaderUtils.hideLoader(this.loader);
-        t.classList.remove('disabled');
-      });
+      );
     },
     closeBackgroundSettings() {
       const closeModalprops = {
@@ -117,7 +118,7 @@ export default {
         isOverflowed: false,
       };
 
-      menuUtils.closeMenu(closeModalprops)
+      menuUtils.closeMenu(closeModalprops);
     },
     saveBackground(e) {
       const t = e.target;
@@ -133,40 +134,40 @@ export default {
         loaderUtils.showLoader(this.loader);
       }, 400);
 
-      t.classList.add('disabled');
+      t.classList.add("disabled");
 
-      saveBackground.then(() => {
-        clearTimeout(loader);
-        loaderUtils.hideLoader(this.loader);
-        t.classList.remove('disabled');
+      saveBackground.then(
+        () => {
+          clearTimeout(loader);
+          loaderUtils.hideLoader(this.loader);
+          t.classList.remove("disabled");
 
-        this.background = data.color;
+          this.background = data.color;
 
-        this.closeBackgroundSettings();
-      }, () => {
-        clearTimeout(loader);
-        loaderUtils.hideLoader(this.loader);
-        t.classList.remove('disabled');
-      });
+          this.closeBackgroundSettings();
+        },
+        () => {
+          clearTimeout(loader);
+          loaderUtils.hideLoader(this.loader);
+          t.classList.remove("disabled");
+        }
+      );
     },
     createLoader(props) {
       this.loader = props.loader;
     },
     showActionBanner() {
-      return (role == 'ROLE_MANAGER' || role == 'ROLE_HEAD_MANAGER') && actionBanners.size() != 0;
+      return (role == "ROLE_MANAGER" || role == "ROLE_HEAD_MANAGER") && actionBanners.size() != 0;
     },
   },
-}
+};
 </script>
 
 <template>
   <div class="monitor" :style="{ backgroundColor: background }">
     <MyMenu />
     <div class="monitor-content custom-scroll">
-      <MyHeader
-        :props="props"
-        @open-settings-menu="(e) => openSettingsMenu(e)"
-      />
+      <MyHeader :props="props" @open-settings-menu="(e) => openSettingsMenu(e)" />
       <div class="monitor-content__wrapper">
         <MonitorFilter />
         <ActionBanner v-if="showActionBanner()" />

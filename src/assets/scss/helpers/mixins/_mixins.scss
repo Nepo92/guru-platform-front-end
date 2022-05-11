@@ -11,3 +11,14 @@
   justify-content: center;
   align-items: center;
 }
+
+@mixin select-angle {
+  display: inline-block;
+  width: 9px;
+  height: 17px;
+  mask-image: url("../../../assets/img/a-down.svg");
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: 100% 100%;
+  transform: rotate(90deg);
+}
