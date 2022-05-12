@@ -82,6 +82,8 @@
         right: 15px;
 
         @include select-angle;
+
+        background-color: $border-input;
       }
     }
   }
@@ -103,5 +105,6 @@
     appearance: none;
     padding: 0 35px 0 15px;
     cursor: pointer;
+    background-color: $white;
   }
 }

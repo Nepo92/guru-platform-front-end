@@ -5,17 +5,15 @@ import MenuUtils from "@/utils/MenuUtils/MenuUtils.js";
 import LoaderUtils from "@/utils/LoaderUtils/LoaderUtils.js";
 import MyLoader from "../MyLoader/MyLoader.vue";
 import "@/assets/scss/grid.scss";
+import FunnelUtils from "@/utils/FunnelUtils/FunnelUtils.js";
 
 import { filterStore } from "@/store/store";
-import { storeToRefs } from "pinia";
+import { mapActions, storeToRefs } from "pinia";
 import MySelect from "../MySelect/MySelect.vue";
-
-const store = filterStore();
-
-const { filter, filterOnPage, selectProps } = storeToRefs(store);
 
 const menuUtils = new MenuUtils();
 const loader = new LoaderUtils();
+const funnelUtils = new FunnelUtils();
 
 export default {
   components: {
@@ -25,15 +23,33 @@ export default {
   props: ["props"],
   emits: ["create-filter-modal"],
   setup() {
+    const store = filterStore();
+
+    const { filter, filterOnPage, selectProps, funnels, getFunnels } = storeToRefs(store);
+    const { fetchFunnels } = mapActions(filterStore, ["fetchFunnels"]);
+
     return {
       filter,
       filterOnPage,
       selectProps,
+      funnels,
+      fetchFunnels,
+      getFunnels,
+    };
+  },
+  data() {
+    return {
+      funnelOptions: this.funnels,
     };
   },
   created() {
     const { path } = this.$route;
+
     this.filterItems = this.filterOnPage.filter((el) => el.pages.includes(path));
+
+    this.fetchFunnels().then(() => {
+      this.funnelOptions = this.getFunnels;
+    });
   },
   mounted() {
     this.$emit("create-filter-modal", {
@@ -111,7 +127,9 @@ export default {
     defaultSelectValue(item) {
       const filterData = Object.entries(this.filter);
 
-      const currentFilterItem = filterData.find((el) => el[0] === item.nameEng);
+      const currentFilterItem = filterData.find((el) => {
+        return item.nameEng.find((elem) => elem.name === el[0]);
+      });
 
       if (currentFilterItem) {
         return currentFilterItem[1];
@@ -120,11 +138,37 @@ export default {
     defaultSelectName(item) {
       const filterData = Object.entries(this.filter);
 
-      const currentFilterItem = filterData.find((el) => el[0] === item.nameEng);
+      const currentFilterItem = filterData.find((el) => {
+        return item.nameEng.find((elem) => elem.name === el[0]);
+      });
 
       if (currentFilterItem) {
         return item.options.find((el) => el.value === currentFilterItem[1])?.name || null;
       }
+    },
+    setRef(el, item) {
+      if (item.name === "Воронка") {
+        this.funnelSelect = el;
+      }
+
+      if (item.name === "Тип сделки") {
+        this.dealTypeSelect = el;
+      }
+    },
+    changeDealType() {},
+    setProps(item) {
+      const props = {
+        item,
+        selectProps: this.selectProps,
+        defaultValue: this.defaultSelectValue(item),
+        defaultName: this.defaultSelectName(item),
+      };
+
+      if (item.name === "Воронка") {
+        props.item.options = this.funnelOptions || null;
+      }
+
+      return props;
     },
   },
 };
@@ -157,12 +201,9 @@ export default {
               </p>
               <div class="filter-modal__select-wrapper">
                 <MySelect
-                  :props="{
-                    item,
-                    selectProps,
-                    defaultValue: defaultSelectValue(item),
-                    defaultName: defaultSelectName(item),
-                  }"
+                  :ref="(el) => setRef(el, item)"
+                  :props="setProps(item)"
+                  @change="changeDealType"
                 />
               </div>
             </li>

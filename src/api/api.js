@@ -30,3 +30,11 @@ export const analyticAPI = {
     await axios.post("/funnel/", formData);
   },
 };
+
+export const dealAPI = {
+  async getFunnels() {
+    const request = await axios.get("/api/deals/getFunnels");
+
+    return JSON.parse(request.request.response);
+  },
+};

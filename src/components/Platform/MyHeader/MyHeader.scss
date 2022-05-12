@@ -64,7 +64,8 @@
     width: 18px;
     height: 18px;
     transition: all 0.2s linear;
-    position: absolute;
+    right: -35px;
+    top: 0;
 
     &::after {
       content: "";
@@ -96,13 +97,11 @@
       display: inline-block;
 
       &.active {
-        margin-right: 25px;
-
         &::before {
           content: "";
           display: inline-block;
-          top: 3px;
-          right: -10px;
+          top: 6px;
+          right: 27px;
           width: 1px;
           height: 14px;
           background-color: rgba(191, 192, 196, 0.4);
@@ -139,7 +138,8 @@
       .header-tabs {
         &__settings {
           display: inline-block;
-          margin-left: 18px;
+          margin-left: 15px;
+          transform: translateY(3px);
         }
       }
     }

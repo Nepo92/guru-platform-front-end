@@ -1,16 +1,22 @@
 <template>
   <div ref="select" class="select select-icon" @click="openSelect">
-    <input ref="selectValue" type="hidden" :name="props.item.nameEng" :value="defaultValue" />
-    <div class="select__head">{{ defaultName }}</div>
+    <input ref="selectValue" type="hidden" :name="setItemName(props.item)" :value="defaultValue" />
+    <div :title="defaultName" class="select__head">
+      <span class="select__placeholder">{{ defaultName }}</span>
+    </div>
     <ul ref="selectBody" class="select__body custom-scroll">
-      <li
-        v-for="(item, index) of props.item.options"
-        :key="index"
-        :value="item.value"
-        class="select__option"
-        @click="(e) => selectOption(item, e)"
-      >
-        {{ item.name }}
+      <li v-if="options !== null">
+        <ul>
+          <li
+            v-for="(item, index) of options"
+            :key="index"
+            :value="item.value"
+            class="select__option"
+            @click="(e) => selectOption(item, e)"
+          >
+            {{ item.name }}
+          </li>
+        </ul>
       </li>
     </ul>
   </div>
@@ -25,6 +31,7 @@ export default {
     return {
       defaultValue: this.props.defaultValue,
       defaultName: this.props.defaultName,
+      options: this.props.item.options,
     };
   },
   mounted() {
@@ -78,7 +85,6 @@ export default {
 
       selectsOnPage.forEach((item) => {
         if (item.classList.contains("open")) {
-          console.log(item);
           item.classList.remove("open");
         }
       });
@@ -88,6 +94,13 @@ export default {
 
       this.defaultValue = item.value;
       this.defaultName = item.name;
+    },
+    setItemName(item) {
+      const isArray = Array.isArray(item.nameEng);
+
+      const { path } = this.$route;
+
+      return isArray ? item.nameEng.find((el) => el.pages.includes(path))?.name : item.nameEng;
     },
   },
 };

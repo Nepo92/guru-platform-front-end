@@ -15,10 +15,14 @@ class DateUtils {
     return `${day}.${month}.${year}`;
   }
 
-  toDateParse(string) {
+  toTimestamp(string) {
     const arr = string.split("-");
 
-    return `${arr[1]}.${arr[0]}.${arr[2]}`;
+    const year = +arr[2];
+    const month = arr[1] - 1;
+    const day = +arr[0];
+
+    return +new Date(year, month, day);
   }
 
   dateToServer(string) {

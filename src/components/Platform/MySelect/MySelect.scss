@@ -51,6 +51,14 @@
     background-color: $white;
   }
 
+  &__placeholder {
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    pointer-events: none;
+  }
+
   &__option {
     width: 100%;
     height: auto;

@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import { dealAPI } from "@/api/api.js";
 
 export const loginStore = defineStore("loginStore", {
   state() {
@@ -35,10 +36,13 @@ export const monitorStore = defineStore("monitorStore", {
 export const filterStore = defineStore("filterStore", {
   state() {
     return {
-      // eslint-disable-next-line
       filter: filter || null,
-      // eslint-disable-next-line
       projects: projects || null,
+      managersFilter: managersFilter || null,
+      courses: courses || null,
+      dealType: dealType || null,
+      employees: employees || null,
+      funnels: null,
       period: [
         {
           name: "Сегодня",
@@ -73,7 +77,12 @@ export const filterStore = defineStore("filterStore", {
       filterInState: [
         {
           name: "Выручка",
-          nameEng: "proceedType",
+          nameEng: [
+            {
+              name: "proceedType",
+              pages: ["/monitor/"],
+            },
+          ],
           // eslint-disable-next-line
           selected: filter.proceedType,
           options: [
@@ -97,8 +106,42 @@ export const filterStore = defineStore("filterStore", {
           pages: ["/monitor/"],
         },
         {
+          name: "Менеджеры",
+          nameEng: [
+            {
+              name: "idManager",
+              pages: ["/funnel/"],
+            },
+          ],
+          selected: filter.idManager,
+          options: [
+            {
+              name: "Все Менеджеры",
+              value: 0,
+              title: null,
+            },
+            ...managersFilter.map((el) => {
+              return {
+                name: el.name,
+                value: el.id,
+                title: el.name,
+              };
+            }),
+          ],
+          pages: ["/funnel/"],
+        },
+        {
           name: "Проекты",
-          nameEng: "projectId",
+          nameEng: [
+            {
+              pages: ["/monitor/", "/monitor-control"],
+              name: "projectId",
+            },
+            {
+              pages: ["/funnel/"],
+              name: "project",
+            },
+          ],
           // eslint-disable-next-line
           selected: filter.projectId,
           options: [
@@ -114,11 +157,102 @@ export const filterStore = defineStore("filterStore", {
               };
             }),
           ],
-          pages: ["/monitor/", "/monitor-control/"],
+          pages: ["/monitor/", "/monitor-control/", "/funnel/"],
+        },
+        {
+          name: "Продукты",
+          nameEng: [
+            {
+              pages: ["/funnel/"],
+              name: "course",
+            },
+          ],
+          selected: filter.course,
+          options: [
+            {
+              name: "Все продукты",
+              value: "all",
+            },
+            ...courses.map((el) => {
+              return {
+                name: el,
+                value: el,
+              };
+            }),
+          ],
+          pages: ["/funnel/"],
+        },
+        {
+          name: "Тип сделки",
+          nameEng: [
+            {
+              pages: ["/funnel/"],
+              name: "dealType",
+            },
+          ],
+          selected: filter.dealType,
+          options: [
+            {
+              name: "Все сделки",
+              value: "all",
+            },
+            ...dealType.map((el) => {
+              return {
+                name: el.name,
+                value: el.value,
+              };
+            }),
+          ],
+          pages: ["/funnel/"],
+        },
+        {
+          name: "Сотрудники",
+          nameEng: [
+            {
+              pages: ["/funnel/"],
+              name: "isNotDismiss",
+            },
+          ],
+          selected: filter.isNotDismiss,
+          options: [
+            {
+              name: "Все сотрудники",
+              value: null,
+            },
+            ...employees.map((el) => {
+              return {
+                name: el ? "Работающие" : "Уволенные",
+                value: el,
+              };
+            }),
+          ],
+          pages: ["/funnel/"],
+        },
+        {
+          name: "Воронка",
+          nameEng: [
+            {
+              pages: ["/funnel/"],
+              name: "idFunnel",
+            },
+          ],
+          selected: filter.idFunnel,
+          options: [
+            {
+              name: "Все воронки",
+              value: 0,
+            },
+          ],
+          pages: ["/funnel/"],
         },
         {
           name: "Отображать",
-          nameEng: "showManagerType",
+          nameEng: [
+            {
+              name: "showManagerType",
+              pages: ["/monitor/"],
+            },
+          ],
           // eslint-disable-next-line
           selected: filter.showManagerType,
           options: [
@@ -148,7 +282,7 @@ export const filterStore = defineStore("filterStore", {
       const filter = Object.entries(this.filter);
 
       const filterRender = this.filterInState.filter((el) => {
-        const hasOption = filter.find((item) => item[0] === el.nameEng);
+        const hasOption = filter.find((item) => el.nameEng.find((elem) => elem.name === item[0]));
 
         if (hasOption) {
           el.value = hasOption[1];
@@ -158,6 +292,18 @@ export const filterStore = defineStore("filterStore", {
       });
 
       return filterRender;
+    },
+    getFunnels() {
+      return this.funnels;
+    },
+  },
+  actions: {
+    async fetchFunnels() {
+      try {
+        this.funnels = await dealAPI.getFunnels();
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
 });

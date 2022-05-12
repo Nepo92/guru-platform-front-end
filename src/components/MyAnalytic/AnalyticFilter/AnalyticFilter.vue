@@ -18,8 +18,6 @@ const menuUtils = new MenuUtils();
 
 const { filterOptions, filter, filterProps, datepickerMonth } = store;
 
-console.log(filterProps);
-
 export default {
   components: {
     MyLoader,
@@ -35,8 +33,8 @@ export default {
     };
   },
   created() {
-    const startDate = Date.parse(dateUtils.toDateParse(this.filter.startDate));
-    const endDate = Date.parse(dateUtils.toDateParse(this.filter.endDate));
+    const startDate = dateUtils.toTimestamp(this.filter.startDate);
+    const endDate = dateUtils.toTimestamp(this.filter.endDate);
 
     this.startDate = dateUtils.formatDDMMYYYY(startDate);
     this.endDate = dateUtils.formatDDMMYYYY(endDate);

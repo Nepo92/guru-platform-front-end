@@ -8,13 +8,22 @@
 </head>
 <body>
   <script th:inline='javascript'>
-    const managers = [[${managersMap}]];
     const logo = [[${ logoClass }]];
     const role = [[${ role }]];
     const company = [[${ company }]];
     const avatar = [[${ avatar }]];
     const filter = [[${filter}]];
-    const projects = null;
+    const projects = [[${projects}]];
+    const managersFilter = [[${managers}]];
+    const courses = [[${courses}]];
+    const dealType = [
+      {name: 'База', value: 'additional'}, 
+      {name: 'Трафик', value: 'traffic'}
+    ];
+    const employees = [true, false];
+
+    /* Аналитика */
+    const managers = [[${managersMap}]];
 
     const totalRevenue = [[${proceeds}]];
     const managerTotalRevenue = [[${mProceeds}]];

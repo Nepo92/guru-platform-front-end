@@ -14,120 +14,120 @@ export default {
       avatar: avatar || null,
       itemsAdmin: [
         {
-          path: "/monitor/",
+          path: ["/monitor/", "/monitor-control/"],
           name: "Рабочий стол",
           class: "dashboard",
         },
         {
-          path: "/funnel/",
+          path: ["/funnel/"],
           name: "Аналитика",
           class: "funnel",
         },
         {
-          path: "/deals/",
+          path: ["/deals/"],
           name: "CRM",
           class: "crm",
         },
         {
-          path: null,
+          path: [null],
           name: "Онлайн офис",
           class: "office",
           submenu: [
             {
-              path: "/a-corporate-center/about-company/",
+              path: ["/a-corporate-center/about-company/"],
               name: "О компании",
             },
             {
-              path: "/a-corporate-center/regulations/",
+              path: ["/a-corporate-center/regulations/"],
               name: "Регламенты",
             },
             {
-              path: "/a-corporate-center/bookmarks/",
+              path: ["/a-corporate-center/bookmarks/"],
               name: "База знаний",
             },
             {
-              path: "/a-corporate-center/training-center/",
+              path: ["/a-corporate-center/training-center/"],
               name: "Обучающий центр",
             },
             {
-              path: "/a-corporate-center/events/",
+              path: ["/a-corporate-center/events/"],
               name: "Мероприятия",
             },
             {
-              path: "/a-corporate-center/production/",
+              path: ["/a-corporate-center/production/"],
               name: "Продакшн",
             },
           ],
         },
         {
-          path: null,
+          path: [null],
           name: "Финансы",
           class: "finance",
           submenu: [
             {
-              path: "/workers-salary/",
+              path: ["/workers-salary/"],
               name: "Расчет вознаграждения",
             },
             {
-              path: "/salary/bonus/",
+              path: ["/salary/bonus/"],
               name: "Бонусы",
             },
           ],
         },
         {
-          path: null,
+          path: [null],
           name: "Команда",
           class: "team",
           submenu: [
             {
-              path: "/settings/users/staff/",
+              path: ["/settings/users/staff/"],
               name: "Сотрудники",
             },
             {
-              path: "/settings/action/",
+              path: ["/settings/action/"],
               name: "Акция",
             },
             {
-              path: "/motivation-builder/",
+              path: ["/motivation-builder/"],
               name: "Мотивация",
             },
             {
-              path: "/work-tracker/",
+              path: ["/work-tracker/"],
               name: "Рабочие часы",
             },
           ],
         },
         {
-          path: null,
+          path: [null],
           name: "Продукты",
           class: "products",
           submenu: [
             {
-              path: "/products/",
+              path: ["/products/"],
               name: "Продукты",
             },
             {
-              path: "/streams/",
+              path: ["/streams/"],
               name: "Потоки",
             },
             {
-              path: "/homework",
+              path: ["/homework"],
               name: "Проверка ДЗ",
             },
           ],
         },
         {
-          path: "/a-advertising",
+          path: ["/a-advertising"],
           name: "Маркетинг",
           class: "marketing",
         },
         {
-          path: "/performance-assessment/rating/",
+          path: ["/performance-assessment/rating/"],
           name: "Контроль",
           class: "control",
         },
         {
-          path: null,
+          path: [null],
           name: "Настройки",
           class: "settings",
           submenu: [
@@ -135,62 +135,62 @@ export default {
               special: {
                 idCompany: 1,
               },
-              path: "/settings/companies/",
+              path: ["/settings/companies/"],
               name: "Организации",
             },
             {
               special: null,
-              path: "/settings/projects/",
+              path: ["/settings/projects/"],
               name: "Проекты",
             },
             {
               special: null,
-              path: "/banners-settings/",
+              path: ["/banners-settings/"],
               name: "Баннер",
             },
             {
               special: null,
-              path: "/client-cleaner/",
+              path: ["/client-cleaner/"],
               name: "Чистка дублей",
             },
             {
               special: null,
-              path: "/settings/funnels/",
+              path: ["/settings/funnels/"],
               name: "Воронки",
             },
             {
               special: null,
-              path: "/payment-form-builder/",
+              path: ["/payment-form-builder/"],
               name: "Формы оплаты",
             },
             {
               special: null,
-              path: "/settings/common-plans/",
+              path: ["/settings/common-plans/"],
               name: "Планы",
             },
             {
               special: null,
-              path: "/a-advertising/links/",
+              path: ["/a-advertising/links/"],
               name: "Рекламные данные",
             },
             {
               special: null,
-              path: "/settings/lists/payment-method/",
+              path: ["/settings/lists/payment-method]/"],
               name: "Способы оплаты",
             },
             {
               special: null,
-              path: "/settings-contracts/",
+              path: ["/settings-contracts/"],
               name: "Договора",
             },
             {
               special: null,
-              path: "/bill-pattern/",
+              path: ["/bill-pattern/"],
               name: "Шаблоны счетов",
             },
             {
               special: null,
-              path: "/settings/password/",
+              path: ["/settings/password/"],
               name: "Пароли",
             },
           ],
@@ -199,37 +199,37 @@ export default {
       itemsManager: [
         {
           name: "Рабочий стол",
-          path: "/manager-monitor/",
+          path: ["/manager-monitor/"],
           class: "dashboard",
         },
         {
           name: "Онлайн офис",
-          path: null,
+          path: [null],
           submenu: {
             isActive: false,
             items: [
               {
-                path: "/corporate-center/about-company/",
+                path: ["/corporate-center/about-company/"],
                 name: "О компании",
               },
               {
-                path: "/corporate-center/regulations/",
+                path: ["/corporate-center/regulations/"],
                 name: "Регламенты",
               },
               {
-                path: "/corporate-center/bookmarks/",
+                path: ["/corporate-center/bookmarks/"],
                 name: "База знаний",
               },
               {
-                path: "/corporate-center/training-center/manager/",
+                path: ["/corporate-center/training-center/manager/"],
                 name: "Обучающий центр",
               },
               {
-                path: "/corporate-center/events/",
+                path: ["/corporate-center/events/"],
                 name: "Мероприятия",
               },
               {
-                path: "/a-corporate-center/production/",
+                path: ["/a-corporate-center/production/"],
                 name: "Продакшн",
               },
             ],
@@ -237,30 +237,30 @@ export default {
         },
         {
           name: "Рабочий кабинет",
-          path: null,
+          path: [null],
           class: "workers-office",
           submenu: [
             {
               name: "Вознаграждение",
-              path: "/employee-salary/",
+              path: ["/employee-salary/"],
             },
             {
               name: "Отчеты",
-              path: "/reports/",
+              path: ["/reports/"],
             },
             {
               name: "Пароли",
-              path: "/e-passwords/",
+              path: ["/e-passwords/"],
             },
           ],
         },
         {
           name: "CRM",
-          path: "/transactions/",
+          path: ["/transactions/"],
           class: "crm",
         },
         {
-          path: "/performance-assessment/",
+          path: ["/performance-assessment/"],
           name: "Контроль",
           class: "control",
         },
@@ -268,143 +268,143 @@ export default {
       itemsHeadManager: [
         {
           name: "CRM",
-          path: "/head-maanger-transactions/",
+          path: ["/head-maanger-transactions/"],
           class: "crm",
         },
         {
           name: "Рабочий кабинет",
-          path: null,
+          path: [null],
           class: "workers-office",
           submenu: [
             {
               name: "Вознаграждение",
-              path: "/employee-salary/",
+              path: ["/employee-salary/"],
             },
             {
               name: "Отчеты",
-              path: "/reports/",
+              path: ["/reports/"],
             },
             {
               name: "Пароли",
-              path: "/e-passwords/",
+              path: ["/e-passwords/"],
             },
           ],
         },
         {
-          path: null,
+          path: [null],
           name: "Онлайн офис",
           class: "office",
           submenu: [
             {
-              path: "/corporate-center/about-company/",
+              path: ["/corporate-center/about-company/"],
               name: "О компании",
             },
             {
-              path: "/corporate-center/regulations/",
+              path: ["/corporate-center/regulations/"],
               name: "Регламенты",
             },
             {
-              path: "/corporate-center/bookmarks/",
+              path: ["/corporate-center/bookmarks/"],
               name: "База знаний",
             },
             {
-              path: "/corporate-center/training-center/manager/",
+              path: ["/corporate-center/training-center/manager/"],
               name: "Обучающий центр",
             },
             {
-              path: "/corporate-center/events/",
+              path: ["/corporate-center/events/"],
               name: "Мероприятия",
             },
             {
-              path: "/a-corporate-center/production/",
+              path: ["/a-corporate-center/production/"],
               name: "Продакшн",
             },
           ],
         },
         {
-          path: "/performance-assessment/",
+          path: ["/performance-assessment/"],
           name: "Контроль",
           class: "control",
         },
       ],
       itemsExaminer: [
         {
-          path: "/examiner-control/",
+          path: ["/examiner-control/"],
           name: "Рабочий стол",
           class: "dashboard",
         },
         {
-          path: "/performance-assessment/rating/",
+          path: ["/performance-assessment/rating/"],
           name: "Контроль",
           class: "control",
         },
       ],
       itemsAdvertiser: [
         {
-          path: "/funnel/traffic/",
+          path: ["/funnel/traffic/"],
           name: "Аналитика",
           class: "funnel",
         },
         {
           name: "Рабочий кабинет",
-          path: null,
+          path: [null],
           class: "workers-office",
           submenu: [
             {
               name: "Вознаграждение",
-              path: "/advertiser-salary/",
+              path: ["/advertiser-salary/"],
             },
             {
               name: "Пароли",
-              path: "/e-passwords/",
+              path: ["/e-passwords/"],
             },
             {
-              path: "/corporate-center/training-center/advertiser/",
+              path: ["/corporate-center/training-center/advertiser/"],
               name: "Обучающий центр",
             },
             {
-              path: "/corporate-center/events/",
+              path: ["/corporate-center/events/"],
               name: "Мероприятия",
             },
           ],
         },
         {
-          path: null,
+          path: [null],
           name: "Онлайн офис",
           class: "office",
           submenu: [
             {
-              path: "/corporate-center/about-company/",
+              path: ["/corporate-center/about-company/"],
               name: "О компании",
             },
             {
-              path: "/corporate-center/regulations/",
+              path: ["/corporate-center/regulations/"],
               name: "Регламенты",
             },
             {
-              path: "/corporate-center/bookmarks/",
+              path: ["/corporate-center/bookmarks/"],
               name: "База знаний",
             },
             {
-              path: "/corporate-center/training-center/manager",
+              path: ["/corporate-center/training-center/manager"],
               name: "Обучающий центр",
             },
             {
-              path: "/a-corporate-center/production/",
+              path: ["/a-corporate-center/production/"],
               name: "Продакшн",
             },
           ],
         },
         {
-          path: null,
+          path: [null],
           name: "Маркетинг",
           submenu: [
             {
-              path: "/payment/page?id=1",
+              path: ["/payment/page?id=1"],
               name: "Распределение сделок",
             },
             {
-              path: "/a-advertising/",
+              path: ["/a-advertising/"],
               name: "Распределение заявок",
             },
           ],
@@ -412,7 +412,7 @@ export default {
       ],
       itemsCurator: [
         {
-          path: "/homework/",
+          path: ["/homework/"],
           name: "Проверка ДЗ",
           class: "homework",
         },
@@ -476,7 +476,7 @@ export default {
     checkMenuItemIsActive(menuItem) {
       const { path } = this.$route;
 
-      const isActive = menuItem.path === path ? "active" : "";
+      const isActive = menuItem.path?.includes(path) ? "active" : "";
 
       return isActive;
     },
@@ -566,8 +566,6 @@ export default {
 
       const close = closeWithAnimation || closeSubMenu;
 
-      console.log(subMenuIsOpen);
-
       return open || close;
     },
     mouseLeaveMenuItem(index) {
@@ -645,7 +643,7 @@ export default {
               ref="menuItems"
               class="menu-item__link"
               :class="checkHasSubMenu(item)"
-              :href="item.path"
+              :href="item.path[0]"
               @click="() => toggleSubMenuMobile(index)"
               @mouseenter.self="(e) => hoverMenuItem(e, index)"
               @mouseleave="(e) => mouseLeaveMenuItem(index)"
