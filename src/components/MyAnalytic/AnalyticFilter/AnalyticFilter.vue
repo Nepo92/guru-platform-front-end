@@ -1,8 +1,52 @@
+<template>
+  <div class="analytic-content__filter analytic-filter">
+    <FilterBtn @open-filter="openFilter" />
+    <form ref="filterDateForm" class="analytic-filter__form">
+      <ul class="analytic-filter__list">
+        <li class="analytic-filter__item calendar-icon">
+          <input
+            :ref="setDatepickerRef"
+            class="datepicker-here-month analytic-filter__input"
+            type="text"
+            :value="startDate"
+            placeholder="Укажите дату от"
+            name="startDate"
+          />
+        </li>
+        <li class="analytic-filter__item calendar-icon">
+          <input
+            :ref="setDatepickerRef"
+            class="datepicker-here-month analytic-filter__input"
+            type="text"
+            :value="endDate"
+            placeholder="Укажите дату до"
+            name="endDate"
+          />
+        </li>
+        <li class="analytic-filter__item angle-icon">
+          <select class="analytic-filter__select" name="idSort" @change="changeFilterDate">
+            <option
+              v-for="(item, index) of filterOptions"
+              :key="index"
+              :selected="+filter.idSort === +item.value"
+              :value="item.value"
+            >
+              {{ item.name }}
+            </option>
+          </select>
+        </li>
+      </ul>
+      <MyFilter :props="filterProps" @create-filter-modal="createFilterModal" />
+      <MyLoader @create-loader="createLoader" />
+    </form>
+  </div>
+</template>
+
 <script>
 import "./AnalyticFilter.scss";
 import "air-datepicker/air-datepicker.css";
 import AirDatepicker from "air-datepicker";
-import { analyticFilterStore } from "@/store/store";
+import { analyticFilterStore } from "./analyticFilterStore/analyticFilterStore";
 import { analyticAPI } from "@/api/api.js";
 import MyLoader from "../../Platform/MyLoader/MyLoader.vue";
 import LoaderUtils from "@/utils/LoaderUtils/LoaderUtils.js";
@@ -111,47 +155,3 @@ export default {
   },
 };
 </script>
-
-<template>
-  <div class="analytic-content__filter analytic-filter">
-    <FilterBtn @open-filter="openFilter" />
-    <form ref="filterDateForm" class="analytic-filter__form">
-      <ul class="analytic-filter__list">
-        <li class="analytic-filter__item calendar-icon">
-          <input
-            :ref="setDatepickerRef"
-            class="datepicker-here-month analytic-filter__input"
-            type="text"
-            :value="startDate"
-            placeholder="Укажите дату от"
-            name="startDate"
-          />
-        </li>
-        <li class="analytic-filter__item calendar-icon">
-          <input
-            :ref="setDatepickerRef"
-            class="datepicker-here-month analytic-filter__input"
-            type="text"
-            :value="endDate"
-            placeholder="Укажите дату до"
-            name="endDate"
-          />
-        </li>
-        <li class="analytic-filter__item angle-icon">
-          <select class="analytic-filter__select" name="idSort" @change="changeFilterDate">
-            <option
-              v-for="(item, index) of filterOptions"
-              :key="index"
-              :selected="+filter.idSort === +item.value"
-              :value="item.value"
-            >
-              {{ item.name }}
-            </option>
-          </select>
-        </li>
-      </ul>
-      <MyFilter :props="filterProps" @create-filter-modal="createFilterModal" />
-      <MyLoader @create-loader="createLoader" />
-    </form>
-  </div>
-</template>

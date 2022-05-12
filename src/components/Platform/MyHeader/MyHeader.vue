@@ -1,26 +1,3 @@
-<script>
-import "./MyHeader.scss";
-
-export default {
-  props: ["props"],
-  emits: ["open-settings-menu"],
-  methods: {
-    classActiveTab(tab) {
-      const { path } = this.$route;
-
-      const isActive = path === tab.link;
-
-      return isActive ? "active" : "";
-    },
-    openSettingsMenu(e) {
-      this.$emit("open-settings-menu", e);
-    },
-    openTabSettingsMenu(e) {
-      this.$emit("open-tab-settings-menu", e);
-    },
-  },
-};
-</script>
 
 <template>
   <header class="header" :style="{ backgroundColor: props.color ? 'white' : 'transparent' }">
@@ -55,3 +32,27 @@ export default {
     </div>
   </header>
 </template>
+
+<script>
+import "./MyHeader.scss";
+
+export default {
+  props: ["props"],
+  emits: ["open-settings-menu"],
+  methods: {
+    classActiveTab(tab) {
+      const { path } = this.$route;
+
+      const isActive = path === tab.link;
+
+      return isActive ? "active" : "";
+    },
+    openSettingsMenu(e) {
+      this.$emit("open-settings-menu", e);
+    },
+    openTabSettingsMenu(e) {
+      this.$emit("open-tab-settings-menu", e);
+    },
+  },
+};
+</script>

@@ -177,7 +177,7 @@ import MenuUtils from "../../../../utils/MenuUtils/MenuUtils.js";
 import { analyticAPI } from "@/api/api.js";
 import LoaderUtils from "@/utils/LoaderUtils/LoaderUtils.js";
 import MyLoader from "../../../Platform/MyLoader/MyLoader.vue";
-import { funnelSettingsStore } from "@/store/store";
+import { funnelSettingsStore } from "./funnelStore/funnelStore";
 
 const menuUtils = new MenuUtils();
 const loaderUtils = new LoaderUtils();

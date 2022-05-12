@@ -42,7 +42,7 @@
 <script>
 import "./ManagerStat.scss";
 import { filterAPI } from "../../../api/api";
-import { statMonitor } from "@/store/store";
+import { statMonitor } from "./managerStatStore/managerStatStore";
 import LoaderUtils from "../../../utils/LoaderUtils/LoaderUtils";
 import Loader from "../../Platform/MyLoader/MyLoader.vue";
 import ManagerStatAdminSales from "./ManagerStatAdmin/Sales/ManagerStatAdminSales.vue";

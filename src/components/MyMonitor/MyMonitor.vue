@@ -1,3 +1,24 @@
+<template>
+  <div class="monitor" :style="{ backgroundColor: background }">
+    <MyMenu />
+    <div class="monitor-content custom-scroll">
+      <MyHeader :props="props" @open-settings-menu="(e) => openSettingsMenu(e)" />
+      <div class="monitor-content__wrapper">
+        <MonitorFilter />
+        <ActionBanner v-if="showActionBanner()" />
+        <MonitorWidgets />
+        <ManagerStat />
+      </div>
+    </div>
+    <BackgroundSettings
+      @save-background="(e) => saveBackground(e)"
+      @close-background-settings="closeBackgroundSettings"
+      @create-settings-menu="createSettingsMenu"
+    />
+    <MyLoader @create-loader="createLoader" />
+  </div>
+</template>
+
 <script>
 import "./MyMonitor.scss";
 import MyMenu from "../Platform/MyMenu/MyMenu.vue";
@@ -8,7 +29,7 @@ import MonitorFilter from "./MonitorFilter/MonitorFilter.vue";
 import MyLoader from "../Platform/MyLoader/MyLoader.vue";
 import MonitorWidgets from "./MonitorWidgets/MonitorWidgets.vue";
 import ManagerStat from "./ManagerStat/ManagerStat.vue";
-import { monitorStore } from "@/store/store";
+import { monitorStore } from "./monitorStore/monitorStore";
 import { storeToRefs } from "pinia";
 
 import LoaderUtils from "@/utils/LoaderUtils/LoaderUtils.js";
@@ -162,24 +183,3 @@ export default {
   },
 };
 </script>
-
-<template>
-  <div class="monitor" :style="{ backgroundColor: background }">
-    <MyMenu />
-    <div class="monitor-content custom-scroll">
-      <MyHeader :props="props" @open-settings-menu="(e) => openSettingsMenu(e)" />
-      <div class="monitor-content__wrapper">
-        <MonitorFilter />
-        <ActionBanner v-if="showActionBanner()" />
-        <MonitorWidgets />
-        <ManagerStat />
-      </div>
-    </div>
-    <BackgroundSettings
-      @save-background="(e) => saveBackground(e)"
-      @close-background-settings="closeBackgroundSettings"
-      @create-settings-menu="createSettingsMenu"
-    />
-    <MyLoader @create-loader="createLoader" />
-  </div>
-</template>

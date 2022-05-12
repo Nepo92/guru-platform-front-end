@@ -1,3 +1,26 @@
+<template>
+  <div class="filter monitor__filter">
+    <FilterBtn @open-filter="openFilter" />
+    <ul class="monitor-filter__list">
+      <li class="monitor-filter__item period">
+        <ul class="period__list">
+          <li
+            v-for="(item, index) of period"
+            :key="index"
+            class="monitor-filter__item period__item"
+            :class="filter.period === item.value ? 'active' : ''"
+            @click="(e) => changePeriod(e, item)"
+          >
+            {{ item.name }}
+          </li>
+        </ul>
+      </li>
+    </ul>
+    <MyFilter :props="filterProps" @create-filter-modal="createFilterModal" />
+    <MyLoader @create-loader="createLoader" />
+  </div>
+</template>
+
 <script>
 import "./MonitorFilter.scss";
 import "../../Platform/MyFilter/MyFilter.scss";
@@ -11,11 +34,11 @@ import MyLoader from "@/components/Platform/MyLoader/MyLoader.vue";
 const menuUtils = new MenuUtils();
 const loaderUtils = new LoaderUtils();
 
-import { filterStore } from "@/store/store";
+import { monitorFilter } from "./monitorFilterStore/monitorFilterStore";
 import { storeToRefs } from "pinia";
 import FilterBtn from "@/components/Platform/MyFilter/FilterBtn/FilterBtn.vue";
 
-const store = filterStore();
+const store = monitorFilter();
 
 const { filter, period, monitorDeals, filterProps } = storeToRefs(store);
 
@@ -113,26 +136,3 @@ export default {
   },
 };
 </script>
-
-<template>
-  <div class="filter monitor__filter">
-    <FilterBtn @open-filter="openFilter" />
-    <ul class="monitor-filter__list">
-      <li class="monitor-filter__item period">
-        <ul class="period__list">
-          <li
-            v-for="(item, index) of period"
-            :key="index"
-            class="monitor-filter__item period__item"
-            :class="filter.period === item.value ? 'active' : ''"
-            @click="(e) => changePeriod(e, item)"
-          >
-            {{ item.name }}
-          </li>
-        </ul>
-      </li>
-    </ul>
-    <MyFilter :props="filterProps" @create-filter-modal="createFilterModal" />
-    <MyLoader @create-loader="createLoader" />
-  </div>
-</template>

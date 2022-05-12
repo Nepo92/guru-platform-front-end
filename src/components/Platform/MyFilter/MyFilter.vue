@@ -1,3 +1,56 @@
+<template>
+  <div ref="filterModal" class="filter-modal">
+    <div ref="filterModalWrapper" class="filter-modal__wrapper">
+      <div class="filter-modal__head">
+        <h2 class="filter-modal__title">
+          {{ props.title }}
+        </h2>
+        <span class="modal-header__close" @click="closeFilter" />
+      </div>
+      <div class="filter-modal__content custom-scroll">
+        <form
+          ref="filterForm"
+          class="filter-modal__form"
+          action="#"
+          th:action="@{/monitor/}"
+          th:method="post"
+        >
+          <ul class="filter-modal__column">
+            <li class="filter-modal__item width_100">
+              <h3 class="filter-modal__subtitle">Параметры</h3>
+            </li>
+            <li v-for="(item, index) of filterItems" :key="index" class="filter-modal__item">
+              <p class="filter-modal__name">
+                {{ item.name }}
+              </p>
+              <div class="filter-modal__select-wrapper">
+                <MySelect
+                  :ref="(el) => setRef(el, item)"
+                  :props="setProps(item)"
+                  @change="changeDealType"
+                />
+              </div>
+            </li>
+          </ul>
+        </form>
+      </div>
+      <div class="filter-modal__footer">
+        <div class="filter-modal__apply" @click="(e) => applyFilter(e)">Применить фильтры</div>
+        <button
+          v-if="props.filter?.canClear"
+          type="button"
+          class="filter-modal__reset"
+          @click="(e) => clearFilter(e)"
+        >
+          <span class="filter-modal__reset--icon" />
+          Сбросить фильтры
+        </button>
+      </div>
+    </div>
+    <MyLoader @create-loader="createLoader" />
+  </div>
+</template>
+
 <script>
 import "./MyFilter.scss";
 import { filterAPI } from "@/api/api.js";
@@ -5,15 +58,11 @@ import MenuUtils from "@/utils/MenuUtils/MenuUtils.js";
 import LoaderUtils from "@/utils/LoaderUtils/LoaderUtils.js";
 import MyLoader from "../MyLoader/MyLoader.vue";
 import "@/assets/scss/grid.scss";
-import FunnelUtils from "@/utils/FunnelUtils/FunnelUtils.js";
 
-import { filterStore } from "@/store/store";
-import { mapActions, storeToRefs } from "pinia";
 import MySelect from "../MySelect/MySelect.vue";
 
 const menuUtils = new MenuUtils();
 const loader = new LoaderUtils();
-const funnelUtils = new FunnelUtils();
 
 export default {
   components: {
@@ -22,35 +71,6 @@ export default {
   },
   props: ["props"],
   emits: ["create-filter-modal"],
-  setup() {
-    const store = filterStore();
-
-    const { filter, filterOnPage, selectProps, funnels, getFunnels } = storeToRefs(store);
-    const { fetchFunnels } = mapActions(filterStore, ["fetchFunnels"]);
-
-    return {
-      filter,
-      filterOnPage,
-      selectProps,
-      funnels,
-      fetchFunnels,
-      getFunnels,
-    };
-  },
-  data() {
-    return {
-      funnelOptions: this.funnels,
-    };
-  },
-  created() {
-    const { path } = this.$route;
-
-    this.filterItems = this.filterOnPage.filter((el) => el.pages.includes(path));
-
-    this.fetchFunnels().then(() => {
-      this.funnelOptions = this.getFunnels;
-    });
-  },
   mounted() {
     this.$emit("create-filter-modal", {
       modal: this.$refs.filterModal,
@@ -124,105 +144,6 @@ export default {
       const { loader } = props;
       this.loader = loader;
     },
-    defaultSelectValue(item) {
-      const filterData = Object.entries(this.filter);
-
-      const currentFilterItem = filterData.find((el) => {
-        return item.nameEng.find((elem) => elem.name === el[0]);
-      });
-
-      if (currentFilterItem) {
-        return currentFilterItem[1];
-      }
-    },
-    defaultSelectName(item) {
-      const filterData = Object.entries(this.filter);
-
-      const currentFilterItem = filterData.find((el) => {
-        return item.nameEng.find((elem) => elem.name === el[0]);
-      });
-
-      if (currentFilterItem) {
-        return item.options.find((el) => el.value === currentFilterItem[1])?.name || null;
-      }
-    },
-    setRef(el, item) {
-      if (item.name === "Воронка") {
-        this.funnelSelect = el;
-      }
-
-      if (item.name === "Тип сделки") {
-        this.dealTypeSelect = el;
-      }
-    },
-    changeDealType() {},
-    setProps(item) {
-      const props = {
-        item,
-        selectProps: this.selectProps,
-        defaultValue: this.defaultSelectValue(item),
-        defaultName: this.defaultSelectName(item),
-      };
-
-      if (item.name === "Воронка") {
-        props.item.options = this.funnelOptions || null;
-      }
-
-      return props;
-    },
   },
 };
 </script>
-
-<template>
-  <div ref="filterModal" class="filter-modal">
-    <div ref="filterModalWrapper" class="filter-modal__wrapper">
-      <div class="filter-modal__head">
-        <h2 class="filter-modal__title">
-          {{ props.title }}
-        </h2>
-        <span class="modal-header__close" @click="closeFilter" />
-      </div>
-      <div class="filter-modal__content custom-scroll">
-        <form
-          ref="filterForm"
-          class="filter-modal__form"
-          action="#"
-          th:action="@{/monitor/}"
-          th:method="post"
-        >
-          <ul class="filter-modal__column">
-            <li class="filter-modal__item width_100">
-              <h3 class="filter-modal__subtitle">Параметры</h3>
-            </li>
-            <li v-for="(item, index) of filterItems" :key="index" class="filter-modal__item">
-              <p class="filter-modal__name">
-                {{ item.name }}
-              </p>
-              <div class="filter-modal__select-wrapper">
-                <MySelect
-                  :ref="(el) => setRef(el, item)"
-                  :props="setProps(item)"
-                  @change="changeDealType"
-                />
-              </div>
-            </li>
-          </ul>
-        </form>
-      </div>
-      <div class="filter-modal__footer">
-        <div class="filter-modal__apply" @click="(e) => applyFilter(e)">Применить фильтры</div>
-        <button
-          v-if="filter.canClear"
-          type="button"
-          class="filter-modal__reset"
-          @click="(e) => clearFilter(e)"
-        >
-          <span class="filter-modal__reset--icon" />
-          Сбросить фильтры
-        </button>
-      </div>
-    </div>
-    <MyLoader @create-loader="createLoader" />
-  </div>
-</template>

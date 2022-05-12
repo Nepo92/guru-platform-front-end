@@ -70,7 +70,7 @@
 <script>
 import "@/assets/scss/tooltip.scss";
 import "./MonitorWidgets.scss";
-import { monitorWidgets } from "@/store/store";
+import { monitorWidgets } from "./monitorWidgetsStore/monitorWidgetsStore";
 
 const store = monitorWidgets();
 

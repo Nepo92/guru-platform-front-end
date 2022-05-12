@@ -19,7 +19,7 @@
 import "./MyAnalytic.scss";
 import MyMenu from "../Platform/MyMenu/MyMenu.vue";
 import MyHeader from "../Platform/MyHeader/MyHeader.vue";
-import { analyticStore } from "@/store/store.js";
+import { analyticStore } from "./analyticStore/analyticStore.js";
 import AnalyticFilter from "./AnalyticFilter/AnalyticFilter.vue";
 import MenuUtils from "@/utils/MenuUtils/MenuUtils.js";
 import FunnelSettings from "./Menus/FunnelSettings/FunnelSettings.vue";

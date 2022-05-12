@@ -1,3 +1,80 @@
+<template>
+  <nav ref="menu" class="menu" @mouseenter.stop="openMenu" @mouseleave="closeMenu">
+    <ul class="menu__wrapper">
+      <li class="menu__company menu-company">
+        <span ref="mobileMenuBtn" class="menu-company__open" @click="toggleMobileMenu">
+          <span class="menu-open__row" />
+        </span>
+        <img class="menu-company__img" :src="'/' + company.logo" />
+        <div class="menu-company__info">
+          <p class="menu-company__title">
+            {{ company.name }}
+          </p>
+          <p class="menu-company__name">
+            {{ company.legalName }}
+          </p>
+        </div>
+      </li>
+      <li class="menu__selector" />
+      <li class="menu__list menu-list custom-scroll" :class="checkOverFlowMenuItems">
+        <ul>
+          <li
+            v-for="(item, index) of menuItems"
+            :key="index"
+            class="menu-list__item menu-item"
+            :class="checkMenuItemIsActive(item)"
+          >
+            <a
+              ref="menuItems"
+              class="menu-item__link"
+              :class="checkHasSubMenu(item)"
+              :href="item.path[0]"
+              @click="() => toggleSubMenuMobile(index)"
+              @mouseenter.self="(e) => hoverMenuItem(e, index)"
+              @mouseleave="(e) => mouseLeaveMenuItem(index)"
+              @touchstart="(e) => hoverMenuItem(e, index)"
+              @touchend="(e) => mouseLeaveMenuItem(index)"
+            >
+              {{ item.name }}
+            </a>
+            <ul
+              v-if="item.submenu?.length"
+              ref="submenu"
+              class="sub-menu"
+              :class="index === subMenu.currentIndex ? openSubMenu() : ''"
+              @mouseenter="(e) => mouseOnSubMenu(e)"
+            >
+              <li v-for="(elem, count) of item.submenu" :key="count" class="sub-menu__item">
+                <a class="sub-menu__link" :href="elem.path">{{ elem.name }}</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li v-if="avatar" class="menu__user menu-user">
+        <img
+          class="menu-user__avatar"
+          :class="!avatar.path ? 'menu-avatar__default' : ''"
+          :src="avatar.path ? '/' + avatar.path : null"
+          alt="user-avatar"
+        />
+        <div class="menu-user__info">
+          <p class="menu-user__name">
+            {{ avatar.name }}
+          </p>
+          <p class="menu-user__rating rating-icon">
+            {{ avatar.currentScore }}
+          </p>
+        </div>
+      </li>
+      <li class="menu__selector" />
+      <li class="menu__logout" @mouseover.self="openMenu">
+        <a class="menu-logout__link logout" href="/logout">Выйти</a>
+      </li>
+    </ul>
+  </nav>
+</template>
+
 <script>
 import "./MyMenu.scss";
 
@@ -612,80 +689,3 @@ export default {
   },
 };
 </script>
-
-<template>
-  <nav ref="menu" class="menu" @mouseenter.stop="openMenu" @mouseleave="closeMenu">
-    <ul class="menu__wrapper">
-      <li class="menu__company menu-company">
-        <span ref="mobileMenuBtn" class="menu-company__open" @click="toggleMobileMenu">
-          <span class="menu-open__row" />
-        </span>
-        <img class="menu-company__img" :src="'/' + company.logo" />
-        <div class="menu-company__info">
-          <p class="menu-company__title">
-            {{ company.name }}
-          </p>
-          <p class="menu-company__name">
-            {{ company.legalName }}
-          </p>
-        </div>
-      </li>
-      <li class="menu__selector" />
-      <li class="menu__list menu-list custom-scroll" :class="checkOverFlowMenuItems">
-        <ul>
-          <li
-            v-for="(item, index) of menuItems"
-            :key="index"
-            class="menu-list__item menu-item"
-            :class="checkMenuItemIsActive(item)"
-          >
-            <a
-              ref="menuItems"
-              class="menu-item__link"
-              :class="checkHasSubMenu(item)"
-              :href="item.path[0]"
-              @click="() => toggleSubMenuMobile(index)"
-              @mouseenter.self="(e) => hoverMenuItem(e, index)"
-              @mouseleave="(e) => mouseLeaveMenuItem(index)"
-              @touchstart="(e) => hoverMenuItem(e, index)"
-              @touchend="(e) => mouseLeaveMenuItem(index)"
-            >
-              {{ item.name }}
-            </a>
-            <ul
-              v-if="item.submenu?.length"
-              ref="submenu"
-              class="sub-menu"
-              :class="index === subMenu.currentIndex ? openSubMenu() : ''"
-              @mouseenter="(e) => mouseOnSubMenu(e)"
-            >
-              <li v-for="(elem, count) of item.submenu" :key="count" class="sub-menu__item">
-                <a class="sub-menu__link" :href="elem.path">{{ elem.name }}</a>
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </li>
-      <li v-if="avatar" class="menu__user menu-user">
-        <img
-          class="menu-user__avatar"
-          :class="!avatar.path ? 'menu-avatar__default' : ''"
-          :src="avatar.path ? '/' + avatar.path : null"
-          alt="user-avatar"
-        />
-        <div class="menu-user__info">
-          <p class="menu-user__name">
-            {{ avatar.name }}
-          </p>
-          <p class="menu-user__rating rating-icon">
-            {{ avatar.currentScore }}
-          </p>
-        </div>
-      </li>
-      <li class="menu__selector" />
-      <li class="menu__logout" @mouseover.self="openMenu">
-        <a class="menu-logout__link logout" href="/logout">Выйти</a>
-      </li>
-    </ul>
-  </nav>
-</template>
