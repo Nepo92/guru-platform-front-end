@@ -77,7 +77,8 @@
 
             <div class="lessons lesson-course">
                 <div class="lessons__inner">
-                    <a class="back" th:href="'/user/courses/' + ${idDeal} + '/' + ${idModule} + '?idBlock=' + ${idBlock == null ? '' : idBlock}">
+                    <a class="back"
+                        th:href="'/user/courses/' + ${idDeal} + '/' + ${idModule} + '?idBlock=' + ${idBlock == null ? '' : idBlock}">
                         <span class="back__icon"></span>
                         Назад к списку уроков
                     </a>
@@ -132,7 +133,7 @@
                                     <div class="lessons-document__item">
                                         <div class="lessons-document__controls">
                                             <a class="lessons-document__btn btn-download"
-                                                th:href="${lessonBlock.id} + '/' + ${lessonBlock.value}" download>
+                                                th:href="'/' + ${lessonBlock.value}" download>
                                                 <span class="btn-download__icon"></span>
                                                 <span class="btn-download__text">Скачать</span>
                                             </a>
@@ -163,8 +164,8 @@
                                                 var mobile = [[${ index.current.value }]];
                                             /*]]>*/
                                             </script>
-                                            <a lesson-banner-mobile rel="noopener noreferrer" target="_blank" th:href="${lessonBlock.value}"
-                                                class="lesson-banner__link">
+                                            <a lesson-banner-mobile rel="noopener noreferrer" target="_blank"
+                                                th:href="${lessonBlock.value}" class="lesson-banner__link">
                                                 <img class="lesson-banner__mobile-img" src="">
                                             </a>
                                         </th:block>
@@ -173,8 +174,8 @@
                                 <div class="lesson-banner__desktop">
                                     <th:block th:each="img, index : ${lessonBlock.blockValues}">
                                         <th:block th:if="${index.index == #lists.size(lessonBlock.blockValues) - 1}">
-                                            <a lesson-banner-desktop rel="noopener noreferrer" target="_blank" th:href="${lessonBlock.value}"
-                                                class="lesson-banner__link">
+                                            <a lesson-banner-desktop rel="noopener noreferrer" target="_blank"
+                                                th:href="${lessonBlock.value}" class="lesson-banner__link">
                                                 <img class="lesson-banner__desktop-img" src="">
                                                 <script th:inline='javascript'>
                                                     /*<![CDATA[*/
