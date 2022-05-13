@@ -15,19 +15,22 @@
           th:action="@{/monitor/}"
           th:method="post"
         >
-          <ul class="filter-modal__column">
+          <ul v-for="(item, index) of props.columns" :key="index" class="filter-modal__column">
             <li class="filter-modal__item width_100">
-              <h3 class="filter-modal__subtitle">Параметры</h3>
+              <h3 class="filter-modal__subtitle">{{ item.name }}</h3>
             </li>
-            <li v-for="(item, index) of filterItems" :key="index" class="filter-modal__item">
+            <li v-for="(elem, count) of item.items" :key="count" class="filter-modal__item">
               <p class="filter-modal__name">
-                {{ item.name }}
+                {{ elem.name }}
               </p>
               <div class="filter-modal__select-wrapper">
                 <MySelect
-                  :ref="(el) => setRef(el, item)"
-                  :props="setProps(item)"
-                  @change="changeDealType"
+                  v-if="elem.type === 'select'"
+                  :props="{
+                    ...elem,
+                    ...props.selectsProps,
+                  }"
+                  @change-select-value="changeFilterSelectValue"
                 />
               </div>
             </li>
@@ -37,7 +40,7 @@
       <div class="filter-modal__footer">
         <div class="filter-modal__apply" @click="(e) => applyFilter(e)">Применить фильтры</div>
         <button
-          v-if="props.filter?.canClear"
+          v-if="props.filter.canClear"
           type="button"
           class="filter-modal__reset"
           @click="(e) => clearFilter(e)"
@@ -52,14 +55,20 @@
 </template>
 
 <script>
-import "./MyFilter.scss";
+// api
 import { filterAPI } from "@/api/api.js";
+
+// components
+import MyLoader from "../MyLoader/MyLoader.vue";
+import MySelect from "../MySelect/MySelect.vue";
+
+// utils
 import MenuUtils from "@/utils/MenuUtils/MenuUtils.js";
 import LoaderUtils from "@/utils/LoaderUtils/LoaderUtils.js";
-import MyLoader from "../MyLoader/MyLoader.vue";
-import "@/assets/scss/grid.scss";
 
-import MySelect from "../MySelect/MySelect.vue";
+// styles
+import "./MyFilter.scss";
+import "@/assets/scss/grid.scss";
 
 const menuUtils = new MenuUtils();
 const loader = new LoaderUtils();
@@ -143,6 +152,16 @@ export default {
     createLoader(props) {
       const { loader } = props;
       this.loader = loader;
+    },
+    changeFilterSelectValue(props) {
+      this.props.changeSelectValue(props);
+
+      this.$emit("change-filter-select");
+
+      // if (name === "Тип сделки") {
+      //   this.props.changeDealType(t.value);
+      //   this.$emit("change-filter-deal-type");
+      // }
     },
   },
 };

@@ -132,6 +132,9 @@ export const analyticStore = defineStore("analyticStore", {
         color: true,
         border: false,
       },
+      selectProps: {
+        selectsOnPage: [],
+      },
     };
   },
 });

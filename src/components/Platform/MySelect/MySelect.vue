@@ -1,22 +1,23 @@
 <template>
   <div ref="select" class="select select-icon" @click="openSelect">
-    <input ref="selectValue" type="hidden" :name="setItemName(props.item)" :value="defaultValue" />
-    <div :title="defaultName" class="select__head">
-      <span class="select__placeholder">{{ defaultName }}</span>
+    <input
+      ref="selectValue"
+      type="hidden"
+      :name="setItemName(props.nameEng)"
+      :value="props.selected"
+    />
+    <div :title="props.selectedName()" class="select__head">
+      <span class="select__placeholder">{{ props.selectedName() }}</span>
     </div>
     <ul ref="selectBody" class="select__body custom-scroll">
-      <li v-if="options !== null">
-        <ul>
-          <li
-            v-for="(item, index) of options"
-            :key="index"
-            :value="item.value"
-            class="select__option"
-            @click="(e) => selectOption(item, e)"
-          >
-            {{ item.name }}
-          </li>
-        </ul>
+      <li
+        v-for="(item, index) of props.options"
+        :key="index"
+        :value="item.value"
+        class="select__option"
+        @click="selectOption(item, props.name)"
+      >
+        {{ item.name }}
       </li>
     </ul>
   </div>
@@ -27,17 +28,9 @@ import "./MySelect.scss";
 
 export default {
   props: ["props"],
-  data() {
-    return {
-      defaultValue: this.props.defaultValue,
-      defaultName: this.props.defaultName,
-      options: this.props.item.options,
-    };
-  },
   mounted() {
     const { select } = this.$refs;
-    const { selectProps } = this.props;
-    const { selectsOnPage } = selectProps;
+    const { selectsOnPage } = this.props;
 
     if (!selectsOnPage.length) {
       const closeSelect = this.closeSelect.bind(this);
@@ -49,8 +42,7 @@ export default {
   methods: {
     openSelect(e) {
       const { select, selectBody } = this.$refs;
-      const { selectProps } = this.props;
-      const { selectsOnPage } = selectProps;
+      const { selectsOnPage } = this.props;
 
       const selctIsOpen = selectsOnPage.some((el) => el.classList.contains("open"));
 
@@ -62,7 +54,6 @@ export default {
 
       const { left } = select.getBoundingClientRect();
       const { bottom } = select.getBoundingClientRect();
-
       const width = select.offsetWidth;
 
       selectBody.style.left = left + "px";
@@ -73,6 +64,7 @@ export default {
       const t = e.target;
 
       const selectClass = ["select__head", "select-icon"];
+
       const isNotSelect = !selectClass.some((el) => t.classList.contains(el));
 
       if (isNotSelect) {
@@ -80,8 +72,7 @@ export default {
       }
     },
     closeAllSelect() {
-      const { selectProps } = this.props;
-      const { selectsOnPage } = selectProps;
+      const { selectsOnPage } = this.props;
 
       selectsOnPage.forEach((item) => {
         if (item.classList.contains("open")) {
@@ -89,18 +80,27 @@ export default {
         }
       });
     },
-    selectOption(item, e) {
-      const t = e.target;
+    selectOption(item, name) {
+      const { selectValue } = this.$refs;
 
-      this.defaultValue = item.value;
-      this.defaultName = item.name;
+      const selectOptionProps = {
+        target: selectValue,
+        name,
+        selectedOption: {
+          name: item.name,
+          value: item.value,
+        },
+      };
+
+      setTimeout(() => {
+        this.$emit("change-select-value", selectOptionProps);
+      }, 100);
     },
-    setItemName(item) {
-      const isArray = Array.isArray(item.nameEng);
-
+    setItemName(nameEng) {
+      const isArray = Array.isArray(nameEng);
       const { path } = this.$route;
 
-      return isArray ? item.nameEng.find((el) => el.pages.includes(path))?.name : item.nameEng;
+      return isArray ? nameEng.find((el) => el.pages.includes(path))?.name : nameEng;
     },
   },
 };

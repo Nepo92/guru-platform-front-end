@@ -16,7 +16,7 @@
         </ul>
       </li>
     </ul>
-    <MyFilter :props="filterProps" @create-filter-modal="createFilterModal" />
+    <MyFilter :props="{ ...filterProps, ...props }" @create-filter-modal="createFilterModal" />
     <MyLoader @create-loader="createLoader" />
   </div>
 </template>
@@ -35,12 +35,13 @@ const menuUtils = new MenuUtils();
 const loaderUtils = new LoaderUtils();
 
 import { monitorFilter } from "./monitorFilterStore/monitorFilterStore";
-import { storeToRefs } from "pinia";
+import { storeToRefs, mapActions } from "pinia";
 import FilterBtn from "@/components/Platform/MyFilter/FilterBtn/FilterBtn.vue";
 
 const store = monitorFilter();
 
-const { filter, period, monitorDeals, filterProps } = storeToRefs(store);
+const { filter, period, monitorDeals, filterProps, getSortedFilterItems } = storeToRefs(store);
+const { setPage } = mapActions(monitorFilter, ["setPage"]);
 
 export default {
   components: {
@@ -48,13 +49,23 @@ export default {
     MyLoader,
     FilterBtn,
   },
+  props: ["props"],
   setup() {
     return {
       filter,
       period,
       monitorDeals,
       filterProps,
+      setPage,
+      getSortedFilterItems,
     };
+  },
+  created() {
+    const { path } = this.$route;
+
+    this.setPage(path);
+
+    console.log(this.getSortedFilterItems);
   },
   methods: {
     openFilter() {

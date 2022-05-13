@@ -24,67 +24,98 @@
           />
         </li>
         <li class="analytic-filter__item angle-icon">
-          <select class="analytic-filter__select" name="idSort" @change="changeFilterDate">
-            <option
-              v-for="(item, index) of filterOptions"
-              :key="index"
-              :selected="+filter.idSort === +item.value"
-              :value="item.value"
-            >
-              {{ item.name }}
-            </option>
-          </select>
+          <MySelect
+            :props="{
+              ...filterProps.filterPeriod.select,
+              ...props.selectsProps,
+            }"
+          />
         </li>
       </ul>
-      <MyFilter :props="filterProps" @create-filter-modal="createFilterModal" />
+      <MyFilter
+        :props="{
+          ...filterProps,
+          ...props,
+          changeSelectValue,
+          changeDealType,
+          getCurrentFunnels,
+        }"
+        @create-filter-modal="createFilterModal"
+        @change-filter-deal-type="changeFilterDealType"
+        @change-filter-select="changeFilterSelect"
+      />
       <MyLoader @create-loader="createLoader" />
     </form>
   </div>
 </template>
 
 <script>
+// styles
 import "./AnalyticFilter.scss";
 import "air-datepicker/air-datepicker.css";
-import AirDatepicker from "air-datepicker";
-import { analyticFilterStore } from "./analyticFilterStore/analyticFilterStore";
-import { analyticAPI } from "@/api/api.js";
+
+// components
 import MyLoader from "../../Platform/MyLoader/MyLoader.vue";
-import LoaderUtils from "@/utils/LoaderUtils/LoaderUtils.js";
-import DateUtils from "@/utils/DateUtils/DateUtils.js";
 import FilterBtn from "@/components/Platform/MyFilter/FilterBtn/FilterBtn.vue";
 import MyFilter from "@/components/Platform/MyFilter/MyFilter.vue";
+import MySelect from "../../Platform/MySelect/MySelect.vue";
+
+// utils
+import LoaderUtils from "@/utils/LoaderUtils/LoaderUtils.js";
+import DateUtils from "@/utils/DateUtils/DateUtils.js";
 import MenuUtils from "@/utils/MenuUtils/MenuUtils.js";
 
-const store = analyticFilterStore();
+//plugins
+import AirDatepicker from "air-datepicker";
+
+// api
+import { analyticAPI } from "@/api/api.js";
+
+// store
+import { analyticFilterStore } from "./analyticFilterStore/analyticFilterStore";
+import { mapActions, storeToRefs } from "pinia";
+
 const loaderUtils = new LoaderUtils();
 const dateUtils = new DateUtils();
 const menuUtils = new MenuUtils();
-
-const { filterOptions, filter, filterProps, datepickerMonth } = store;
+const store = analyticFilterStore();
 
 export default {
   components: {
     MyLoader,
     FilterBtn,
     MyFilter,
+    MySelect,
   },
-  setup() {
+  props: ["props"],
+  async setup() {
+    const { filterProps, initialFunnels, getCurrentFunnels, getFilterPropsAfterChange } =
+      storeToRefs(store);
+    const { changeDealType, changeSelectValue } = mapActions(analyticFilterStore, [
+      "changeDealType",
+      "changeSelectValue",
+    ]);
+
+    await store.fetchFunnels();
+
     return {
-      filter,
-      filterOptions,
       filterProps,
-      datepickerMonth,
+      initialFunnels,
+      changeDealType,
+      getCurrentFunnels,
+      changeSelectValue,
+      getFilterPropsAfterChange,
     };
   },
   created() {
-    const startDate = dateUtils.toTimestamp(this.filter.startDate);
-    const endDate = dateUtils.toTimestamp(this.filter.endDate);
+    const startDate = dateUtils.toTimestamp(this.filterProps.filter.startDate);
+    const endDate = dateUtils.toTimestamp(this.filterProps.filter.endDate);
 
     this.startDate = dateUtils.formatDDMMYYYY(startDate);
     this.endDate = dateUtils.formatDDMMYYYY(endDate);
   },
   mounted() {
-    this.datepickerMonth.forEach((item) => {
+    this.filterProps.filterPeriod.datepickerMonth.forEach((item) => {
       new AirDatepicker(item, {
         view: "months",
       });
@@ -107,15 +138,21 @@ export default {
       this.loader = props.loader;
     },
     setDatepickerRef(el) {
-      this.datepickerMonth.push(el);
+      this.filterProps.filterPeriod.datepickerMonth.push(el);
     },
     applyFilterDate(t) {
       const { filterDateForm } = this.$refs;
 
       const formData = new FormData(filterDateForm);
 
-      formData.set("startDate", dateUtils.dateToServer(this.datepickerMonth[0].value));
-      formData.set("endDate", dateUtils.dateToServer(this.datepickerMonth[1].value));
+      formData.set(
+        "startDate",
+        dateUtils.dateToServer(this.filterProps.filterPeriod.datepickerMonth[0].value)
+      );
+      formData.set(
+        "endDate",
+        dateUtils.dateToServer(this.filterProps.filterPeriod.datepickerMonth[1].value)
+      );
 
       const applyFilterDate = analyticAPI.changeAnalyticDate(formData);
 
@@ -151,6 +188,12 @@ export default {
       const { modal, wrapper } = props;
       this.filterModal = modal;
       this.filterModalWrapper = wrapper;
+    },
+    changeFilterDealType() {
+      this.filterProps = this.getCurrentFunnels;
+    },
+    changeFilterSelect() {
+      this.filterProps = this.getFilterPropsAfterChange;
     },
   },
 };

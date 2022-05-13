@@ -4,7 +4,7 @@
     <div class="monitor-content custom-scroll">
       <MyHeader :props="props" @open-settings-menu="(e) => openSettingsMenu(e)" />
       <div class="monitor-content__wrapper">
-        <MonitorFilter />
+        <MonitorFilter :props="{ selectsProps: selectProps }" />
         <ActionBanner v-if="showActionBanner()" />
         <MonitorWidgets />
         <ManagerStat />
@@ -20,27 +20,35 @@
 </template>
 
 <script>
-import "./MyMonitor.scss";
+// components
 import MyMenu from "../Platform/MyMenu/MyMenu.vue";
 import MyHeader from "../Platform/MyHeader/MyHeader.vue";
 import BackgroundSettings from "./Menus/BackgroundSettings/BackgroundSettings.vue";
-import { monitorAPI } from "@/api/api.js";
 import MonitorFilter from "./MonitorFilter/MonitorFilter.vue";
 import MyLoader from "../Platform/MyLoader/MyLoader.vue";
 import MonitorWidgets from "./MonitorWidgets/MonitorWidgets.vue";
 import ManagerStat from "./ManagerStat/ManagerStat.vue";
+
+// store
 import { monitorStore } from "./monitorStore/monitorStore";
 import { storeToRefs } from "pinia";
 
+// api
+import { monitorAPI } from "@/api/api.js";
+
+// utils
 import LoaderUtils from "@/utils/LoaderUtils/LoaderUtils.js";
 import MenuUtils from "@/utils/MenuUtils/MenuUtils.js";
+
+// styles
+import "./MyMonitor.scss";
 
 const menuUtils = new MenuUtils();
 const loaderUtils = new LoaderUtils();
 
 const store = monitorStore();
 
-const { actionBanners, role, company, background } = storeToRefs(store);
+const { actionBanners, role, company, background, selectProps } = storeToRefs(store);
 
 export default {
   components: {
@@ -56,6 +64,7 @@ export default {
     return {
       background,
       company,
+      selectProps,
     };
   },
   data() {

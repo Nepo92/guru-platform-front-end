@@ -1,6 +1,6 @@
-import {defineStore} from 'pinia';
+import { defineStore } from "pinia";
 
-export const monitorFilter = defineStore('monitorFilter', {
+export const monitorFilter = defineStore("monitorFilter", {
   state() {
     return {
       filter: filter || null,
@@ -39,98 +39,121 @@ export const monitorFilter = defineStore('monitorFilter', {
         },
       ],
       filterProps: {
+        filter: filter || null,
         title: "Фильтровать монитор",
         columns: [
           {
+            name: "Параметры",
             items: [
               {
-            type: 'select',
-            name: "Выручка",
-            nameEng: [
+                type: "select",
+                name: "Проекты",
+                nameEng: [
+                  {
+                    pages: ["/monitor/", "/monitor-control"],
+                    name: "projectId",
+                  },
+                  {
+                    pages: ["/funnel/"],
+                    name: "project",
+                  },
+                ],
+                selected: filter.projectId,
+                options: [
+                  {
+                    name: "Все проекты",
+                    value: 0,
+                  },
+                  ...projects.map((project) => {
+                    return {
+                      name: project.name,
+                      value: project.id,
+                    };
+                  }),
+                ],
+                selectedName() {
+                  return this.options.find((el) => el.value === this.selected)?.name || null;
+                },
+                pages: ["/monitor/", "/monitor-control/"],
+              },
               {
-                name: "proceedType",
+                type: "select",
+                name: "Отображать",
+                nameEng: [
+                  {
+                    name: "showManagerType",
+                    pages: ["/monitor/"],
+                  },
+                ],
+                selected: filter.showManagerType,
+                options: [
+                  {
+                    name: "Все",
+                    value: 1,
+                  },
+                  {
+                    name: "Работающие",
+                    value: 2,
+                  },
+                  {
+                    name: "Уволенные",
+                    value: 3,
+                  },
+                ],
+                selectedName() {
+                  return this.options.find((el) => el.value === this.selected)?.name || null;
+                },
                 pages: ["/monitor/"],
               },
-            ],
-            selected: filter.proceedType,
-            options: [
               {
-                name: "Все",
-                value: 0,
-              },
-              {
-                name: "Трафик",
-                value: 1,
-              },
-              {
-                name: "База",
-                value: 2,
-              },
-              {
-                name: "Товарка",
-                value: 3,
-              },
-            ],
-            pages: ["/monitor/"],
-              },
-              {
-            type: 'select',
-            name: "Проекты",
-            nameEng: [
-              {
-                pages: ["/monitor/", "/monitor-control"],
-                name: "projectId",
-              },
-              {
-                pages: ["/funnel/"],
-                name: "project",
-              },
-            ],
-            selected: filter.projectId,
-            options: [
-              {
-                name: "Все проекты",
-                value: 0,
-              },
-              ...projects.map((project) => {
-                return {
-                  name: project.name,
-                  value: project.id,
-                };
-              }),
-            ],
-            pages: ["/monitor/", "/monitor-control/"],
-              },
-              {
-            type: 'select',
-            name: "Отображать",
-            nameEng: [
-              {
-                name: "showManagerType",
+                type: "select",
+                name: "Выручка",
+                nameEng: [
+                  {
+                    name: "proceedType",
+                    pages: ["/monitor/"],
+                  },
+                ],
+                selected: filter.proceedType,
+                options: [
+                  {
+                    name: "Все",
+                    value: 0,
+                  },
+                  {
+                    name: "Трафик",
+                    value: 1,
+                  },
+                  {
+                    name: "База",
+                    value: 2,
+                  },
+                  {
+                    name: "Товарка",
+                    value: 3,
+                  },
+                ],
+                selectedName() {
+                  return this.options.find((el) => el.value === this.selected)?.name || null;
+                },
                 pages: ["/monitor/"],
-              },
-            ],
-            selected: filter.showManagerType,
-            options: [
-              {
-                name: "Все",
-                value: 1,
-              },
-              {
-                name: "Работающие",
-                value: 2,
-              },
-              {
-                name: "Уволенные",
-                value: 3,
-              },
-            ],
-            pages: ["/monitor/"],
               },
             ],
           },
         ],
       },
-    }
+    };
+  },
+  getters: {
+    getSortedFilterItems() {
+      this.filterProps.columns.forEach((item) => {
+        item.items = [...item.items.filter((el) => el.pages.includes(this.currentPage))];
+      });
+    },
+  },
+  actions: {
+    setPage(page) {
+      this.currentPage = page;
+    },
   },
 });

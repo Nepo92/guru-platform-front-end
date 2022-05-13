@@ -9,26 +9,35 @@
       />
       <FunnelSettings @create-funnel-settings-menu="createFunnelSettingsMenu" />
       <div class="analytic-content__wrapper">
-        <AnalyticFilter />
+        <Suspense>
+          <AnalyticFilter :props="{ selectsProps: selectProps }" />
+        </Suspense>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+//* styles
 import "./MyAnalytic.scss";
-import MyMenu from "../Platform/MyMenu/MyMenu.vue";
-import MyHeader from "../Platform/MyHeader/MyHeader.vue";
-import { analyticStore } from "./analyticStore/analyticStore.js";
-import AnalyticFilter from "./AnalyticFilter/AnalyticFilter.vue";
-import MenuUtils from "@/utils/MenuUtils/MenuUtils.js";
-import FunnelSettings from "./Menus/FunnelSettings/FunnelSettings.vue";
 import "@/assets/scss/grid.scss";
 
-const store = analyticStore();
-const menuUtils = new MenuUtils();
+//* components
+import MyMenu from "../Platform/MyMenu/MyMenu.vue";
+import MyHeader from "../Platform/MyHeader/MyHeader.vue";
+import AnalyticFilter from "./AnalyticFilter/AnalyticFilter.vue";
+import FunnelSettings from "./Menus/FunnelSettings/FunnelSettings.vue";
 
-const { managers, analytic, headerProps } = store;
+//* utils
+import MenuUtils from "@/utils/MenuUtils/MenuUtils.js";
+
+//* store
+import { analyticStore } from "./analyticStore/analyticStore.js";
+
+const menuUtils = new MenuUtils();
+const store = analyticStore();
+
+const { managers, analytic, headerProps, selectProps } = store;
 
 export default {
   components: {
@@ -42,6 +51,7 @@ export default {
       managers,
       analytic,
       headerProps,
+      selectProps,
     };
   },
   methods: {

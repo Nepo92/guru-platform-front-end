@@ -1,49 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>GuruPlatform Alpha | Аналитика</title>
 </head>
+
 <body>
   <script th:inline='javascript'>
     const logo = [[${ logoClass }]];
     const role = [[${ role }]];
     const company = [[${ company }]];
     const avatar = [[${ avatar }]];
-    const filter = [[${filter}]];
-    const projects = [[${projects}]];
-    const managersFilter = [[${managers}]];
-    const courses = [[${courses}]];
+    const filter = [[${ filter }]];
+    const projects = [[${ projects }]];
+    const managersFilter = [[${ managers }]];
+    const courses = [[${ courses }]];
     const dealType = [
-      {name: 'База', value: 'additional'}, 
-      {name: 'Трафик', value: 'traffic'}
+      { name: 'База', value: 'additional' },
+      { name: 'Трафик', value: 'traffic' }
     ];
     const employees = [true, false];
+    const initialFunnels = [];
 
     /* Аналитика */
-    const managers = [[${managersMap}]];
+    const managers = [[${ managersMap }]];
 
-    const totalRevenue = [[${proceeds}]];
-    const managerTotalRevenue = [[${mProceeds}]];
-    const trafficRevenue = [[${trafficMailingProceeds}]];
-    const managerTrafficRevenue = [[${mTrafficMailingProceeds}]];
-    const additionalRevenue = [[${additionalRevenue}]];
-    const managerAdditionalRevenue = [[${managerAdditionalRevenue}]];
-    const advExpenses = [[${advPrice}]];
-    const managerAdvExpenses = [[${mAdvPrice}]];
+    const totalRevenue = [[${ proceeds }]];
+    const managerTotalRevenue = [[${ mProceeds }]];
+    const trafficRevenue = [[${ trafficMailingProceeds }]];
+    const managerTrafficRevenue = [[${ mTrafficMailingProceeds }]];
+    const additionalRevenue = [[${ additionalRevenue }]];
+    const managerAdditionalRevenue = [[${ managerAdditionalRevenue }]];
+    const advExpenses = [[${ advPrice }]];
+    const managerAdvExpenses = [[${ mAdvPrice }]];
     const kpd = [[${ kpd }]];
     const managerKpd = [[${ mKPD }]];
-    const sales = [[${sales}]];
-    const managerSales = [[${mSales}]];
-    const salesTraffic = [[${salesTraffic}]];
-    const managerSalesTraffic = [[${mSalesTraffic}]];
+    const sales = [[${ sales }]];
+    const managerSales = [[${ mSales }]];
+    const salesTraffic = [[${ salesTraffic }]];
+    const managerSalesTraffic = [[${ mSalesTraffic }]];
     const salesMailing = [[${ salesMailing }]];
     const managerSalesMailing = [[${ mSalesMailing }]];
     const salesAdditional = [[${ salesAdditional }]];
     const managerSalesAdditional = [[${ mSalesAdditional }]];
-    const average = [[${average}]];
+    const average = [[${ average }]];
     const managerAverage = [[${ mAverage }]];
     const averageTrafficMailing = [[${ averageTrafficMailing }]];
     const managerAverageTrafficMailing = [[${ mAverageTrafficMailing }]];
@@ -58,19 +61,19 @@
     const prescribedToSale = [[${ prescribedToSale }]];
     const managerPrescribedToSale = [[${ mPrescribedToSale }]];
     const shareAdvExpensesTrafficPage = [[${ profitPercent }]];
-    const managerShareAdvExpensesTrafficPage = [[${mProfitPercent}]];
+    const managerShareAdvExpensesTrafficPage = [[${ mProfitPercent }]];
     const advShow = [[${ advShows }]];
     const managerAdvShow = [[${ mAdvShows }]];
     const advClick = [[${ advClick }]];
     const managerAdvClick = [[${ mAdvClick }]];
-    const advApplication = [[${advApplication}]];
+    const advApplication = [[${ advApplication }]];
     const managerAdvApplication = [[${ mAdvApplication }]];
-    const importantRow = [[${importantRow}]];
-    const managerImportantRow = [[${mImportantRow}]];
+    const importantRow = [[${ importantRow }]];
+    const managerImportantRow = [[${ mImportantRow }]];
     const invoices = [[${ invoices }]];
     const managerInvoices = [[${ mInvoices }]];
-    const salesNewClient = [[${salesNewClient}]];
-    const managerSalesNewClient = [[${salesMNewClient}]];
+    const salesNewClient = [[${ salesNewClient }]];
+    const managerSalesNewClient = [[${ salesMNewClient }]];
     const salesNewClientNM = [[${ salesNewClientNM }]];
     const salesMNewClientNM = [[${ salesMNewClientNM }]];
     const salesNewClientM = [[${ salesNewClientM }]];
@@ -86,7 +89,7 @@
     const newClientsWithoutMailing = [[${ newClientsWithoutMailing }]];
     const newMClientsWithoutMailing = [[${ newMClientsWithoutMailing }]];
     const newClientsWithMailing = [[${ newClientsWithMailing }]];
-    const newMClientsWithMailing = [[${newMClientsWithMailing}]];
+    const newMClientsWithMailing = [[${ newMClientsWithMailing }]];
     const averageCheckTraffic = [[${ averageCheck }]];
     const managerAverageCheckTraffic = [[${ mAverage }]];
     const showPrice = [[${ showPrice }]];
@@ -108,18 +111,19 @@
     const clickToApplication = [[${ clickToApplication }]];
     const mClickToApplication = [[${ mClickToApplication }]];
     const applicationToInvoice = [[${ applicationToInvoice }]];
-    const mApplicationToInvoice = [[${mApplicationToInvoice}]];
-    const invoiceToClient = [[${invoiceToClient}]];
-    const mInvoiceToClient = [[${mInvoiceToClient}]];
-    const applicationToClient = [[${applicationToClient}]];
-    const mApplicationToClient = [[${mApplicationToClient}]];
-    const clickToApplicationDo = [[${clickToApplicationDo}]];
+    const mApplicationToInvoice = [[${ mApplicationToInvoice }]];
+    const invoiceToClient = [[${ invoiceToClient }]];
+    const mInvoiceToClient = [[${ mInvoiceToClient }]];
+    const applicationToClient = [[${ applicationToClient }]];
+    const mApplicationToClient = [[${ mApplicationToClient }]];
+    const clickToApplicationDo = [[${ clickToApplicationDo }]];
     const mClickToApplicationDo = [[${ mClickToApplicationDo }]];
-    const CV5Row = [[${CV5Row}]];
-    const mCV5Row = [[${mCV5Row}]];
+    const CV5Row = [[${ CV5Row }]];
+    const mCV5Row = [[${ mCV5Row }]];
     const kpdColor = [[${ kpdColor }]];
-    const ratingColor = [[${ratingColor}]];
+    const ratingColor = [[${ ratingColor }]];
   </script>
   <div id="app"></div>
 </body>
+
 </html>
