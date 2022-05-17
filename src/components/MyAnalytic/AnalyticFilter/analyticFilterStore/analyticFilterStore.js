@@ -3,6 +3,13 @@ import { dealAPI } from "@/api/api.js";
 
 export const analyticFilterStore = defineStore("analyticFilter", {
   state() {
+    const dealType = [
+      { name: "База", value: "additional" },
+      { name: "Трафик", value: "traffic" },
+    ];
+
+    const employees = [true, false];
+
     return {
       dealType: filter.dealType,
       filterProps: {
@@ -194,7 +201,9 @@ export const analyticFilterStore = defineStore("analyticFilter", {
                   },
                 ],
                 selectedName() {
-                  return this.options.find((el) => el.value === this.selected)?.name || null;
+                  return (
+                    this.options.find((el) => el.value === this.selected)?.name || "Все воронки"
+                  );
                 },
                 pages: ["/funnel/"],
               },
@@ -227,6 +236,10 @@ export const analyticFilterStore = defineStore("analyticFilter", {
                   currentFunnels[1].forEach((elem) =>
                     el.options.push({ name: elem.funnelName, value: elem.idFunnel })
                   );
+
+                  if (el.selectedName() === "Все воронки") {
+                    el.selected = 0;
+                  }
                 }
 
                 return el;
@@ -275,6 +288,26 @@ export const analyticFilterStore = defineStore("analyticFilter", {
     },
     setPage(page) {
       this.currentPage = page;
+    },
+    changeSelectValue(selected) {
+      this.filterProps.columns = [
+        ...this.filterProps.columns.map((item) => {
+          item.items = [
+            ...item.items.map((el) => {
+              if (el.name === selected.name) {
+                el.selected = selected.selectedOption.value;
+              }
+
+              return el;
+            }),
+          ];
+
+          return item;
+        }),
+      ];
+    },
+    changeSelectFilter(selected) {
+      this.filterProps.filterPeriod.select.selected = selected.selectedOption.value;
     },
   },
 });

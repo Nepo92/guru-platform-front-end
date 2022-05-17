@@ -6,33 +6,36 @@
         :props="headerProps"
         @open-tab-settings-menu.prevent="openFunnelSettingsMenu"
         @create-funnel-settings-menu="createFunnelSettingsMenu"
+        @active-tab="getTabsRef"
       />
       <FunnelSettings @create-funnel-settings-menu="createFunnelSettingsMenu" />
       <div class="analytic-content__wrapper">
         <Suspense>
           <AnalyticFilter :props="{ selectsProps: selectProps }" />
         </Suspense>
+        <AnalyticTable />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-//* styles
+// styles
 import "./MyAnalytic.scss";
 import "@/assets/scss/grid.scss";
 
-//* components
+// components
 import MyMenu from "../Platform/MyMenu/MyMenu.vue";
 import MyHeader from "../Platform/MyHeader/MyHeader.vue";
 import AnalyticFilter from "./AnalyticFilter/AnalyticFilter.vue";
 import FunnelSettings from "./Menus/FunnelSettings/FunnelSettings.vue";
+import AnalyticTable from "./AnalyticTable/AnalyticTable.vue";
 
-//* utils
+// utils
 import MenuUtils from "@/utils/MenuUtils/MenuUtils.js";
 
-//* store
-import { analyticStore } from "./analyticStore/analyticStore.js";
+// store
+import { analyticStore } from "./AnalyticStore/AnalyticStore.js";
 
 const menuUtils = new MenuUtils();
 const store = analyticStore();
@@ -45,6 +48,7 @@ export default {
     MyHeader,
     AnalyticFilter,
     FunnelSettings,
+    AnalyticTable,
   },
   setup() {
     return {

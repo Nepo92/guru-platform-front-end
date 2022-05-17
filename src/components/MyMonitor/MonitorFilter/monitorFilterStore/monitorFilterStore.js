@@ -50,7 +50,7 @@ export const monitorFilter = defineStore("monitorFilter", {
                 name: "Проекты",
                 nameEng: [
                   {
-                    pages: ["/monitor/", "/monitor-control"],
+                    pages: ["/monitor/", "/monitor-control/"],
                     name: "projectId",
                   },
                   {
@@ -148,12 +148,38 @@ export const monitorFilter = defineStore("monitorFilter", {
     getSortedFilterItems() {
       this.filterProps.columns.forEach((item) => {
         item.items = [...item.items.filter((el) => el.pages.includes(this.currentPage))];
+
+        item.items.forEach((el) => {
+          el.nameEng = [...el.nameEng.filter((item) => item.pages.includes(this.currentPage))];
+        });
       });
+
+      return this.filterProps.columns;
+    },
+    getFilterPropsAfterChange() {
+      return this.filterProps;
     },
   },
   actions: {
     setPage(page) {
       this.currentPage = page;
+    },
+    changeSelectValue(selected) {
+      this.filterProps.columns = [
+        ...this.filterProps.columns.map((item) => {
+          item.items = [
+            ...item.items.map((el) => {
+              if (el.name === selected.name) {
+                el.selected = selected.selectedOption.value;
+              }
+
+              return el;
+            }),
+          ];
+
+          return item;
+        }),
+      ];
     },
   },
 });

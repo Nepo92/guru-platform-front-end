@@ -71,10 +71,12 @@
 import "@/assets/scss/tooltip.scss";
 import "./MonitorWidgets.scss";
 import { monitorWidgets } from "./monitorWidgetsStore/monitorWidgetsStore";
+import { mapActions, storeToRefs } from "pinia";
 
 const store = monitorWidgets();
 
-const { tiles, widgetsData, filter } = store;
+const { tiles, widgetsData, filter, getWidgetsItems } = storeToRefs(store);
+const { setPage, setFilterPeriod } = mapActions(monitorWidgets, ["setPage", "setFilterPeriod"]);
 
 export default {
   setup() {
@@ -82,11 +84,18 @@ export default {
       tiles,
       widgetsData,
       filter,
+      getWidgetsItems,
+      setPage,
+      setFilterPeriod,
     };
   },
   created() {
     const { path } = this.$route;
-    this.currentWidgets = this.widgetsData.filter((el) => el.pages.includes(path));
+
+    this.setPage(path);
+    this.setFilterPeriod(this.filter.period);
+
+    this.currentWidgets = this.getWidgetsItems;
   },
   methods: {
     setItemName(item) {

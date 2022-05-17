@@ -16,7 +16,15 @@
         </ul>
       </li>
     </ul>
-    <MyFilter :props="{ ...filterProps, ...props }" @create-filter-modal="createFilterModal" />
+    <MyFilter
+      :props="{
+        ...filterProps,
+        ...props,
+        changeSelectValue,
+      }"
+      @create-filter-modal="createFilterModal"
+      @change-filter-select="changeFilterSelect"
+    />
     <MyLoader @create-loader="createLoader" />
   </div>
 </template>
@@ -40,8 +48,15 @@ import FilterBtn from "@/components/Platform/MyFilter/FilterBtn/FilterBtn.vue";
 
 const store = monitorFilter();
 
-const { filter, period, monitorDeals, filterProps, getSortedFilterItems } = storeToRefs(store);
-const { setPage } = mapActions(monitorFilter, ["setPage"]);
+const {
+  filter,
+  period,
+  monitorDeals,
+  filterProps,
+  getSortedFilterItems,
+  getFilterPropsAfterChange,
+} = storeToRefs(store);
+const { setPage, changeSelectValue } = mapActions(monitorFilter, ["setPage", "changeSelectValue"]);
 
 export default {
   components: {
@@ -58,6 +73,8 @@ export default {
       filterProps,
       setPage,
       getSortedFilterItems,
+      changeSelectValue,
+      getFilterPropsAfterChange,
     };
   },
   created() {
@@ -65,7 +82,7 @@ export default {
 
     this.setPage(path);
 
-    console.log(this.getSortedFilterItems);
+    this.filterProps.columns = this.getSortedFilterItems;
   },
   methods: {
     openFilter() {
@@ -143,6 +160,9 @@ export default {
       const { loader } = props;
 
       this.loader = loader;
+    },
+    changeFilterSelect() {
+      this.filterProps = this.getFilterPropsAfterChange;
     },
   },
 };

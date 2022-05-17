@@ -31,6 +31,7 @@
                     ...props.selectsProps,
                   }"
                   @change-select-value="changeFilterSelectValue"
+                  @change-deal-type="changeDealType"
                 />
               </div>
             </li>
@@ -157,11 +158,10 @@ export default {
       this.props.changeSelectValue(props);
 
       this.$emit("change-filter-select");
-
-      // if (name === "Тип сделки") {
-      //   this.props.changeDealType(t.value);
-      //   this.$emit("change-filter-deal-type");
-      // }
+    },
+    changeDealType(props) {
+      this.props.changeDealType(props.selectedOption.value);
+      this.$emit("change-filter-deal-type");
     },
   },
 };

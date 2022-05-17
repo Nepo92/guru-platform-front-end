@@ -94,6 +94,10 @@ export default {
 
       setTimeout(() => {
         this.$emit("change-select-value", selectOptionProps);
+
+        if (name === "Тип сделки") {
+          this.$emit("change-deal-type", selectOptionProps);
+        }
       }, 100);
     },
     setItemName(nameEng) {

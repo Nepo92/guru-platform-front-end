@@ -23,12 +23,13 @@
             name="endDate"
           />
         </li>
-        <li class="analytic-filter__item angle-icon">
+        <li class="analytic-filter__item period-delimeter angle-icon">
           <MySelect
             :props="{
               ...filterProps.filterPeriod.select,
               ...props.selectsProps,
             }"
+            @change-select-value="applyFilterSort"
           />
         </li>
       </ul>
@@ -91,10 +92,10 @@ export default {
   async setup() {
     const { filterProps, initialFunnels, getCurrentFunnels, getFilterPropsAfterChange } =
       storeToRefs(store);
-    const { changeDealType, changeSelectValue } = mapActions(analyticFilterStore, [
-      "changeDealType",
-      "changeSelectValue",
-    ]);
+    const { changeDealType, changeSelectValue, changeSelectFilter } = mapActions(
+      analyticFilterStore,
+      ["changeDealType", "changeSelectValue", "changeSelectFilter"]
+    );
 
     await store.fetchFunnels();
 
@@ -104,6 +105,7 @@ export default {
       changeDealType,
       getCurrentFunnels,
       changeSelectValue,
+      changeSelectFilter,
       getFilterPropsAfterChange,
     };
   },
@@ -154,6 +156,22 @@ export default {
         dateUtils.dateToServer(this.filterProps.filterPeriod.datepickerMonth[1].value)
       );
 
+      this.changeFilterSort(formData, t);
+    },
+    applyFilterSort(props) {
+      this.changeSelectFilter(props);
+
+      this.filterProps = this.getFilterPropsAfterChange;
+
+      const formData = new FormData();
+
+      formData.set("idSort", props.selectedOption.value);
+
+      console.log(formData.get("idSort"));
+
+      this.changeFilterSort(formData, props.target);
+    },
+    changeFilterSort(formData, t) {
       const applyFilterDate = analyticAPI.changeAnalyticDate(formData);
 
       const loader = setTimeout(() => {

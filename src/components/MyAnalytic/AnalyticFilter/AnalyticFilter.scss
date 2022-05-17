@@ -51,7 +51,6 @@
     font-weight: 400;
     line-height: 18px;
     color: black;
-    width: 190px;
 
     &:nth-child(2) {
       margin-left: 50px;
@@ -73,6 +72,10 @@
         mask-position: center;
         mask-size: 100% 100%;
       }
+    }
+
+    &.period-delimeter {
+      width: 190px;
     }
 
     &.angle-icon {

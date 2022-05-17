@@ -55,7 +55,7 @@
               <li class="funnel-colors__item">
                 <p class="modal-content__name">Зеленый</p>
                 <input
-                  name="lineColors1.green"
+                  name="lineColors[1].green"
                   :value="kpdColors.green"
                   autocomplete="off"
                   type="text"
@@ -65,7 +65,7 @@
               <li class="funnel-colors__item">
                 <p class="modal-content__name">Желтый</p>
                 <input
-                  name="lineColors1.yellow"
+                  name="lineColors[1].yellow"
                   :value="kpdColors.yellow"
                   autocomplete="off"
                   type="text"
@@ -75,7 +75,7 @@
               <li class="funnel-colors__item">
                 <p class="modal-content__name">Красный</p>
                 <input
-                  name="lineColors1.red"
+                  name="lineColors[1].red"
                   :value="kpdColors.red"
                   autocomplete="off"
                   type="text"
@@ -92,7 +92,7 @@
               <li class="funnel-colors__item">
                 <p class="modal-content__name">Зеленый</p>
                 <input
-                  name="lineColors2.green"
+                  name="lineColors[2].green"
                   :value="proceedsColors.green"
                   autocomplete="off"
                   type="text"
@@ -102,7 +102,7 @@
               <li class="funnel-colors__item">
                 <p class="modal-content__name">Желтый</p>
                 <input
-                  name="lineColors2.yellow"
+                  name="lineColors[2].yellow"
                   :value="proceedsColors.yellow"
                   autocomplete="off"
                   type="text"
@@ -112,7 +112,7 @@
               <li class="funnel-colors__item">
                 <p class="modal-content__name">Красный</p>
                 <input
-                  name="lineColors2.red"
+                  name="lineColors[2].red"
                   :value="proceedsColors.red"
                   autocomplete="off"
                   type="text"
@@ -129,7 +129,7 @@
               <li class="funnel-colors__item">
                 <p class="modal-content__name">Зеленый</p>
                 <input
-                  name="lineColors3.green"
+                  name="lineColors[3].green"
                   :value="mailingColors.green"
                   autocomplete="off"
                   type="text"
@@ -139,7 +139,7 @@
               <li class="funnel-colors__item">
                 <p class="modal-content__name">Желтый</p>
                 <input
-                  name="lineColors3.yellow"
+                  name="lineColors[3].yellow"
                   :value="mailingColors.yellow"
                   autocomplete="off"
                   type="text"
@@ -149,7 +149,7 @@
               <li class="funnel-colors__item">
                 <p class="modal-content__name">Красный</p>
                 <input
-                  name="lineColors3.red"
+                  name="lineColors[3].red"
                   :value="mailingColors.red"
                   autocomplete="off"
                   type="text"

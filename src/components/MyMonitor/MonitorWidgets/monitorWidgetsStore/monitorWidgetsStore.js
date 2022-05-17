@@ -14,7 +14,7 @@ export const monitorWidgets = defineStore("monitorWidgets", {
           percent: null,
           plan: null,
           description: "Количество целевых обращений, учитываются из CRM",
-          period: [null, 4],
+          period: [null, 4, 1, 2, 3],
           metric: {
             green: 99,
             yellow: 65,
@@ -29,7 +29,7 @@ export const monitorWidgets = defineStore("monitorWidgets", {
           plan: tiles?.bill.plan,
           description:
             "Количество оформленных заказов, учитываются как оплаченные так и не оплаченные",
-          period: [null, 4],
+          period: [null, 4, 1, 2, 3],
           metric: {
             green: 99,
             yellow: 65,
@@ -44,7 +44,7 @@ export const monitorWidgets = defineStore("monitorWidgets", {
           plan: tiles?.sale.plan,
           description:
             "Количество оплаченных заказов, учитываются как предоплаты так и полные оплаты",
-          period: [null, 4],
+          period: [null, 4, 1, 2, 3],
           metric: {
             green: 99,
             yellow: 65,
@@ -58,7 +58,7 @@ export const monitorWidgets = defineStore("monitorWidgets", {
           percent: tiles?.proceed.percent,
           plan: tiles?.proceed.plan,
           description: "Сумма вырученных от продаж денег",
-          period: [null, 4],
+          period: [null, 4, 1, 2, 3],
           metric: {
             green: 99,
             yellow: 65,
@@ -74,7 +74,7 @@ export const monitorWidgets = defineStore("monitorWidgets", {
           plan: null,
           description:
             "Прогноз выручки, считается по формуле: (факт по выручке / на количество прошедших дней) * количество дней в месяце",
-          period: [null],
+          period: [null, 1, 2, 3],
           metric: {
             green: 99,
             yellow: 65,
@@ -104,7 +104,7 @@ export const monitorWidgets = defineStore("monitorWidgets", {
           value: generalRow?.dealCount,
           percent: null,
           description: "Количество проверенных сделок",
-          period: [null],
+          period: [1, 2, 3, 4],
           metric: null,
           units: null,
           pages: ["/monitor-control/"],
@@ -115,7 +115,7 @@ export const monitorWidgets = defineStore("monitorWidgets", {
           value: generalRow?.rateCount,
           percent: null,
           description: "Количество разрешенных споров",
-          period: [null],
+          period: [1, 2, 3, 4],
           metric: null,
           units: null,
           pages: ["/monitor-control/"],
@@ -126,7 +126,7 @@ export const monitorWidgets = defineStore("monitorWidgets", {
           value: generalRow?.debateCount,
           percent: null,
           description: "Количество измененных оценок в спорах",
-          period: [null],
+          period: [1, 2, 3, 4],
           metric: null,
           units: null,
           pages: ["/monitor-control/"],
@@ -137,7 +137,7 @@ export const monitorWidgets = defineStore("monitorWidgets", {
           value: generalRow?.debateCount,
           percent: null,
           description: "Количество измененных оценок в спорах",
-          period: [null],
+          period: [1, 2, 3, 4],
           metric: null,
           units: null,
           pages: ["/monitor-control/"],
@@ -148,7 +148,7 @@ export const monitorWidgets = defineStore("monitorWidgets", {
           value: generalRow?.score,
           percent: null,
           description: "Средняя оценка менеджеров",
-          period: [null],
+          period: [1, 2, 3, 4],
           metric: null,
           units: null,
           pages: ["/monitor-control/"],
@@ -157,11 +157,20 @@ export const monitorWidgets = defineStore("monitorWidgets", {
     };
   },
   getters: {
-    widgetsData() {
-      const lessMonth = this.widgets.filter((el) => el.period.includes(this.filter.period));
-      const other = this.widgets.filter((el) => el.period.includes(null));
+    getWidgetsItems() {
+      const filterOnPage = this.widgets.filter((el) => el.pages.includes(this.currentPage));
 
-      return this.filter.period === 4 ? lessMonth : other;
+      const result = filterOnPage.filter((el) => el.period.includes(this.filterPeriod));
+
+      return result;
+    },
+  },
+  actions: {
+    setPage(page) {
+      this.currentPage = page;
+    },
+    setFilterPeriod(period) {
+      this.filterPeriod = period;
     },
   },
 });

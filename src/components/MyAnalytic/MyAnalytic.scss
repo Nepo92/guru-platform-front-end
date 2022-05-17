@@ -14,7 +14,7 @@
 @media (min-width: 1000px) {
   .analytic {
     display: grid;
-    grid-template-columns: 70px calc(100vw - 70px);
+    grid-template-columns: max-content auto;
     grid-template-areas: "menu content";
   }
 

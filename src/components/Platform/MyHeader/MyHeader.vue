@@ -1,4 +1,3 @@
-
 <template>
   <header class="header" :style="{ backgroundColor: props.color ? 'white' : 'transparent' }">
     <div class="header__wrapper">
@@ -16,6 +15,7 @@
         <li
           v-for="(tab, index) of props.tabs"
           :key="index"
+          ref="tabs"
           class="header-tabs__item"
           :class="[classActiveTab(tab), tab.nameClass || '']"
         >
