@@ -73,7 +73,7 @@ import AirDatepicker from "air-datepicker";
 import { analyticAPI } from "@/api/api.js";
 
 // store
-import { analyticFilterStore } from "./analyticFilterStore/analyticFilterStore";
+import { analyticFilterStore } from "../AnalyticFilterStore/AnalyticFilterStore.js";
 import { mapActions, storeToRefs } from "pinia";
 
 const loaderUtils = new LoaderUtils();
@@ -92,9 +92,9 @@ export default {
   async setup() {
     const { filterProps, initialFunnels, getCurrentFunnels, getFilterPropsAfterChange } =
       storeToRefs(store);
-    const { changeDealType, changeSelectValue, changeSelectFilter } = mapActions(
+    const { changeDealType, changeSelectValue, changeSelectFilter, setPeriodProps } = mapActions(
       analyticFilterStore,
-      ["changeDealType", "changeSelectValue", "changeSelectFilter"]
+      ["changeDealType", "changeSelectValue", "changeSelectFilter", "setPeriodProps"]
     );
 
     await store.fetchFunnels();
@@ -107,6 +107,7 @@ export default {
       changeSelectValue,
       changeSelectFilter,
       getFilterPropsAfterChange,
+      setPeriodProps,
     };
   },
   created() {
@@ -115,6 +116,8 @@ export default {
 
     this.startDate = dateUtils.formatDDMMYYYY(startDate);
     this.endDate = dateUtils.formatDDMMYYYY(endDate);
+
+    this.setPeriodProps([this.startDate, this.endDate, this.filterProps.filter.idSort]);
   },
   mounted() {
     this.filterProps.filterPeriod.datepickerMonth.forEach((item) => {

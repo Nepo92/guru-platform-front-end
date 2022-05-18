@@ -1,16 +1,23 @@
 <template>
-  <div class="analytic-content__table">
+  <div class="analytic-content__table custom-scroll">
     <div class="analytic-table__header">
-      <div class="analytic-table__search searc-icon">
-        <input class="analytic-table__input" placeholder="Метрики" type="text" />
+      <div class="analytic-header__metric">
+        <div class="analytic-table__search search-icon">
+          <input class="analytic-table__input" placeholder="Метрики" type="text" />
+        </div>
+        <div class="analytic-table__column">Итого</div>
       </div>
-      <div class="analytic-table__column">Итого</div>
+      <div class="analytic-header__period">
+        <div class="analytic-table__column" v-for="(item, index) of periodItems" :key="index">
+          {{ item }}
+        </div>
+      </div>
     </div>
     <div class="analytic-table__wrapper">
       <div class="analytic-metric">
-        <div v-for="(metric, index) of rows" :key="index">
+        <div class="analytic-metric__row" v-for="(metric, index) of rows" :key="index">
           <div class="analytic-metric__info">
-            <div class="analytic-metric__title">
+            <div class="analytic-metric__title metric-icon">
               {{ metric.name }}
             </div>
             <div class="analytic-metric__value">
@@ -46,22 +53,28 @@
 import "./AnalyticTable.scss";
 
 // store
-import { analyticTableStore } from "./AnalyticTableStore/AnalyticTableStore.js";
-import { mapActions, storeToRefs } from "pinia";
+import { analyticFilterStore } from "../AnalyticFilterStore/AnalyticFilterStore.js";
+import { storeToRefs, mapActions } from "pinia";
 
-const store = analyticTableStore();
+const store = analyticFilterStore();
 
-const { colors, getCurrentRows, managers, getPeriod } = storeToRefs(store);
-const { setInitialValues } = mapActions(analyticTableStore, ["setInitialValues"]);
+const { colors, getCurrentRows, managers, getPeriodProps } = storeToRefs(store);
+const { setInitialValues } = mapActions(analyticFilterStore, ["setInitialValues"]);
 
 export default {
-  setup() {
+  async setup() {
+    const timer = await new Promise((res) => {
+      setTimeout(() => {
+        res();
+      }, 400);
+    });
+
     return {
       colors,
       getCurrentRows,
-      setInitialValues,
       managers,
-      getPeriod,
+      getPeriodProps,
+      setInitialValues,
     };
   },
   created() {
@@ -69,8 +82,10 @@ export default {
 
     this.setInitialValues(path);
 
-    this.rows = this.getCurrentRows.items;
-    this.period = this.getPeriod;
+    this.rows = this.getCurrentRows[0]?.items;
+    this.periodItems = this.getPeriodProps;
+
+    console.log(this.periodItems);
   },
 };
 </script>

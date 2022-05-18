@@ -13,7 +13,9 @@
         <Suspense>
           <AnalyticFilter :props="{ selectsProps: selectProps }" />
         </Suspense>
-        <AnalyticTable />
+        <Suspense>
+          <AnalyticTable />
+        </Suspense>
       </div>
     </div>
   </div>

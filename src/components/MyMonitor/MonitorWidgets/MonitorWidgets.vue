@@ -70,7 +70,7 @@
 <script>
 import "@/assets/scss/tooltip.scss";
 import "./MonitorWidgets.scss";
-import { monitorWidgets } from "./monitorWidgetsStore/monitorWidgetsStore";
+import { monitorWidgets } from "./MonitorWidgetsStore/MonitorWidgetsStore";
 import { mapActions, storeToRefs } from "pinia";
 
 const store = monitorWidgets();

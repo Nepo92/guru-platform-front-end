@@ -44,7 +44,7 @@
 <script>
 import "@/assets/scss/checkbox.scss";
 import "./MyLogin.scss";
-import { loginStore } from "./loginStore/loginStore.js";
+import { loginStore } from "./LoginStore/LoginStore.js";
 import { mapActions, storeToRefs } from "pinia";
 
 export default {

@@ -4,3 +4,168 @@
     overflow: hidden;
   }
 }
+
+.analytic-content {
+  &__table {
+    display: grid;
+    grid-template-rows: repeat(2, max-content);
+    margin-top: 20px;
+    border-top: 1px solid rgba($close-menu-btn, 0.28);
+    padding-top: 20px;
+    overflow: auto;
+  }
+}
+
+.analytic-table {
+  &__header {
+    height: 40px;
+    display: grid;
+    grid-template-columns: max-content 1fr;
+  }
+
+  &__search {
+    position: relative;
+    width: 285px;
+    height: 100%;
+    border-right: 1px solid $manager-row-border;
+
+    &.search-icon {
+      &::after {
+        position: absolute;
+        top: 12px;
+        right: 20px;
+        content: "";
+        display: inline-block;
+        width: 15px;
+        height: 16px;
+        mask-image: url("../../../assets/img/search.svg");
+        background-color: $filter-clear-btn;
+        mask-repeat: no-repeat;
+        mask-position: center;
+        mask-size: 100% 100%;
+      }
+    }
+  }
+
+  &__input {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 17px;
+    padding: 0 45px 0 20px;
+    color: $black;
+    outline: none;
+  }
+
+  &__column {
+    width: 120px;
+    height: 100%;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 17px;
+    display: grid;
+    align-content: center;
+    justify-content: center;
+    border-right: 1px solid $manager-row-border;
+  }
+
+  &__wrapper {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+  }
+}
+
+.analytic-header {
+  &__metric {
+    display: grid;
+    grid-template-columns: 285px 120px;
+    background-color: $white;
+    border-bottom: 1px solid $manager-row-border;
+  }
+
+  &__period {
+    display: grid;
+    justify-content: start;
+    grid-auto-flow: column;
+    background-color: $white;
+    width: max-content;
+  }
+}
+
+.analytic-metric {
+  &__row {
+    display: grid;
+    grid-template-rows: repeat(2, auto);
+    width: 100%;
+    height: 40px;
+  }
+
+  &__info {
+    display: grid;
+    grid-template-columns: repeat(2, max-content);
+    min-height: 40px;
+    background-color: $white;
+    border-bottom: 1px solid $manager-row-border;
+  }
+
+  &__title {
+    width: 285px;
+    height: 100%;
+    display: grid;
+    align-content: center;
+    border-right: 1px solid $manager-row-border;
+    padding: 0 45px 0 20px;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 18px;
+    position: relative;
+
+    &.metric-icon {
+      &::after {
+        position: absolute;
+        top: 10px;
+        right: 20px;
+        display: inline-block;
+        width: 14px;
+        height: 16px;
+        content: "";
+        mask-image: url("../../../assets/img/metric.svg");
+        background-color: $filter-clear-btn;
+        mask-repeat: no-repeat;
+        mask-position: center;
+        mask-size: 100% 100%;
+      }
+    }
+  }
+
+  &__value {
+    display: grid;
+    justify-content: center;
+    align-content: center;
+    width: 120px;
+    height: 100%;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 17px;
+    border-right: 1px solid $manager-row-border;
+  }
+}
+
+// .analytic-main {
+//   &__manager {
+//   }
+// }
+
+// .analytic-manager {
+//   &__name {
+//   }
+
+//   &__value {
+//   }
+// }
+
+// .analytic-period {
+// }

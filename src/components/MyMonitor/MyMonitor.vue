@@ -30,7 +30,7 @@ import MonitorWidgets from "./MonitorWidgets/MonitorWidgets.vue";
 import ManagerStat from "./ManagerStat/ManagerStat.vue";
 
 // store
-import { monitorStore } from "./monitorStore/monitorStore";
+import { monitorStore } from "./MonitorStore/MonitorStore";
 import { storeToRefs } from "pinia";
 
 // api

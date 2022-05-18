@@ -42,7 +42,7 @@ import MyLoader from "@/components/Platform/MyLoader/MyLoader.vue";
 const menuUtils = new MenuUtils();
 const loaderUtils = new LoaderUtils();
 
-import { monitorFilter } from "./monitorFilterStore/monitorFilterStore";
+import { monitorFilter } from "./MonitorFilterStore/MonitorFilterStore";
 import { storeToRefs, mapActions } from "pinia";
 import FilterBtn from "@/components/Platform/MyFilter/FilterBtn/FilterBtn.vue";
 

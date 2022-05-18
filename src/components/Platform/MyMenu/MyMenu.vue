@@ -93,13 +93,9 @@ import "@/assets/scss/grid.scss";
 export default {
   data() {
     return {
-      // eslint-disable-next-line
       logoClass: logo || null,
-      // eslint-disable-next-line
       company: company || null,
-      // eslint-disable-next-line
       role: role || null,
-      // eslint-disable-next-line
       avatar: avatar || null,
       itemsAdmin: [
         {
@@ -511,14 +507,24 @@ export default {
       viewport: {
         width: 0,
       },
-      target: null,
-      index: null,
     };
   },
   computed: {
     classSubMenu() {
-      console.log(this.subMenu.isOpen);
-      return "";
+      const { subMenu } = this;
+
+      const openWithoutAnimation = subMenu.isOpen && subMenu.prevIsOpen ? "open_t0" : false;
+      const openWithAnimation = subMenu.isOpen ? "open" : false;
+
+      const open = openWithoutAnimation || openWithAnimation;
+
+      const close =
+        (!subMenu.isOpen && subMenu.mouseEnter) ||
+        (subMenu.isOpen && !subMenu.mouseEnter && subMenu.prevIsOpen)
+          ? "close"
+          : false;
+
+      return open || close;
     },
   },
   created() {
@@ -558,6 +564,8 @@ export default {
 
       if (width <= 1000) return false;
 
+      subMenu.currentIndex = index;
+
       if (hasSubMenu) {
         if (!subMenu.isOpen) {
           subMenu.prevIsOpen = false;
@@ -566,34 +574,11 @@ export default {
         }
 
         subMenu.isOpen = true;
-        subMenu.currentIndex = index;
-      }
-
-      if (!hasSubMenu) {
+      } else {
         subMenu.isOpen = false;
-        subMenu.prevIsOpen = false;
-        subMenu.currentIndex = false;
       }
 
       subMenu.mouseEnter = false;
-    },
-    openSubMenu() {
-      const { subMenu } = this;
-
-      const openWithoutAnimation = subMenu.isOpen && subMenu.prevIsOpen ? "open_t0" : false;
-      const openWithAnimation = subMenu.isOpen ? "open" : false;
-
-      const open = openWithoutAnimation || openWithAnimation;
-
-      const close =
-        (!subMenu.isOpen && subMenu.mouseEnter) ||
-        (subMenu.isOpen && !subMenu.mouseEnter && subMenu.prevIsOpen)
-          ? "close"
-          : false;
-
-      console.log(close);
-
-      return open || close;
     },
     closeSubMenu() {
       const { subMenu } = this;
@@ -612,16 +597,7 @@ export default {
         });
       }, 400);
     },
-    leaveMenuItem(e, index) {
-      const t = e.target;
-
-      const leaveProps = {
-        target: e.target,
-        index,
-      };
-
-      // this.hoverMenuItem(leaveProps);
-    },
+    leaveMenuItem() {},
   },
 };
 </script>
