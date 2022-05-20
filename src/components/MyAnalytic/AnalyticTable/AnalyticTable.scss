@@ -40,7 +40,6 @@
   }
 
   &__search {
-    position: relative;
     width: 285px;
     height: 100%;
     border-right: 1px solid $manager-row-border;
@@ -92,6 +91,8 @@
 }
 
 .search-icon {
+  position: relative;
+
   &::after {
     position: absolute;
     top: 12px;

@@ -19,8 +19,9 @@
         <span
           v-if="item.value > 1000000"
           class="widgets-tooltip__wrapper widgets-tooltip__wrapper--count tooltip__wrapper"
-          >{{ item.value.toLocaleString("ru-RU") + (item.units === "roubles" ? " ₽" : "") }}</span
         >
+          {{ item.value.toLocaleString("ru-RU") + (item.units === "roubles" ? " ₽" : "") }}
+        </span>
         <span
           class="widgets__count--value"
           :class="{ 'has-tooltip': typeof item.value === 'number' }"
@@ -44,8 +45,8 @@
               item.percent > item.metric.green
                 ? 'green'
                 : item.metric.yellow > 69
-                ? 'yellow'
-                : 'red'
+                  ? 'yellow'
+                  : 'red'
             "
             :style="{ width: item.percent + '%' }"
           />
@@ -55,9 +56,9 @@
         </div>
         <div class="widgets-progress__plan">
           План
-          <span class="widgets-progress__plan--value"
-            >{{ item.plan || 0 }} {{ setItemName(item) }}</span
-          >
+          <span class="widgets-progress__plan--value">
+            {{ item.plan || 0 }} {{ setItemName(item) }}
+          </span>
         </div>
       </div>
       <p v-else-if="item.percent !== null && item.plan !== null" class="widgets__value">

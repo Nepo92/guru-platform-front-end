@@ -20,13 +20,20 @@ export const filterAPI = {
   async clearFilter(url) {
     await axios.post(`${url}clearFilter`);
   },
+  async getSourceTraffic(formData) {
+    const request = await axios.post("getChannels", formData);
+
+    return JSON.parse(request.request.response);
+  },
+  async getCommunities(formData) {
+    const request = await axios.post("getCommunities", formData);
+
+    return request.data;
+  },
 };
 
 export const analyticAPI = {
   async changeColors(formData) {
-    await axios.post("/funnel/", formData);
-  },
-  async changeAnalyticDate(formData) {
     await axios.post("/funnel/", formData);
   },
 };

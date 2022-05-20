@@ -1,10 +1,14 @@
 <template>
   <div class="login" custom-scroll :style="{ backgroundImage: background }">
     <form class="login__form" action="/perform_login" method="POST">
-      <h1 class="login__title">Вход</h1>
+      <h1 class="login__title">
+        Вход
+      </h1>
       <ul class="login__list">
         <li class="login__item username">
-          <p class="login__name">Логин</p>
+          <p class="login__name">
+            Логин
+          </p>
           <input
             type="text"
             name="username"
@@ -13,7 +17,9 @@
           />
         </li>
         <li class="login__item password">
-          <p class="login__name">Пароль</p>
+          <p class="login__name">
+            Пароль
+          </p>
           <span :class="toggleIcon" class="password__icon" @click="сhangeDisplayPassword;" />
           <input
             :type="toggleType"
@@ -31,7 +37,9 @@
         </li>
       </ul>
       <div class="login__nav">
-        <button type="submit" class="login__button login__button--icon">Войти</button>
+        <button type="submit" class="login__button login__button--icon">
+          Войти
+        </button>
       </div>
       <p class="login__forgot">
         Забыли пароль ? Пишите

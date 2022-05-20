@@ -11,7 +11,7 @@
     </div>
     <ul ref="selectBody" class="select__body custom-scroll">
       <li
-        v-for="(item, index) of props.options"
+        v-for="(item, index) of props.options()"
         :key="index"
         :value="item.value"
         class="select__option"
@@ -28,6 +28,12 @@ import "./MySelect.scss";
 
 export default {
   props: ["props"],
+  emits: [
+    'change-select-value', 
+    'change-deal-type', 
+    'change-platform-filter', 
+    'change-source-traffic-filter',
+  ],
   mounted() {
     const { select } = this.$refs;
     const { selectsOnPage } = this.props;
@@ -97,6 +103,14 @@ export default {
 
         if (name === "Тип сделки") {
           this.$emit("change-deal-type", selectOptionProps);
+        }
+
+        if (name === "Площадка") {
+          this.$emit("change-platform-filter", selectOptionProps);
+        }
+
+        if (name === "Источники трафика") {
+          this.$emit("change-source-traffic-filter", selectOptionProps);
         }
       }, 100);
     },

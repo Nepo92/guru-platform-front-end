@@ -106,7 +106,9 @@
       <div v-if="item.prediction?.message.match('[-+]?[0-9]*') && props.filter.period === 4">
         {{ (item.prediction?.plan?.toLocaleString("ru-RU") || 0) + " ₽" || "0 ₽" }}
       </div>
-      <div v-else>Нет</div>
+      <div v-else>
+        Нет
+      </div>
     </div>
     <div class="monitor-stat__deviation deviation">
       <div class="deviation-wrapper" :class="item.deviation?.type">

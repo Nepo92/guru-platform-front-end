@@ -2,8 +2,13 @@
   <div class="monitor-stat">
     <div class="monitor-stat__header stat-header">
       <div class="stat-header__left">
-        <p class="stat-header__sort stat-header__icon">Рейтинг</p>
-        <select @change="changeFilterManager" class="monitor-select__stat">
+        <p class="stat-header__sort stat-header__icon">
+          Рейтинг
+        </p>
+        <select 
+          class="monitor-select__stat"
+          @change="changeFilterManager" 
+        >
           <option
             v-for="(item, index) of managerSort"
             :key="index"
@@ -77,7 +82,6 @@ export default {
   },
   methods: {
     changeFilterManager(e) {
-      console.log(this.filter);
       const t = e.target;
       const formData = new FormData();
 

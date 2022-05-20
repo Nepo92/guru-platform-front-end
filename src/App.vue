@@ -1,5 +1,5 @@
 <template>
-  <router-view :props="props" />
+  <router-view />
 </template>
 
 <script>
@@ -8,11 +8,6 @@ import "./assets/scss/custom-scroll.scss";
 
 export default {
   name: 'App',
-  data() {
-    return {
-      props: this.$refs.app,
-    };
-  },
 }
 </script>
 

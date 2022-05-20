@@ -5,26 +5,30 @@
         <div class="analytic-left__header">
           <div ref="searchColumn" class="analytic-table__search search-icon">
             <input
-              @input="(e) => metricksSearch(e)"
               class="analytic-table__input"
               placeholder="Метрики"
               type="text"
+              @input="(e) => metricksSearch(e)"
             />
           </div>
-          <div class="analytic-table__column">Итого</div>
+          <div 
+            class="analytic-table__column"
+          >
+            Итого
+          </div>
         </div>
         <div class="analytic-metric">
           <div
-            class="analytic-metric__row"
-            ref="metricRow"
             v-for="(metric, index) of rows"
             :key="index"
+            ref="metricRow"
+            class="analytic-metric__row"
           >
             <div class="analytic-metric__nav">
               <span
-                @click="toggleRow"
-                :data-index="index"
                 class="analytic-table__toggle toggle-icon"
+                :data-index="index"
+                @click="toggleRow"
               ></span>
               <div class="analytic-metric__info">
                 <div class="analytic-metric__title metric-icon">
@@ -37,8 +41,8 @@
                       ? metric.main?.sum > (metric.colors.green || metric.colors.yellow)
                         ? 'green'
                         : metric.main?.sum > metric.colors.red
-                        ? 'yellow'
-                        : 'red'
+                          ? 'yellow'
+                          : 'red'
                       : ''
                   "
                 >
@@ -50,10 +54,22 @@
                 </div>
               </div>
             </div>
-            <div :data-index="index" ref="managerList" class="analytic__managers-list">
-              <h2 class="analytic-main__title">Список менеджеров</h2>
-              <div class="analytic-main__manager" v-for="(manager, count) of managers" :key="count">
-                <div class="analytic-manager__name metric-icon">{{ manager.name }}</div>
+            <div 
+              ref="managerList" 
+              :data-index="index" 
+              class="analytic__managers-list"
+            >
+              <h2 class="analytic-main__title">
+                Список менеджеров
+              </h2>
+              <div 
+                v-for="(manager, count) of managers" 
+                :key="count"
+                class="analytic-main__manager"
+              >
+                <div class="analytic-manager__name metric-icon">
+                  {{ manager.name }}
+                </div>
                 <div
                   class="analytic-manager__value"
                   :class="
@@ -61,16 +77,16 @@
                       ? metric.managers[count]?.sum > metric.colors.green || item.colors.yellow
                         ? 'green'
                         : metric.managers[count]?.sum > metric.colors.red
-                        ? 'yellow'
-                        : 'red'
+                          ? 'yellow'
+                          : 'red'
                       : ''
                   "
                 >
                   {{
                     metric.managers
                       ? `${metric.managers[count]?.sum?.toLocaleString("ru-RU") || "0"} ${
-                          metric.units || ""
-                        }` || `0 ${metric.units || ""}`
+                        metric.units || ""
+                      }` || `0 ${metric.units || ""}`
                       : `0 ${metric.units || ""}`
                   }}
                 </div>
@@ -81,12 +97,20 @@
       </div>
       <div class="analytic-table__right">
         <div class="analytic-right__header">
-          <div class="analytic-table__column" v-for="(item, index) of periodItems" :key="index">
+          <div 
+            v-for="(item, index) of periodItems" 
+            :key="index"
+            class="analytic-table__column"
+          > 
             {{ item }}
           </div>
         </div>
         <div class="analytic-period">
-          <div class="analytic-period__row" v-for="(item, index) of rows" :key="index">
+          <div 
+            v-for="(item, index) of rows" 
+            :key="index"
+            class="analytic-period__row" 
+          >
             <div class="analytic-period__main">
               <div
                 v-for="(elem, count) of item.main?.sums"
@@ -97,8 +121,8 @@
                     ? elem > item.colors.green || item.colors.yellow
                       ? 'green'
                       : elem > item.colors.red
-                      ? 'yellow'
-                      : 'red'
+                        ? 'yellow'
+                        : 'red'
                     : ''
                 "
               >
@@ -113,21 +137,21 @@
             </div>
             <div ref="managersPeriod" :data-index="index" class="analytic-period__managers">
               <div
-                class="analytic-period__manager"
                 v-for="(elem, count) of item.managers"
                 :key="count"
+                class="analytic-period__manager"
               >
                 <div
-                  class="analytic-period__column"
                   v-for="(el, counter) of elem.sums"
                   :key="counter"
+                  class="analytic-period__column"
                   :class="
                     item.colors && el
                       ? el > item.colors.green || item.colors.yellow
                         ? 'green'
                         : el > item.colors.red
-                        ? 'yellow'
-                        : 'red'
+                          ? 'yellow'
+                          : 'red'
                       : ''
                   "
                 >

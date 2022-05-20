@@ -9,8 +9,8 @@
       />
       <FunnelSettings v-if="$route.path === '/funnel/'" @create-tab-settings-menu="createMenu" />
       <FunnelTrafficSettings
-        :props="selectProps"
         v-if="$route.path === '/funnel/traffic/'"
+        :props="selectProps"
         @create-tab-settings-menu="createMenu"
       />
       <div class="analytic-content__wrapper">
@@ -77,7 +77,6 @@ export default {
       menuUtils.openMenu(funnelMenuProps);
     },
     createMenu(props) {
-      console.log(props);
       this.funnelSettings = props;
     },
   },

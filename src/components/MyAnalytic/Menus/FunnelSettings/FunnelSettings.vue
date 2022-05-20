@@ -2,7 +2,9 @@
   <div ref="funnelSettings" class="modal">
     <div ref="funnelSettingsWrapper" class="modal__wrapper">
       <div class="modal__header modal-header">
-        <h2 class="modal-header__title">Настройки воронки</h2>
+        <h2 class="modal-header__title">
+          Настройки воронки
+        </h2>
         <span class="modal-header__close" @click="closeMenu" />
       </div>
       <form ref="colorFunnel">
@@ -11,7 +13,11 @@
         </ul>
       </form>
       <div class="modal__footer modal-footer">
-        <button @click="(e) => changeFunnelColor(e)" type="button" class="modal-footer__btn">
+        <button 
+          class="modal-footer__btn"
+          type="button" 
+          @click="(e) => changeFunnelColor(e)" 
+        >
           Применить изменения
         </button>
       </div>
@@ -43,6 +49,7 @@ export default {
     MyLoader,
     FunnelColorSettings,
   },
+  emits: ['create-tab-settings-menu'],
   mounted() {
     this.$emit("create-tab-settings-menu", {
       menuSettings: {
@@ -66,11 +73,9 @@ export default {
     },
     changeFunnelColor(e) {
       const t = e.target;
-
       const form = this.$refs.colorFunnel;
 
       const formData = new FormData(form);
-
       const change = analyticAPI.changeColors(formData);
 
       const loader = setTimeout(() => {

@@ -15,18 +15,20 @@ export const funnelTrafficStore = defineStore("funnelTrafficStore", {
               name: "Тип",
               nameEng: "periodType",
               selected: filter.periodType,
-              options: [
-                {
-                  name: "Сумма за период",
-                  value: "s",
-                },
-                {
-                  name: "Среднее за период",
-                  value: "a",
-                },
-              ],
+              options() {
+                return [
+                  {
+                    name: "Сумма за период",
+                    value: "s",
+                  },
+                  {
+                    name: "Среднее за период",
+                    value: "a",
+                  },
+                ];
+              },
               selectedName() {
-                return this.options.find((el) => el.value === this.selected)?.name || null;
+                return this.options().find((el) => el.value === this.selected)?.name || null;
               },
               pages: ["/funnel/traffic/"],
             },

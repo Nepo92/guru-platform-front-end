@@ -35,9 +35,4 @@ export const analyticStore = defineStore("analyticStore", {
       },
     };
   },
-  actions: {
-    setPath(path) {
-      this.currentPage = path;
-    },
-  },
 });

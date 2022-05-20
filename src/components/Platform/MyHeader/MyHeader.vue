@@ -22,9 +22,9 @@
           <a :href="tab.link" class="header-tabs__link">
             {{ tab.name }}
             <span
-              @click="(e) => openTabSettingsMenu(e)"
               v-if="tab.settings"
               class="header-tabs__settings"
+              @click="(e) => openTabSettingsMenu(e)"
             ></span>
           </a>
         </li>
@@ -38,7 +38,7 @@ import "./MyHeader.scss";
 
 export default {
   props: ["props"],
-  emits: ["open-settings-menu"],
+  emits: ["open-settings-menu", 'open-tab-settings-menu'],
   methods: {
     classActiveTab(tab) {
       const { path } = this.$route;

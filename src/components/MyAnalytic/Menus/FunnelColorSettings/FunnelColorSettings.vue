@@ -1,14 +1,20 @@
 <template>
   <li class="modal-content__item">
-    <p class="modal-content__name funnel-colors__title">Цвет показателей</p>
+    <p class="modal-content__name funnel-colors__title">
+      Цвет показателей
+    </p>
   </li>
   <li class="modal-content__item funnel-colors__name">
-    <p class="modal-content__name pl_0">Рейтинг</p>
+    <p class="modal-content__name pl_0">
+      Рейтинг
+    </p>
   </li>
   <li class="modal-content__item">
     <ul class="funnel-colors__list">
       <li class="funnel-colors__item">
-        <p class="modal-content__name">Зеленый</p>
+        <p class="modal-content__name">
+          Зеленый
+        </p>
         <input
           type="text"
           :value="ratingColors.green"
@@ -18,7 +24,9 @@
         />
       </li>
       <li class="funnel-colors__item">
-        <p class="modal-content__name">Желтый</p>
+        <p class="modal-content__name">
+          Желтый
+        </p>
         <input
           name="lineColors[0].yellow"
           :value="ratingColors.yellow"
@@ -28,7 +36,9 @@
         />
       </li>
       <li class="funnel-colors__item">
-        <p class="modal-content__name">Красный</p>
+        <p class="modal-content__name">
+          Красный
+        </p>
         <input
           name="lineColors[0].red"
           :value="ratingColors.red"
@@ -40,12 +50,16 @@
     </ul>
   </li>
   <li class="modal-content__item funnel-colors__name">
-    <p class="modal-content__name pl_0">Кпд</p>
+    <p class="modal-content__name pl_0">
+      Кпд
+    </p>
   </li>
   <li class="modal-content__item">
     <ul class="funnel-colors__list">
       <li class="funnel-colors__item">
-        <p class="modal-content__name">Зеленый</p>
+        <p class="modal-content__name">
+          Зеленый
+        </p>
         <input
           name="lineColors[1].green"
           :value="kpdColors.green"
@@ -55,7 +69,9 @@
         />
       </li>
       <li class="funnel-colors__item">
-        <p class="modal-content__name">Желтый</p>
+        <p class="modal-content__name">
+          Желтый
+        </p>
         <input
           name="lineColors[1].yellow"
           :value="kpdColors.yellow"
@@ -65,7 +81,9 @@
         />
       </li>
       <li class="funnel-colors__item">
-        <p class="modal-content__name">Красный</p>
+        <p class="modal-content__name">
+          Красный
+        </p>
         <input
           name="lineColors[1].red"
           :value="kpdColors.red"
@@ -77,12 +95,16 @@
     </ul>
   </li>
   <li class="modal-content__item funnel-colors__name">
-    <p class="modal-content__name pl_0">% чистой выручки</p>
+    <p class="modal-content__name pl_0">
+      % чистой выручки
+    </p>
   </li>
   <li class="modal-content__item">
     <ul class="funnel-colors__list">
       <li class="funnel-colors__item">
-        <p class="modal-content__name">Зеленый</p>
+        <p class="modal-content__name">
+          Зеленый
+        </p>
         <input
           name="lineColors[2].green"
           :value="proceedsColors.green"
@@ -92,7 +114,9 @@
         />
       </li>
       <li class="funnel-colors__item">
-        <p class="modal-content__name">Желтый</p>
+        <p class="modal-content__name">
+          Желтый
+        </p>
         <input
           name="lineColors[2].yellow"
           :value="proceedsColors.yellow"
@@ -102,7 +126,9 @@
         />
       </li>
       <li class="funnel-colors__item">
-        <p class="modal-content__name">Красный</p>
+        <p class="modal-content__name">
+          Красный
+        </p>
         <input
           name="lineColors[2].red"
           :value="proceedsColors.red"
@@ -114,12 +140,16 @@
     </ul>
   </li>
   <li class="modal-content__item funnel-colors__name">
-    <p class="modal-content__name pl_0">% продаж с рассылки</p>
+    <p class="modal-content__name pl_0">
+      % продаж с рассылки
+    </p>
   </li>
   <li class="modal-content__item">
     <ul class="funnel-colors__list">
       <li class="funnel-colors__item">
-        <p class="modal-content__name">Зеленый</p>
+        <p class="modal-content__name">
+          Зеленый
+        </p>
         <input
           name="lineColors[3].green"
           :value="mailingColors.green"
@@ -129,7 +159,9 @@
         />
       </li>
       <li class="funnel-colors__item">
-        <p class="modal-content__name">Желтый</p>
+        <p class="modal-content__name">
+          Желтый
+        </p>
         <input
           name="lineColors[3].yellow"
           :value="mailingColors.yellow"
@@ -139,7 +171,9 @@
         />
       </li>
       <li class="funnel-colors__item">
-        <p class="modal-content__name">Красный</p>
+        <p class="modal-content__name">
+          Красный
+        </p>
         <input
           name="lineColors[3].red"
           :value="mailingColors.red"

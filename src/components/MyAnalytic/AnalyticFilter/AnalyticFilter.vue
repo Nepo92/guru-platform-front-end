@@ -40,12 +40,18 @@
           changeSelectValue,
           changeDealType,
           getCurrentFunnels,
+          changePlatform,
+          changeSourceTrafficValue,
         }"
         @create-filter-modal="createFilterModal"
         @change-filter-deal-type="changeFilterDealType"
         @change-filter-select="changeFilterSelect"
+        @change-platform-filter="getSourceTraffic"
+        @change-source-traffic-filter="changeSource"
+        @open-communities-menu="openCommunitiesMenu"
       />
       <MyLoader @create-loader="createLoader" />
+      <AudienceList :props="communities" @create-tab-settings-menu="createAudienceList" />
     </form>
   </div>
 </template>
@@ -54,12 +60,6 @@
 // styles
 import "./AnalyticFilter.scss";
 import "air-datepicker/air-datepicker.css";
-
-// components
-import MyLoader from "../../Platform/MyLoader/MyLoader.vue";
-import FilterBtn from "@/components/Platform/MyFilter/FilterBtn/FilterBtn.vue";
-import MyFilter from "@/components/Platform/MyFilter/MyFilter.vue";
-import MySelect from "../../Platform/MySelect/MySelect.vue";
 
 // utils
 import LoaderUtils from "@/utils/LoaderUtils/LoaderUtils.js";
@@ -70,11 +70,18 @@ import MenuUtils from "@/utils/MenuUtils/MenuUtils.js";
 import AirDatepicker from "air-datepicker";
 
 // api
-import { analyticAPI } from "@/api/api.js";
+import { filterAPI } from "@/api/api.js";
 
 // store
 import { analyticFilterStore } from "../AnalyticStore/AnalyticFilterStore/AnalyticFilterStore.js";
 import { mapActions, storeToRefs } from "pinia";
+
+// components
+import MyLoader from "../../Platform/MyLoader/MyLoader.vue";
+import FilterBtn from "@/components/Platform/MyFilter/FilterBtn/FilterBtn.vue";
+import MyFilter from "@/components/Platform/MyFilter/MyFilter.vue";
+import MySelect from "../../Platform/MySelect/MySelect.vue";
+import AudienceList from "../Menus/AudienceList/AudienceList.vue";
 
 const loaderUtils = new LoaderUtils();
 const dateUtils = new DateUtils();
@@ -87,10 +94,12 @@ export default {
     FilterBtn,
     MyFilter,
     MySelect,
+    AudienceList,
   },
   props: ["props"],
+  emits: ['set-communities'],
   async setup() {
-    const { filterProps, initialFunnels, getCurrentFunnels, getFilterPropsAfterChange } =
+    const { filterProps, initialFunnels, getCurrentFunnels, getFilterPropsAfterChange, getCommunities, } =
       storeToRefs(store);
     const {
       setPage,
@@ -99,6 +108,10 @@ export default {
       changeSelectValue,
       changeSelectFilter,
       setPeriodProps,
+      changePlatform,
+      setSourceTraffic,
+      changeSourceTrafficValue,
+      setCommunities,
     } = mapActions(analyticFilterStore, [
       "changeDealType",
       "changeSelectValue",
@@ -106,6 +119,10 @@ export default {
       "setPeriodProps",
       "setFilterPropsColumns",
       "setPage",
+      "changePlatform",
+      "setSourceTraffic",
+      'changeSourceTrafficValue',
+      'setCommunities',
     ]);
 
     await store.fetchFunnels();
@@ -121,6 +138,16 @@ export default {
       setPeriodProps,
       setPage,
       setFilterPropsColumns,
+      changePlatform,
+      setSourceTraffic,
+      changeSourceTrafficValue,
+      setCommunities,
+      getCommunities,
+    };
+  },
+  data() {
+    return {
+      communities: null,
     };
   },
   created() {
@@ -130,7 +157,7 @@ export default {
     this.startDate = dateUtils.formatDDMMYYYY(startDate);
     this.endDate = dateUtils.formatDDMMYYYY(endDate);
 
-    const { path } = this.$route.path;
+    const { path } = this.$route;
 
     this.setPage(path);
 
@@ -139,8 +166,6 @@ export default {
     this.setFilterPropsColumns();
 
     this.filterProps = this.getFilterPropsAfterChange;
-
-    console.log(this.filterProps);
   },
   mounted() {
     this.filterProps.filterPeriod.datepickerMonth.forEach((item) => {
@@ -196,8 +221,9 @@ export default {
       this.changeFilterSort(formData, props.target);
     },
     changeFilterSort(formData, t) {
-      console.log(formData.get("startDate"));
-      const applyFilterDate = analyticAPI.changeAnalyticDate(formData);
+      const { path } = this.$route;
+
+      const applyFilterDate = filterAPI.applyFilter(path, formData);
 
       const loader = setTimeout(() => {
         loaderUtils.showLoader(this.loader);
@@ -237,6 +263,47 @@ export default {
     },
     changeFilterSelect() {
       this.filterProps = this.getFilterPropsAfterChange;
+    },
+    async getSourceTraffic(props) {
+      const formData = new FormData();
+
+      formData.set("platform", props.selectedOption.value);
+
+      const sources = await filterAPI.getSourceTraffic(formData);
+
+      this.setSourceTraffic(sources);
+
+      this.filterProps = this.getFilterPropsAfterChange;
+    },
+    createAudienceList(props) {
+      this.audienceMenu = props.menuSettings;
+    },
+    changeSource(props) {
+      this.fitlerProps = this.getFilterPropsAfterChange;
+    },
+    async openCommunitiesMenu(props) {
+      const { filter } = this.filterProps;
+      const { platform, channel, communites, community } = filter;
+
+      const exception = ["all", "unknown"];
+
+      if (!exception.includes(platform)) {
+        const formData = new FormData();
+
+        formData.set("platform", platform);
+        formData.set("channel", channel);
+
+        const communities = await filterAPI.getCommunities(formData);
+
+        this.communities = communities;
+
+        const openAudienceProps = {
+          menu: this.audienceMenu.menu,
+          wrapper: this.audienceMenu.wrapper,
+        };
+
+        menuUtils.openMenu(openAudienceProps);
+      }
     },
   },
 };

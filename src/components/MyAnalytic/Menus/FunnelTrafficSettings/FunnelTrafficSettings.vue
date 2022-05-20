@@ -2,13 +2,17 @@
   <div ref="funnelTrafficSettings" class="modal">
     <div ref="funnelTrafficSettingsWrapper" class="modal__wrapper">
       <div class="modal__header modal-header">
-        <h2 class="modal-header__title">Настройки воронки</h2>
+        <h2 class="modal-header__title">
+          Настройки воронки
+        </h2>
         <span class="modal-header__close" @click="closeMenu" />
       </div>
       <form ref="filterSettings">
         <ul class="modal__content modal-content__list custom-scroll">
           <li class="modal-content__item">
-            <p class="modal-content__name">Тип</p>
+            <p class="modal-content__name">
+              Тип
+            </p>
             <div class="mt_5">
               <MySelect
                 :props="{ ...selectTypeProps, ...props }"
@@ -22,29 +26,37 @@
             </ul>
           </li>
           <li class="modal-content__item mt_25">
-            <p class="modal-content__name funnel-colors__title">Этапы воронки</p>
+            <p class="modal-content__name funnel-colors__title">
+              Этапы воронки
+            </p>
           </li>
           <li v-for="(collapse, index) of collapseItems" :key="index">
             <ul class="mt_25">
-              <li @click.self="(e) => openCollapse(e)" class="modal-content__item collapse">
-                <p @click.self="(e) => closeCollapse(e)" class="modal-content__name collapse-icon">
+              <li 
+                class="modal-content__item collapse"
+                @click.self="(e) => openCollapse(e)" 
+              >
+                <p 
+                  class="modal-content__name collapse-icon"
+                  @click.self="(e) => closeCollapse(e)" 
+                >
                   {{ collapse.name }}
                 </p>
                 <ul class="collapse__body">
                   <li
-                    class="collapse__item"
                     v-for="(checkbox, count) of collapse.items"
                     :key="count"
+                    class="collapse__item"
                   >
                     <input
-                      ref="visibleCheck"
-                      @change="changeCheckbox"
                       :id="'collapse-' + `${count}-${checkbox.name}`"
+                      ref="visibleCheck"
                       :name="checkbox.nameEng"
                       type="checkbox"
                       :checked="checkbox.value"
                       :value="checkbox.value"
                       class="checkbox"
+                      @change="changeCheckbox"
                     />
                     <label :for="'collapse-' + `${count}-${checkbox.name}`" class="checkbox__label">
                       <span class="checkbox__fake"></span>
@@ -58,7 +70,11 @@
         </ul>
       </form>
       <div class="modal__footer modal-footer">
-        <button @click="(e) => applyFilterSettings(e)" type="button" class="modal-footer__btn">
+        <button 
+          type="button" 
+          class="modal-footer__btn"
+          @click="(e) => applyFilterSettings(e)" 
+        >
           Применить изменения
         </button>
       </div>
@@ -107,6 +123,7 @@ export default {
     MyLoader,
   },
   props: ["props"],
+  emits: ['create-tab-settings-menu'],
   setup() {
     return {
       filter,
@@ -155,10 +172,6 @@ export default {
         formData.set(item.getAttribute("name"), item.getAttribute("value"));
       });
 
-      for (let item of formData) {
-        console.log(item);
-      }
-
       const applySettings = filterAPI.applyFilter(path, formData);
 
       const showLoader = setTimeout(() => {
@@ -200,8 +213,14 @@ export default {
       this.changeCheckboxValue(checkboxProps);
 
       this.collapseItems = this.getCollapseProps;
+    },
+    closeMenu() {
+      const closeProps = {
+        menu: this.$refs.funnelTrafficSettings,
+        wrapper: this.$refs.funnelTrafficSettingsWrapper,
+      };
 
-      console.log(this.collapseItems);
+      menuUtils.closeMenu(closeProps);
     },
   },
 };

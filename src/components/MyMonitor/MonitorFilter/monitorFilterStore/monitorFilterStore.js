@@ -59,20 +59,22 @@ export const monitorFilter = defineStore("monitorFilter", {
                   },
                 ],
                 selected: filter.projectId,
-                options: [
-                  {
-                    name: "Все проекты",
-                    value: 0,
-                  },
-                  ...projects.map((project) => {
-                    return {
-                      name: project.name,
-                      value: project.id,
-                    };
-                  }),
-                ],
+                options() {
+                  return [
+                    {
+                      name: "Все проекты",
+                      value: 0,
+                    },
+                    ...projects.map((project) => {
+                      return {
+                        name: project.name,
+                        value: project.id,
+                      };
+                    }),
+                  ];
+                },
                 selectedName() {
-                  return this.options.find((el) => el.value === this.selected)?.name || null;
+                  return this.options().find((el) => el.value === this.selected)?.name || null;
                 },
                 pages: ["/monitor/", "/monitor-control/"],
               },
@@ -86,22 +88,24 @@ export const monitorFilter = defineStore("monitorFilter", {
                   },
                 ],
                 selected: filter.showManagerType,
-                options: [
-                  {
-                    name: "Все",
-                    value: 1,
-                  },
-                  {
-                    name: "Работающие",
-                    value: 2,
-                  },
-                  {
-                    name: "Уволенные",
-                    value: 3,
-                  },
-                ],
+                options() {
+                  return [
+                    {
+                      name: "Все",
+                      value: 1,
+                    },
+                    {
+                      name: "Работающие",
+                      value: 2,
+                    },
+                    {
+                      name: "Уволенные",
+                      value: 3,
+                    },
+                  ];
+                },
                 selectedName() {
-                  return this.options.find((el) => el.value === this.selected)?.name || null;
+                  return this.options().find((el) => el.value === this.selected)?.name || null;
                 },
                 pages: ["/monitor/"],
               },
@@ -115,26 +119,28 @@ export const monitorFilter = defineStore("monitorFilter", {
                   },
                 ],
                 selected: filter.proceedType,
-                options: [
-                  {
-                    name: "Все",
-                    value: 0,
-                  },
-                  {
-                    name: "Трафик",
-                    value: 1,
-                  },
-                  {
-                    name: "База",
-                    value: 2,
-                  },
-                  {
-                    name: "Товарка",
-                    value: 3,
-                  },
-                ],
+                options() {
+                  return [
+                    {
+                      name: "Все",
+                      value: 0,
+                    },
+                    {
+                      name: "Трафик",
+                      value: 1,
+                    },
+                    {
+                      name: "База",
+                      value: 2,
+                    },
+                    {
+                      name: "Товарка",
+                      value: 3,
+                    },
+                  ];
+                },
                 selectedName() {
-                  return this.options.find((el) => el.value === this.selected)?.name || null;
+                  return this.options().find((el) => el.value === this.selected)?.name || null;
                 },
                 pages: ["/monitor/"],
               },

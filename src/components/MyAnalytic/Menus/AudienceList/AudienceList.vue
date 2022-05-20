@@ -1,53 +1,124 @@
 <template>
-  <div ref="audienceList" class="modal">
-    <div ref="audienceListWrapper" class="modal__wrapper">
+  <div
+    ref="audienceList"
+    class="modal audience"
+    @set-communities="setCommunities"
+  >
+    <div ref="audienceListWrapper" class="modal__wrapper audience__menu">
       <div class="modal__header modal-header">
         <h2 class="modal-header__title">Список аудиторий</h2>
         <span class="modal-header__close" @click="closeMenu" />
       </div>
       <form>
-        <ul class="modal__content modal-content__list custom-scroll">
-          <div class="menu-search">
+        <ul
+          class="
+            modal__content
+            modal-content__list
+            audience__list
+            custom-scroll
+          "
+        >
+          <li class="audience__search search-icon">
             <input
-              js-menu-search
               id="search"
               type="text"
-              class="menu-search__input"
+              class="audience-search__input"
               placeholder="Введите название"
+              autocomplete="off"
             />
-            <label for="search"></label>
-          </div>
-          <div js-menu-content class="menu-content">
-            <div class="menu-content__wrapper is-selected">
-              <form
-                filter-form-communities
-                class="white-table_full"
-                action="#"
-                th:action="@{/funnel/traffic/communities/}"
-                th:object="${filter}"
-                th:method="post"
+          </li>
+          <li class="audience__communities">
+            <ul class="communities-list__header">
+              <li class="communities-list__item bt_0 communities-list__title">
+                <div class="communities__checkbox"></div>
+                <div class="communities__name">Аудитория</div>
+                <div class="communities__link">Ссылка</div>
+              </li>
+            </ul>
+            <ul class="communities-list">
+              <li class="communities-list__item">
+                <input
+                  id="Все аудитории"
+                  name="Все аудитории"
+                  type="checkbox"
+                  class="checkbox"
+                />
+                <label for="Все аудитории" class="checkbox__label width_100">
+                  <span class="communities-list__label">
+                    <span class="communities__checkbox">
+                      <span class="checkbox__fake" />
+                    </span>
+                    <span class="communities__name"> Все аудитории </span>
+                    <span class="communities__link"></span>
+                  </span>
+                </label>
+              </li>
+              <li class="communities-list__item">
+                <input
+                  id="Неизвестно"
+                  name="Неизвестно"
+                  type="checkbox"
+                  class="checkbox"
+                />
+                <label for="Неизвестно" class="checkbox__label width_100">
+                  <span class="communities-list__label">
+                    <span class="communities__checkbox">
+                      <span class="checkbox__fake" />
+                    </span>
+                    <span class="communities__name"> Неизвестно </span>
+                    <span class="communities__link"></span>
+                  </span>
+                </label>
+              </li>
+              <li
+                v-for="(item, index) of props"
+                :key="index"
+                class="communities-list__item"
               >
-                <table class="white-table white-table_full white-table_half-top mb-4">
-                  <thead class="white-table__header">
-                    <tr class="header__row">
-                      <th class="header__text"></th>
-                      <th class="header__text">База/паблик</th>
-                      <th class="header__text">Ссылка</th>
-                    </tr>
-                  </thead>
-                  <tbody community-table class="white-table__body"></tbody>
-                </table>
-              </form>
-            </div>
-          </div>
+                <input
+                  :id="index"
+                  :name="item.name"
+                  type="checkbox"
+                  class="checkbox"
+                />
+                <label :for="index" class="checkbox__label width_100">
+                  <span class="communities-list__label">
+                    <span class="communities__checkbox">
+                      <span class="checkbox__fake" />
+                    </span>
+                    <span class="communities__name">
+                      {{ item.name }}
+                    </span>
+                    <span class="communities__link">
+                      {{ item.link }}
+                    </span>
+                  </span>
+                </label>
+              </li>
+            </ul>
+          </li>
         </ul>
       </form>
     </div>
   </div>
 </template>
-
+<!-- th:action="@{/funnel/traffic/communities/}" -->
+                <!-- th:object="${filter}" -->
+                <!-- th:method="post" -->
 <script>
+// styles
+import "./AudienceList.scss";
+
+// utils
+import MenuUtils from "@/utils/MenuUtils/MenuUtils.js";
+
+import "@/assets/scss/grid.scss";
+
+const menuUtils = new MenuUtils();
+
 export default {
+  props: ["props"],
+  emits: ["create-tab-settings-menu"],
   mounted() {
     this.$emit("create-tab-settings-menu", {
       menuSettings: {
@@ -55,6 +126,20 @@ export default {
         wrapper: this.$refs.audienceListWrapper,
       },
     });
+  },
+  methods: {
+    closeMenu() {
+      const closeMenuProps = {
+        menu: this.$refs.audienceList,
+        wrapper: this.$refs.audienceListWrapper,
+        isOverflowed: true,
+      };
+
+      menuUtils.closeMenu(closeMenuProps);
+    },
+    setCommunities(props) {
+      console.log(props);
+    },
   },
 };
 </script>

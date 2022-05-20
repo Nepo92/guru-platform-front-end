@@ -1,5 +1,9 @@
 <template>
-  <div class="filter__open" :class="filter.canClear ? 'active' : ''" @click="openFilter">
+  <div 
+    class="filter__open" 
+    :class="filter.canClear ? 'active' : ''" 
+    @click="openFilter"
+  >
     Фильтр
   </div>
 </template>
@@ -8,6 +12,7 @@
 import "./FilterBtn.scss";
 
 export default {
+  emits: ['open-filter'],
   data() {
     return {
       //eslint-disable-next-line

@@ -17,27 +17,38 @@ export const analyticFilterStore = defineStore("analyticFilter", {
       dealType: filter.dealType,
       filterProps: {
         filter: filter || null,
-        title: "Фильтровать аналитику",
+        title: [
+          {
+            title: "Фильтровать аналитику",
+            pages: ["/funnel/"],
+          },
+          {
+            title: "Фильтровать воронку",
+            pages: ["/funnel/traffic/", "/funnel/additional/"],
+          },
+        ],
         filterPeriod: {
           select: {
             nameEng: "idSort",
             selected: filter.idSort,
-            options: [
-              {
-                name: "По месяцам",
-                value: 0,
-              },
-              {
-                name: "По неделям",
-                value: 1,
-              },
-              {
-                name: "По дням",
-                value: 2,
-              },
-            ],
+            options() {
+              return [
+                {
+                  name: "По месяцам",
+                  value: 0,
+                },
+                {
+                  name: "По неделям",
+                  value: 1,
+                },
+                {
+                  name: "По дням",
+                  value: 2,
+                },
+              ];
+            },
             selectedName() {
-              return this.options.find((el) => el.value === this.selected)?.name || null;
+              return this.options().find((el) => el.value === this.selected)?.name || null;
             },
           },
           datepickerMonth: [],
@@ -70,31 +81,33 @@ export const analyticFilterStore = defineStore("analyticFilter", {
                   },
                 ],
                 selected: filter.idManager,
-                options: [
-                  {
-                    name: "Все Менеджеры",
-                    value: 0,
-                    title: null,
-                  },
-                  ...managersFilter.map((el) => {
-                    return {
-                      name: el.name,
-                      value: el.id,
-                      title: el.name,
-                    };
-                  }),
-                ],
+                options() {
+                  return [
+                    {
+                      name: "Все Менеджеры",
+                      value: 0,
+                      title: null,
+                    },
+                    ...managersFilter.map((el) => {
+                      return {
+                        name: el.name,
+                        value: el.id,
+                        title: el.name,
+                      };
+                    }),
+                  ];
+                },
                 selectedName() {
-                  return this.options.find((el) => el.value === this.selected)?.name || null;
+                  return this.options().find((el) => el.value === this.selected)?.name || null;
                 },
                 pages: ["/funnel/", "/funnel/traffic/"],
               },
               {
                 type: "select",
-                name: "Проекты",
+                name: "Проект",
                 nameEng: [
                   {
-                    pages: ["/monitor/", "/monitor-control"],
+                    pages: ["/monitor/", "/monitor-control/"],
                     name: "projectId",
                   },
                   {
@@ -103,22 +116,24 @@ export const analyticFilterStore = defineStore("analyticFilter", {
                   },
                 ],
                 selected: filter.project,
-                options: [
-                  {
-                    name: "Все проекты",
-                    value: 0,
-                  },
-                  ...projects.map((project) => {
-                    return {
-                      name: project.name,
-                      value: project.id,
-                    };
-                  }),
-                ],
-                selectedName() {
-                  return this.options.find((el) => el.value === this.selected)?.name || null;
+                options() {
+                  return [
+                    {
+                      name: "Все проекты",
+                      value: 0,
+                    },
+                    ...projects.map((project) => {
+                      return {
+                        name: project.name,
+                        value: project.id,
+                      };
+                    }),
+                  ];
                 },
-                pages: ["/monitor/", "/monitor-control/", "/funnel/traffic/"],
+                selectedName() {
+                  return this.options().find((el) => el.value === this.selected)?.name || null;
+                },
+                pages: ["/monitor/", "/monitor-control/", "/funnel/", "/funnel/traffic/"],
               },
               {
                 type: "select",
@@ -130,20 +145,22 @@ export const analyticFilterStore = defineStore("analyticFilter", {
                   },
                 ],
                 selected: filter.course,
-                options: [
-                  {
-                    name: "Все продукты",
-                    value: "all",
-                  },
-                  ...courses.map((el) => {
-                    return {
-                      name: el,
-                      value: el,
-                    };
-                  }),
-                ],
+                options() {
+                  return [
+                    {
+                      name: "Все продукты",
+                      value: "all",
+                    },
+                    ...courses.map((el) => {
+                      return {
+                        name: el,
+                        value: el,
+                      };
+                    }),
+                  ];
+                },
                 selectedName() {
-                  return this.options.find((el) => el.value === this.selected)?.name || null;
+                  return this.options().find((el) => el.value === this.selected)?.name || null;
                 },
                 pages: ["/funnel/", "/funnel/traffic/"],
               },
@@ -157,20 +174,22 @@ export const analyticFilterStore = defineStore("analyticFilter", {
                   },
                 ],
                 selected: filter.dealType,
-                options: [
-                  {
-                    name: "Все сделки",
-                    value: null,
-                  },
-                  ...dealType.map((el) => {
-                    return {
-                      name: el.name,
-                      value: el.value,
-                    };
-                  }),
-                ],
+                options() {
+                  return [
+                    {
+                      name: "Все сделки",
+                      value: null,
+                    },
+                    ...dealType.map((el) => {
+                      return {
+                        name: el.name,
+                        value: el.value,
+                      };
+                    }),
+                  ];
+                },
                 selectedName() {
-                  return this.options.find((el) => el.value === this.selected)?.name || null;
+                  return this.options().find((el) => el.value === this.selected)?.name || null;
                 },
                 pages: ["/funnel/"],
               },
@@ -184,20 +203,22 @@ export const analyticFilterStore = defineStore("analyticFilter", {
                   },
                 ],
                 selected: filter.isNotDismiss,
-                options: [
-                  {
-                    name: "Все сотрудники",
-                    value: null,
-                  },
-                  ...employees.map((el) => {
-                    return {
-                      name: el ? "Работающие" : "Уволенные",
-                      value: el,
-                    };
-                  }),
-                ],
+                options() {
+                  return [
+                    {
+                      name: "Все сотрудники",
+                      value: null,
+                    },
+                    ...employees.map((el) => {
+                      return {
+                        name: el ? "Работающие" : "Уволенные",
+                        value: el,
+                      };
+                    }),
+                  ];
+                },
                 selectedName() {
-                  return this.options.find((el) => el.value === this.selected)?.name || null;
+                  return this.options().find((el) => el.value === this.selected)?.name || null;
                 },
                 pages: ["/funnel/", "/funnel/traffic/"],
               },
@@ -211,15 +232,17 @@ export const analyticFilterStore = defineStore("analyticFilter", {
                   },
                 ],
                 selected: filter.idFunnel,
-                options: [
-                  {
-                    name: "Все воронки",
-                    value: 0,
-                  },
-                ],
+                options() {
+                  return [
+                    {
+                      name: "Все воронки",
+                      value: 0,
+                    },
+                  ];
+                },
                 selectedName() {
                   return (
-                    this.options.find((el) => el.value === this.selected)?.name || "Все воронки"
+                    this.options().find((el) => el.value === this.selected)?.name || "Все воронки"
                   );
                 },
                 pages: ["/funnel/"],
@@ -234,28 +257,157 @@ export const analyticFilterStore = defineStore("analyticFilter", {
                   },
                 ],
                 selected: filter.idFunnel,
-                options: [
-                  {
-                    name: "Все цели",
-                    value: "all",
-                  },
-                  {
-                    name: "Профиль",
-                    value: "Подписка",
-                  },
-                  {
-                    name: "Заявка",
-                    value: "Посадочная",
-                  },
-                ],
+                options() {
+                  return [
+                    {
+                      name: "Все цели",
+                      value: "all",
+                    },
+                    {
+                      name: "Профиль",
+                      value: "Подписка",
+                    },
+                    {
+                      name: "Заявка",
+                      value: "Посадочная",
+                    },
+                  ];
+                },
                 selectedName() {
                   return (
-                    this.options.find((el) => el.value === this.selected)?.name || "Все воронки"
+                    this.options().find((el) => el.value === this.selected)?.name || "Все воронки"
                   );
                 },
-                pages: ["/funnel/", "/funnel/traffic/"],
+                pages: ["/funnel/traffic/"],
               },
             ],
+            pages: ["/funnel/", "/funnel/traffic/"],
+          },
+          {
+            name: "Аудитории",
+            items: [
+              {
+                type: "select",
+                name: "Рекламный кабинет",
+                nameEng: [
+                  {
+                    name: "idUser",
+                    pages: ["/funnel/traffic/"],
+                  },
+                ],
+                selected: filter.idUser,
+                options() {
+                  return [
+                    {
+                      name: "Все кабинеты",
+                      value: 0,
+                      title: null,
+                    },
+                    ...advertisers.map((el) => {
+                      return {
+                        name: el.name,
+                        value: el.id,
+                        title: el.name,
+                      };
+                    }),
+                  ];
+                },
+                selectedName() {
+                  return this.options().find((el) => el.value === this.selected)?.name || null;
+                },
+                pages: ["/funnel/traffic/"],
+              },
+              {
+                type: "select",
+                name: "Площадка",
+                nameEng: [
+                  {
+                    name: "platform",
+                    pages: ["/funnel/traffic/"],
+                  },
+                ],
+                selected: filter.platform,
+                options() {
+                  return [
+                    {
+                      name: "Все площадки",
+                      value: "all",
+                      title: null,
+                    },
+                    {
+                      name: "Неизвестно",
+                      value: "unknown",
+                      title: "Неизвестно",
+                    },
+                    ...platforms.map((el) => {
+                      return {
+                        name: el,
+                        value: el,
+                        title: el,
+                      };
+                    }),
+                  ];
+                },
+                selectedName() {
+                  return this.options().find((el) => el.value === this.selected)?.name || null;
+                },
+                pages: ["/funnel/traffic/"],
+              },
+              {
+                type: "select",
+                name: "Источники трафика",
+                nameEng: [
+                  {
+                    name: "channel",
+                    pages: ["/funnel/traffic/"],
+                  },
+                ],
+                selected: filter.channel,
+                options() {
+                  const unknownOptions = [
+                    {
+                      name: "Неизвестно",
+                      value: "unknown",
+                      title: "Неизвестно",
+                    },
+                  ];
+
+                  const options = [
+                    {
+                      name: "Все источники",
+                      value: "all",
+                      title: "Все источники",
+                    },
+                    ...channels.map((el) => {
+                      return {
+                        name: el,
+                        value: el,
+                        title: el,
+                      };
+                    }),
+                  ];
+
+                  return filter.channel === "unknown" ? unknownOptions : options;
+                },
+                selectedName() {
+                  return this.options().find((el) => el.value === this.selected)?.name || null;
+                },
+                pages: ["/funnel/traffic/"],
+              },
+              {
+                type: "input",
+                name: "Аудитории",
+                nameEng: [
+                  {
+                    name: "communites",
+                    pages: ["/funnel/traffic/"],
+                  },
+                ],
+                value: filter.communites,
+                pages: ["/funnel/traffic/"],
+              },
+            ],
+            pages: ["/funnel/traffic/"],
           },
         ],
       },
@@ -697,46 +849,42 @@ export const analyticFilterStore = defineStore("analyticFilter", {
       });
 
       if (currentFunnels) {
-        this.filterProps.columns = [
-          ...this.filterProps.columns.map((item) => {
-            item.items = [
-              ...item.items.map((el) => {
-                if (el.name === "Воронка") {
-                  el.options.length = 1;
+        this.filterProps.columns.forEach((item) => {
+          item.items = [
+            ...item.items.map((el) => {
+              if (el.name === "Воронка") {
+                const optionsArray = el.options();
 
-                  currentFunnels[1].forEach((elem) =>
-                    el.options.push({ name: elem.funnelName, value: elem.idFunnel })
-                  );
+                optionsArray.length = 1;
 
-                  if (el.selectedName() === "Все воронки") {
-                    el.selected = 0;
-                  }
-                }
+                currentFunnels[1].forEach((elem) =>
+                  optionsArray.push({ name: elem.funnelName, value: elem.idFunnel })
+                );
 
-                return el;
-              }),
-            ];
+                el.options = () => optionsArray;
 
-            return item;
-          }),
-        ];
-      } else {
-        this.filterProps.columns = [
-          ...this.filterProps.columns.map((item) => {
-            item.items = [
-              ...item.items.map((el) => {
-                if (el.name === "Воронка") {
-                  el.options.length = 1;
+                if (el.selectedName() === "Все воронки") {
                   el.selected = 0;
                 }
+              }
 
-                return el;
-              }),
-            ];
+              return el;
+            }),
+          ];
+        });
+      } else {
+        this.filterProps.columns.forEach((item) => {
+          item.items = [
+            ...item.items.map((el) => {
+              if (el.name === "Воронка") {
+                el.options().length = 1;
+                el.selected = 0;
+              }
 
-            return item;
-          }),
-        ];
+              return el;
+            }),
+          ];
+        });
       }
 
       return this.filterProps;
@@ -747,6 +895,10 @@ export const analyticFilterStore = defineStore("analyticFilter", {
       });
     },
     getFilterPropsAfterChange() {
+      this.filterProps.title = this.filterProps.title.find((el) =>
+        el.pages.includes(this.currentPage)
+      )?.title;
+
       return this.filterProps;
     },
     getCurrentRows() {
@@ -879,6 +1031,9 @@ export const analyticFilterStore = defineStore("analyticFilter", {
 
       return names;
     },
+    getCommunities() {
+      return this.communites;
+    }
   },
   actions: {
     async fetchFunnels() {
@@ -922,9 +1077,59 @@ export const analyticFilterStore = defineStore("analyticFilter", {
       this.searchRow = value;
     },
     setFilterPropsColumns() {
+      this.filterProps.columns = [
+        ...this.filterProps.columns.filter((el) => el.pages.includes(this.currentPage)),
+      ];
+
       this.filterProps.columns.forEach((item) => {
         item.items = [...item.items.filter((el) => el.pages.includes(this.currentPage))];
       });
     },
+    changePlatform(value) {
+      this.filterProps.filter.platform = value;
+
+      this.filterProps.columns.forEach((item) => {
+        item.items = [
+          ...item.items.map((el) => {
+            if (el.name === "Источники трафика") {
+              el.selected = value !== "unknown" ? "all" : "unknown";
+            }
+            return el;
+          }),
+        ];
+      });
+    },
+    changeSourceTrafficValue(value) {
+      this.filterProps.filter.channel = value;
+    },
+    setSourceTraffic(value) {
+      this.filterProps.columns.forEach((item) => {
+        item.items = [
+          ...item.items.map((el) => {
+            if (el.name === "Источники трафика") {
+              if (el.selected === "unknown") {
+                el.options = () => [{ name: "Неизвестно", value: "unknown", title: "Неизветно" }];
+              } else {
+                el.options = () => [
+                  {
+                    name: "Все источники",
+                    value: "all",
+                    title: "Все источники",
+                  },
+                  ...value.map((el) => {
+                    return { name: el, value: el, title: el };
+                  }),
+                ];
+              }
+            }
+
+            return el;
+          }),
+        ];
+      });
+    },
+    setCommunities(communites) {
+      this.communites = communites;
+    }
   },
 });
