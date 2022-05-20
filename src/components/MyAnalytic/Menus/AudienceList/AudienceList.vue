@@ -1,9 +1,5 @@
 <template>
-  <div
-    ref="audienceList"
-    class="modal audience"
-    @set-communities="setCommunities"
-  >
+  <div ref="audienceList" class="modal audience">
     <div ref="audienceListWrapper" class="modal__wrapper audience__menu">
       <div class="modal__header modal-header">
         <h2 class="modal-header__title">Список аудиторий</h2>
@@ -71,7 +67,7 @@
                 </label>
               </li>
               <li
-                v-for="(item, index) of props"
+                v-for="(item, index) of props?.communities"
                 :key="index"
                 class="communities-list__item"
               >
@@ -102,9 +98,7 @@
     </div>
   </div>
 </template>
-<!-- th:action="@{/funnel/traffic/communities/}" -->
-                <!-- th:object="${filter}" -->
-                <!-- th:method="post" -->
+
 <script>
 // styles
 import "./AudienceList.scss";
@@ -119,6 +113,19 @@ const menuUtils = new MenuUtils();
 export default {
   props: ["props"],
   emits: ["create-tab-settings-menu"],
+  data() {
+    return {
+      communities: this.props,
+    };
+  },
+  watch: {
+    communities: {
+      deep: true,
+      handler() {
+        console.log(this.communities);
+      },
+    },
+  },
   mounted() {
     this.$emit("create-tab-settings-menu", {
       menuSettings: {
@@ -136,9 +143,6 @@ export default {
       };
 
       menuUtils.closeMenu(closeMenuProps);
-    },
-    setCommunities(props) {
-      console.log(props);
     },
   },
 };

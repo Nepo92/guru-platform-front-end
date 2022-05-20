@@ -51,7 +51,10 @@
         @open-communities-menu="openCommunitiesMenu"
       />
       <MyLoader @create-loader="createLoader" />
-      <AudienceList :props="communities" @create-tab-settings-menu="createAudienceList" />
+      <AudienceList
+        :props="communities"
+        @create-tab-settings-menu="createAudienceList"
+      />
     </form>
   </div>
 </template>
@@ -97,10 +100,14 @@ export default {
     AudienceList,
   },
   props: ["props"],
-  emits: ['set-communities'],
+  emits: ["set-communities"],
   async setup() {
-    const { filterProps, initialFunnels, getCurrentFunnels, getFilterPropsAfterChange, getCommunities, } =
-      storeToRefs(store);
+    const {
+      filterProps,
+      initialFunnels,
+      getCurrentFunnels,
+      getFilterPropsAfterChange,
+    } = storeToRefs(store);
     const {
       setPage,
       changeDealType,
@@ -111,7 +118,6 @@ export default {
       changePlatform,
       setSourceTraffic,
       changeSourceTrafficValue,
-      setCommunities,
     } = mapActions(analyticFilterStore, [
       "changeDealType",
       "changeSelectValue",
@@ -121,8 +127,7 @@ export default {
       "setPage",
       "changePlatform",
       "setSourceTraffic",
-      'changeSourceTrafficValue',
-      'setCommunities',
+      "changeSourceTrafficValue",
     ]);
 
     await store.fetchFunnels();
@@ -141,8 +146,6 @@ export default {
       changePlatform,
       setSourceTraffic,
       changeSourceTrafficValue,
-      setCommunities,
-      getCommunities,
     };
   },
   data() {
@@ -200,11 +203,15 @@ export default {
 
       formData.set(
         "startDate",
-        dateUtils.dateToServer(this.filterProps.filterPeriod.datepickerMonth[0].value)
+        dateUtils.dateToServer(
+          this.filterProps.filterPeriod.datepickerMonth[0].value
+        )
       );
       formData.set(
         "endDate",
-        dateUtils.dateToServer(this.filterProps.filterPeriod.datepickerMonth[1].value)
+        dateUtils.dateToServer(
+          this.filterProps.filterPeriod.datepickerMonth[1].value
+        )
       );
 
       this.changeFilterSort(formData, t);
@@ -292,10 +299,16 @@ export default {
 
         formData.set("platform", platform);
         formData.set("channel", channel);
+        formData.set("community", community);
+        formData.set("communites", communites);
 
         const communities = await filterAPI.getCommunities(formData);
 
-        this.communities = communities;
+        this.communities = {
+          communities,
+          communitesFilter: communites,
+          communityFilter: community,
+        };
 
         const openAudienceProps = {
           menu: this.audienceMenu.menu,

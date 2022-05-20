@@ -1031,9 +1031,6 @@ export const analyticFilterStore = defineStore("analyticFilter", {
 
       return names;
     },
-    getCommunities() {
-      return this.communites;
-    }
   },
   actions: {
     async fetchFunnels() {
@@ -1128,8 +1125,5 @@ export const analyticFilterStore = defineStore("analyticFilter", {
         ];
       });
     },
-    setCommunities(communites) {
-      this.communites = communites;
-    }
   },
 });
