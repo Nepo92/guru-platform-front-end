@@ -17,13 +17,13 @@ export const analyticStore = defineStore("analyticStore", {
           {
             name: "Трафик",
             settings: true,
-            link: "/traffic/",
+            link: "/funnel/traffic/",
             nameClass: "analytic",
           },
           {
             name: "База",
             settings: true,
-            link: "/additional/",
+            link: "/funnel/additional/",
             nameClass: "analytic",
           },
         ],

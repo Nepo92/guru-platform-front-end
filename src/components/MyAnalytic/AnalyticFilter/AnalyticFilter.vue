@@ -73,7 +73,7 @@ import AirDatepicker from "air-datepicker";
 import { analyticAPI } from "@/api/api.js";
 
 // store
-import { analyticFilterStore } from "../AnalyticFilterStore/AnalyticFilterStore.js";
+import { analyticFilterStore } from "../AnalyticStore/AnalyticFilterStore/AnalyticFilterStore.js";
 import { mapActions, storeToRefs } from "pinia";
 
 const loaderUtils = new LoaderUtils();
@@ -92,10 +92,21 @@ export default {
   async setup() {
     const { filterProps, initialFunnels, getCurrentFunnels, getFilterPropsAfterChange } =
       storeToRefs(store);
-    const { changeDealType, changeSelectValue, changeSelectFilter, setPeriodProps } = mapActions(
-      analyticFilterStore,
-      ["changeDealType", "changeSelectValue", "changeSelectFilter", "setPeriodProps"]
-    );
+    const {
+      setPage,
+      changeDealType,
+      setFilterPropsColumns,
+      changeSelectValue,
+      changeSelectFilter,
+      setPeriodProps,
+    } = mapActions(analyticFilterStore, [
+      "changeDealType",
+      "changeSelectValue",
+      "changeSelectFilter",
+      "setPeriodProps",
+      "setFilterPropsColumns",
+      "setPage",
+    ]);
 
     await store.fetchFunnels();
 
@@ -108,6 +119,8 @@ export default {
       changeSelectFilter,
       getFilterPropsAfterChange,
       setPeriodProps,
+      setPage,
+      setFilterPropsColumns,
     };
   },
   created() {
@@ -117,7 +130,17 @@ export default {
     this.startDate = dateUtils.formatDDMMYYYY(startDate);
     this.endDate = dateUtils.formatDDMMYYYY(endDate);
 
-    this.setPeriodProps([this.startDate, this.endDate, this.filterProps.filter.idSort]);
+    const { path } = this.$route.path;
+
+    this.setPage(path);
+
+    this.setPeriodProps([startDate, endDate, this.filterProps.filter.idSort]);
+
+    this.setFilterPropsColumns();
+
+    this.filterProps = this.getFilterPropsAfterChange;
+
+    console.log(this.filterProps);
   },
   mounted() {
     this.filterProps.filterPeriod.datepickerMonth.forEach((item) => {
@@ -170,11 +193,10 @@ export default {
 
       formData.set("idSort", props.selectedOption.value);
 
-      console.log(formData.get("idSort"));
-
       this.changeFilterSort(formData, props.target);
     },
     changeFilterSort(formData, t) {
+      console.log(formData.get("startDate"));
       const applyFilterDate = analyticAPI.changeAnalyticDate(formData);
 
       const loader = setTimeout(() => {

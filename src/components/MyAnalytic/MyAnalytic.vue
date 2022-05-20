@@ -5,10 +5,14 @@
       <MyHeader
         :props="headerProps"
         @open-tab-settings-menu.prevent="openFunnelSettingsMenu"
-        @create-funnel-settings-menu="createFunnelSettingsMenu"
         @active-tab="getTabsRef"
       />
-      <FunnelSettings @create-funnel-settings-menu="createFunnelSettingsMenu" />
+      <FunnelSettings v-if="$route.path === '/funnel/'" @create-tab-settings-menu="createMenu" />
+      <FunnelTrafficSettings
+        :props="selectProps"
+        v-if="$route.path === '/funnel/traffic/'"
+        @create-tab-settings-menu="createMenu"
+      />
       <div class="analytic-content__wrapper">
         <Suspense>
           <AnalyticFilter :props="{ selectsProps: selectProps }" />
@@ -26,18 +30,19 @@
 import "./MyAnalytic.scss";
 import "@/assets/scss/grid.scss";
 
-// components
-import MyMenu from "../Platform/MyMenu/MyMenu.vue";
-import MyHeader from "../Platform/MyHeader/MyHeader.vue";
-import AnalyticFilter from "./AnalyticFilter/AnalyticFilter.vue";
-import FunnelSettings from "./Menus/FunnelSettings/FunnelSettings.vue";
-import AnalyticTable from "./AnalyticTable/AnalyticTable.vue";
-
 // utils
 import MenuUtils from "@/utils/MenuUtils/MenuUtils.js";
 
 // store
 import { analyticStore } from "./AnalyticStore/AnalyticStore.js";
+
+// components
+import MyMenu from "@/components/Platform/MyMenu/MyMenu.vue";
+import MyHeader from "@/components/Platform/MyHeader/MyHeader.vue";
+import AnalyticFilter from "./AnalyticFilter/AnalyticFilter.vue";
+import FunnelSettings from "./Menus/FunnelSettings/FunnelSettings.vue";
+import AnalyticTable from "./AnalyticTable/AnalyticTable.vue";
+import FunnelTrafficSettings from "./Menus/FunnelTrafficSettings/FunnelTrafficSettings.vue";
 
 const menuUtils = new MenuUtils();
 const store = analyticStore();
@@ -51,6 +56,7 @@ export default {
     AnalyticFilter,
     FunnelSettings,
     AnalyticTable,
+    FunnelTrafficSettings,
   },
   setup() {
     return {
@@ -61,20 +67,18 @@ export default {
     };
   },
   methods: {
-    openFunnelSettingsMenu(props) {
+    openFunnelSettingsMenu() {
       const funnelMenuProps = {
-        menu: this.funnelSettings.menu,
-        wrapper: this.funnelSettings.wrapper,
+        menu: this.funnelSettings.menuSettings.menu,
+        wrapper: this.funnelSettings.menuSettings.wrapper,
         isOverflowed: true,
       };
 
       menuUtils.openMenu(funnelMenuProps);
     },
-    createFunnelSettingsMenu(props) {
-      this.funnelSettings = {
-        menu: props.menuFunnelSettings.menu,
-        wrapper: props.menuFunnelSettings.wrapper,
-      };
+    createMenu(props) {
+      console.log(props);
+      this.funnelSettings = props;
     },
   },
 };
