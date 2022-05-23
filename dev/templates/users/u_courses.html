@@ -93,11 +93,13 @@
 																	<div class="available-course__about course-content">
 																		<div class="course-content__item course-content__modules block-stat">
 																			<span class="course-content__icon"></span>
-																			<span class="course-modules__text block-stat__text" th:utext="${course.modulesCount} + ' модулей'"></span>
+																			<span class="course-modules__text block-stat__text"
+																				th:utext="${course.modulesCount} + ' модулей'"></span>
 																		</div>
 																		<div class="course-content__item course-content__lesson">
 																			<span class="course-content__icon"></span>
-																			<span class="course-modules__text" th:utext="${course.lessonsCount + course.homeworkCount} + ' уроков'"></span>
+																			<span class="course-modules__text"
+																				th:utext="${course.lessonsCount + course.homeworkCount} + ' уроков'"></span>
 																		</div>
 																		<div class="course-content__item course-content__homework">
 																			<span class="course-content__icon"></span>
@@ -131,7 +133,7 @@
 	</div>
 </body>
 
-<th:block th:insert="base :: jquery" /> 
+<th:block th:insert="base :: jquery" />
 <script th:src="@{/js/countdown.js}"></script>
 <script th:src="@{/js/main.js}"></script>
 <script th:src="@{/js/progress-bar.js}"></script>
@@ -146,6 +148,10 @@
 	var company = null;
 	var managers = null;
 	var socials = null;
+	var comments = [[${ homework?.comments }]];
+	var rate = null;
+	var banners = null;
 	/*]]>*/
 </script>
+
 </html>

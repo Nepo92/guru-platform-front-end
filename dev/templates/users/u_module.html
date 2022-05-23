@@ -7,19 +7,23 @@
 
   <title th:utext="${module.name}"></title>
   <!-- Yandex.Metrika counter -->
-  <script type="text/javascript" >
-   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-   m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+  <script type="text/javascript">
+    (function (m, e, t, r, i, k, a) {
+      m[i] = m[i] || function () { (m[i].a = m[i].a || []).push(arguments) };
+      m[i].l = 1 * new Date(); k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k, a)
+    })
+      (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
 
-   ym(74362000, "init", {
-        clickmap:true,
-        trackLinks:true,
-        accurateTrackBounce:true,
-        webvisor:true
-   });
-</script>
-  <noscript><div><img src="https://mc.yandex.ru/watch/74362000" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    ym(74362000, "init", {
+      clickmap: true,
+      trackLinks: true,
+      accurateTrackBounce: true,
+      webvisor: true
+    });
+  </script>
+  <noscript>
+    <div><img src="https://mc.yandex.ru/watch/74362000" style="position:absolute; left:-9999px;" alt="" /></div>
+  </noscript>
   <!--/Yandex.Metrika counter -->
 </head>
 
@@ -39,7 +43,8 @@
                     <h3>Уроки курса</h3>
                   </div>
                   <div class="header__item header__item_btn">
-                    <a th:if="${idBlock}" th:href="'/user/courses/' + ${idDeal} + '/byTariff/' + ${idBlock}" class="btn btn_outline">
+                    <a th:if="${idBlock}" th:href="'/user/courses/' + ${idDeal} + '/byTariff/' + ${idBlock}"
+                      class="btn btn_outline">
                       <div class="btn__content btn__content_large">
                         <span class="btn__title btn__title_small btn__icon btn__icon_arrow-left">
                           <span class="btn_title-text btn_title-text_small">К списку модулей</span>
@@ -85,7 +90,8 @@
 
             <div class="block-header__warning">
               <span>
-                Для полного прохождения модуля необходимо просмотреть все уроки и выполнить домашнее задание <span class="warning__smile">👍🏻</span>
+                Для полного прохождения модуля необходимо просмотреть все уроки и выполнить домашнее задание <span
+                  class="warning__smile">👍🏻</span>
               </span>
             </div>
 
@@ -104,17 +110,20 @@
                           <div class="lessons-about__content">
                             <div class="lessons-about__item">
                               <span class="lessons-about__icon"></span>
-                              <span class="lessons-about__text" th:utext="${lesson.moduleLesson.duration / 60 } + ' ч ' + ${lesson.moduleLesson.duration % 60 } + ' мин'"></span>
+                              <span class="lessons-about__text"
+                                th:utext="${lesson.moduleLesson.duration / 60 } + ' ч ' + ${lesson.moduleLesson.duration % 60 } + ' мин'"></span>
                             </div>
                             <div class="lessons-about__item">
                               <span class="lessons-about__icon"></span>
-                              <span class="lessons-about__text" th:utext="${lesson.moduleLesson.documentsCounter} + ' документов'"></span>
+                              <span class="lessons-about__text"
+                                th:utext="${lesson.moduleLesson.documentsCounter} + ' документов'"></span>
                             </div>
                           </div>
                         </div>
                       </div>
                       <th:block th:if="${lesson.enable}">
-                        <a class="lessons-item__button" th:href="'/user/courses/' + ${idDeal} + '/' + ${lesson.moduleLesson.idModule} + '/' + ${lesson.moduleLesson.id} + '?idBlock=' + ${idBlock == null ? '' : idBlock}">
+                        <a class="lessons-item__button"
+                          th:href="'/user/courses/' + ${idDeal} + '/' + ${lesson.moduleLesson.idModule} + '/' + ${lesson.moduleLesson.id} + '?idBlock=' + ${idBlock == null ? '' : idBlock}">
                           <th:block th:if=" ${lesson.moduleLesson.type}=='homework'">
                             <span class=" lessons-element__text">Перейти к ДЗ</span>
                             <span class="lessons-element__icon"></span>
@@ -157,6 +166,10 @@
   var company = null;
   var managers = null;
   var socials = null;
+  var comments = [[${ homework?.comments }]];
+  var rate = null;
+  var banners = null;
   /*]]>*/
 </script>
+
 </html>
