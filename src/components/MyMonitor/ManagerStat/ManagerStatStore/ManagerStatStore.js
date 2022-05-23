@@ -1,9 +1,11 @@
-import { defineStore } from 'pinia';
+import { defineStore } from "pinia";
 
 export const statMonitor = defineStore("statMonitor", {
   state() {
     return {
+      // eslint-disable-next-line
       data: rows || managersRows || null,
+      // eslint-disable-next-line
       filter: filter || null,
       managerStat: [
         {

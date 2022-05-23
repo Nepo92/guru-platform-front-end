@@ -3,7 +3,7 @@
     <div ref="audienceListWrapper" class="modal__wrapper audience__menu">
       <div class="modal__header modal-header">
         <h2 class="modal-header__title">Список аудиторий</h2>
-        <span class="modal-header__close" @click="closeMenu" />
+        <span ref="closeMenu" class="modal-header__close" />
       </div>
       <form>
         <ul
@@ -102,48 +102,39 @@
 <script>
 // styles
 import "./AudienceList.scss";
-
-// utils
-import MenuUtils from "@/utils/MenuUtils/MenuUtils.js";
-
 import "@/assets/scss/grid.scss";
 
-const menuUtils = new MenuUtils();
+// utils
+// import MenuUtils from "@/utils/MenuUtils/MenuUtils.js";
+
+// vue
+import { ref } from "vue";
+
+// const menuUtils = new MenuUtils();
 
 export default {
   props: ["props"],
   emits: ["create-tab-settings-menu"],
-  data() {
+  setup() {
+    const audienceList = ref(null);
+    const audienceListWrapper = ref(null);
+
+    const closeMenu = ref(null);
+
     return {
-      communities: this.props,
+      audienceList,
+      audienceListWrapper,
+      closeMenu,
     };
   },
-  watch: {
-    communities: {
-      deep: true,
-      handler() {
-        console.log(this.communities);
-      },
-    },
-  },
   mounted() {
+    console.log(this.props);
     this.$emit("create-tab-settings-menu", {
       menuSettings: {
-        menu: this.$refs.audienceList,
-        wrapper: this.$refs.audienceListWrapper,
+        menu: this.audienceList,
+        wrapper: this.audienceListWrapper,
       },
     });
-  },
-  methods: {
-    closeMenu() {
-      const closeMenuProps = {
-        menu: this.$refs.audienceList,
-        wrapper: this.$refs.audienceListWrapper,
-        isOverflowed: true,
-      };
-
-      menuUtils.closeMenu(closeMenuProps);
-    },
   },
 };
 </script>

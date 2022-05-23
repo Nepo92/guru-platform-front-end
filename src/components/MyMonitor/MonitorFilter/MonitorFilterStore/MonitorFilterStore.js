@@ -2,14 +2,23 @@ import { defineStore } from "pinia";
 
 export const monitorFilter = defineStore("monitorFilter", {
   state() {
+    // eslint-disable-next-line
+    const filterData = filter || null;
+    // eslint-disable-next-line
+    const projectsData = projects || null;
+
     return {
-      filter: filter || null,
-      projects: projects || null,
+      filter: filterData,
+      // eslint-disable-next-line
+      projects: projectsData,
+      // eslint-disable-next-line
       managersFilter: managersFilter || null,
+      // eslint-disable-next-line
       courses: courses || null,
+      // eslint-disable-next-line
       dealType: dealType || null,
+      // eslint-disable-next-line
       employees: employees || null,
-      funnels: null,
       period: [
         {
           name: "Сегодня",
@@ -39,7 +48,7 @@ export const monitorFilter = defineStore("monitorFilter", {
         },
       ],
       filterProps: {
-        filter: filter || null,
+        filter: filterData || null,
         title: "Фильтровать монитор",
         columns: [
           {
@@ -58,14 +67,14 @@ export const monitorFilter = defineStore("monitorFilter", {
                     name: "project",
                   },
                 ],
-                selected: filter.projectId,
+                selected: filterData?.projectId,
                 options() {
                   return [
                     {
                       name: "Все проекты",
                       value: 0,
                     },
-                    ...projects.map((project) => {
+                    ...projectsData?.map((project) => {
                       return {
                         name: project.name,
                         value: project.id,
@@ -87,7 +96,7 @@ export const monitorFilter = defineStore("monitorFilter", {
                     pages: ["/monitor/"],
                   },
                 ],
-                selected: filter.showManagerType,
+                selected: filterData?.showManagerType,
                 options() {
                   return [
                     {
@@ -118,7 +127,7 @@ export const monitorFilter = defineStore("monitorFilter", {
                     pages: ["/monitor/"],
                   },
                 ],
-                selected: filter.proceedType,
+                selected: filterData?.proceedType,
                 options() {
                   return [
                     {

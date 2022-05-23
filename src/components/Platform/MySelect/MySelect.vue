@@ -29,10 +29,10 @@ import "./MySelect.scss";
 export default {
   props: ["props"],
   emits: [
-    'change-select-value', 
-    'change-deal-type', 
-    'change-platform-filter', 
-    'change-source-traffic-filter',
+    "change-select-value",
+    "change-deal-type",
+    "change-platform-filter",
+    "change-source-traffic-filter",
   ],
   mounted() {
     const { select } = this.$refs;
@@ -46,11 +46,13 @@ export default {
     selectsOnPage.push(select);
   },
   methods: {
-    openSelect(e) {
+    openSelect() {
       const { select, selectBody } = this.$refs;
       const { selectsOnPage } = this.props;
 
-      const selctIsOpen = selectsOnPage.some((el) => el.classList.contains("open"));
+      const selctIsOpen = selectsOnPage.some((el) =>
+        el.classList.contains("open")
+      );
 
       if (selctIsOpen) {
         selectsOnPage.forEach((item) => item.classList.remove("open"));
@@ -118,7 +120,9 @@ export default {
       const isArray = Array.isArray(nameEng);
       const { path } = this.$route;
 
-      return isArray ? nameEng.find((el) => el.pages.includes(path))?.name : nameEng;
+      return isArray
+        ? nameEng.find((el) => el.pages.includes(path))?.name
+        : nameEng;
     },
   },
 };

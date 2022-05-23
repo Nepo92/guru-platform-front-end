@@ -2,7 +2,11 @@
   <nav @mouseleave="closeSubMenu">
     <ul ref="menu" class="menu">
       <li class="menu__company menu-company">
-        <span ref="mobileMenuBtn" class="menu-company__open" @click="toggleMobileMenu">
+        <span
+          ref="mobileMenuBtn"
+          class="menu-company__open"
+          @click="toggleMobileMenu"
+        >
           <span class="menu-open__row" />
         </span>
         <img class="menu-company__img" :src="'/' + company.logo" />
@@ -77,8 +81,14 @@
           <li class="sub-menu__header">
             {{ item.name }}
           </li>
-          <li v-for="(elem, count) of item.submenu.items" :key="count" class="sub-menu__item">
-            <a class="sub-menu__link" :class="elem.class" :href="elem.path">{{ elem.name }}</a>
+          <li
+            v-for="(elem, count) of item.submenu.items"
+            :key="count"
+            class="sub-menu__item"
+          >
+            <a class="sub-menu__link" :class="elem.class" :href="elem.path">{{
+              elem.name
+            }}</a>
           </li>
         </ul>
       </li>
@@ -93,9 +103,13 @@ import "@/assets/scss/grid.scss";
 export default {
   data() {
     return {
+      // eslint-disable-next-line
       logoClass: logo || null,
+      // eslint-disable-next-line
       company: company || null,
+      // eslint-disable-next-line
       role: role || null,
+      // eslint-disable-next-line
       avatar: avatar || null,
       itemsAdmin: [
         {
@@ -513,7 +527,8 @@ export default {
     classSubMenu() {
       const { subMenu } = this;
 
-      const openWithoutAnimation = subMenu.isOpen && subMenu.prevIsOpen ? "open_t0" : false;
+      const openWithoutAnimation =
+        subMenu.isOpen && subMenu.prevIsOpen ? "open_t0" : false;
       const openWithAnimation = subMenu.isOpen ? "open" : false;
 
       const open = openWithoutAnimation || openWithAnimation;
@@ -530,14 +545,24 @@ export default {
   created() {
     const isAdmin = this.role === "ROLE_ADMIN" ? this.itemsAdmin : false;
     const isManager =
-      this.role === "ROLE_MANAGER" || this.role === "ROLE_HEAD_MANAGER" ? this.itemsManager : false;
-    const isExaminer = this.role === "ROLE_EXAMINER" ? this.itemsExaminer : false;
-    const isAdvertiser = this.role === "ROLE_ADVERTISER" ? this.itemsAdvertiser : false;
-    const isHeadManager = this.role === "ROLE_HEAD_MANAGER" ? this.itemsHeadManager : false;
+      this.role === "ROLE_MANAGER" || this.role === "ROLE_HEAD_MANAGER"
+        ? this.itemsManager
+        : false;
+    const isExaminer =
+      this.role === "ROLE_EXAMINER" ? this.itemsExaminer : false;
+    const isAdvertiser =
+      this.role === "ROLE_ADVERTISER" ? this.itemsAdvertiser : false;
+    const isHeadManager =
+      this.role === "ROLE_HEAD_MANAGER" ? this.itemsHeadManager : false;
     const isCurator = this.role === "ROLE_CURATOR" ? this.itemsCurator : false;
 
     this.menuItems =
-      isAdmin || isManager || isExaminer || isAdvertiser || isHeadManager || isCurator;
+      isAdmin ||
+      isManager ||
+      isExaminer ||
+      isAdvertiser ||
+      isHeadManager ||
+      isCurator;
   },
   mounted() {
     this.viewport.width = window.innerWidth;

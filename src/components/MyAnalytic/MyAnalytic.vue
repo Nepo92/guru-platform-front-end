@@ -7,7 +7,10 @@
         @open-tab-settings-menu.prevent="openFunnelSettingsMenu"
         @active-tab="getTabsRef"
       />
-      <FunnelSettings v-if="$route.path === '/funnel/'" @create-tab-settings-menu="createMenu" />
+      <FunnelSettings
+        v-if="$route.path === '/funnel/'"
+        @create-tab-settings-menu="createMenu"
+      />
       <FunnelTrafficSettings
         v-if="$route.path === '/funnel/traffic/'"
         :props="selectProps"
@@ -15,11 +18,15 @@
       />
       <div class="analytic-content__wrapper">
         <Suspense>
-          <AnalyticFilter :props="{ selectsProps: selectProps }" />
+          <AnalyticFilter
+            :props="{ selectsProps: selectProps }"
+            @set-filter-period-props="setFilterProps"
+          />
         </Suspense>
-        <Suspense>
-          <AnalyticTable />
-        </Suspense>
+        <AnalyticTable
+          v-if="filterPeriodProps"
+          :props="{ ...filterPeriodProps }"
+        />
       </div>
     </div>
   </div>
@@ -66,6 +73,11 @@ export default {
       selectProps,
     };
   },
+  data() {
+    return {
+      filterPeriodProps: null,
+    };
+  },
   methods: {
     openFunnelSettingsMenu() {
       const funnelMenuProps = {
@@ -78,6 +90,9 @@ export default {
     },
     createMenu(props) {
       this.funnelSettings = props;
+    },
+    setFilterProps(props) {
+      this.filterPeriodProps = props;
     },
   },
 };

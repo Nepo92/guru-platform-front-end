@@ -2,10 +2,14 @@ import { defineStore } from "pinia";
 
 export const monitorWidgets = defineStore("monitorWidgets", {
   state() {
+    // eslint-disable-next-line
+    const tilesData = tiles || null;
+    // eslint-disable-next-line
+    const generalRowData = generalRow || null;
+
     return {
-      tiles: tiles || null,
+      // eslint-disable-next-line
       filter: filter || null,
-      generalRow: generalRow || null,
       widgets: [
         {
           name: "Заявки (Ц)",
@@ -24,9 +28,9 @@ export const monitorWidgets = defineStore("monitorWidgets", {
         {
           name: "Заказы",
           nameEng: "application",
-          value: tiles?.bill.value,
-          percent: tiles?.bill.percent,
-          plan: tiles?.bill.plan,
+          value: tilesData?.bill.value,
+          percent: tilesData?.bill.percent,
+          plan: tilesData?.bill.plan,
           description:
             "Количество оформленных заказов, учитываются как оплаченные так и не оплаченные",
           period: [null, 4, 1, 2, 3],
@@ -39,9 +43,9 @@ export const monitorWidgets = defineStore("monitorWidgets", {
         {
           name: "Продажи",
           nameEng: "sales",
-          value: tiles?.sale.value,
-          percent: tiles?.sale.percent,
-          plan: tiles?.sale.plan,
+          value: tilesData?.sale.value,
+          percent: tilesData?.sale.percent,
+          plan: tilesData?.sale.plan,
           description:
             "Количество оплаченных заказов, учитываются как предоплаты так и полные оплаты",
           period: [null, 4, 1, 2, 3],
@@ -54,9 +58,9 @@ export const monitorWidgets = defineStore("monitorWidgets", {
         {
           name: "Выручка",
           nameEng: "revenue",
-          value: tiles?.proceed.value,
-          percent: tiles?.proceed.percent,
-          plan: tiles?.proceed.plan,
+          value: tilesData?.proceed.value,
+          percent: tilesData?.proceed.percent,
+          plan: tilesData?.proceed.plan,
           description: "Сумма вырученных от продаж денег",
           period: [null, 4, 1, 2, 3],
           metric: {
@@ -85,9 +89,9 @@ export const monitorWidgets = defineStore("monitorWidgets", {
         {
           name: "Прогноз",
           nameEng: "prediction",
-          value: tiles?.prediction.plan,
-          percent: tiles?.deviation.percent,
-          plan: tiles?.deviation.plan,
+          value: tilesData?.prediction.plan,
+          percent: tilesData?.deviation.percent,
+          plan: tilesData?.deviation.plan,
           description:
             "Прогноз выручки, считается по формуле: (факт по выручке / на количество прошедших дней) * количество дней в месяце",
           period: [4],
@@ -101,7 +105,7 @@ export const monitorWidgets = defineStore("monitorWidgets", {
         {
           name: "Проверено сделок",
           nameEng: "deal-count",
-          value: generalRow?.dealCount,
+          value: generalRowData?.dealCount,
           percent: null,
           description: "Количество проверенных сделок",
           period: [1, 2, 3, 4],
@@ -112,7 +116,7 @@ export const monitorWidgets = defineStore("monitorWidgets", {
         {
           name: "Поставлено оценок",
           nameEng: "rate-count",
-          value: generalRow?.rateCount,
+          value: generalRowData?.rateCount,
           percent: null,
           description: "Количество разрешенных споров",
           period: [1, 2, 3, 4],
@@ -123,7 +127,7 @@ export const monitorWidgets = defineStore("monitorWidgets", {
         {
           name: "Споров отработано",
           nameEng: "debate-count",
-          value: generalRow?.debateCount,
+          value: generalRowData?.debateCount,
           percent: null,
           description: "Количество измененных оценок в спорах",
           period: [1, 2, 3, 4],
@@ -134,7 +138,7 @@ export const monitorWidgets = defineStore("monitorWidgets", {
         {
           name: "Изменений оценок в спорах",
           nameEng: "debate-count-estimation",
-          value: generalRow?.debateCount,
+          value: generalRowData?.debateCount,
           percent: null,
           description: "Количество измененных оценок в спорах",
           period: [1, 2, 3, 4],
@@ -145,7 +149,7 @@ export const monitorWidgets = defineStore("monitorWidgets", {
         {
           name: "Средняя оценка",
           nameEng: "score",
-          value: generalRow?.score,
+          value: generalRowData?.score,
           percent: null,
           description: "Средняя оценка менеджеров",
           period: [1, 2, 3, 4],

@@ -11,11 +11,7 @@
               @input="(e) => metricksSearch(e)"
             />
           </div>
-          <div 
-            class="analytic-table__column"
-          >
-            Итого
-          </div>
+          <div class="analytic-table__column">Итого</div>
         </div>
         <div class="analytic-metric">
           <div
@@ -38,32 +34,32 @@
                   class="analytic-metric__value"
                   :class="
                     metric.colors && metric.main?.sum !== null
-                      ? metric.main?.sum > (metric.colors.green || metric.colors.yellow)
+                      ? metric.main?.sum >
+                        (metric.colors.green || metric.colors.yellow)
                         ? 'green'
                         : metric.main?.sum > metric.colors.red
-                          ? 'yellow'
-                          : 'red'
+                        ? 'yellow'
+                        : 'red'
                       : ''
                   "
                 >
                   {{
                     metric.main?.sum
-                      ? metric.main?.sum.toLocaleString("ru-RU") + ` ${metric?.units || ""}`
+                      ? metric.main?.sum.toLocaleString("ru-RU") +
+                        ` ${metric?.units || ""}`
                       : `0 ${metric?.units || ""}`
                   }}
                 </div>
               </div>
             </div>
-            <div 
-              ref="managerList" 
-              :data-index="index" 
+            <div
+              ref="managerList"
+              :data-index="index"
               class="analytic__managers-list"
             >
-              <h2 class="analytic-main__title">
-                Список менеджеров
-              </h2>
-              <div 
-                v-for="(manager, count) of managers" 
+              <h2 class="analytic-main__title">Список менеджеров</h2>
+              <div
+                v-for="(manager, count) of managers"
                 :key="count"
                 class="analytic-main__manager"
               >
@@ -74,19 +70,22 @@
                   class="analytic-manager__value"
                   :class="
                     metric.colors && metric.managers[count]?.sum
-                      ? metric.managers[count]?.sum > metric.colors.green || item.colors.yellow
+                      ? metric.managers[count]?.sum > metric.colors.green ||
+                        item.colors.yellow
                         ? 'green'
                         : metric.managers[count]?.sum > metric.colors.red
-                          ? 'yellow'
-                          : 'red'
+                        ? 'yellow'
+                        : 'red'
                       : ''
                   "
                 >
                   {{
                     metric.managers
-                      ? `${metric.managers[count]?.sum?.toLocaleString("ru-RU") || "0"} ${
-                        metric.units || ""
-                      }` || `0 ${metric.units || ""}`
+                      ? `${
+                          metric.managers[count]?.sum?.toLocaleString(
+                            "ru-RU"
+                          ) || "0"
+                        } ${metric.units || ""}` || `0 ${metric.units || ""}`
                       : `0 ${metric.units || ""}`
                   }}
                 </div>
@@ -97,19 +96,19 @@
       </div>
       <div class="analytic-table__right">
         <div class="analytic-right__header">
-          <div 
-            v-for="(item, index) of periodItems" 
+          <div
+            v-for="(item, index) of periodItems"
             :key="index"
             class="analytic-table__column"
-          > 
+          >
             {{ item }}
           </div>
         </div>
         <div class="analytic-period">
-          <div 
-            v-for="(item, index) of rows" 
+          <div
+            v-for="(item, index) of rows"
             :key="index"
-            class="analytic-period__row" 
+            class="analytic-period__row"
           >
             <div class="analytic-period__main">
               <div
@@ -121,8 +120,8 @@
                     ? elem > item.colors.green || item.colors.yellow
                       ? 'green'
                       : elem > item.colors.red
-                        ? 'yellow'
-                        : 'red'
+                      ? 'yellow'
+                      : 'red'
                     : ''
                 "
               >
@@ -135,7 +134,11 @@
                 }}
               </div>
             </div>
-            <div ref="managersPeriod" :data-index="index" class="analytic-period__managers">
+            <div
+              ref="managersPeriod"
+              :data-index="index"
+              class="analytic-period__managers"
+            >
               <div
                 v-for="(elem, count) of item.managers"
                 :key="count"
@@ -150,12 +153,16 @@
                       ? el > item.colors.green || item.colors.yellow
                         ? 'green'
                         : el > item.colors.red
-                          ? 'yellow'
-                          : 'red'
+                        ? 'yellow'
+                        : 'red'
                       : ''
                   "
                 >
-                  {{ el ? el.toLocaleString("ru-RU") + " " + (item.units || "") : "" }}
+                  {{
+                    el
+                      ? el.toLocaleString("ru-RU") + " " + (item.units || "")
+                      : ""
+                  }}
                 </div>
               </div>
             </div>
@@ -177,25 +184,21 @@ import { storeToRefs, mapActions } from "pinia";
 const store = analyticFilterStore();
 
 const { getRows, getPeriodProps, analyticData } = storeToRefs(store);
-const { setInitialValues, setSearchValue } = mapActions(analyticFilterStore, [
-  "setInitialValues",
-  "setSearchValue",
-]);
+const { setInitialValues, setSearchValue, setPeriodProps } = mapActions(
+  analyticFilterStore,
+  ["setInitialValues", "setSearchValue", "setPeriodProps"]
+);
 
 export default {
-  async setup() {
-    const timer = await new Promise((res) => {
-      setTimeout(() => {
-        res();
-      }, 400);
-    });
-
+  props: ["props"],
+  setup() {
     return {
       getRows,
       analyticData,
       getPeriodProps,
       setInitialValues,
       setSearchValue,
+      setPeriodProps,
     };
   },
   data() {
@@ -210,7 +213,14 @@ export default {
 
     this.rows = this.getRows;
 
+    this.setPeriodProps([
+      this.props.start,
+      this.props.end,
+      this.props.periodSeparate,
+    ]);
+
     this.periodItems = this.getPeriodProps;
+
     this.managers = this.analyticData.managers;
     this.currentIndex = this.analyticData.currentIndex;
   },
@@ -223,7 +233,9 @@ export default {
 
       const { managerList, managersPeriod } = this.$refs;
 
-      const currentList = managerList.find((el) => +el.getAttribute("data-index") === currentIndex);
+      const currentList = managerList.find(
+        (el) => +el.getAttribute("data-index") === currentIndex
+      );
       const currentPeriod = managersPeriod.find(
         (el) => +el.getAttribute("data-index") === currentIndex
       );
@@ -232,10 +244,14 @@ export default {
       currentPeriod.classList.toggle("open");
 
       if (currentList.classList.contains("open")) {
-        currentList.style.height = (this.analyticData.managers.length + 1) * 40 + 20 + "px";
-        currentList.style.maxHeight = (this.analyticData.managers.length + 1) * 40 + 20 + "px";
-        currentPeriod.style.height = this.analyticData.managers.length * 40 + 30 + "px";
-        currentPeriod.style.maxHeight = this.analyticData.managers.length * 40 + 30 + "px";
+        currentList.style.height =
+          (this.analyticData.managers.length + 1) * 40 + 20 + "px";
+        currentList.style.maxHeight =
+          (this.analyticData.managers.length + 1) * 40 + 20 + "px";
+        currentPeriod.style.height =
+          this.analyticData.managers.length * 40 + 30 + "px";
+        currentPeriod.style.maxHeight =
+          this.analyticData.managers.length * 40 + 30 + "px";
       } else {
         currentList.style.height = "0px";
         currentList.style.maxHeight = "0px";

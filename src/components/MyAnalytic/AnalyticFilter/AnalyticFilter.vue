@@ -52,6 +52,7 @@
       />
       <MyLoader @create-loader="createLoader" />
       <AudienceList
+        v-if="communities"
         :props="communities"
         @create-tab-settings-menu="createAudienceList"
       />
@@ -100,7 +101,7 @@ export default {
     AudienceList,
   },
   props: ["props"],
-  emits: ["set-communities"],
+  emits: ["set-communities", "set-filter-period-props"],
   async setup() {
     const {
       filterProps,
@@ -114,7 +115,6 @@ export default {
       setFilterPropsColumns,
       changeSelectValue,
       changeSelectFilter,
-      setPeriodProps,
       changePlatform,
       setSourceTraffic,
       changeSourceTrafficValue,
@@ -122,7 +122,6 @@ export default {
       "changeDealType",
       "changeSelectValue",
       "changeSelectFilter",
-      "setPeriodProps",
       "setFilterPropsColumns",
       "setPage",
       "changePlatform",
@@ -140,7 +139,6 @@ export default {
       changeSelectValue,
       changeSelectFilter,
       getFilterPropsAfterChange,
-      setPeriodProps,
       setPage,
       setFilterPropsColumns,
       changePlatform,
@@ -151,11 +149,27 @@ export default {
   data() {
     return {
       communities: null,
+      audienceMenu: null,
     };
+  },
+  watch: {
+    audienceMenu() {
+      if (this.audienceMenu) {
+        const openAudienceProps = {
+          menu: this.audienceMenu.menu,
+          wrapper: this.audienceMenu.wrapper,
+        };
+
+        menuUtils.openMenu(openAudienceProps);
+      }
+    },
   },
   created() {
     const startDate = dateUtils.toTimestamp(this.filterProps.filter.startDate);
     const endDate = dateUtils.toTimestamp(this.filterProps.filter.endDate);
+
+    this.startDateTimeStamp = startDate;
+    this.endDateTimeStamp = endDate;
 
     this.startDate = dateUtils.formatDDMMYYYY(startDate);
     this.endDate = dateUtils.formatDDMMYYYY(endDate);
@@ -163,9 +177,6 @@ export default {
     const { path } = this.$route;
 
     this.setPage(path);
-
-    this.setPeriodProps([startDate, endDate, this.filterProps.filter.idSort]);
-
     this.setFilterPropsColumns();
 
     this.filterProps = this.getFilterPropsAfterChange;
@@ -188,6 +199,14 @@ export default {
         setTimeout(applyFilterDate, 100);
       }
     });
+
+    const filterProps = {
+      start: this.startDateTimeStamp,
+      end: this.endDateTimeStamp,
+      periodSeparate: this.filterProps.filter.idSort,
+    };
+
+    this.$emit("set-filter-period-props", filterProps);
   },
   methods: {
     createLoader(props) {
@@ -285,10 +304,10 @@ export default {
     createAudienceList(props) {
       this.audienceMenu = props.menuSettings;
     },
-    changeSource(props) {
+    changeSource() {
       this.fitlerProps = this.getFilterPropsAfterChange;
     },
-    async openCommunitiesMenu(props) {
+    async openCommunitiesMenu() {
       const { filter } = this.filterProps;
       const { platform, channel, communites, community } = filter;
 
@@ -304,18 +323,13 @@ export default {
 
         const communities = await filterAPI.getCommunities(formData);
 
-        this.communities = {
+        const audienceData = {
           communities,
           communitesFilter: communites,
           communityFilter: community,
         };
 
-        const openAudienceProps = {
-          menu: this.audienceMenu.menu,
-          wrapper: this.audienceMenu.wrapper,
-        };
-
-        menuUtils.openMenu(openAudienceProps);
+        this.communities = audienceData;
       }
     },
   },

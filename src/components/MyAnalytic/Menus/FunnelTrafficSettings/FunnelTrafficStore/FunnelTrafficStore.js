@@ -2,9 +2,12 @@ import { defineStore } from "pinia";
 
 export const funnelTrafficStore = defineStore("funnelTrafficStore", {
   state() {
+    // eslint-disable-next-line
+    const filterData = filter || null;
+
     return {
       filterProps: {
-        filter: filter || null,
+        filter: filterData,
       },
       menu: [
         {
@@ -14,7 +17,7 @@ export const funnelTrafficStore = defineStore("funnelTrafficStore", {
               type: "select",
               name: "Тип",
               nameEng: "periodType",
-              selected: filter.periodType,
+              selected: filterData?.periodType,
               options() {
                 return [
                   {
@@ -42,27 +45,27 @@ export const funnelTrafficStore = defineStore("funnelTrafficStore", {
               items: [
                 {
                   name: "Выручка общая",
-                  value: filter.visableSetting.blockProceed,
+                  value: filterData?.visableSetting.blockProceed,
                   nameEng: "_visableSetting.blockProceed",
                 },
                 {
                   name: "Расходы на рекламу",
-                  value: filter.visableSetting.blockAdvertisingExpenses,
+                  value: filterData?.visableSetting.blockAdvertisingExpenses,
                   nameEng: "_visableSetting.blockAdvertisingExpenses",
                 },
                 {
                   name: "Выручка общая - Расходы на рекламу",
-                  value: filter.visableSetting.blockProceedAdvertisingExpenses,
+                  value: filterData?.visableSetting.blockProceedAdvertisingExpenses,
                   nameEng: "visableSetting.blockProceedAdvertisingExpenses",
                 },
                 {
                   name: "% ДРР (доля рекламных расходов)",
-                  value: filter.visableSetting.blockPercentNetProceed,
+                  value: filterData?.visableSetting.blockPercentNetProceed,
                   nameEng: "visableSetting.blockPercentNetProceed",
                 },
                 {
                   name: "КПД",
-                  value: filter.visableSetting.blockKPD,
+                  value: filterData?.visableSetting.blockKPD,
                   nameEng: "visableSetting.blockKPD",
                 },
               ],
@@ -72,47 +75,47 @@ export const funnelTrafficStore = defineStore("funnelTrafficStore", {
               items: [
                 {
                   name: "Показов",
-                  value: filter.visableSetting.blockShows,
+                  value: filterData?.visableSetting.blockShows,
                   nameEng: "visableSetting.blockShows",
                 },
                 {
                   name: "Кликов",
-                  value: filter.visableSetting.blockClicks,
+                  value: filterData?.visableSetting.blockClicks,
                   nameEng: "visableSetting.blockClicks",
                 },
                 {
                   name: "Заявок",
-                  value: filter.visableSetting.blockApplications,
+                  value: filterData?.visableSetting.blockApplications,
                   nameEng: "visableSetting.blockApplications",
                 },
                 {
                   name: "Целевых заявок",
-                  value: filter.visableSetting.blockAveragePrepayment,
+                  value: filterData?.visableSetting.blockAveragePrepayment,
                   nameEng: "visableSetting.blockAveragePrepayment",
                 },
                 {
                   name: "Заказов",
-                  value: filter.visableSetting.blockBills,
+                  value: filterData?.visableSetting.blockBills,
                   nameEng: "visableSetting.blockBills",
                 },
                 {
                   name: "Продаж",
-                  value: filter.visableSetting.blockSales,
+                  value: filterData?.visableSetting.blockSales,
                   nameEng: "visableSetting.blockSales",
                 },
                 {
                   name: "Продаж без рассылки",
-                  value: filter.visableSetting.blockSalesWithoutSales,
+                  value: filterData?.visableSetting.blockSalesWithoutSales,
                   nameEng: "visableSetting.blockSalesWithoutSales",
                 },
                 {
                   name: "Продаж с рассылки",
-                  value: filter.visableSetting.blockSalesWithSales,
+                  value: filterData?.visableSetting.blockSalesWithSales,
                   nameEng: "visableSetting.blockSalesWithSales",
                 },
                 {
                   name: "Отказов",
-                  value: filter.visableSetting.blockSurcharges,
+                  value: filterData?.visableSetting.blockSurcharges,
                   nameEng: "visableSetting.blockSurcharges",
                 },
               ],
@@ -122,27 +125,27 @@ export const funnelTrafficStore = defineStore("funnelTrafficStore", {
               items: [
                 {
                   name: "Новых клиентов по ДО",
-                  value: filter.visableSetting.blockClientsDO,
+                  value: filterData?.visableSetting.blockClientsDO,
                   nameEng: "visableSetting.blockClientsDO",
                 },
                 {
                   name: "Новых клиентов с трафика за период",
-                  value: filter.visableSetting.blockClientsTraffic,
+                  value: filterData?.visableSetting.blockClientsTraffic,
                   nameEng: "visableSetting.blockClientsTraffic",
                 },
                 {
                   name: "Дотекло клиентов по ДО",
-                  value: filter.visableSetting.blockSalesDo,
+                  value: filterData?.visableSetting.blockSalesDo,
                   nameEng: "visableSetting.blockSalesDo",
                 },
                 {
                   name: "Дотекло клиентов по ДО (без рассылки)",
-                  value: filter.visableSetting.blockSalesDoWithoutMailing,
+                  value: filterData?.visableSetting.blockSalesDoWithoutMailing,
                   nameEng: "visableSetting.blockSalesDoWithoutMailing",
                 },
                 {
                   name: "Дотекло клиентов по ДО (по рассылке)",
-                  value: filter.visableSetting.blockSalesDoWithMailing,
+                  value: filterData?.visableSetting.blockSalesDoWithMailing,
                   nameEng: "visableSetting.blockSalesDoWithMailing",
                 },
               ],
@@ -152,42 +155,42 @@ export const funnelTrafficStore = defineStore("funnelTrafficStore", {
               items: [
                 {
                   name: "Средний чек",
-                  value: filter.visableSetting.blockAverage,
+                  value: filterData?.visableSetting.blockAverage,
                   nameEng: "visableSetting.blockAverage",
                 },
                 {
                   name: "Стоимость 1000 показов",
-                  value: filter.visableSetting.blockPriceShows,
+                  value: filterData?.visableSetting.blockPriceShows,
                   nameEng: "visableSetting.blockPriceShows",
                 },
                 {
                   name: "Стоимость клика",
-                  value: filter.visableSetting.blockPriceClick,
+                  value: filterData?.visableSetting.blockPriceClick,
                   nameEng: "visableSetting.blockPriceClick",
                 },
                 {
                   name: "Стоимость заявки",
-                  value: filter.visableSetting.blockPriceApplication,
+                  value: filterData?.visableSetting.blockPriceApplication,
                   nameEng: "visableSetting.blockPriceApplication",
                 },
                 {
                   name: "Стоимость целевой заявки",
-                  value: filter.visableSetting.blockAverageSurcharge,
+                  value: filterData?.visableSetting.blockAverageSurcharge,
                   nameEng: "visableSetting.blockAverageSurcharge",
                 },
                 {
                   name: "Стоимость заказа",
-                  value: filter.visableSetting.blockPriceBill,
+                  value: filterData?.visableSetting.blockPriceBill,
                   nameEng: "visableSetting.blockPriceBill",
                 },
                 {
                   name: "Стоимость клиента",
-                  value: filter.visableSetting.blockClient,
+                  value: filterData?.visableSetting.blockClient,
                   nameEng: "visableSetting.blockClient",
                 },
                 {
                   name: "Стоимость клиента по ДО",
-                  value: filter.visableSetting.blockClientDO,
+                  value: filterData?.visableSetting.blockClientDO,
                   nameEng: "visableSetting.blockClientDO",
                 },
               ],
@@ -197,37 +200,37 @@ export const funnelTrafficStore = defineStore("funnelTrafficStore", {
               items: [
                 {
                   name: "CV из показа в клик",
-                  value: filter.visableSetting.blockShowToClick,
+                  value: filterData?.visableSetting.blockShowToClick,
                   nameEng: "visableSetting.blockShowToClick",
                 },
                 {
                   name: "CV1 из клика в заявку",
-                  value: filter.visableSetting.blockClickToApplication,
+                  value: filterData?.visableSetting.blockClickToApplication,
                   nameEng: "visableSetting.blockClickToApplication",
                 },
                 {
                   name: "CV2 из заявки в заказ",
-                  value: filter.visableSetting.blockApplicationToBill,
+                  value: filterData?.visableSetting.blockApplicationToBill,
                   nameEng: "visableSetting.blockApplicationToBill",
                 },
                 {
                   name: "CV3 из заказа в оплату",
-                  value: filter.visableSetting.blockBillToClient,
+                  value: filterData?.visableSetting.blockBillToClient,
                   nameEng: "visableSetting.blockBillToClient",
                 },
                 {
                   name: "CV4 из заявки в оплату",
-                  value: filter.visableSetting.blockApplicationToClient,
+                  value: filterData?.visableSetting.blockApplicationToClient,
                   nameEng: "visableSetting.blockApplicationToClient",
                 },
                 {
                   name: "CV4 из заявки в оплату по ДО",
-                  value: filter.visableSetting.blockPrepaymentProceed,
+                  value: filterData?.visableSetting.blockPrepaymentProceed,
                   nameEng: "visableSetting.blockPrepaymentProceed",
                 },
                 {
                   name: "CV из целевой заявки в оплату по ДО",
-                  value: filter.visableSetting.blockApplicationToClientDO,
+                  value: filterData?.visableSetting.blockApplicationToClientDO,
                   nameEng: "_visableSetting.blockApplicationToClientDO",
                 },
               ],

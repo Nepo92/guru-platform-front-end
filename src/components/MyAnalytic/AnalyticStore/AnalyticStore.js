@@ -3,6 +3,7 @@ import { defineStore } from "pinia";
 export const analyticStore = defineStore("analyticStore", {
   state() {
     return {
+      // eslint-disable-next-line
       managers: managers || null,
       headerProps: {
         title: "Аналитика",
