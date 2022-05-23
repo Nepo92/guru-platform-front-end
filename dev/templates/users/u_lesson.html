@@ -265,14 +265,6 @@
                         </div>
 
                         <th:block th:if="${lesson.moduleLesson.type == 'homework'}">
-                            <script th:inline='javascript'>
-                                /*<![CDATA[*/
-                                console.log(/*[[${allowHomeworkStart}]]*/);
-                                console.log(/*[[${isHomeworkCompleted}]]*/);
-                                console.log(/*[[${isHomeworkOnReprocess}]]*/);
-                                console.log(/*[[${isHomeworkOnCheck}]]*/);
-                                /*]]>*/
-                            </script>
                             <th:block
                                 th:if="${allowHomeworkStart and !isHomeworkCompleted and !isHomeworkOnReprocess and !isHomeworkOnCheck}">
                                 <input type="hidden" th:value="${lesson.id}" class="homework-id">
