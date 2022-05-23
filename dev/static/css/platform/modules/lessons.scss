@@ -290,6 +290,16 @@
   }
 }
 
+@media (max-width: 916px) {
+  .lessons-item__inner {
+    flex-direction: column;
+  }
+
+  .module__lessons-closed {
+    margin: 20px 0 0;
+  }
+}
+
 @media (max-width: 861px) {
   .module__lessons-closed {
     display: inline-block;
@@ -314,6 +324,7 @@
     width: 100%;
     margin-right: auto;
     margin-top: 27px;
+    margin-left: auto;
   }
 
   .lessons-item__left {
