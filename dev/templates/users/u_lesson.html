@@ -37,7 +37,6 @@
     <div th:replace="base :: user-nav"></div>
     <div th:replace="base :: user-mobile-nav"></div>
     <div th:replace="base :: transition-loader"></div>
-
     <input type="hidden" class="lesson-passed" th:value="${lesson.passed}">
 
     <div class="body__wrapper">
@@ -48,11 +47,9 @@
                         <div class="header__main">
                             <div class="header__items">
                                 <div class="header__items-wrapper">
-                                    <div class="header__item header__item_title">
-                                        <h3>Мои курсы</h3>
-                                    </div>
+                                    <h3 class="header__item header__item_title">Мои курсы</h3>
                                     <div class="header__item header__item_btn">
-                                        <a th:href="'/user/courses/' + ${idDeal} + '/' + ${idModule} + '?idBlock=' + ${idBlock == null ? '' : idBlock}"
+                                        <a th:href="'/user/courses/' + ${idDeal} + '/' + ${idModule} + ${idBlock == null ? '' : '?idBlock=' + idBlock}"
                                             class="btn btn_outline header__btn header-btn">
                                             <div class="btn__content btn__content_large">
                                                 <span
@@ -74,7 +71,6 @@
         </div>
 
         <div class="body__content course-lesson">
-
             <div class="lessons lesson-course">
                 <div class="lessons__inner">
                     <a class="back"
@@ -162,7 +158,7 @@
                                                 /*<![CDATA[*/
                                                 var link = [[${ lessonBlock.value }]];
                                                 var mobile = [[${ index.current.value }]];
-                                            /*]]>*/
+                                                      /*]]>*/
                                             </script>
                                             <a lesson-banner-mobile rel="noopener noreferrer" target="_blank"
                                                 th:href="${lessonBlock.value}" class="lesson-banner__link">
@@ -180,7 +176,7 @@
                                                 <script th:inline='javascript'>
                                                     /*<![CDATA[*/
                                                     var desktop = [[${ index.current.value }]];
-                                                /*]]>*/
+                                                          /*]]>*/
                                                 </script>
                                             </a>
                                         </th:block>
@@ -271,7 +267,6 @@
                                         <span class="estimation__value">10</span>
                                     </li>
                                 </ul>
-
                             </div>
                         </div>
 
@@ -367,7 +362,7 @@
                                 /*<![CDATA[*/
                                 var rate = [[${ homework?.rate }]]
                                 var comments = { comments: [[${ homework?.comments }]] };
-                                /*]]>*/
+                                          /*]]>*/
                             </script>
                         </th:block>
                     </div>
@@ -396,17 +391,26 @@
             </div>
         </div>
     </div>
-    </div>
 
     <script th:inline='javascript'>
         /*<![CDATA[*/
         var lessonCount = [[${ lesson.moduleLesson.index }]];
         var items = [[${ homeworks }]];
         var filter = null;
+        var desktop = [[${ lesson.moduleLesson.lessonBlocks }]];
+        var mobile = [[${ lesson.moduleLesson.lessonBlocks }]];
+        var comments = [[${ homework?.comments }]];
         var allowHomeworkStart = [[${ allowHomeworkStart }]];
         var isHomeworkCompleted = [[${ isHomeworkCompleted }]];
         var isHomeworkOnReprocess = [[${ isHomeworkOnReprocess }]];
-    /*]]>*/
+        var role = null;
+        var today = null;
+        var manager = null;
+        var company = null;
+        var obj = null;
+        var rate = null;
+        var managers = null;
+        /*]]>*/
     </script>
     <th:block th:insert="base :: jquery" />
     <script th:src="@{/js/slick.min.js}"></script>
@@ -417,18 +421,7 @@
     <script th:src="@{/js/video-link-processor.js}"></script>
     <script th:src="@{/js/u_lesson.js}"></script>
     <script th:src="@{/js/transition-loader.js}"></script>
-    <script th:inline="javascript">
-        /*<![CDATA[*/
-        var filter = null;
-        var role = null;
-        var items = null;
-        var today = null;
-        var manager = null;
-        var company = null;
-        var obj = null;
-        var managers = null;
-        /*]]>*/
-    </script>
+    -->
 </body>
 
 </html>

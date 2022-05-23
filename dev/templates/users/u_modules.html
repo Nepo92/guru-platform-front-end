@@ -7,19 +7,23 @@
 
 	<title>Модули курса</title>
 	<!-- Yandex.Metrika counter -->
-	<script type="text/javascript" >
-   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-   m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+	<script type="text/javascript">
+		(function (m, e, t, r, i, k, a) {
+			m[i] = m[i] || function () { (m[i].a = m[i].a || []).push(arguments) };
+			m[i].l = 1 * new Date(); k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k, a)
+		})
+			(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
 
-   ym(74362000, "init", {
-        clickmap:true,
-        trackLinks:true,
-        accurateTrackBounce:true,
-        webvisor:true
-   });
-</script>
-	<noscript><div><img src="https://mc.yandex.ru/watch/74362000" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+		ym(74362000, "init", {
+			clickmap: true,
+			trackLinks: true,
+			accurateTrackBounce: true,
+			webvisor: true
+		});
+	</script>
+	<noscript>
+		<div><img src="https://mc.yandex.ru/watch/74362000" style="position:absolute; left:-9999px;" alt="" /></div>
+	</noscript>
 	<!--/Yandex.Metrika counter -->
 </head>
 
@@ -109,13 +113,17 @@
 										</div>
 										<div class="content-element__header-side modules-left__content modules-info">
 											<div class="info-blocks modules-info__inner">
-												<div class="info-block info-block_icon info-block_icon_module modules-info__item info-block__modules">
+												<div
+													class="info-block info-block_icon info-block_icon_module modules-info__item info-block__modules">
 													<span class="info-block__text" th:utext="${course.modulesCount} + ' модулей'"></span>
 												</div>
-												<div class="info-block info-block_icon info-block_icon_video modules-info__item info-block__lessons">
-													<span class="info-block__text" th:utext="${course.lessonsCount + course.homeworkCount} + ' уроков'"></span>
+												<div
+													class="info-block info-block_icon info-block_icon_video modules-info__item info-block__lessons">
+													<span class="info-block__text"
+														th:utext="${course.lessonsCount + course.homeworkCount} + ' уроков'"></span>
 												</div>
-												<div class="info-block info-block_icon info-block_icon_work modules-info__item info-block__homework">
+												<div
+													class="info-block info-block_icon info-block_icon_work modules-info__item info-block__homework">
 													<span class="info-block__text"
 														th:utext="${course.homeworkCount} + ' домашнее задание'"></span>
 												</div>
@@ -141,12 +149,13 @@
 
 						<th:block th:if="${banner}">
 							<th:block th:if="${#lists.size(banner)}">
-							<a target="_blank" rel="noopener noreferrer" class="modules__banner mobile" th:href="${banner[0].link}">
-								<img class="modules-banner__link" th:src="${'/' + banner[#lists.size(banner) - 1].mobileImagePath}">
-							</a>
-							<a target="_blank" rel="noopener noreferrer" class="modules__banner desktop" th:href="${banner[0].link}">
-								<img class="modules-banner__link" th:src="${'/' + banner[#lists.size(banner) - 1].mainImagePath}">
-							</a>
+								<a target="_blank" rel="noopener noreferrer" class="modules__banner mobile" th:href="${banner[0].link}">
+									<img class="modules-banner__link" th:src="${'/' + banner[#lists.size(banner) - 1].mobileImagePath}">
+								</a>
+								<a target="_blank" rel="noopener noreferrer" class="modules__banner desktop"
+									th:href="${banner[0].link}">
+									<img class="modules-banner__link" th:src="${'/' + banner[#lists.size(banner) - 1].mainImagePath}">
+								</a>
 								<div class="block-delimiter"></div>
 							</th:block>
 						</th:block>
@@ -192,7 +201,8 @@
 												<ul class="part-right__content part-content">
 													<li class="part-content__item lessons module-info__lesson">
 														<span class="part-content__icon"></span>
-														<span class="part-content__type" th:utext="${module.lessonsCount + module.homeworkCount} + ' уроков'"></span>
+														<span class="part-content__type"
+															th:utext="${module.lessonsCount + module.homeworkCount} + ' уроков'"></span>
 													</li>
 													<li class="part-content__item modules">
 														<span class="part-content__icon"></span>
@@ -217,10 +227,13 @@
 													</div>
 												</div>
 												<th:block th:if="${module.enabled}">
-													<a th:if="${idBlock}" th:href="'/user/courses/' + ${idDeal} + '/' + ${module.id} + '?idBlock=' + ${idBlock}" class="part-status__btn">
+													<a th:if="${idBlock}"
+														th:href="'/user/courses/' + ${idDeal} + '/' + ${module.id} + '?idBlock=' + ${idBlock}"
+														class="part-status__btn">
 														Перейти к урокам
 													</a>
-													<a th:unless="${idBlock}" th:href="'/user/courses/' + ${idDeal} + '/' + ${module.id} + '/'" class="part-status__btn">
+													<a th:unless="${idBlock}" th:href="'/user/courses/' + ${idDeal} + '/' + ${module.id} + '/'"
+														class="part-status__btn">
 														Перейти к урокам
 													</a>
 												</th:block>
@@ -262,6 +275,9 @@
 	var company = null;
 	var managers = null;
 	var socials = null;
+	var comments = [[${ homework?.comments }]];
+	var rate = null;
 	/*]]>*/
 </script>
+
 </html>
