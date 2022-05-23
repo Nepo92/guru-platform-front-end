@@ -117,10 +117,12 @@ function setAdaptiveBanners() {
   const mobileImg = $("[lesson-banner-mobile]").find("img");
 
   if (desktopImg && mobileImg) {
-    const path1 = desktop;
-    const path2 = mobile;
+    const bannersData = banners;
 
-    console.log(path1);
+    const currentBanners = bannersData?.find((el) => el.blockValues.length);
+
+    const path1 = currentBanners?.blockValues[0]?.value;
+    const path2 = currentBanners?.blockValues[1]?.value;
 
     const mobilePath = path1?.includes("mobile_") ? path1 : path2;
     const desktopPath = path2?.includes("browser_") ? path2 : path1;
@@ -158,8 +160,6 @@ function isChecked() {
 
 function checkLesson() {
   const passed = $(".lesson-passed").val();
-
-  console.log(passed);
 
   if (passed === "false") {
     isChecked();

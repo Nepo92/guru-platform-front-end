@@ -93,6 +93,7 @@ class Homework {
       function afterSaveHomework(data, form) {
         const li = document.createElement("li");
         li.classList.add("homework-comments__item");
+        li.classList.add("client");
 
         const div = document.createElement("div");
         div.classList.add("comments-item__wrapper");
@@ -147,7 +148,6 @@ class Homework {
     }
 
     function renderComments(comments, rate) {
-      console.log(comments);
       if (comments?.length) {
         const commentsWrapper = document.querySelector(
           ".homework-comments__wrapper"
@@ -156,12 +156,12 @@ class Homework {
         utils.removeChildren(commentsWrapper);
 
         const commentItems = comments
-          .sort((a, b) => b.id - a.id)
+          .sort((a, b) => a.id - b.id)
           .map((item, count) => {
             const files = item.homeworkFiles;
 
             return `
-						<li class="homework-comments__item ${item.type === "admin" ? "admin" : ""}">
+						<li class="homework-comments__item ${item.type === "admin" ? "" : "client"}">
 							<div class="comments-item__wrapper">
 								<p>${item.text}</p>
 									${
@@ -175,7 +175,7 @@ class Homework {
                   }
 
 									${
-                    count == comments.comments.length - 1 && rate
+                    count == comments.length - 1 && rate
                       ? `<div class="homework-rating">Оценка: ${rateInComment(
                           rate
                         )}</div>`
@@ -197,8 +197,6 @@ class Homework {
       return rates
         .map((item, index) => {
           const isFull = item <= rate;
-
-          console.log(isFull);
 
           return isFull
             ? `<span class="homework-rate__score ${
@@ -1336,9 +1334,6 @@ class Homework {
       page.style.overflowY = "auto";
 
       const wrapper = menu.querySelector(".platform-modal__wrapper");
-
-      console.log(menu);
-      console.log(wrapper);
 
       closeModalAnimation(menu, wrapper, false, true);
     }

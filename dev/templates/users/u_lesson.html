@@ -157,7 +157,6 @@
                                             <script th:inline='javascript'>
                                                 /*<![CDATA[*/
                                                 var link = [[${ lessonBlock.value }]];
-                                                var mobile = [[${ index.current.value }]];
                                                       /*]]>*/
                                             </script>
                                             <a lesson-banner-mobile rel="noopener noreferrer" target="_blank"
@@ -173,11 +172,6 @@
                                             <a lesson-banner-desktop rel="noopener noreferrer" target="_blank"
                                                 th:href="${lessonBlock.value}" class="lesson-banner__link">
                                                 <img class="lesson-banner__desktop-img" src="">
-                                                <script th:inline='javascript'>
-                                                    /*<![CDATA[*/
-                                                    var desktop = [[${ index.current.value }]];
-                                                          /*]]>*/
-                                                </script>
                                             </a>
                                         </th:block>
                                     </th:block>
@@ -360,7 +354,6 @@
 
                             <script th:inline='javascript'>
                                 /*<![CDATA[*/
-                                var rate = [[${ homework?.rate }]]
                                 var comments = { comments: [[${ homework?.comments }]] };
                                           /*]]>*/
                             </script>
@@ -397,8 +390,7 @@
         var lessonCount = [[${ lesson.moduleLesson.index }]];
         var items = [[${ homeworks }]];
         var filter = null;
-        var desktop = [[${ lesson.moduleLesson.lessonBlocks }]];
-        var mobile = [[${ lesson.moduleLesson.lessonBlocks }]];
+        var banners = [[${ lesson.moduleLesson.lessonBlocks }]];
         var comments = [[${ homework?.comments }]];
         var allowHomeworkStart = [[${ allowHomeworkStart }]];
         var isHomeworkCompleted = [[${ isHomeworkCompleted }]];
@@ -408,7 +400,7 @@
         var manager = null;
         var company = null;
         var obj = null;
-        var rate = null;
+        var rate = [[${ homework?.rate }]];
         var managers = null;
         /*]]>*/
     </script>
