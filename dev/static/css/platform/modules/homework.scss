@@ -36,13 +36,17 @@
 
 .homework-comments__item {
   position: relative;
-  margin-left: 0;
   display: flex;
   justify-content: flex-start;
   margin-top: 20px;
+  margin-left: 0;
 
   &.client {
     margin-left: 0;
+  }
+
+  &.admin {
+    margin-left: auto;
   }
 
   &.textarea {

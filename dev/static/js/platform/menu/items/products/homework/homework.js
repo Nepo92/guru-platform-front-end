@@ -161,7 +161,9 @@ class Homework {
             const files = item.homeworkFiles;
 
             return `
-						<li class="homework-comments__item ${item.type === "admin" ? "" : "client"}">
+						<li class="homework-comments__item ${
+              item.type === "admin" ? "admin" : "client"
+            }">
 							<div class="comments-item__wrapper">
 								<p>${item.text}</p>
 									${
