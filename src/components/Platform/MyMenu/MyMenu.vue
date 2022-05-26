@@ -23,7 +23,7 @@
       <li class="menu__list menu-list custom-scroll">
         <ul>
           <li
-            v-for="(item, index) of menuItems"
+            v-for="(item, index) of staticMenuItems"
             :key="index"
             class="menu-list__item menu-item"
             :class="checkMenuItemIsActive(item)"
@@ -46,7 +46,7 @@
         <img
           class="menu-user__avatar"
           :class="!avatar.path ? 'menu-avatar__default' : ''"
-          :src="avatar.path ? '/' + avatar.path : null"
+          :src="avatar.path ? '/' + avatar.path : ''"
           alt="user-avatar"
         />
         <div class="menu-user__info">
@@ -65,7 +65,7 @@
     </ul>
     <ul class="submenu__list">
       <li
-        v-for="(item, index) of menuItems"
+        v-for="(item, index) of staticMenuItems"
         v-show="item.submenu?.items.length"
         :key="index"
         class="submenu-list__item"
@@ -74,7 +74,9 @@
           v-if="item.submenu?.items.length"
           ref="submenu"
           class="sub-menu"
-          :class="index === subMenu.currentIndex ? classSubMenu : ''"
+          :class="
+            index === menuWrapper.subMenu.currentIndex ? classSubMenu : ''
+          "
           @mouseenter="mouseOnSubMenu"
           @touchstart="mouseOnSubMenu"
         >
@@ -96,414 +98,29 @@
   </nav>
 </template>
 
-<script>
+<script lang="ts">
+// styles
 import "./MyMenu.scss";
 import "@/assets/scss/grid.scss";
 
+// store
+import { platformStore } from "@/store/platformStore";
+
+// vue
+import { reactive, onMounted, ref, computed } from "vue";
+import { useRoute } from "vue-router";
+
+// interfaces
+import { iMenuItem, iHoverProps } from "./interfacesMenu/interfacesMenu";
+
 export default {
-  data() {
-    return {
-      // eslint-disable-next-line
-      logoClass: logo || null,
-      // eslint-disable-next-line
-      company: company || null,
-      // eslint-disable-next-line
-      role: role || null,
-      // eslint-disable-next-line
-      avatar: avatar || null,
-      itemsAdmin: [
-        {
-          path: ["/monitor/", "/monitor-control/"],
-          name: "Рабочий стол",
-          class: "dashboard",
-        },
-        {
-          path: ["/funnel/"],
-          name: "Аналитика",
-          class: "funnel",
-        },
-        {
-          path: ["/a-advertising"],
-          name: "Рекламный кабинет",
-          class: "marketing",
-        },
-        {
-          path: ["/deals/"],
-          name: "Сделки",
-          class: "crm",
-        },
-        {
-          path: ["/a_bills/"],
-          name: "Счета и платежи",
-          class: "bills",
-        },
-        {
-          path: ["/clients-list/"],
-          name: "Клиенты",
-          class: "clients",
-        },
-        {
-          path: ["/performance-assessment/rating/"],
-          name: "Оценка диалогов",
-          class: "control",
-        },
-        {
-          path: ["/homework"],
-          name: "Проверка ДЗ",
-          class: "homework",
-        },
-        {
-          path: ["/settings/funnels/"],
-          name: "Воронки",
-          class: "funnels",
-        },
-        {
-          path: [null],
-          name: "Продукты",
-          class: "products",
-          submenu: {
-            items: [
-              {
-                path: ["/products/"],
-                name: "Каталог продуктов",
-                class: "products",
-              },
-              {
-                path: ["/streams/"],
-                name: "Потоки",
-                class: "streams",
-              },
-            ],
-          },
-        },
-        {
-          path: [null],
-          name: "Команда",
-          class: "team",
-          submenu: {
-            items: [
-              {
-                path: ["/workers-salary/"],
-                name: "Расчет вознаграждения",
-                class: "salary",
-              },
-              {
-                path: ["/work-tracker/"],
-                name: "График работы",
-                class: "work-tracker",
-              },
-              {
-                special: null,
-                path: ["/settings/common-plans/"],
-                name: "Планы",
-                class: "plans",
-              },
-              {
-                path: ["/motivation-builder/"],
-                name: "Мотивация",
-                class: "motivation",
-              },
-              {
-                path: ["/settings/action/"],
-                name: "Акция",
-                class: "action",
-              },
-            ],
-          },
-        },
-        {
-          path: [null],
-          name: "Настройки",
-          class: "settings",
-          submenu: {
-            items: [
-              {
-                special: {
-                  idCompany: 1,
-                },
-                path: ["/settings/companies/"],
-                name: "Основные",
-                class: "base",
-              },
-              {
-                special: null,
-                path: ["/settings-contracts/"],
-                name: "Договора",
-                class: "contracts",
-              },
-              {
-                special: null,
-                path: ["/settings/projects/"],
-                name: "Проекты",
-                class: "projects",
-              },
-              {
-                special: null,
-                path: ["/settings/users/staff/"],
-                name: "Пользователи",
-                class: "users",
-              },
-              {
-                special: null,
-                path: ["/settings/lists/payment-method]/"],
-                name: "Счета",
-                class: "pm-bills",
-              },
-              {
-                special: null,
-                path: ["/a-advertising/links/"],
-                name: "Интеграции",
-                class: "integrations",
-              },
-              {
-                special: null,
-                path: ["/bill-pattern/"],
-                name: "Шаблоны счетов",
-                class: "template-bills",
-              },
-              {
-                special: null,
-                path: ["/banners-settings/"],
-                name: "Баннер",
-                class: "module-banner",
-              },
-              {
-                special: null,
-                path: ["/client-cleaner/"],
-                name: "Чистка дублей",
-                class: "clear-clones",
-              },
-              {
-                special: null,
-                path: ["/payment-form-builder/"],
-                name: "Формы оплаты",
-                class: "pf-builder",
-              },
-            ],
-          },
-        },
-      ],
-      itemsManager: [
-        {
-          name: "Рабочий стол",
-          path: ["/manager-monitor/"],
-          class: "dashboard",
-        },
-        {
-          name: "Онлайн офис",
-          path: [null],
-          submenu: {
-            isActive: false,
-            items: [
-              {
-                path: ["/corporate-center/about-company/"],
-                name: "О компании",
-              },
-              {
-                path: ["/corporate-center/regulations/"],
-                name: "Регламенты",
-              },
-              {
-                path: ["/corporate-center/bookmarks/"],
-                name: "База знаний",
-              },
-              {
-                path: ["/corporate-center/training-center/manager/"],
-                name: "Обучающий центр",
-              },
-              {
-                path: ["/corporate-center/events/"],
-                name: "Мероприятия",
-              },
-              {
-                path: ["/a-corporate-center/production/"],
-                name: "Продакшн",
-              },
-            ],
-          },
-        },
-        {
-          name: "Рабочий кабинет",
-          path: [null],
-          class: "workers-office",
-          submenu: [
-            {
-              name: "Вознаграждение",
-              path: ["/employee-salary/"],
-            },
-            {
-              name: "Отчеты",
-              path: ["/reports/"],
-            },
-            {
-              name: "Пароли",
-              path: ["/e-passwords/"],
-            },
-          ],
-        },
-        {
-          name: "CRM",
-          path: ["/transactions/"],
-          class: "crm",
-        },
-        {
-          path: ["/performance-assessment/"],
-          name: "Контроль",
-          class: "control",
-        },
-      ],
-      itemsHeadManager: [
-        {
-          name: "CRM",
-          path: ["/head-maanger-transactions/"],
-          class: "crm",
-        },
-        {
-          name: "Рабочий кабинет",
-          path: [null],
-          class: "workers-office",
-          submenu: [
-            {
-              name: "Вознаграждение",
-              path: ["/employee-salary/"],
-            },
-            {
-              name: "Отчеты",
-              path: ["/reports/"],
-            },
-            {
-              name: "Пароли",
-              path: ["/e-passwords/"],
-            },
-          ],
-        },
-        {
-          path: [null],
-          name: "Онлайн офис",
-          class: "office",
-          submenu: [
-            {
-              path: ["/corporate-center/about-company/"],
-              name: "О компании",
-            },
-            {
-              path: ["/corporate-center/regulations/"],
-              name: "Регламенты",
-            },
-            {
-              path: ["/corporate-center/bookmarks/"],
-              name: "База знаний",
-            },
-            {
-              path: ["/corporate-center/training-center/manager/"],
-              name: "Обучающий центр",
-            },
-            {
-              path: ["/corporate-center/events/"],
-              name: "Мероприятия",
-            },
-            {
-              path: ["/a-corporate-center/production/"],
-              name: "Продакшн",
-            },
-          ],
-        },
-        {
-          path: ["/performance-assessment/"],
-          name: "Контроль",
-          class: "control",
-        },
-      ],
-      itemsExaminer: [
-        {
-          path: ["/examiner-control/"],
-          name: "Рабочий стол",
-          class: "dashboard",
-        },
-        {
-          path: ["/performance-assessment/rating/"],
-          name: "Контроль",
-          class: "control",
-        },
-      ],
-      itemsAdvertiser: [
-        {
-          path: ["/funnel/traffic/"],
-          name: "Аналитика",
-          class: "funnel",
-        },
-        {
-          name: "Рабочий кабинет",
-          path: [null],
-          class: "workers-office",
-          submenu: [
-            {
-              name: "Вознаграждение",
-              path: ["/advertiser-salary/"],
-            },
-            {
-              name: "Пароли",
-              path: ["/e-passwords/"],
-            },
-            {
-              path: ["/corporate-center/training-center/advertiser/"],
-              name: "Обучающий центр",
-            },
-            {
-              path: ["/corporate-center/events/"],
-              name: "Мероприятия",
-            },
-          ],
-        },
-        {
-          path: [null],
-          name: "Онлайн офис",
-          class: "office",
-          submenu: [
-            {
-              path: ["/corporate-center/about-company/"],
-              name: "О компании",
-            },
-            {
-              path: ["/corporate-center/regulations/"],
-              name: "Регламенты",
-            },
-            {
-              path: ["/corporate-center/bookmarks/"],
-              name: "База знаний",
-            },
-            {
-              path: ["/corporate-center/training-center/manager"],
-              name: "Обучающий центр",
-            },
-            {
-              path: ["/a-corporate-center/production/"],
-              name: "Продакшн",
-            },
-          ],
-        },
-        {
-          path: [null],
-          name: "Маркетинг",
-          submenu: [
-            {
-              path: ["/payment/page?id=1"],
-              name: "Распределение сделок",
-            },
-            {
-              path: ["/a-advertising/"],
-              name: "Распределение заявок",
-            },
-          ],
-        },
-      ],
-      itemsCurator: [
-        {
-          path: ["/homework/"],
-          name: "Проверка ДЗ",
-          class: "homework",
-        },
-      ],
+  setup() {
+    const submenu = ref([] as HTMLElement[]);
+    const store = platformStore();
+
+    const { company, avatar, getMenuItems } = store;
+
+    const menuWrapper = reactive({
       menu: {
         isOverflowed: true,
         timerOverflow: null,
@@ -513,20 +130,28 @@ export default {
         subMenuIsOpen: false,
       },
       subMenu: {
-        isOpen: null,
-        currentIndex: null,
-        mouseEnter: null,
-        prevIsOpen: null,
+        isOpen: null as boolean | null,
+        currentIndex: null as number | null,
+        mouseEnter: null as boolean | null,
+        prevIsOpen: null as boolean | null,
       },
       viewport: {
         width: 0,
       },
-    };
-  },
-  computed: {
-    classSubMenu() {
-      const { subMenu } = this;
+    });
 
+    const menuItems = getMenuItems;
+
+    const staticMenuItems = menuItems.map((item: iMenuItem) => {
+      return { ...item };
+    });
+
+    onMounted(() => {
+      menuWrapper.viewport.width = window.innerWidth;
+    });
+
+    const classSubMenu = computed(() => {
+      const { subMenu } = menuWrapper;
       const openWithoutAnimation =
         subMenu.isOpen && subMenu.prevIsOpen ? "open_t0" : false;
       const openWithAnimation = subMenu.isOpen ? "open" : false;
@@ -539,50 +164,28 @@ export default {
           ? "close"
           : false;
 
-      return open || close;
-    },
-  },
-  created() {
-    const isAdmin = this.role === "ROLE_ADMIN" ? this.itemsAdmin : false;
-    const isManager =
-      this.role === "ROLE_MANAGER" || this.role === "ROLE_HEAD_MANAGER"
-        ? this.itemsManager
-        : false;
-    const isExaminer =
-      this.role === "ROLE_EXAMINER" ? this.itemsExaminer : false;
-    const isAdvertiser =
-      this.role === "ROLE_ADVERTISER" ? this.itemsAdvertiser : false;
-    const isHeadManager =
-      this.role === "ROLE_HEAD_MANAGER" ? this.itemsHeadManager : false;
-    const isCurator = this.role === "ROLE_CURATOR" ? this.itemsCurator : false;
+      const result = open || close;
 
-    this.menuItems =
-      isAdmin ||
-      isManager ||
-      isExaminer ||
-      isAdvertiser ||
-      isHeadManager ||
-      isCurator;
-  },
-  mounted() {
-    this.viewport.width = window.innerWidth;
-  },
-  methods: {
-    checkMenuItemIsActive(menuItem) {
-      const { path } = this.$route;
+      return result;
+    });
 
-      const isActive = menuItem.path?.includes(path) ? "active" : "";
+    const checkMenuItemIsActive = (item: iMenuItem) => {
+      const route = useRoute();
+      const { path } = route;
+      const isActive = item.path?.includes(path) ? "active" : "";
 
       return isActive;
-    },
-    checkHasSubMenu(item) {
+    };
+
+    const checkHasSubMenu = (item: iMenuItem) => {
       const hasSub = item.submenu ? "submenu" : "";
 
       return hasSub ? `${hasSub} ${item.class}` : item.class;
-    },
-    hoverMenuItem(props) {
+    };
+
+    const hoverMenuItem = (props: iHoverProps) => {
       const { target, index } = props;
-      const { subMenu, viewport } = this;
+      const { subMenu, viewport } = menuWrapper;
       const { width } = viewport;
 
       const hasSubMenu = target.classList.contains("submenu");
@@ -604,25 +207,32 @@ export default {
       }
 
       subMenu.mouseEnter = false;
-    },
-    closeSubMenu() {
-      const { subMenu } = this;
+    };
+
+    const closeSubMenu = () => {
+      const { subMenu } = menuWrapper;
 
       subMenu.isOpen = false;
-    },
-    mouseOnSubMenu() {
-      const { subMenu, $refs } = this;
+    };
+
+    const mouseOnSubMenu = () => {
+      const { subMenu } = menuWrapper;
 
       subMenu.mouseEnter = true;
-      subMenu.leaveFromMenuItem = null;
+    };
 
-      setTimeout(() => {
-        $refs.submenu.forEach((item) => {
-          item.classList.remove("close");
-        });
-      }, 400);
-    },
-    leaveMenuItem() {},
+    return {
+      company,
+      avatar,
+      staticMenuItems,
+      classSubMenu,
+      checkMenuItemIsActive,
+      checkHasSubMenu,
+      hoverMenuItem,
+      closeSubMenu,
+      mouseOnSubMenu,
+      menuWrapper,
+    };
   },
 };
 </script>

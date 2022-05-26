@@ -14,7 +14,10 @@
       "dom",
       "dom.iterable",
       "scripthost"
-    ],
-    "jsx": "preserve",
-  }
+    ]
+  },
+  "exclude": [
+    "./src/**/*.js",
+    "./src/**/*.ts",
+  ]
 }

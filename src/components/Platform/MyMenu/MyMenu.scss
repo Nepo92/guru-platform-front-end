@@ -573,6 +573,7 @@
     display: grid;
     grid-template-columns: max-content max-content;
     grid-template-areas: "menu-desktop submenu-desktop";
+    width: max-content;
   }
 
   .menu {

@@ -1,15 +1,10 @@
 <template>
-  <router-view />
+  <router-view></router-view>
 </template>
 
-<script>
-import "./assets/scss/settings.scss";
-import "./assets/scss/custom-scroll.scss";
+<script lang="ts">
+import "@/assets/scss/settings.scss";
+import "@/assets/scss/custom-scroll.scss";
 
-export default {
-  name: 'App',
-}
+export default {};
 </script>
-
-<style lang="scss">
-</style>

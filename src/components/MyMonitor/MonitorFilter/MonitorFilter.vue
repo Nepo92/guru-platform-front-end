@@ -17,153 +17,124 @@
       </li>
     </ul>
     <MyFilter
-      :props="{
-        ...filterProps,
-        ...props,
-        changeSelectValue,
-      }"
+      :title="title"
+      :columns="columns"
+      :select="select"
+      :nested="nested"
+      :activeTab="activeTab"
       @create-filter-modal="createFilterModal"
-      @change-filter-select="changeFilterSelect"
     />
+    <!-- @change-filter-select="changeFilterSelect" -->
     <MyLoader @create-loader="createLoader" />
   </div>
 </template>
 
-<script>
+<script lang="ts">
+// styles
 import "./MonitorFilter.scss";
-import "../../Platform/MyFilter/MyFilter.scss";
-import "@/assets/scss/modal.scss";
+
+// components
 import MyFilter from "../../Platform/MyFilter/MyFilter.vue";
-import MenuUtils from "@/utils/MenuUtils/MenuUtils.js";
-import { filterAPI } from "@/api/api.js";
-import LoaderUtils from "@/utils/LoaderUtils/LoaderUtils.js";
-import MyLoader from "@/components/Platform/MyLoader/MyLoader.vue";
-
-const menuUtils = new MenuUtils();
-const loaderUtils = new LoaderUtils();
-
-import { monitorFilter } from "./MonitorFilterStore/MonitorFilterStore";
-import { storeToRefs, mapActions } from "pinia";
 import FilterBtn from "@/components/Platform/MyFilter/FilterBtn/FilterBtn.vue";
 
-const store = monitorFilter();
+// utils
+import ModalUtils from "@/components/Platform/MyModal/modalUtils/modalUtils";
+import LoaderUtils from "@/components/UI/MyLoader/utils/LoaderUtils";
 
-const {
-  filter,
-  period,
-  monitorDeals,
-  filterProps,
-  getSortedFilterItems,
-  getFilterPropsAfterChange,
-} = storeToRefs(store);
-const { setPage, changeSelectValue } = mapActions(monitorFilter, ["setPage", "changeSelectValue"]);
+// api
+import { monitorAPI } from "@/api/api";
 
-export default {
+// store
+import { monitorFilter } from "./MonitorFilterStore/MonitorFilterStore";
+
+// interfaces
+import { iCreateModal } from "@/components/Platform/interfacesPlatform/interfacesPlatform";
+import { iFilterPeriod } from "./interfacesMonitorFilter/interfacesMonitorFilter";
+
+// vue
+import { defineComponent } from "@vue/runtime-core";
+import MyLoader from "@/components/UI/MyLoader/MyLoader.vue";
+import { Ref } from "vue";
+
+const modalUtils = new ModalUtils();
+const loaderUtils = new LoaderUtils();
+
+export default defineComponent({
   components: {
+    FilterBtn,
     MyFilter,
     MyLoader,
-    FilterBtn,
   },
-  props: ["props"],
-  setup() {
-    return {
-      filter,
-      period,
-      monitorDeals,
-      filterProps,
-      setPage,
-      getSortedFilterItems,
-      changeSelectValue,
-      getFilterPropsAfterChange,
+  props: {
+    title: String,
+    select: Object,
+    nested: Boolean,
+    activeTab: String,
+  },
+  setup(props) {
+    let openFilterSettings: iCreateModal;
+    let loader: Ref<HTMLElement>;
+
+    const store = monitorFilter();
+
+    const { period, filterProps } = store;
+    const { filter, columns } = filterProps;
+
+    const createLoader = (t: Ref<HTMLElement>) => {
+      loader = t;
     };
-  },
-  created() {
-    const { path } = this.$route;
 
-    this.setPage(path);
+    const createFilterModal = (props: iCreateModal) => {
+      openFilterSettings = props;
+    };
 
-    this.filterProps.columns = this.getSortedFilterItems;
-  },
-  methods: {
-    openFilter() {
+    const openFilter = () => {
       const openFilterProps = {
-        menu: this.filterModal,
-        wrapper: this.filterModalWrapper,
-        isOverflowed: true,
+        modal: openFilterSettings.modal,
+        wrapper: openFilterSettings.wrapper,
+        isOverflowed: !props.nested,
       };
 
-      menuUtils.openMenu(openFilterProps);
-    },
-    createFilterModal(props) {
-      const { modal, wrapper } = props;
-      this.filterModal = modal;
-      this.filterModalWrapper = wrapper;
-    },
-    changePeriod(e, item) {
+      modalUtils.openMenu(openFilterProps);
+    };
+
+    const changePeriod = (e: MouseEvent, item: iFilterPeriod) => {
       const t = e.target;
 
-      const { path } = this.$route;
-
       const formData = new FormData();
-      formData.set("period", item.value);
+      formData.set("period", `${item.value}`);
 
-      const apply = filterAPI.applyFilter(path, formData);
+      const apply = monitorAPI.applyFilter(formData);
 
       const showLoader = setTimeout(() => {
-        loaderUtils.showLoader(this.loader);
+        loaderUtils.showLoader(loader);
       }, 400);
 
-      t.classList.add("disabled");
+      (t as Element).classList.add("no-active");
 
       apply.then(
         () => {
           clearTimeout(showLoader);
-          t.classList.remove("disabled");
+          (t as Element).classList.remove("no-active");
 
           location.reload();
         },
         () => {
           clearTimeout(showLoader);
-          t.classList.remove("disabled");
+          (t as Element).classList.remove("no-active");
         }
       );
-    },
-    changeDealsUtensils(e, item) {
-      const t = e.target;
-      const { path } = this.$route;
+    };
 
-      const formData = new FormData();
-      formData.set("showType", item.value);
-
-      const apply = filterAPI.applyFilter(path, formData);
-
-      const showLoader = setTimeout(() => {
-        loaderUtils.showLoader(this.loader);
-      }, 400);
-
-      t.classList.add("disabled");
-
-      apply.then(
-        () => {
-          clearTimeout(showLoader);
-          t.classList.remove("disabled");
-
-          location.reload();
-        },
-        () => {
-          clearTimeout(showLoader);
-          t.classList.remove("disabled");
-        }
-      );
-    },
-    createLoader(props) {
-      const { loader } = props;
-
-      this.loader = loader;
-    },
-    changeFilterSelect() {
-      this.filterProps = this.getFilterPropsAfterChange;
-    },
+    return {
+      openFilter,
+      createFilterModal,
+      period,
+      filter,
+      changePeriod,
+      createLoader,
+      columns,
+    };
   },
-};
+});
 </script>

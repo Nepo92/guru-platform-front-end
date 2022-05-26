@@ -1,46 +1,43 @@
 <template>
-  <div ref="filterModal" class="filter-modal">
-    <div ref="filterModalWrapper" class="filter-modal__wrapper">
+  <div ref="modal" class="filter-modal">
+    <div ref="wrapper" class="filter-modal__wrapper">
       <div class="filter-modal__head">
         <h2 class="filter-modal__title">
-          {{ props.title }}
+          {{ title }}
         </h2>
-        <span class="modal-header__close" @click="closeFilter" />
+        <span class="modal-header__close" @click="(e) => closeFilter(e)" />
       </div>
       <div class="filter-modal__content custom-scroll">
-        <form
-          ref="filterForm"
-          class="filter-modal__form"
-          action="#"
-          th:action="@{/monitor/}"
-          th:method="post"
-        >
-          <ul v-for="(item, index) of props.columns" :key="index" class="filter-modal__column">
+        <form ref="form" class="filter-modal__form">
+          <ul
+            v-for="(item, index) of filterColumns"
+            :key="index"
+            class="filter-modal__column"
+          >
             <li class="filter-modal__item width_100">
               <h3 class="filter-modal__subtitle">
                 {{ item.name }}
               </h3>
             </li>
-            <li v-for="(elem, count) of item.items" :key="count" class="filter-modal__item">
+            <li
+              v-for="(elem, count) of item.items"
+              :key="count"
+              class="filter-modal__item"
+            >
               <p class="filter-modal__name">
                 {{ elem.name }}
               </p>
               <div class="filter-modal__select-wrapper">
                 <MySelect
                   v-if="elem.type === 'select'"
-                  :props="{
-                    ...elem,
-                    ...props.selectsProps,
-                  }"
-                  @change-select-value="changeFilterSelectValue"
-                  @change-deal-type="changeDealType"
-                  @change-platform-filter="changePlatform"
-                  @change-source-traffic-filter="changeSource"
+                  :selectItem="{ ...elem }"
+                  :selectsArray="selectsArray"
+                  :selectsBody="selectsBody"
+                  :activeTab="activeTab"
                 />
                 <MyInput
                   v-else-if="elem.type === 'input'"
                   :props="{ ...elem }"
-                  @open-communities-menu="openCommunities"
                 />
               </div>
             </li>
@@ -52,12 +49,12 @@
           Применить фильтры
         </div>
         <button
-          v-if="props.filter.canClear"
+          v-if="filter.canClear"
           type="button"
           class="filter-modal__reset"
           @click="(e) => clearFilter(e)"
         >
-          <span class="filter-modal__reset--icon" />
+          <span class="filter-modal__reset--icon"></span>
           Сбросить фильтры
         </button>
       </div>
@@ -66,134 +63,177 @@
   </div>
 </template>
 
-<script>
-// api
-import { filterAPI } from "@/api/api.js";
-
+<script lang="ts">
 // components
-import MyLoader from "../MyLoader/MyLoader.vue";
-import MySelect from "../MySelect/MySelect.vue";
-import MyInput from "../../Platform/MyInput/MyInput.vue";
-
-// utils
-import MenuUtils from "@/utils/MenuUtils/MenuUtils.js";
-import LoaderUtils from "@/utils/LoaderUtils/LoaderUtils.js";
+import MyLoader from "../../UI/MyLoader/MyLoader.vue";
+import MySelect from "@/components/UI/MySelect/MySelect.vue";
+import MyInput from "@/components/UI/MyInput/MyInput.vue";
 
 // styles
 import "./MyFilter.scss";
 import "@/assets/scss/grid.scss";
 
-const menuUtils = new MenuUtils();
-const loader = new LoaderUtils();
+// vue
+import { defineComponent } from "@vue/runtime-core";
+import { ref, onMounted, Ref } from "vue";
 
-export default {
+// store
+import { filterStore } from "./filterStore/filterStore";
+
+// interfaces
+import { iFilterColumnItem } from "./interfacesMyFilter/interfacesMyFilter";
+
+// utils
+import ModalUtils from "../MyModal/modalUtils/modalUtils";
+import LoaderUtils from "@/components/UI/MyLoader/utils/LoaderUtils";
+
+// api
+import { monitorAPI } from "@/api/api";
+
+const modalUtils = new ModalUtils();
+const loaderUtils = new LoaderUtils();
+
+export default defineComponent({
   components: {
     MyLoader,
     MySelect,
     MyInput,
   },
-  props: ['props'],
-  emits: [
-    'create-filter-modal', 
-    'change-filter-select', 
-    'change-filter-deal-type', 
-    'change-platform-filter', 
-    'open-communities-menu',
-    'change-source-traffic-filter',
-  ],
-  mounted() {
-    this.$emit("create-filter-modal", {
-      modal: this.$refs.filterModal,
-      wrapper: this.$refs.filterModalWrapper,
-    });
-  },
-  methods: {
-    applyFilter(e) {
-      const t = e.target;
-      const { path } = this.$route;
-
-      const filterForm = this.$refs.filterForm;
-      const formData = new FormData(filterForm);
-
-      const apply = filterAPI.applyFilter(path, formData);
-
-      const showLoader = setTimeout(() => {
-        loader.showLoader(this.loader);
-      }, 400);
-
-      t.classList.add("disabled");
-
-      apply.then(
-        () => {
-          clearTimeout(showLoader);
-          t.classList.remove("disabled");
-
-          location.reload();
-        },
-        () => {
-          clearTimeout(showLoader);
-          t.classList.remove("disabled");
-        }
-      );
+  props: {
+    title: String,
+    columns: {
+      type: Array,
+      retuired: true,
     },
-    clearFilter(e) {
+    select: Object,
+    nested: Boolean,
+    activeTab: String,
+  },
+  setup(props, { emit }) {
+    const modal = ref(<Ref<HTMLElement>>{});
+    const wrapper = ref(<Ref<HTMLElement>>{});
+    const form = ref(<Ref<HTMLFormElement>>{});
+    let loader: Ref<HTMLElement>;
+
+    const filterColumns: Array<iFilterColumnItem> = <Array<iFilterColumnItem>>(
+      props.columns
+    );
+
+    const store = filterStore();
+
+    const { filter, selectsProps } = store;
+    const { selectsArray, selectsBody } = selectsProps;
+
+    const closeFilter = (e: MouseEvent) => {
+      const closeFilterProps = {
+        modal: modal,
+        wrapper: wrapper,
+        isOverflowed: props.nested,
+      };
+
+      modalUtils.closeMenu(closeFilterProps);
+    };
+
+    const clearFilter = (e: MouseEvent) => {
+      const clear = monitorAPI.clearFilter();
+
       const t = e.target;
 
-      const { path } = this.$route;
-      const clear = filterAPI.clearFilter(path);
-
+      (t as Element).classList.add("no-active");
       const showLoader = setTimeout(() => {
-        loader.showLoader(this.loader);
+        loaderUtils.showLoader(loader);
       }, 400);
-
-      t.classList.add("disabled");
 
       clear.then(
         () => {
           clearTimeout(showLoader);
-          t.classList.remove("disabled");
+          loaderUtils.hideLoader(loader);
 
-          location.reload();
+          (t as Element).classList.remove("no-active");
+
+          const closeModalProps = {
+            modal,
+            wrapper,
+            isOverflowed: props.nested,
+          };
+
+          modalUtils.closeMenu(closeModalProps);
+
+          setTimeout(() => {
+            location.reload();
+          }, 400);
         },
         () => {
           clearTimeout(showLoader);
-          t.classList.remove("disabled");
+          loaderUtils.hideLoader(loader);
+
+          (t as Element).classList.remove("no-active");
         }
       );
-    },
-    closeFilter() {
-      const closeFilterProps = {
-        menu: this.$refs.filterModal,
-        wrapper: this.$refs.filterModalWrapper,
-        isOverflowed: false,
-      };
+    };
 
-      menuUtils.closeMenu(closeFilterProps);
-    },
-    createLoader(props) {
-      const { loader } = props;
-      this.loader = loader;
-    },
-    changeFilterSelectValue(props) {
-      this.props.changeSelectValue(props);
+    const applyFilter = (e: MouseEvent) => {
+      const formData = new FormData(form.value);
 
-      this.$emit("change-filter-select");
-    },
-    changeDealType(props) {
-      this.props.changeDealType(props.selectedOption.value);
-      this.$emit("change-filter-deal-type");
-    },
-    async changePlatform(props) {
-      this.props.changePlatform(props.selectedOption.value);
-      this.$emit("change-platform-filter", props);
-    },
-    openCommunities(props) {
-      this.$emit("open-communities-menu", props);
-    },
-    changeSource(props) {
-      this.props.changeSourceTrafficValue(props.selectedOption.value);
-      this.$emit("change-source-traffic-filter", props);
-    }
+      const apply = monitorAPI.applyFilter(formData);
+
+      const t = e.target;
+
+      (t as Element).classList.add("no-active");
+      const showLoader = setTimeout(() => {
+        loaderUtils.showLoader(loader);
+      }, 200);
+
+      apply.then(
+        () => {
+          clearTimeout(showLoader);
+          loaderUtils.hideLoader(loader);
+          (t as Element).classList.remove("no-active");
+
+          const closeModalProps = {
+            modal,
+            wrapper,
+            isOverflowed: props.nested,
+          };
+
+          modalUtils.closeMenu(closeModalProps);
+
+          setTimeout(() => {
+            location.reload();
+          }, 200);
+        },
+        () => {
+          clearTimeout(showLoader);
+          loaderUtils.hideLoader(loader);
+          (t as Element).classList.remove("no-active");
+        }
+      );
+    };
+
+    const createLoader = (t: Ref<HTMLElement>) => {
+      loader = t;
+    };
+
+    onMounted(() => {
+      emit("create-filter-modal", {
+        modal: modal,
+        wrapper: wrapper,
+      });
+    });
+
+    return {
+      closeFilter,
+      clearFilter,
+      applyFilter,
+      createLoader,
+      filter,
+      modal,
+      wrapper,
+      selectsArray,
+      selectsBody,
+      filterColumns,
+      form,
+    };
   },
-};
+});
 </script>

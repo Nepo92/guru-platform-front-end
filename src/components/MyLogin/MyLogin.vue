@@ -1,80 +1,186 @@
 <template>
-  <div class="login" custom-scroll :style="{ backgroundImage: background }">
-    <form class="login__form" action="/perform_login" method="POST">
-      <h1 class="login__title">
-        Вход
-      </h1>
+  <div class="login custom-scroll" :style="{ backgroundImage: background }">
+    <form ref="loginForm" class="login__form">
+      <h1 class="login__title">Вход</h1>
       <ul class="login__list">
         <li class="login__item username">
-          <p class="login__name">
-            Логин
-          </p>
+          <p class="login__name">Логин</p>
           <input
             type="text"
             name="username"
             class="login__input username__input"
             placeholder="Введите логин"
+            @input="(e) => inputLogin(e)"
+          />
+          <ValidateError
+            v-if="form.username.validateError"
+            :props="form.username"
           />
         </li>
         <li class="login__item password">
-          <p class="login__name">
-            Пароль
-          </p>
-          <span :class="toggleIcon" class="password__icon" @click="сhangeDisplayPassword;" />
+          <p class="login__name">Пароль</p>
+          <span
+            :class="toggleIcon"
+            class="password__icon"
+            @click="() => сhangeDisplayPassword()"
+          />
           <input
             :type="toggleType"
             name="password"
             class="login__input"
             placeholder="Введите пароль"
+            @input="(e) => inputPassword(e)"
+          />
+          <ValidateError
+            v-if="form.password.validateError"
+            :props="form.password"
           />
         </li>
         <li class="login__item remember">
-          <input id="remember" type="checkbox" class="checkbox" />
-          <label class="checkbox__label" for="remember">
-            <span class="checkbox__fake" />
-            <span class="checkbox__text remember__text">Запомнить меня</span>
-          </label>
+          <MyCheckbox :props="checkboxProps" @need-remember="isNeedRemember" />
         </li>
       </ul>
       <div class="login__nav">
-        <button type="submit" class="login__button login__button--icon">
+        <div class="login__error" v-if="form.errorMessage">
+          {{ form.errorMessage }}
+        </div>
+        <button
+          type="button"
+          class="login__button login__button--icon"
+          @click="(e) => loginInPlatform(e)"
+        >
           Войти
         </button>
       </div>
       <p class="login__forgot">
         Забыли пароль ? Пишите
-        <a class="login__forgot--link" href="https://vk.com/app5898182_-185779370#s=425692">сюда</a>
+        <a
+          class="login__forgot--link"
+          href="https://vk.com/app5898182_-185779370#s=425692"
+          target="_blank"
+        >
+          сюда
+        </a>
       </p>
     </form>
   </div>
+  <MyLoader @create-loader="createLoader" />
 </template>
 
-<script>
-import "@/assets/scss/checkbox.scss";
+<script lang="ts">
+// styles
 import "./MyLogin.scss";
-import { loginStore } from "./LoginStore/LoginStore.js";
+
+// store
+import { loginStore } from "./LoginStore/LoginStore";
 import { mapActions, storeToRefs } from "pinia";
 
-export default {
-  setup() {
-    const store = loginStore();
+// vue
+import { computed, InputHTMLAttributes, reactive, Ref } from "vue";
 
-    const { background, hidePassword } = storeToRefs(store);
-    const { сhangeDisplayPassword } = mapActions(loginStore, ["сhangeDisplayPassword"]);
+// utils
+import LoginUser from "./LoginUser/LoginUser";
+
+// components
+import MyCheckbox from "@/components/UI/MyCheckbox/MyCheckBox.vue";
+import MyLoader from "../UI/MyLoader/MyLoader.vue";
+import ValidateError from "../UI/ValidateError/ValidateError.vue";
+
+// interfaces
+import { interfaceLoginForm } from "./interfaces/interfacesMyLogin";
+
+const loginUser = new LoginUser();
+
+const store = loginStore();
+
+const { background, hidePassword } = storeToRefs(store);
+const { сhangeDisplayPassword } = mapActions(loginStore, [
+  "сhangeDisplayPassword",
+]);
+
+export default {
+  components: {
+    MyCheckbox,
+    MyLoader,
+    ValidateError,
+  },
+  setup() {
+    const form: interfaceLoginForm = reactive({
+      username: {
+        required: true,
+        value: "",
+        validateError: false,
+        validateErrorMessage: "",
+      },
+      password: {
+        required: true,
+        value: "",
+        validateError: false,
+        validateErrorMessage: "",
+      },
+      errorMessage: "",
+      loader: null,
+      "remember-me": false,
+      validate: false,
+    });
+
+    const toggleIcon = computed(() => {
+      return hidePassword.value ? "" : "close";
+    });
+
+    const toggleType = computed(() => {
+      return hidePassword.value ? "password" : "text";
+    });
+
+    const inputLogin = (e: InputEvent) => {
+      const t = e.target;
+
+      const value: string = (t as InputHTMLAttributes).value;
+      form.username.value = value.trim();
+    };
+
+    const inputPassword = (e: InputEvent) => {
+      const t = e.target;
+
+      const value: string = (t as InputHTMLAttributes).value;
+
+      form.password.value = value.trim();
+    };
+
+    let createLoader = (e: Ref<HTMLElement>) => {
+      form.loader = e;
+    };
+
+    const isNeedRemember = (e: Event) => {
+      let t = e.target as HTMLInputElement;
+
+      form["remember-me"] = t.checked;
+    };
+
+    const checkboxProps = reactive({
+      text: "Запомнить меня",
+      id: "remember",
+      onChange: isNeedRemember,
+    });
+
+    const loginInPlatform = (e: any) => {
+      loginUser.init(form, e);
+    };
 
     return {
       background,
       hidePassword,
       сhangeDisplayPassword,
+      toggleIcon,
+      toggleType,
+      loginInPlatform,
+      inputLogin,
+      inputPassword,
+      form,
+      checkboxProps,
+      createLoader,
+      isNeedRemember,
     };
-  },
-  computed: {
-    toggleIcon() {
-      return this.hidePassword ? "" : "close";
-    },
-    toggleType() {
-      return this.hidePassword ? "password" : "text";
-    },
   },
 };
 </script>

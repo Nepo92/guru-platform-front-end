@@ -3,44 +3,33 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
-    "dev": "vue-cli-service serve",
-    "prepare": "husky install",
-    "eslint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src",
-    "format": "prettier .  --write"
+    "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@types/vue-router": "^2.0.0",
     "core-js": "^3.8.3",
-    "stylelint-config-standard-scss": "^3.0.0",
-    "vue": "^3.2.13",
-    "vue-router": "^4.0.14"
+    "vue": "^3.2.13"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
     "@babel/eslint-parser": "^7.12.16",
+    "@typescript-eslint/eslint-plugin": "^5.4.0",
+    "@typescript-eslint/parser": "^5.4.0",
     "@vue/cli-plugin-babel": "~5.0.0",
-    "@vue/cli-plugin-eslint": "~5.0.0",
+    "@vue/cli-plugin-typescript": "~5.0.0",
     "@vue/cli-service": "~5.0.0",
-    "air-datepicker": "^3.1.1",
+    "@vue/eslint-config-typescript": "^9.1.0",
     "axios": "^0.27.2",
+    "case-sensitive-paths-webpack-plugin": "^2.4.0",
     "eslint": "^7.32.0",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-import": "^2.25.3",
-    "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-vue": "^8.7.1",
-    "eslint-plugin-vuejs-accessibility": "^1.1.0",
-    "html-webpack-plugin": "^5.5.0",
-    "husky": "^7.0.4",
-    "mini-css-extract-plugin": "^2.6.0",
+    "eslint-plugin-vue": "^8.0.3",
     "node-sass": "^7.0.1",
-    "pinia": "^2.0.13",
-    "postcss-loader": "^6.2.1",
-    "prettier": "^2.6.2",
-    "sass-loader": "^12.6.0",
-    "stylelint": "^14.8.2",
-    "stylelint-config-standard": "^25.0.0",
-    "vue-slick-carousel": "^1.0.6"
+    "pinia": "^2.0.14",
+    "sass-loader": "^13.0.0",
+    "typescript": "~4.5.5",
+    "vue-router": "^4.0.15"
   },
   "eslintConfig": {
     "root": true,
@@ -50,10 +39,10 @@
     "extends": [
       "plugin:vue/vue3-essential",
       "eslint:recommended",
-      "@vue/airbnb"
+      "@vue/typescript"
     ],
     "parserOptions": {
-      "parser": "@babel/eslint-parser"
+      "parser": "@typescript-eslint/parser"
     },
     "rules": {}
   },

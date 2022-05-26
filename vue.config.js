@@ -1,10 +1,10 @@
 const path = require("path");
-const pages = require("./pages/pages.js");
+const pages = require("./pages/pages.ts");
 
 module.exports = {
   configureWebpack: {
     mode: "development",
-    entry: "./src/main.js",
+    entry: "./src/main.ts",
     plugins: [...pages],
   },
   outputDir: path.resolve(__dirname, "../alpha/src/main/resources/static"),

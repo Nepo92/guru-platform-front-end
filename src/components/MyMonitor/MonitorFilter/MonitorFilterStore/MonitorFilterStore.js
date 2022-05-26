@@ -56,75 +56,11 @@ export const monitorFilter = defineStore("monitorFilter", {
             items: [
               {
                 type: "select",
-                name: "Проекты",
-                nameEng: [
-                  {
-                    pages: ["/monitor/", "/monitor-control/"],
-                    name: "projectId",
-                  },
-                  {
-                    pages: ["/funnel/"],
-                    name: "project",
-                  },
-                ],
-                selected: filterData?.projectId,
-                options() {
-                  return [
-                    {
-                      name: "Все проекты",
-                      value: 0,
-                    },
-                    ...projectsData?.map((project) => {
-                      return {
-                        name: project.name,
-                        value: project.id,
-                      };
-                    }),
-                  ];
-                },
-                selectedName() {
-                  return this.options().find((el) => el.value === this.selected)?.name || null;
-                },
-                pages: ["/monitor/", "/monitor-control/"],
-              },
-              {
-                type: "select",
-                name: "Отображать",
-                nameEng: [
-                  {
-                    name: "showManagerType",
-                    pages: ["/monitor/"],
-                  },
-                ],
-                selected: filterData?.showManagerType,
-                options() {
-                  return [
-                    {
-                      name: "Все",
-                      value: 1,
-                    },
-                    {
-                      name: "Работающие",
-                      value: 2,
-                    },
-                    {
-                      name: "Уволенные",
-                      value: 3,
-                    },
-                  ];
-                },
-                selectedName() {
-                  return this.options().find((el) => el.value === this.selected)?.name || null;
-                },
-                pages: ["/monitor/"],
-              },
-              {
-                type: "select",
                 name: "Выручка",
                 nameEng: [
                   {
                     name: "proceedType",
-                    pages: ["/monitor/"],
+                    tabs: ["Продажи"],
                   },
                 ],
                 selected: filterData?.proceedType,
@@ -149,9 +85,78 @@ export const monitorFilter = defineStore("monitorFilter", {
                   ];
                 },
                 selectedName() {
-                  return this.options().find((el) => el.value === this.selected)?.name || null;
+                  return (
+                    this.options().find((el) => el.value === this.selected)
+                      ?.name || null
+                  );
                 },
-                pages: ["/monitor/"],
+                tabs: ["Продажи"],
+              },
+              {
+                type: "select",
+                name: "Проекты",
+                nameEng: [
+                  {
+                    tabs: ["Продажи", "Контроль"],
+                    name: "projectId",
+                  },
+                ],
+                selected: filterData?.projectId,
+                options() {
+                  return [
+                    {
+                      name: "Все проекты",
+                      value: 0,
+                    },
+                    ...projectsData?.map((project) => {
+                      return {
+                        name: project.name,
+                        value: project.id,
+                      };
+                    }),
+                  ];
+                },
+                selectedName() {
+                  return (
+                    this.options().find((el) => el.value === this.selected)
+                      ?.name || null
+                  );
+                },
+                tabs: ["Продажи", "Контроль"],
+              },
+              {
+                type: "select",
+                name: "Отображать",
+                nameEng: [
+                  {
+                    name: "showManagerType",
+                    tabs: ["Продажи"],
+                  },
+                ],
+                selected: filterData?.showManagerType,
+                options() {
+                  return [
+                    {
+                      name: "Все",
+                      value: 1,
+                    },
+                    {
+                      name: "Работающие",
+                      value: 2,
+                    },
+                    {
+                      name: "Уволенные",
+                      value: 3,
+                    },
+                  ];
+                },
+                selectedName() {
+                  return (
+                    this.options().find((el) => el.value === this.selected)
+                      ?.name || null
+                  );
+                },
+                tabs: ["Продажи"],
               },
             ],
           },
@@ -162,10 +167,16 @@ export const monitorFilter = defineStore("monitorFilter", {
   getters: {
     getSortedFilterItems() {
       this.filterProps.columns.forEach((item) => {
-        item.items = [...item.items.filter((el) => el.pages.includes(this.currentPage))];
+        item.items = [
+          ...item.items.filter((el) => el.pages.includes(this.currentPage)),
+        ];
 
         item.items.forEach((el) => {
-          el.nameEng = [...el.nameEng.filter((item) => item.pages.includes(this.currentPage))];
+          el.nameEng = [
+            ...el.nameEng.filter((item) =>
+              item.pages.includes(this.currentPage)
+            ),
+          ];
         });
       });
 

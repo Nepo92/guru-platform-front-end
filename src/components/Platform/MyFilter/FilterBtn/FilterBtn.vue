@@ -1,28 +1,36 @@
 <template>
-  <div 
-    class="filter__open" 
-    :class="filter.canClear ? 'active' : ''" 
-    @click="openFilter"
+  <div
+    class="filter__open"
+    :class="filter.canClear ? 'active' : ''"
+    @click="(e: MouseEvent) => openFilter(e)"
   >
     Фильтр
   </div>
 </template>
 
-<script>
+<script lang="ts">
+// styles
 import "./FilterBtn.scss";
 
-export default {
-  emits: ['open-filter'],
-  data() {
+// store
+import { filterStore } from "../filterStore/filterStore";
+import { defineComponent } from "@vue/runtime-core";
+
+export default defineComponent({
+  emits: ["open-filter"],
+  setup(props, { emit }) {
+    const store = filterStore();
+
+    const { filter } = store;
+
+    const openFilter = (e: MouseEvent) => {
+      emit("open-filter", e);
+    };
+
     return {
-      //eslint-disable-next-line
-      filter: filter || null,
+      filter,
+      openFilter,
     };
   },
-  methods: {
-    openFilter(e) {
-      this.$emit("open-filter", e);
-    },
-  },
-};
+});
 </script>

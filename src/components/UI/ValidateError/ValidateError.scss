@@ -1,0 +1,17 @@
+.validate-error {
+  width: max-content;
+  position: absolute;
+  left: 16px;
+  bottom: -40px;
+  font-family: Inter;
+  font-size: 12px;
+  line-height: 16px;
+  color: #161718;
+  padding: 14px 14px 9px 14px;
+  z-index: 100;
+  background: $white;
+  border: 1px solid $border-input;
+  box-sizing: border-box;
+  border-radius: 3px;
+  box-shadow: 0px 8px 18px rgba(3, 6, 29, 0.08);
+}

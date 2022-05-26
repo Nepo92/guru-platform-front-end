@@ -1,194 +1,192 @@
 <template>
-  <div class="monitor" :style="{ backgroundColor: background }">
+  <div class="monitor" :style="{ backgroundColor: backgroundColor }">
     <MyMenu />
     <div class="monitor-content custom-scroll">
-      <MyHeader :props="props" @open-settings-menu="(e) => openSettingsMenu(e)" />
-      <div class="monitor-content__wrapper">
-        <MonitorFilter :props="{ selectsProps: selectProps }" />
-        <ActionBanner v-if="showActionBanner()" />
-        <MonitorWidgets />
-        <ManagerStat />
+      <MyHeader
+        :props="headerProps"
+        @open-settings-menu="(e: MouseEvent) => openSettingsMenu(e)"
+        @set-active-tab="(tab: string) => setActiveTab(tab)"
+      />
+      <div v-if="activeTab" class="monitor-content__wrapper">
+        <MonitorFilter
+          :title="'Фильтровать монитор'"
+          :nested="false"
+          :select="{ ...selectProps }"
+          :activeTab="activeTab"
+        />
+        <!-- <ActionBanner v-if="showActionBanner()" /> -->
+        <MonitorWidgets :activeTab="activeTab" />
+        <!-- <ManagerStat /> -->
+        <MyModal
+          @create-modal="createSettingsMenu"
+          :title="monitorBackgroundProps.title"
+          :hasCancel="monitorBackgroundProps.hasCancel"
+          :apply="monitorBackgroundProps.apply"
+          :cancelText="monitorBackgroundProps.cancelText"
+          :applyText="monitorBackgroundProps.applyText"
+          :cancel="monitorBackgroundProps.cancel"
+          :nested="monitorBackgroundProps.nested"
+        >
+          <BackgroundSettings
+            @create-background-settings="(e) => createBackgroundSettings(e)"
+          />
+        </MyModal>
+        <MyLoader @create-loader="createLoader" />
+        <MyPopup
+          :class="backgroundColor === true ? 'open' : ''"
+          :type="'alert'"
+          :title="'Ошибка!'"
+          :description="'Попробуйте заново или обратитесь в техническую поддержку'"
+        />
       </div>
     </div>
-    <BackgroundSettings
-      @save-background="(e) => saveBackground(e)"
-      @close-background-settings="closeBackgroundSettings"
-      @create-settings-menu="createSettingsMenu"
-    />
-    <MyLoader @create-loader="createLoader" />
   </div>
 </template>
 
-<script>
-// components
-import MyMenu from "../Platform/MyMenu/MyMenu.vue";
-import MyHeader from "../Platform/MyHeader/MyHeader.vue";
-import BackgroundSettings from "./Menus/BackgroundSettings/BackgroundSettings.vue";
-import MonitorFilter from "./MonitorFilter/MonitorFilter.vue";
-import MyLoader from "../Platform/MyLoader/MyLoader.vue";
-import MonitorWidgets from "./MonitorWidgets/MonitorWidgets.vue";
-import ManagerStat from "./ManagerStat/ManagerStat.vue";
-
-// store
-import { monitorStore } from "./MonitorStore/MonitorStore";
-import { storeToRefs } from "pinia";
-
-// api
-import { monitorAPI } from "@/api/api.js";
-
-// utils
-import LoaderUtils from "@/utils/LoaderUtils/LoaderUtils.js";
-import MenuUtils from "@/utils/MenuUtils/MenuUtils.js";
-
+<script lang="ts">
 // styles
 import "./MyMonitor.scss";
 
-const menuUtils = new MenuUtils();
-const loaderUtils = new LoaderUtils();
+// vue
+import { defineComponent } from "@vue/runtime-core";
+import { InputHTMLAttributes, reactive, ref, Ref } from "vue";
 
-const store = monitorStore();
+// store
+import { monitorStore } from "./MonitorStore/MonitorStore";
 
-const { actionBanners, role, company, background, selectProps } = storeToRefs(store);
+// components
+import MyMenu from "../Platform/MyMenu/MyMenu.vue";
+import MyHeader from "../Platform/MyHeader/MyHeader.vue";
+import MyModal from "../Platform/MyModal/MyModal.vue";
+import BackgroundSettings from "./Menus/BackgroundSettings/BackgroundSettings.vue";
+import MyLoader from "../UI/MyLoader/MyLoader.vue";
+import MonitorFilter from "./MonitorFilter/MonitorFilter.vue";
+import MyPopup from "../UI/MyPopup/MyPopup.vue";
 
-export default {
+// utils
+import ChangeBackgroundColor from "./Menus/BackgroundSettings/changeBackgroundColor/changeBackgroundColor";
+
+// interfaces
+import { iHeaderProps } from "../Platform/MyHeader/interfacesHeader/interfacesHeader";
+import { iCreateModal } from "../Platform/interfacesPlatform/interfacesPlatform";
+import {
+  iModal,
+  iModalWrapper,
+} from "../Platform/MyModal/interfacesMyModal/interfacesMyModal";
+
+const changeBackgroundColor = new ChangeBackgroundColor();
+
+export default defineComponent({
   components: {
     MyMenu,
     MyHeader,
+    MyModal,
     BackgroundSettings,
-    MonitorFilter,
     MyLoader,
-    MonitorWidgets,
-    ManagerStat,
+    MyPopup,
+    MonitorFilter,
   },
   setup() {
-    return {
-      background,
-      company,
-      selectProps,
-    };
-  },
-  data() {
-    return {
-      props: {
-        title: "Рабочий стол",
-        tabs: [
-          {
-            name: "Продажи",
-            link: "/monitor/",
-            settings: false,
-          },
-          {
-            name: "Контроль",
-            link: "/monitor-control/",
-            settings: false,
-          },
-        ],
-        color: false,
-        settings: true,
-        border: true,
+    let loader: Ref<HTMLElement>;
+    let backgroundSettings: iModal;
+    let inputColor: InputHTMLAttributes;
+    let activeTab = ref("");
+
+    const store = monitorStore();
+    const { company, background, selectProps } = store;
+
+    let backgroundColor = ref(background);
+
+    const monitorBackgroundProps: iModalWrapper = {
+      applyText: "Сохранить изменения",
+      apply(e) {
+        const saveChangesBackground = {
+          inputColor,
+          company,
+          loader,
+          backgroundSettings,
+        };
+
+        const saveChanges = changeBackgroundColor.saveChanges(
+          saveChangesBackground,
+          e
+        );
+
+        saveChanges.then((color) => {
+          backgroundColor.value = color;
+        });
       },
+      title: "Изменить фон рабочего стола",
+      hasCancel: false,
+      cancel() {},
+      cancelText: "",
+      nested: false,
+    };
+
+    const headerProps: iHeaderProps = reactive({
+      title: "Рабочий стол",
+      tabs: [
+        {
+          name: "Продажи",
+          link: "/monitor/",
+          settings: false,
+        },
+        {
+          name: "Контроль",
+          link: "/monitor-control/",
+          settings: false,
+        },
+      ],
+      color: false,
+      settings: true,
+      border: true,
+    });
+
+    const createLoader = (t: Ref<HTMLElement>) => {
+      loader = t;
+    };
+
+    const createSettingsMenu = (props: iCreateModal) => {
+      backgroundSettings = {
+        modal: props.modal,
+        wrapper: props.wrapper,
+        isOverflowed: !monitorBackgroundProps.nested,
+      };
+    };
+
+    const openSettingsMenu = (e: MouseEvent) => {
+      const openProps = {
+        company,
+        loader,
+        e,
+        inputColor,
+        backgroundSettings,
+      };
+
+      changeBackgroundColor.openMenu(openProps);
+    };
+
+    const createBackgroundSettings = (t: InputHTMLAttributes) => {
+      inputColor = t;
+    };
+
+    const setActiveTab = (tab: string) => {
+      activeTab.value = tab;
+    };
+
+    return {
+      backgroundColor,
+      openSettingsMenu,
+      headerProps,
+      company,
+      createLoader,
+      createSettingsMenu,
+      monitorBackgroundProps,
+      createBackgroundSettings,
+      selectProps,
+      setActiveTab,
+      activeTab,
     };
   },
-  methods: {
-    createSettingsMenu(props) {
-      const { menuBackgroundSettings } = props;
-
-      this.headerProps = {
-        menuBackgroundSettings: menuBackgroundSettings.menu,
-        menuBackgroundSettingsWrapper: menuBackgroundSettings.wrapper,
-        backgroundInput: menuBackgroundSettings.backgroundInput,
-      };
-    },
-    openSettingsMenu(e) {
-      const t = e.target;
-
-      const data = {
-        id: this.company.id,
-      };
-
-      const getBackground = monitorAPI.getCompanyBg(data);
-
-      const loader = setTimeout(() => {
-        loaderUtils.showLoader(this.loader);
-      }, 400);
-
-      t.classList.add("disabled");
-
-      getBackground.then(
-        (backgroundInfo) => {
-          clearTimeout(loader);
-          loaderUtils.hideLoader(this.loader);
-          t.classList.remove("disabled");
-
-          const { backgroundInput } = this.headerProps;
-
-          const { color } = backgroundInfo;
-
-          backgroundInput.value = color;
-
-          const openModalprops = {
-            menu: this.headerProps.menuBackgroundSettings,
-            wrapper: this.headerProps.menuBackgroundSettingsWrapper,
-            isOverflowed: true,
-          };
-
-          menuUtils.openMenu(openModalprops);
-        },
-        () => {
-          clearTimeout(loader);
-          loaderUtils.hideLoader(this.loader);
-          t.classList.remove("disabled");
-        }
-      );
-    },
-    closeBackgroundSettings() {
-      const closeModalprops = {
-        menu: this.headerProps.menuBackgroundSettings,
-        wrapper: this.headerProps.menuBackgroundSettingsWrapper,
-        isOverflowed: false,
-      };
-
-      menuUtils.closeMenu(closeModalprops);
-    },
-    saveBackground(e) {
-      const t = e.target;
-
-      const data = {
-        color: this.headerProps.backgroundInput.value,
-        idCompany: this.company.id,
-      };
-
-      const saveBackground = monitorAPI.changeBackground(data);
-
-      const loader = setTimeout(() => {
-        loaderUtils.showLoader(this.loader);
-      }, 400);
-
-      t.classList.add("disabled");
-
-      saveBackground.then(
-        () => {
-          clearTimeout(loader);
-          loaderUtils.hideLoader(this.loader);
-          t.classList.remove("disabled");
-
-          this.background = data.color;
-
-          this.closeBackgroundSettings();
-        },
-        () => {
-          clearTimeout(loader);
-          loaderUtils.hideLoader(this.loader);
-          t.classList.remove("disabled");
-        }
-      );
-    },
-    createLoader(props) {
-      this.loader = props.loader;
-    },
-    showActionBanner() {
-      return (role == "ROLE_MANAGER" || role == "ROLE_HEAD_MANAGER") && actionBanners.size() != 0;
-    },
-  },
-};
+});
 </script>

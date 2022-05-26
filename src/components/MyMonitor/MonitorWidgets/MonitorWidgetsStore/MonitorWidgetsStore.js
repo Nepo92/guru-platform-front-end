@@ -18,12 +18,12 @@ export const monitorWidgets = defineStore("monitorWidgets", {
           percent: null,
           plan: null,
           description: "Количество целевых обращений, учитываются из CRM",
-          period: [null, 4, 1, 2, 3],
+          period: [null, 1, 2, 3, 4],
           metric: {
             green: 99,
             yellow: 65,
           },
-          pages: ["/monitor/"],
+          tabs: ["Продажи"],
         },
         {
           name: "Заказы",
@@ -33,12 +33,12 @@ export const monitorWidgets = defineStore("monitorWidgets", {
           plan: tilesData?.bill.plan,
           description:
             "Количество оформленных заказов, учитываются как оплаченные так и не оплаченные",
-          period: [null, 4, 1, 2, 3],
+          period: [null, 1, 2, 3, 4],
           metric: {
             green: 99,
             yellow: 65,
           },
-          pages: ["/monitor/"],
+          tabs: ["Продажи"],
         },
         {
           name: "Продажи",
@@ -53,7 +53,7 @@ export const monitorWidgets = defineStore("monitorWidgets", {
             green: 99,
             yellow: 65,
           },
-          pages: ["/monitor/"],
+          tabs: ["Продажи"],
         },
         {
           name: "Выручка",
@@ -62,13 +62,13 @@ export const monitorWidgets = defineStore("monitorWidgets", {
           percent: tilesData?.proceed.percent,
           plan: tilesData?.proceed.plan,
           description: "Сумма вырученных от продаж денег",
-          period: [null, 4, 1, 2, 3],
+          period: [null, 1, 2, 3, 4],
           metric: {
             green: 99,
             yellow: 65,
           },
           units: "roubles",
-          pages: ["/monitor/"],
+          pages: ["Продажи"],
         },
         {
           name: "Прогноз",
@@ -84,7 +84,7 @@ export const monitorWidgets = defineStore("monitorWidgets", {
             yellow: 65,
           },
           units: "roubles",
-          pages: ["/monitor/"],
+          pages: ["Продажи"],
         },
         {
           name: "Прогноз",
@@ -100,7 +100,7 @@ export const monitorWidgets = defineStore("monitorWidgets", {
             yellow: 65,
           },
           units: "roubles",
-          pages: ["/monitor/"],
+          pages: ["Продажи"],
         },
         {
           name: "Проверено сделок",
@@ -111,7 +111,7 @@ export const monitorWidgets = defineStore("monitorWidgets", {
           period: [1, 2, 3, 4],
           metric: null,
           units: null,
-          pages: ["/monitor-control/"],
+          pages: ["Контроль"],
         },
         {
           name: "Поставлено оценок",
@@ -122,7 +122,7 @@ export const monitorWidgets = defineStore("monitorWidgets", {
           period: [1, 2, 3, 4],
           metric: null,
           units: null,
-          pages: ["/monitor-control/"],
+          pages: ["Контроль"],
         },
         {
           name: "Споров отработано",
@@ -133,7 +133,7 @@ export const monitorWidgets = defineStore("monitorWidgets", {
           period: [1, 2, 3, 4],
           metric: null,
           units: null,
-          pages: ["/monitor-control/"],
+          pages: ["Контроль"],
         },
         {
           name: "Изменений оценок в спорах",
@@ -144,7 +144,7 @@ export const monitorWidgets = defineStore("monitorWidgets", {
           period: [1, 2, 3, 4],
           metric: null,
           units: null,
-          pages: ["/monitor-control/"],
+          pages: ["Контроль"],
         },
         {
           name: "Средняя оценка",
@@ -155,26 +155,9 @@ export const monitorWidgets = defineStore("monitorWidgets", {
           period: [1, 2, 3, 4],
           metric: null,
           units: null,
-          pages: ["/monitor-control/"],
+          pages: ["Контроль"],
         },
       ],
     };
-  },
-  getters: {
-    getWidgetsItems() {
-      const filterOnPage = this.widgets.filter((el) => el.pages.includes(this.currentPage));
-
-      const result = filterOnPage.filter((el) => el.period.includes(this.filterPeriod));
-
-      return result;
-    },
-  },
-  actions: {
-    setPage(page) {
-      this.currentPage = page;
-    },
-    setFilterPeriod(period) {
-      this.filterPeriod = period;
-    },
   },
 });

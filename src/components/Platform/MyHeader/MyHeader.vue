@@ -1,5 +1,8 @@
 <template>
-  <header class="header" :style="{ backgroundColor: props.color ? 'white' : 'transparent' }">
+  <header
+    class="header"
+    :style="{ backgroundColor: props.color ? 'white' : 'transparent' }"
+  >
     <div class="header__wrapper">
       <div class="header__title header-title">
         <h1 class="header-title__text">
@@ -11,11 +14,16 @@
           @click="(e) => openSettingsMenu(e)"
         />
       </div>
-      <ul v-if="props.tabs" class="header__tabs" :class="props.border ? 'border' : ''">
+      <ul
+        v-if="props.tabs"
+        class="header__tabs"
+        :class="props.border ? 'border' : ''"
+      >
         <li
           v-for="(tab, index) of props.tabs"
           :key="index"
           ref="tabs"
+          :data-name="tab.name"
           class="header-tabs__item"
           :class="[classActiveTab(tab), tab.nameClass || '']"
         >
@@ -33,26 +41,62 @@
   </header>
 </template>
 
-<script>
+<script lang="ts">
+// vue
+import { defineComponent } from "@vue/runtime-core";
+import { useRoute } from "vue-router";
+import { ref, onMounted } from "vue";
+
+// styles
 import "./MyHeader.scss";
 
-export default {
+// interfaces
+import { iHeaderTab } from "./interfacesHeader/interfacesHeader";
+
+export default defineComponent({
   props: ["props"],
-  emits: ["open-settings-menu", 'open-tab-settings-menu'],
-  methods: {
-    classActiveTab(tab) {
-      const { path } = this.$route;
+  emits: ["open-settings-menu", "open-tab-settings-menu", "set-active-tab"],
+  setup(props, { emit }) {
+    const tabs = ref(null);
+    const route = useRoute();
+
+    onMounted(() => {
+      if (tabs.value) {
+        const tabsArray: Array<HTMLElement> = [...tabs.value];
+
+        const activeTab = tabsArray
+          .find((el) => el.classList.contains("active"))
+          ?.getAttribute("data-name");
+
+        if (activeTab) {
+          emit("set-active-tab", activeTab);
+        }
+      }
+    });
+
+    const classActiveTab = (tab: iHeaderTab) => {
+      const { path } = route;
 
       const isActive = path === tab.link;
 
       return isActive ? "active" : "";
-    },
-    openSettingsMenu(e) {
-      this.$emit("open-settings-menu", e);
-    },
-    openTabSettingsMenu(e) {
-      this.$emit("open-tab-settings-menu", e);
-    },
+    };
+
+    const openSettingsMenu = (e: MouseEvent) => {
+      emit("open-settings-menu", e);
+    };
+
+    const openTabSettingsMenu = (e: MouseEvent) => {
+      emit("open-tab-settings-menu", e);
+    };
+
+    return {
+      classActiveTab,
+      openSettingsMenu,
+      openTabSettingsMenu,
+      route,
+      tabs,
+    };
   },
-};
+});
 </script>

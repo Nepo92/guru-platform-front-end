@@ -2,8 +2,7 @@
   display: grid;
   grid-template-columns: 1 1fr;
   grid-template-areas: "form";
-  height: auto;
-  min-height: 100vh;
+  height: 100vh;
 
   &__form {
     grid-area: form;
@@ -94,9 +93,18 @@
   }
 
   &__item {
+    position: relative;
+
     &:not(:first-child) {
       margin-top: 15px;
     }
+  }
+
+  &__error {
+    margin-bottom: 30px;
+    font-size: 13px;
+    line-height: 15px;
+    color: $red;
   }
 }
 

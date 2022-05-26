@@ -2,7 +2,6 @@ import { defineStore } from "pinia";
 
 export const loginStore = defineStore("loginStore", {
   state() {
-    // eslint-disable-next-line
     const backgroundData = background.companyBackground;
 
     return {
