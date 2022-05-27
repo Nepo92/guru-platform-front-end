@@ -68,7 +68,7 @@ export const monitorWidgets = defineStore("monitorWidgets", {
             yellow: 65,
           },
           units: "roubles",
-          pages: ["Продажи"],
+          tabs: ["Продажи"],
         },
         {
           name: "Прогноз",
@@ -84,7 +84,7 @@ export const monitorWidgets = defineStore("monitorWidgets", {
             yellow: 65,
           },
           units: "roubles",
-          pages: ["Продажи"],
+          tabs: ["Продажи"],
         },
         {
           name: "Прогноз",
@@ -100,7 +100,7 @@ export const monitorWidgets = defineStore("monitorWidgets", {
             yellow: 65,
           },
           units: "roubles",
-          pages: ["Продажи"],
+          tabs: ["Продажи"],
         },
         {
           name: "Проверено сделок",
@@ -111,7 +111,7 @@ export const monitorWidgets = defineStore("monitorWidgets", {
           period: [1, 2, 3, 4],
           metric: null,
           units: null,
-          pages: ["Контроль"],
+          tabs: ["Контроль"],
         },
         {
           name: "Поставлено оценок",
@@ -122,7 +122,7 @@ export const monitorWidgets = defineStore("monitorWidgets", {
           period: [1, 2, 3, 4],
           metric: null,
           units: null,
-          pages: ["Контроль"],
+          tabs: ["Контроль"],
         },
         {
           name: "Споров отработано",
@@ -133,7 +133,7 @@ export const monitorWidgets = defineStore("monitorWidgets", {
           period: [1, 2, 3, 4],
           metric: null,
           units: null,
-          pages: ["Контроль"],
+          tabs: ["Контроль"],
         },
         {
           name: "Изменений оценок в спорах",
@@ -144,7 +144,7 @@ export const monitorWidgets = defineStore("monitorWidgets", {
           period: [1, 2, 3, 4],
           metric: null,
           units: null,
-          pages: ["Контроль"],
+          tabs: ["Контроль"],
         },
         {
           name: "Средняя оценка",
@@ -155,7 +155,7 @@ export const monitorWidgets = defineStore("monitorWidgets", {
           period: [1, 2, 3, 4],
           metric: null,
           units: null,
-          pages: ["Контроль"],
+          tabs: ["Контроль"],
         },
       ],
     };

@@ -1,4 +1,7 @@
-import { interfaceLoginForm } from "../interfaces/interfacesMyLogin";
+import {
+  iLoginProps,
+  interfaceLoginForm,
+} from "../interfaces/interfacesMyLogin";
 import { loginAPI } from "@/api/api";
 import LoaderUtils from "@/components/UI/MyLoader/utils/LoaderUtils";
 import Validation from "@/utils/validation/Validation";
@@ -7,17 +10,17 @@ const loaderUtils = new LoaderUtils();
 const validation = new Validation();
 
 class LoginUser {
-  init(form: interfaceLoginForm, e: any) {
-    validation.init(form);
+  init(props: iLoginProps, e: any) {
+    validation.init(props.form);
 
-    if (form.validate) {
-      this.#tryLogin(form, e);
+    if (props.form.validate) {
+      this.#tryLogin(props, e);
     }
   }
 
-  async #tryLogin(form: interfaceLoginForm, e: any) {
+  async #tryLogin(props: iLoginProps, e: any) {
     const t = e.target;
-    const { loader } = form;
+    const { loader } = props;
 
     t.classList.add("no-active");
 
@@ -25,7 +28,7 @@ class LoginUser {
       loaderUtils.showLoader(loader);
     }, 400);
 
-    const send = this.#getSendData(form);
+    const send = this.#getSendData(props.form);
 
     const response = await loginAPI.login(send as FormData);
 
@@ -36,7 +39,7 @@ class LoginUser {
     const hasError = response.includes("error=true");
 
     if (hasError) {
-      form.errorMessage = "Неверный логин или пароль";
+      props.form.errorMessage = "Неверный логин или пароль";
     } else {
       location.reload();
     }

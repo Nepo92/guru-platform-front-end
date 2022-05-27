@@ -105,6 +105,7 @@ export default {
     ValidateError,
   },
   setup() {
+    let loader: Ref<HTMLElement>;
     const form: interfaceLoginForm = reactive({
       username: {
         required: true,
@@ -148,7 +149,7 @@ export default {
     };
 
     let createLoader = (e: Ref<HTMLElement>) => {
-      form.loader = e;
+      loader = e;
     };
 
     const isNeedRemember = (e: Event) => {
@@ -163,8 +164,13 @@ export default {
       onChange: isNeedRemember,
     });
 
-    const loginInPlatform = (e: any) => {
-      loginUser.init(form, e);
+    const loginInPlatform = (e: MouseEvent) => {
+      const loginProps = {
+        form,
+        loader,
+      };
+
+      loginUser.init(loginProps, e);
     };
 
     return {

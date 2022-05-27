@@ -11,9 +11,7 @@ export const monitorStore = defineStore("monitorStore", {
       actionBanners: actionBanners || null,
       // eslint-disable-next-line
       role: role || null,
-      selectProps: {
-        selectsOnPage: [],
-      },
+      selectsArray: [],
     };
   },
 });

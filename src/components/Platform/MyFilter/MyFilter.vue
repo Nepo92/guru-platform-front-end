@@ -32,7 +32,6 @@
                   v-if="elem.type === 'select'"
                   :selectItem="{ ...elem }"
                   :selectsArray="selectsArray"
-                  :selectsBody="selectsBody"
                   :activeTab="activeTab"
                 />
                 <MyInput
@@ -108,6 +107,7 @@ export default defineComponent({
     select: Object,
     nested: Boolean,
     activeTab: String,
+    selectsArray: Array,
   },
   setup(props, { emit }) {
     const modal = ref(<Ref<HTMLElement>>{});
@@ -121,8 +121,7 @@ export default defineComponent({
 
     const store = filterStore();
 
-    const { filter, selectsProps } = store;
-    const { selectsArray, selectsBody } = selectsProps;
+    const { filter } = store;
 
     const closeFilter = (e: MouseEvent) => {
       const closeFilterProps = {
@@ -229,8 +228,6 @@ export default defineComponent({
       filter,
       modal,
       wrapper,
-      selectsArray,
-      selectsBody,
       filterColumns,
       form,
     };

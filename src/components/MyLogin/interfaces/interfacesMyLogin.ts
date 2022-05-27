@@ -1,5 +1,10 @@
 import { Ref } from "vue";
 
+export interface iLoginProps {
+  form: interfaceLoginForm;
+  loader: Ref<HTMLElement>;
+}
+
 export interface interfaceLoginForm {
   username: {
     required: Boolean;
@@ -14,7 +19,6 @@ export interface interfaceLoginForm {
     validateErrorMessage: String;
   };
   errorMessage: string | Blob;
-  loader: Ref<HTMLElement> | null;
   "remember-me": boolean;
   validate: Boolean;
 }

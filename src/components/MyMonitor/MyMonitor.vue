@@ -11,12 +11,12 @@
         <MonitorFilter
           :title="'Фильтровать монитор'"
           :nested="false"
-          :select="{ ...selectProps }"
+          :selectsArray="selectsArray"
           :activeTab="activeTab"
         />
         <!-- <ActionBanner v-if="showActionBanner()" /> -->
         <MonitorWidgets :activeTab="activeTab" />
-        <!-- <ManagerStat /> -->
+        <ManagerStat :activeTab="activeTab" :selectsArray="selectsArray" />
         <MyModal
           @create-modal="createSettingsMenu"
           :title="monitorBackgroundProps.title"
@@ -62,6 +62,8 @@ import BackgroundSettings from "./Menus/BackgroundSettings/BackgroundSettings.vu
 import MyLoader from "../UI/MyLoader/MyLoader.vue";
 import MonitorFilter from "./MonitorFilter/MonitorFilter.vue";
 import MyPopup from "../UI/MyPopup/MyPopup.vue";
+import MonitorWidgets from "./MonitorWidgets/MonitorWidgets.vue";
+import ManagerStat from "./ManagerStat/ManagerStat.vue";
 
 // utils
 import ChangeBackgroundColor from "./Menus/BackgroundSettings/changeBackgroundColor/changeBackgroundColor";
@@ -85,6 +87,8 @@ export default defineComponent({
     MyLoader,
     MyPopup,
     MonitorFilter,
+    MonitorWidgets,
+    ManagerStat,
   },
   setup() {
     let loader: Ref<HTMLElement>;
@@ -93,7 +97,7 @@ export default defineComponent({
     let activeTab = ref("");
 
     const store = monitorStore();
-    const { company, background, selectProps } = store;
+    const { company, background, selectsArray } = store;
 
     let backgroundColor = ref(background);
 
@@ -183,7 +187,7 @@ export default defineComponent({
       createSettingsMenu,
       monitorBackgroundProps,
       createBackgroundSettings,
-      selectProps,
+      selectsArray,
       setActiveTab,
       activeTab,
     };

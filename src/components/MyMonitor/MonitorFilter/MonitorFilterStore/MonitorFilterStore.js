@@ -1,3 +1,4 @@
+import { getTemplateSelect } from "@/components/UI/MySelect/MySelectTemplate";
 import { defineStore } from "pinia";
 
 export const monitorFilter = defineStore("monitorFilter", {
@@ -54,8 +55,7 @@ export const monitorFilter = defineStore("monitorFilter", {
           {
             name: "Параметры",
             items: [
-              {
-                type: "select",
+              getTemplateSelect({
                 name: "Выручка",
                 nameEng: [
                   {
@@ -64,36 +64,27 @@ export const monitorFilter = defineStore("monitorFilter", {
                   },
                 ],
                 selected: filterData?.proceedType,
-                options() {
-                  return [
-                    {
-                      name: "Все",
-                      value: 0,
-                    },
-                    {
-                      name: "Трафик",
-                      value: 1,
-                    },
-                    {
-                      name: "База",
-                      value: 2,
-                    },
-                    {
-                      name: "Товарка",
-                      value: 3,
-                    },
-                  ];
-                },
-                selectedName() {
-                  return (
-                    this.options().find((el) => el.value === this.selected)
-                      ?.name || null
-                  );
-                },
+                options: [
+                  {
+                    name: "Все",
+                    value: 0,
+                  },
+                  {
+                    name: "Трафик",
+                    value: 1,
+                  },
+                  {
+                    name: "База",
+                    value: 2,
+                  },
+                  {
+                    name: "Товарка",
+                    value: 3,
+                  },
+                ],
                 tabs: ["Продажи"],
-              },
-              {
-                type: "select",
+              }),
+              getTemplateSelect({
                 name: "Проекты",
                 nameEng: [
                   {
@@ -102,30 +93,21 @@ export const monitorFilter = defineStore("monitorFilter", {
                   },
                 ],
                 selected: filterData?.projectId,
-                options() {
-                  return [
-                    {
-                      name: "Все проекты",
-                      value: 0,
-                    },
-                    ...projectsData?.map((project) => {
-                      return {
-                        name: project.name,
-                        value: project.id,
-                      };
-                    }),
-                  ];
-                },
-                selectedName() {
-                  return (
-                    this.options().find((el) => el.value === this.selected)
-                      ?.name || null
-                  );
-                },
+                options: [
+                  {
+                    name: "Все проекты",
+                    value: 0,
+                  },
+                  ...projectsData?.map((project) => {
+                    return {
+                      name: project.name,
+                      value: project.id,
+                    };
+                  }),
+                ],
                 tabs: ["Продажи", "Контроль"],
-              },
-              {
-                type: "select",
+              }),
+              getTemplateSelect({
                 name: "Отображать",
                 nameEng: [
                   {
@@ -134,30 +116,22 @@ export const monitorFilter = defineStore("monitorFilter", {
                   },
                 ],
                 selected: filterData?.showManagerType,
-                options() {
-                  return [
-                    {
-                      name: "Все",
-                      value: 1,
-                    },
-                    {
-                      name: "Работающие",
-                      value: 2,
-                    },
-                    {
-                      name: "Уволенные",
-                      value: 3,
-                    },
-                  ];
-                },
-                selectedName() {
-                  return (
-                    this.options().find((el) => el.value === this.selected)
-                      ?.name || null
-                  );
-                },
+                options: [
+                  {
+                    name: "Все",
+                    value: 1,
+                  },
+                  {
+                    name: "Работающие",
+                    value: 2,
+                  },
+                  {
+                    name: "Уволенные",
+                    value: 3,
+                  },
+                ],
                 tabs: ["Продажи"],
-              },
+              }),
             ],
           },
         ],

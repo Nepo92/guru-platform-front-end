@@ -5,10 +5,11 @@
       type="hidden"
       :name="inputName"
       :value="selectItem.selected"
-      @input="changeSelectValue"
     />
-    <div :title="'title'" class="select__head">
-      <span class="select__placeholder">{{ selectItem.selectedName() }}</span>
+    <div :title="selectItem.selectedName()?.name" class="select__head">
+      <span class="select__placeholder">{{
+        selectItem.selectedName()?.name
+      }}</span>
     </div>
     <ul ref="selectBody" class="select__body custom-scroll">
       <li
@@ -37,7 +38,6 @@ import {
   onMounted,
   Ref,
   reactive,
-  watch,
 } from "vue";
 
 // interfaces
@@ -50,22 +50,17 @@ export default defineComponent({
   props: {
     selectItem: Object,
     selectsArray: Array,
-    selectsBody: Array,
     activeTab: String,
   },
-  setup(props, { emit }) {
+  setup(props) {
     const select = ref({} as Ref<HTMLElement>);
     const selectBody = ref({} as Ref<HTMLElement>);
     const inputSelect = ref({} as Ref<InputHTMLAttributes>);
     const selectItem = reactive(props.selectItem as iMySelect);
     const activeTab = props.activeTab as string;
 
-    const onChange = watch(selectItem, (selected) => {
-      selectItem.selected;
-    });
-
     const openSelect = (e: MouseEvent) => {
-      props.selectsBody?.forEach((item) => {
+      props.selectsArray?.forEach((item) => {
         (item as Element).classList.remove("open");
       });
 
@@ -86,34 +81,29 @@ export default defineComponent({
       selectItem.selected = item.value;
     };
 
-    const changeSelectValue = () => {
-      console.log("das");
-    };
+    console.log(selectItem);
 
     const inputName = selectItem.nameEng.find((el) =>
       el.tabs.includes(activeTab)
     )?.name;
 
     onMounted(() => {
-      props.selectsBody?.push(select.value);
-
       if (!props.selectsArray?.length) {
-        props.selectsArray?.push(select);
-
         document.body.addEventListener("click", (e) => {
           const t = e.target;
-
           const isSelect =
             (t as Element).classList.contains("select__head") ||
             (t as Element).classList.contains("select");
 
           if (!isSelect) {
-            props.selectsBody?.forEach((item) => {
+            props.selectsArray?.forEach((item) => {
               (item as Element).classList.remove("open");
             });
           }
         });
       }
+
+      props.selectsArray?.push(select.value);
     });
 
     return {
@@ -124,7 +114,7 @@ export default defineComponent({
       selectBody,
       selectItem,
       inputName,
-      changeSelectValue,
+      // changeSelectValue,
     };
   },
 });

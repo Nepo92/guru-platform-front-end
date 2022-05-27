@@ -19,7 +19,7 @@
     <MyFilter
       :title="title"
       :columns="columns"
-      :select="select"
+      :selectsArray="selectsArray"
       :nested="nested"
       :activeTab="activeTab"
       @create-filter-modal="createFilterModal"
@@ -70,6 +70,7 @@ export default defineComponent({
     select: Object,
     nested: Boolean,
     activeTab: String,
+    selectsArray: Array,
   },
   setup(props) {
     let openFilterSettings: iCreateModal;
