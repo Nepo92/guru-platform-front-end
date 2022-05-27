@@ -6,7 +6,7 @@ export const statMonitor = defineStore("statMonitor", {
   state() {
     return {
       // eslint-disable-next-line
-      data: rows || managersRows || null,
+      managerStatistic: rows || managersRows || null,
       // eslint-disable-next-line
       filter: filter || null,
       managerStatSelect() {
@@ -32,17 +32,17 @@ export const statMonitor = defineStore("statMonitor", {
             },
             {
               name: "по оценке",
-              value: "1",
+              value: 1,
               tabs: ["Контроль"],
             },
             {
               name: "по спорам",
-              value: "2",
+              value: 2,
               tabs: ["Контроль"],
             },
             {
               name: "по сделкам",
-              value: "3",
+              value: 3,
               tabs: ["Контроль"],
             },
           ],

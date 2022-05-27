@@ -7,6 +7,7 @@
           :selectItem="select"
           :activeTab="activeTab"
           :selectsArray="selectsArray"
+          @on-change="changeFilterManager"
         />
       </div>
       <span class="stat-header__tooltip tooltip">
@@ -29,12 +30,7 @@
           {{ item.name }}
         </div>
       </div>
-      <!-- <div v-if="$route.path === '/monitor/'"> -->
-      <!-- <ManagerStatAdminSales :props="{ data, filter }" /> -->
-      <!-- </div> -->
-      <!-- <div v-else-if="$route.path === '/monitor-control/'"> -->
-      <!-- <ManagerStatAdminControl :props="{ data }" /> -->
-      <!-- </div> -->
+      <ManagerStatTable :props="{ managerStatistic, filter }" />
     </div>
     <Loader @create-loader="createLoader" />
   </div>
@@ -48,20 +44,23 @@ import "./ManagerStat.scss";
 import { statMonitor } from "./ManagerStatStore/ManagerStatStore";
 
 // utils
-import LoaderUtils from "@/components/UI/MyLoader/utils/LoaderUtils";
+import LoaderUtils from "@/components/UI/MyLoader/LoaderUtils/LoaderUtils";
 
 // components
 import MyLoader from "@/components/UI/MyLoader/MyLoader.vue";
-// import ManagerStatAdminSales from "./ManagerStatAdmin/Sales/ManagerStatAdminSales.vue";
-// import ManagerStatAdminControl from "./ManagerStatAdmin/Control/ManagerStatAdminControl.vue";
+import ManagerStatTable from "./ManagerStatTable/ManagerStatTable.vue";
 import MySelect from "@/components/UI/MySelect/MySelect.vue";
 
 // vue
 import { defineComponent } from "@vue/runtime-core";
-import { Ref } from "vue";
+import { InputHTMLAttributes, Ref } from "vue";
+import { useRoute } from "vue-router";
 
 // interfaces
 import { iSelectOption } from "@/components/UI/MySelect/interfacesMySelect/interfacesMySelect";
+
+// api
+import { filterAPI } from "@/api/api";
 
 const store = statMonitor();
 const loaderUtils = new LoaderUtils();
@@ -69,8 +68,7 @@ const loaderUtils = new LoaderUtils();
 export default defineComponent({
   components: {
     MyLoader,
-    // ManagerStatAdminSales,
-    // ManagerStatAdminControl,
+    ManagerStatTable,
     MySelect,
   },
   props: {
@@ -79,19 +77,25 @@ export default defineComponent({
   },
   setup(props) {
     const activeTab = props.activeTab as string;
-    console.log(props.selectsArray);
     let loader: Ref<HTMLElement>;
 
-    const { managerStatSelect, filter, statDescription, statsName } = store;
+    const route = useRoute();
+    const { path } = route;
 
-    const managerStatOptions = () =>
-      managerStatSelect()
-        .options()
-        .filter((el: iSelectOption) => el.tabs?.includes(activeTab));
+    const {
+      managerStatSelect,
+      filter,
+      statDescription,
+      statsName,
+      managerStatistic,
+    } = store;
+
+    const managerStatOptions = managerStatSelect()
+      .options()
+      .filter((el: iSelectOption) => el.tabs?.includes(activeTab));
 
     const select = managerStatSelect();
-
-    console.log(select);
+    select.options = () => managerStatOptions;
 
     const description =
       statDescription.find((el) => el.tabs.includes(activeTab))?.value || "";
@@ -102,33 +106,32 @@ export default defineComponent({
       loader = e;
     };
 
-    // const changeFilterManager = (e) => {
-    //   const t = e.target;
-    //   const formData = new FormData();
+    const changeFilterManager = (t: InputHTMLAttributes) => {
+      const formData = new FormData();
 
-    //   formData.set("rowSortType", e.target.value);
+      formData.set("rowSortType", t.value);
 
-    //   const loader = setTimeout(() => {
-    //     loaderUtils.showLoader(loader);
-    //   }, 400);
+      const showLoader = setTimeout(() => {
+        loaderUtils.showLoader(loader);
+      }, 400);
 
-    //   t.classList.add("disabled");
+      (t as Element).classList.add("disabled");
 
-    //   const apply = filterAPI.applyFilter("/monitor/", formData);
+      const apply = filterAPI.applyFilter(path, formData);
 
-    //   apply.then(
-    //     () => {
-    //       clearTimeout(loader);
-    //       t.classList.remove("disabled");
+      apply.then(
+        () => {
+          clearTimeout(showLoader);
+          (t as Element).classList.remove("no-active");
 
-    //       location.reload();
-    //     },
-    //     () => {
-    //       clearTimeout(loader);
-    //       t.classList.remove("disabled");
-    //     }
-    //   );
-    // };
+          location.reload();
+        },
+        () => {
+          clearTimeout(showLoader);
+          (t as Element).classList.remove("no-active");
+        }
+      );
+    };
 
     return {
       select,
@@ -136,7 +139,8 @@ export default defineComponent({
       description,
       stats,
       createLoader,
-      // changeFilterManager,
+      managerStatistic,
+      changeFilterManager,
     };
   },
 });

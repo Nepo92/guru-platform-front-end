@@ -15,8 +15,3 @@ export interface interfaceCompany {
   regulations: boolean;
   training: boolean;
 }
-
-export interface iCreateModal {
-  modal: Ref<HTMLElement>;
-  wrapper: Ref<HTMLElement>;
-}

@@ -13,7 +13,7 @@
         <button
           type="button"
           class="modal-footer__btn"
-          @click="(e: MouseEvent) => apply(e)"
+          @click="(e: MouseEvent) => apply ? apply(e) : settingsOject?.apply(e)"
         >
           {{ applyText }}
         </button>
@@ -36,7 +36,7 @@ import { defineComponent } from "@vue/runtime-core";
 import { ref, onMounted, Ref } from "vue";
 
 // utils
-import ModalUtils from "./modalUtils/modalUtils";
+import ModalUtils from "./ModalUtils/ModalUtils";
 
 // styles
 import "./MyModal.scss";
@@ -53,14 +53,26 @@ export default defineComponent({
       type: Function,
       required: true,
     },
-    cancelText: String,
-    applyText: String,
-    apply: {
-      type: Function,
+    cancelText: {
+      type: String,
       required: true,
     },
-    hasCancel: Boolean,
-    nested: Boolean,
+    applyText: {
+      type: String,
+      required: true,
+    },
+    apply: {
+      type: Function,
+    },
+    hasCancel: {
+      type: Boolean,
+      required: true,
+    },
+    nested: {
+      type: Boolean,
+      required: true,
+    },
+    settingsOject: Object,
   },
   setup(props, { emit }) {
     const modal = ref({} as Ref<HTMLElement>);

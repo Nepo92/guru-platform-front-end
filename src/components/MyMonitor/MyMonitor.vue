@@ -66,11 +66,11 @@ import MonitorWidgets from "./MonitorWidgets/MonitorWidgets.vue";
 import ManagerStat from "./ManagerStat/ManagerStat.vue";
 
 // utils
-import ChangeBackgroundColor from "./Menus/BackgroundSettings/changeBackgroundColor/changeBackgroundColor";
+import ChangeBackgroundColor from "./Menus/BackgroundSettings/ChangeBackgroundColor/ChangeBackgroundColor";
 
 // interfaces
 import { iHeaderProps } from "../Platform/MyHeader/interfacesHeader/interfacesHeader";
-import { iCreateModal } from "../Platform/interfacesPlatform/interfacesPlatform";
+import { iCreateModal } from "../Platform/MyModal/interfacesMyModal/interfacesMyModal";
 import {
   iModal,
   iModalWrapper,

@@ -31,23 +31,22 @@
 
   &__left {
     display: grid;
-    grid-template-columns: 115px 102px;
+    grid-template-columns: 115px 160px;
     position: relative;
 
-    &::after {
-      content: "";
-      position: absolute;
-      top: 9px;
-      right: -9px;
-      width: 8px;
-      height: 13px;
-      mask-image: url("../../../assets/img/a-down.svg");
-      background-color: $black;
-      mask-repeat: no-repeat;
-      mask-position: center;
-      mask-size: 100% 100%;
-      transform: rotate(90deg);
-      pointer-events: none;
+    .select {
+      width: 140px;
+
+      &__head {
+        border: 0;
+        font-size: 16px;
+        line-height: 16px;
+        padding-left: 0;
+      }
+
+      &::after {
+        background-color: $black;
+      }
     }
   }
 
@@ -158,6 +157,7 @@
   max-width: 224px;
   overflow: hidden;
   left: 0;
+  z-index: 1000;
 
   img {
     padding: 0;

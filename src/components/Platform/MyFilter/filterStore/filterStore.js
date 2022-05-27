@@ -5,7 +5,6 @@ export const filterStore = defineStore("fitlerStore", {
     return {
       // eslint-disable-next-line
       filter: filter || null,
-      selectsProps: { selectsArray: [], selectsBody: [] },
     };
   },
 });

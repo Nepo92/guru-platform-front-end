@@ -9,7 +9,9 @@ class Validation {
   init(form: any) {
     const formEntries = Object.entries(form);
 
-    const fields = formEntries.filter((el) => typeof el[1] === 'object' && el[1] !== null);
+    const fields = formEntries.filter(
+      (el) => typeof el[1] === "object" && el[1] !== null
+    );
 
     const required = this.#required(fields);
 
@@ -19,20 +21,22 @@ class Validation {
   }
 
   #required(fields: any) {
-    const required = fields.filter((el: any) => Object.entries(el[1]).find((item) => item[0] === 'required'));
+    const required = fields.filter((el: any) =>
+      Object.entries(el[1]).find((item) => item[0] === "required")
+    );
 
     required.map((el: any) => {
       if (!el[1].value) {
         el[1].validateError = true;
-        el[1].validateErrorMessage = 'Заполните поле';
+        el[1].validateErrorMessage = "Заполните поле";
 
         setTimeout(() => {
           el[1].validateError = false;
-          el[1].validateErrorMessage = '';
+          el[1].validateErrorMessage = "";
         }, 1800);
       } else {
         el[1].validateError = false;
-        el[1].validateErrorMessage = '';
+        el[1].validateErrorMessage = "";
       }
 
       return el;
@@ -41,17 +45,11 @@ class Validation {
     return required.every((el: any) => !el[1].validateError);
   }
 
-  minLength() {
+  minLength() {}
 
-  }
+  maxLength() {}
 
-  maxLength() {
-
-  }
-
-  uniqNames() {
-
-  }
+  uniqNames() {}
 }
 
 export default Validation;

@@ -1,6 +1,6 @@
 // utils
-import LoaderUtils from "@/components/UI/MyLoader/utils/LoaderUtils";
-import ModalUtils from "@/components/Platform/MyModal/modalUtils/modalUtils";
+import LoaderUtils from "@/components/UI/MyLoader/LoaderUtils/LoaderUtils";
+import ModalUtils from "@/components/Platform/MyModal/ModalUtils/ModalUtils";
 
 // api
 import { monitorAPI } from "@/api/api";

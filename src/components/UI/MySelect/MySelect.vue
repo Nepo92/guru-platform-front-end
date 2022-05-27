@@ -52,10 +52,11 @@ export default defineComponent({
     selectsArray: Array,
     activeTab: String,
   },
-  setup(props) {
+  emits: ["on-change", "side-effect-after-change"],
+  setup(props, { emit }) {
     const select = ref({} as Ref<HTMLElement>);
     const selectBody = ref({} as Ref<HTMLElement>);
-    const inputSelect = ref({} as Ref<InputHTMLAttributes>);
+    const inputSelect = ref({} as Ref<EventTarget>);
     const selectItem = reactive(props.selectItem as iMySelect);
     const activeTab = props.activeTab as string;
 
@@ -79,9 +80,15 @@ export default defineComponent({
 
     const selectOption = (item: iSelectOption, name: string) => {
       selectItem.selected = item.value;
-    };
 
-    console.log(selectItem);
+      setTimeout(() => {
+        emit("on-change", inputSelect.value);
+
+        if (selectItem.hasSideEffect) {
+          emit("side-effect-after-change", selectItem.name);
+        }
+      }, 100);
+    };
 
     const inputName = selectItem.nameEng.find((el) =>
       el.tabs.includes(activeTab)
@@ -114,7 +121,6 @@ export default defineComponent({
       selectBody,
       selectItem,
       inputName,
-      // changeSelectValue,
     };
   },
 });

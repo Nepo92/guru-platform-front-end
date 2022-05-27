@@ -27,11 +27,14 @@ export const monitorAPI = {
 
     return JSON.parse(request.request.response);
   },
-  async applyFilter(data: FormData) {
-    await axios.post("/monitor/", data);
+};
+
+export const filterAPI = {
+  async applyFilter(url: string, data: FormData) {
+    await axios.post(url, data);
   },
-  async clearFilter() {
-    await axios.post("/monitor/clearFilter");
+  async clearFilter(url: string) {
+    await axios.post(`${url}clearFilter`);
   },
 };
 

@@ -33,6 +33,7 @@
                   :selectItem="{ ...elem }"
                   :selectsArray="selectsArray"
                   :activeTab="activeTab"
+                  @side-effect-after-change="selectSideEffect"
                 />
                 <MyInput
                   v-else-if="elem.type === 'input'"
@@ -75,6 +76,7 @@ import "@/assets/scss/grid.scss";
 // vue
 import { defineComponent } from "@vue/runtime-core";
 import { ref, onMounted, Ref } from "vue";
+import { useRoute } from "vue-router";
 
 // store
 import { filterStore } from "./filterStore/filterStore";
@@ -83,11 +85,11 @@ import { filterStore } from "./filterStore/filterStore";
 import { iFilterColumnItem } from "./interfacesMyFilter/interfacesMyFilter";
 
 // utils
-import ModalUtils from "../MyModal/modalUtils/modalUtils";
-import LoaderUtils from "@/components/UI/MyLoader/utils/LoaderUtils";
+import ModalUtils from "../MyModal/ModalUtils/ModalUtils";
+import LoaderUtils from "@/components/UI/MyLoader/LoaderUtils/LoaderUtils";
 
 // api
-import { monitorAPI } from "@/api/api";
+import { filterAPI } from "@/api/api";
 
 const modalUtils = new ModalUtils();
 const loaderUtils = new LoaderUtils();
@@ -99,21 +101,35 @@ export default defineComponent({
     MyInput,
   },
   props: {
-    title: String,
+    title: {
+      type: String,
+      required: true,
+    },
     columns: {
       type: Array,
-      retuired: true,
+      required: true,
     },
-    select: Object,
-    nested: Boolean,
-    activeTab: String,
-    selectsArray: Array,
+    nested: {
+      type: Boolean,
+      required: true,
+    },
+    activeTab: {
+      type: String,
+      required: true,
+    },
+    selectsArray: {
+      type: Array,
+      required: true,
+    },
   },
   setup(props, { emit }) {
     const modal = ref(<Ref<HTMLElement>>{});
     const wrapper = ref(<Ref<HTMLElement>>{});
     const form = ref(<Ref<HTMLFormElement>>{});
     let loader: Ref<HTMLElement>;
+
+    const route = useRoute();
+    const { path } = route;
 
     const filterColumns: Array<iFilterColumnItem> = <Array<iFilterColumnItem>>(
       props.columns
@@ -134,7 +150,7 @@ export default defineComponent({
     };
 
     const clearFilter = (e: MouseEvent) => {
-      const clear = monitorAPI.clearFilter();
+      const clear = filterAPI.clearFilter(path);
 
       const t = e.target;
 
@@ -174,7 +190,7 @@ export default defineComponent({
     const applyFilter = (e: MouseEvent) => {
       const formData = new FormData(form.value);
 
-      const apply = monitorAPI.applyFilter(formData);
+      const apply = filterAPI.applyFilter(path, formData);
 
       const t = e.target;
 
@@ -213,6 +229,17 @@ export default defineComponent({
       loader = t;
     };
 
+    const selectSideEffect = (selectName: string) => {
+      filterColumns[0].items[0].options = [
+        {
+          name: "Поменяли",
+          value: "changed",
+        },
+      ];
+
+      console.log(filterColumns);
+    };
+
     onMounted(() => {
       emit("create-filter-modal", {
         modal: modal,
@@ -230,6 +257,7 @@ export default defineComponent({
       wrapper,
       filterColumns,
       form,
+      selectSideEffect,
     };
   },
 });

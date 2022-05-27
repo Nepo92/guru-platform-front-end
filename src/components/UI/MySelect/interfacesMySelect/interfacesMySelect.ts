@@ -1,5 +1,3 @@
-import { InputHTMLAttributes } from "vue";
-
 export interface iNameFilterItem {
   tabs: Array<string>;
   name: string;
@@ -19,6 +17,7 @@ export interface iMySelect {
   options(): Array<iSelectOption>;
   selectedName(): iSelectOption;
   tabs: Array<string>;
+  hasSideEffect?: boolean;
 }
 
 export interface iMySelectProps {
@@ -27,4 +26,5 @@ export interface iMySelectProps {
   selected: number | string | null | boolean;
   options: Array<iSelectOption>;
   tabs: Array<string>;
+  hasSideEffect?: boolean;
 }

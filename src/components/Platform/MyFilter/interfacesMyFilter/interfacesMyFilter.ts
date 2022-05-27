@@ -4,4 +4,5 @@ import { iMySelect } from "@/components/UI/MySelect/interfacesMySelect/interface
 export interface iFilterColumnItem {
   name: string;
   items: Array<iMySelect | iMyInput>;
+  tabs: Array<string>;
 }

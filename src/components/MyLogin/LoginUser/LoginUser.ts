@@ -3,8 +3,8 @@ import {
   interfaceLoginForm,
 } from "../interfaces/interfacesMyLogin";
 import { loginAPI } from "@/api/api";
-import LoaderUtils from "@/components/UI/MyLoader/utils/LoaderUtils";
-import Validation from "@/utils/validation/Validation";
+import LoaderUtils from "@/components/UI/MyLoader/LoaderUtils/LoaderUtils";
+import Validation from "@/utils/Validation/Validation";
 
 const loaderUtils = new LoaderUtils();
 const validation = new Validation();

@@ -1,5 +1,10 @@
 import { Ref } from "vue";
 
+export interface iCreateModal {
+  modal: Ref<HTMLElement>;
+  wrapper: Ref<HTMLElement>;
+}
+
 export interface iModal {
   modal: Ref<HTMLElement>;
   wrapper: Ref<HTMLElement>;

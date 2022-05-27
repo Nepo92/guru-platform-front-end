@@ -6,4 +6,15 @@ export interface iMyInput {
   pages: Array<string>;
   name: string;
   type: string;
+  tabs?: Array<string>;
+  options?: Array<any>;
+}
+
+export interface iMyInputProps {
+  name: string;
+  nameEng: Array<iNameFilterItem>;
+  selected: number | string | null | boolean;
+  value: number | string | null | boolean;
+  tabs: Array<string>;
+  options?: Array<any>;
 }

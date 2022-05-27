@@ -24,7 +24,6 @@
       :activeTab="activeTab"
       @create-filter-modal="createFilterModal"
     />
-    <!-- @change-filter-select="changeFilterSelect" -->
     <MyLoader @create-loader="createLoader" />
   </div>
 </template>
@@ -38,23 +37,24 @@ import MyFilter from "../../Platform/MyFilter/MyFilter.vue";
 import FilterBtn from "@/components/Platform/MyFilter/FilterBtn/FilterBtn.vue";
 
 // utils
-import ModalUtils from "@/components/Platform/MyModal/modalUtils/modalUtils";
-import LoaderUtils from "@/components/UI/MyLoader/utils/LoaderUtils";
+import ModalUtils from "@/components/Platform/MyModal/ModalUtils/ModalUtils";
+import LoaderUtils from "@/components/UI/MyLoader/LoaderUtils/LoaderUtils";
 
 // api
-import { monitorAPI } from "@/api/api";
+import { filterAPI } from "@/api/api";
 
 // store
 import { monitorFilter } from "./MonitorFilterStore/MonitorFilterStore";
 
 // interfaces
-import { iCreateModal } from "@/components/Platform/interfacesPlatform/interfacesPlatform";
+import { iCreateModal } from "@/components/Platform/MyModal/interfacesMyModal/interfacesMyModal";
 import { iFilterPeriod } from "./interfacesMonitorFilter/interfacesMonitorFilter";
 
 // vue
 import { defineComponent } from "@vue/runtime-core";
 import MyLoader from "@/components/UI/MyLoader/MyLoader.vue";
 import { Ref } from "vue";
+import { useRoute } from "vue-router";
 
 const modalUtils = new ModalUtils();
 const loaderUtils = new LoaderUtils();
@@ -66,20 +66,39 @@ export default defineComponent({
     MyLoader,
   },
   props: {
-    title: String,
-    select: Object,
-    nested: Boolean,
-    activeTab: String,
-    selectsArray: Array,
+    title: {
+      type: String,
+      required: true,
+    },
+    nested: {
+      type: Boolean,
+      required: true,
+    },
+    activeTab: {
+      type: String,
+      required: true,
+    },
+    selectsArray: {
+      type: Array,
+      required: true,
+    },
   },
   setup(props) {
+    const activeTab = props.activeTab as string;
     let openFilterSettings: iCreateModal;
     let loader: Ref<HTMLElement>;
+
+    const route = useRoute();
+    const { path } = route;
 
     const store = monitorFilter();
 
     const { period, filterProps } = store;
     const { filter, columns } = filterProps;
+
+    columns.forEach((item) => {
+      item.items = [...item.items.filter((el) => el.tabs.includes(activeTab))];
+    });
 
     const createLoader = (t: Ref<HTMLElement>) => {
       loader = t;
@@ -105,7 +124,7 @@ export default defineComponent({
       const formData = new FormData();
       formData.set("period", `${item.value}`);
 
-      const apply = monitorAPI.applyFilter(formData);
+      const apply = filterAPI.applyFilter(path, formData);
 
       const showLoader = setTimeout(() => {
         loaderUtils.showLoader(loader);
