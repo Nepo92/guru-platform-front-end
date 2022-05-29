@@ -23,6 +23,7 @@
       :nested="nested"
       :activeTab="activeTab"
       @create-filter-modal="createFilterModal"
+      @side-effect-after-change="selectSideEffect"
     />
     <MyLoader @create-loader="createLoader" />
   </div>
@@ -39,25 +40,29 @@ import FilterBtn from "@/components/Platform/MyFilter/FilterBtn/FilterBtn.vue";
 // utils
 import ModalUtils from "@/components/Platform/MyModal/ModalUtils/ModalUtils";
 import LoaderUtils from "@/components/UI/MyLoader/LoaderUtils/LoaderUtils";
+import SelectUtils from "@/components/UI/MySelect/SelectUtils/SelectUtils";
 
 // api
 import { filterAPI } from "@/api/api";
 
 // store
-import { monitorFilter } from "./MonitorFilterStore/MonitorFilterStore";
+import { monitorFilter } from "./monitorFilterStore/monitorFilterStore";
 
 // interfaces
 import { iCreateModal } from "@/components/Platform/MyModal/interfacesMyModal/interfacesMyModal";
 import { iFilterPeriod } from "./interfacesMonitorFilter/interfacesMonitorFilter";
+import { iFilterColumnItem } from "@/components/Platform/MyFilter/interfacesMyFilter/interfacesMyFilter";
+import { iMySelect } from "@/components/UI/MySelect/interfacesMySelect/interfacesMySelect";
 
 // vue
 import { defineComponent } from "@vue/runtime-core";
 import MyLoader from "@/components/UI/MyLoader/MyLoader.vue";
-import { Ref } from "vue";
+import { Ref, reactive } from "vue";
 import { useRoute } from "vue-router";
 
 const modalUtils = new ModalUtils();
 const loaderUtils = new LoaderUtils();
+const selectUtils = new SelectUtils();
 
 export default defineComponent({
   components: {
@@ -93,12 +98,20 @@ export default defineComponent({
 
     const store = monitorFilter();
 
-    const { period, filterProps } = store;
-    const { filter, columns } = filterProps;
+    const { filterProps, period } = store;
+    const { filter } = filterProps;
 
-    columns.forEach((item) => {
-      item.items = [...item.items.filter((el) => el.tabs.includes(activeTab))];
-    });
+    const columns = reactive(
+      filterProps.columns.map((item) => {
+        item.items = [
+          ...item.items
+            .filter((el) => el.tabs.includes(activeTab))
+            .map((el) => reactive(el)),
+        ];
+
+        return item;
+      })
+    );
 
     const createLoader = (t: Ref<HTMLElement>) => {
       loader = t;
@@ -146,14 +159,28 @@ export default defineComponent({
       );
     };
 
+    const selectSideEffect = (
+      selectName: string,
+      value: null | number | string | boolean
+    ) => {
+      const propsSelectSideEffect = {
+        columns,
+        selectName,
+        value,
+      };
+
+      selectUtils.updateValueSideEffect(propsSelectSideEffect);
+    };
+
     return {
       openFilter,
       createFilterModal,
       period,
-      filter,
       changePeriod,
       createLoader,
+      selectSideEffect,
       columns,
+      filter,
     };
   },
 });

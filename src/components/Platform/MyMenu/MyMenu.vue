@@ -101,7 +101,6 @@
 <script lang="ts">
 // styles
 import "./MyMenu.scss";
-import "@/assets/scss/grid.scss";
 
 // store
 import { platformStore } from "@/store/platformStore";

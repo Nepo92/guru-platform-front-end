@@ -3,24 +3,17 @@
     <FilterBtn @open-filter="openFilter" />
     <form class="analytic-filter__form">
       <ul class="analytic-filter__list">
-        <li class="analytic-filter__item calendar-icon">
+        <li
+          v-for="item of filterPeriod"
+          class="analytic-filter__item calendar-icon"
+        >
           <input
-            :ref="setDatepicker"
+            ref="datepicker"
             class="analytic-filter__input"
             type="text"
-            :value="startFilter"
-            placeholder="Укажите дату от"
-            name="startDate"
-          />
-        </li>
-        <li class="analytic-filter__item calendar-icon">
-          <input
-            :ref="setDatepicker"
-            class="analytic-filter__input"
-            type="text"
-            :value="endFilter"
-            placeholder="Укажите дату до"
-            name="endDate"
+            :placeholder="item.placeholder"
+            :name="item.name"
+            :value="item.value"
           />
         </li>
         <li class="analytic-filter__item period-delimeter angle-icon">
@@ -28,24 +21,20 @@
             :selectItem="select"
             :selectsArray="selectsArray"
             :activeTab="activeTab"
-            @on-change="(e) => applyFilterSort(e)"
+            @side-effect-after-change="(e) => applyFilterSort(e)"
           />
         </li>
       </ul>
       <MyFilter
         :title="title"
-        :columns="currentColumns"
+        :columns="columns"
         :selectsArray="selectsArray"
         :nested="nested"
         :activeTab="activeTab"
         @create-filter-modal="createFilterModal"
+        @side-effect-after-change="selectSideEffect"
       />
       <MyLoader @create-loader="createLoader" />
-      <!-- <AudienceList
-        v-if="communities"
-        :props="communities"
-        @create-tab-settings-menu="createAudienceList"
-      /> -->
     </form>
   </div>
 </template>
@@ -59,23 +48,23 @@ import "air-datepicker/air-datepicker.css";
 import LoaderUtils from "@/components/UI/MyLoader/LoaderUtils/LoaderUtils";
 import DateUtils from "@/utils/DateUtils/DateUtils";
 import ModalUtils from "@/components/Platform/MyModal/ModalUtils/ModalUtils";
+import SelectUtils from "@/components/UI/MySelect/SelectUtils/SelectUtils";
 
 //plugins
 import AirDatepicker from "air-datepicker";
 
 // api
-import { filterAPI } from "@/api/api";
+import { filterAPI, dealAPI } from "@/api/api";
 
 // components
 import MyLoader from "@/components/UI/MyLoader/MyLoader.vue";
 import FilterBtn from "@/components/Platform/MyFilter/FilterBtn/FilterBtn.vue";
 import MyFilter from "@/components/Platform/MyFilter/MyFilter.vue";
 import MySelect from "@/components/UI/MySelect/MySelect.vue";
-// import AudienceList from "../Menus/AudienceList/AudienceList.vue";
 import { defineComponent } from "@vue/runtime-core";
 
 // vue
-import { Ref, onMounted, ref, InputHTMLAttributes } from "vue";
+import { Ref, onMounted, ref, InputHTMLAttributes, reactive, watch } from "vue";
 import { iCreateModal } from "@/components/Platform/MyModal/interfacesMyModal/interfacesMyModal";
 import { useRoute } from "vue-router";
 
@@ -84,12 +73,12 @@ import { analyticStore } from "@/components/MyAnalytic/analyticStore/analyticSto
 
 // interfaces
 import { iFilterColumnItem } from "@/components/Platform/MyFilter/interfacesMyFilter/interfacesMyFilter";
-import { iMySelect } from "@/components/UI/MySelect/interfacesMySelect/interfacesMySelect";
-import { iMyInput } from "@/components/UI/MyInput/interfacesMyInput/interfacesMyInput";
+import { iEmitSideEffectProps } from "@/components/UI/MySelect/interfacesMySelect/interfacesMySelect";
 
 const loaderUtils = new LoaderUtils();
 const dateUtils = new DateUtils();
 const modalUtils = new ModalUtils();
+const selectUtils = new SelectUtils();
 
 export default defineComponent({
   components: {
@@ -97,7 +86,6 @@ export default defineComponent({
     FilterBtn,
     MyFilter,
     MySelect,
-    // AudienceList,
   },
   props: {
     title: {
@@ -122,14 +110,18 @@ export default defineComponent({
     },
   },
   emits: ["set-communities", "set-filter-period-props"],
-  async setup(props) {
+  setup(props, { emit }) {
+    const funnels = dealAPI.getFunnels();
+
     let loader = ref({} as Ref<HTMLElement>);
     let modal = ref({} as Ref<HTMLElement>);
     let wrapper = ref({} as Ref<HTMLElement>);
+    let datepicker = ref([] as Array<HTMLElement>);
     const route = useRoute();
 
-    const store: any = analyticStore();
-    const { filter, datepickers, columns } = store;
+    const store = analyticStore();
+    const { filter, filterProps } = store;
+    let { datepickers } = store;
     const { startDate, endDate } = filter;
 
     const startFilter = dateUtils.formatDDMMYYYY(
@@ -137,6 +129,19 @@ export default defineComponent({
     );
 
     const endFilter = dateUtils.formatDDMMYYYY(dateUtils.toTimestamp(endDate));
+
+    const filterPeriod = [
+      {
+        placeholder: "Укажите дату от",
+        name: "startDate",
+        value: startFilter,
+      },
+      {
+        placeholder: "Укажите дату до",
+        name: "endDate",
+        value: endFilter,
+      },
+    ];
 
     const createLoader = (t: Ref<HTMLElement>) => {
       loader = t;
@@ -157,21 +162,34 @@ export default defineComponent({
       wrapper = props.wrapper;
     };
 
-    const setDatepicker = (el: any) => {
-      datepickers.push(el);
-    };
+    const setDatepicker = datepickers;
 
-    const applyFilterDate = (t: EventTarget | null) => {
+    const applyFilterDate = (t: HTMLElement | null) => {
       const formData = new FormData();
 
-      formData.set("startDate", dateUtils.dateToServer(datepickers[0].value));
+      formData.set(
+        "startDate",
+        dateUtils.dateToServer((datepicker.value[0] as HTMLInputElement).value)
+      );
 
-      formData.set("endDate", dateUtils.dateToServer(datepickers[1].value));
+      formData.set(
+        "endDate",
+        dateUtils.dateToServer((datepicker.value[1] as HTMLInputElement).value)
+      );
 
-      changeFilterSort(formData, t);
+      const props = {
+        target: t,
+        selectName: "",
+        value: "",
+      };
+
+      changeFilterSort(formData, props);
     };
 
-    const changeFilterSort = (formData: FormData, t: EventTarget | null) => {
+    const changeFilterSort = (
+      formData: FormData,
+      props: iEmitSideEffectProps
+    ) => {
       const { path } = route;
 
       const applyFilterDate = filterAPI.applyFilter(path, formData);
@@ -180,23 +198,21 @@ export default defineComponent({
         loaderUtils.showLoader(loader);
       }, 400);
 
-      (t as Element).classList.add("no-active");
-
       applyFilterDate.then(
         () => {
           clearTimeout(showLoader);
-          (t as Element).classList.remove("no-active");
+          loaderUtils.hideLoader(loader);
 
           location.reload();
         },
         () => {
           clearTimeout(showLoader);
-          (t as Element).classList.remove("no-active");
+          loaderUtils.hideLoader(loader);
         }
       );
     };
 
-    const applyFilterSort = (props: EventTarget) => {
+    const applyFilterSort = (props: iEmitSideEffectProps) => {
       const formData = new FormData();
 
       formData.set("idSort", (props as InputHTMLAttributes).value);
@@ -204,39 +220,83 @@ export default defineComponent({
       changeFilterSort(formData, props);
     };
 
-    const currentColumns = columns.filter((item: iFilterColumnItem) =>
-      item.tabs.includes(props.activeTab)
-    );
+    const columns = <Array<iFilterColumnItem>>reactive([
+      ...filterProps.columns.filter((el) => {
+        if (el.tabs.includes(props.activeTab)) {
+          el.items = [
+            ...el.items.filter((el) => {
+              if (el.tabs.includes(props.activeTab)) {
+                return reactive(el);
+              }
+            }),
+          ];
 
-    currentColumns.forEach((item: iFilterColumnItem) => {
-      item.items = [
-        ...item.items.filter((el: iMySelect | iMyInput) => {
-          if (el.tabs?.includes(props.activeTab)) {
-            return el;
-          }
-        }),
-      ];
+          return el;
+        }
+      }),
+    ]);
+
+    columns.forEach((item) => {
+      item.items.forEach((el) => {
+        if (el.name === "Тип сделки") {
+          const changeDealTypeProps = {
+            columns: <Array<iFilterColumnItem>>columns,
+            value: <null | number | string | boolean>el.selected,
+            funnels,
+            selectName: "Тип сделки",
+          };
+
+          selectUtils.changeDealType(changeDealTypeProps);
+        }
+      });
     });
 
+    const selectSideEffect = (props: iEmitSideEffectProps) => {
+      const { selectName, value } = props;
+
+      if (selectName === "Тип сделки") {
+        const changeDealTypeProps = {
+          columns: <Array<iFilterColumnItem>>columns,
+          value,
+          funnels,
+          selectName,
+        };
+
+        selectUtils.changeDealType(changeDealTypeProps);
+      }
+    };
+
+    const changeFilterDate = (e: MouseEvent) => {
+      const t = e.target;
+
+      const isCalendar = (t as Element).classList.contains("-day-");
+
+      if (isCalendar) {
+        setTimeout(() => {
+          applyFilterDate(t as HTMLElement);
+        }, 100);
+      }
+    };
+
     onMounted(() => {
-      datepickers.forEach((item: HTMLElement) => {
-        new AirDatepicker(item, {
+      datepicker.value.forEach((item) => {
+        new AirDatepicker(item as HTMLElement, {
           view: "months",
         });
       });
 
-      document.body.addEventListener("click", (e: MouseEvent) => {
-        const t = e.target;
+      document.body.addEventListener("click", changeFilterDate);
 
-        const isCalendar = (t as Element).classList.contains("-day-");
+      const filterProps = {
+        start: dateUtils.toTimestamp(startDate),
+        end: dateUtils.toTimestamp(endDate),
+        periodSeparate: filter.idSort,
+      };
 
-        if (isCalendar) {
-          setTimeout(() => {
-            applyFilterDate(t);
-          }, 100);
-        }
-      });
+      emit("set-filter-period-props", filterProps);
     });
+
+    selectUtils.initSelectAfetComponentLoad(columns, filter);
 
     return {
       createLoader,
@@ -244,89 +304,91 @@ export default defineComponent({
       createFilterModal,
       startFilter,
       endFilter,
-      datepickers,
       setDatepicker,
       modal,
       wrapper,
       applyFilterSort,
-      currentColumns,
+      selectSideEffect,
+      filterPeriod,
+      datepicker,
+      columns,
     };
   },
-
-  // watch: {
-  //   audienceMenu() {
-  //     if (this.audienceMenu) {
-  //       const openAudienceProps = {
-  //         menu: this.audienceMenu.menu,
-  //         wrapper: this.audienceMenu.wrapper,
-  //       };
-
-  //       menuUtils.openMenu(openAudienceProps);
-  //     }
-  //   },
-  // },
-  // created() {
-  //   this.setPage(path);
-  //   this.setFilterPropsColumns();
-
-  //   this.filterProps = this.getFilterPropsAfterChange;
-  // },
-  // methods: {
-  //   createFilterModal(props) {
-  //     const { modal, wrapper } = props;
-  //     this.filterModal = modal;
-  //     this.filterModalWrapper = wrapper;
-  //   },
-  //   changeFilterDealType() {
-  //     this.filterProps = this.getCurrentFunnels;
-  //   },
-  //   changeFilterSelect() {
-  //     this.filterProps = this.getFilterPropsAfterChange;
-  //   },
-  //   async getSourceTraffic(props) {
-  //     const formData = new FormData();
-
-  //     formData.set("platform", props.selectedOption.value);
-
-  //     const sources = await filterAPI.getSourceTraffic(formData);
-
-  //     this.setSourceTraffic(sources);
-
-  //     this.filterProps = this.getFilterPropsAfterChange;
-  //   },
-  //   createAudienceList(props) {
-  //     this.audienceMenu = props.menuSettings;
-  //   },
-  //   changeSource() {
-  //     this.fitlerProps = this.getFilterPropsAfterChange;
-  //   },
-  //   async openCommunitiesMenu() {
-  //     const { filter } = this.filterProps;
-  //     const { platform, channel, communites, community } = filter;
-
-  //     const exception = ["all", "unknown"];
-
-  //     if (!exception.includes(platform)) {
-  //       const formData = new FormData();
-
-  //       formData.set("platform", platform);
-  //       formData.set("channel", channel);
-  //       formData.set("community", community);
-  //       formData.set("communites", communites);
-
-  //       const communities = await filterAPI.getCommunities(formData);
-
-  //       const audienceData = {
-  //         communities,
-  //         communitesFilter: communites,
-  //         communityFilter: community,
-  //       };
-
-  //       this.communities = audienceData;
-  //     }
-  //   },
-  // },
 });
+
+// watch: {
+//   audienceMenu() {
+//     if (this.audienceMenu) {
+//       const openAudienceProps = {
+//         menu: this.audienceMenu.menu,
+//         wrapper: this.audienceMenu.wrapper,
+//       };
+
+//       menuUtils.openMenu(openAudienceProps);
+//     }
+//   },
+// },
+// created() {
+//   this.setPage(path);
+//   this.setFilterPropsColumns();
+
+//   this.filterProps = this.getFilterPropsAfterChange;
+// },
+// methods: {
+//   createFilterModal(props) {
+//     const { modal, wrapper } = props;
+//     this.filterModal = modal;
+//     this.filterModalWrapper = wrapper;
+//   },
+//   changeFilterDealType() {
+//     this.filterProps = this.getCurrentFunnels;
+//   },
+//   changeFilterSelect() {
+//     this.filterProps = this.getFilterPropsAfterChange;
+//   },
+//   async getSourceTraffic(props) {
+//     const formData = new FormData();
+
+//     formData.set("platform", props.selectedOption.value);
+
+//     const sources = await filterAPI.getSourceTraffic(formData);
+
+//     this.setSourceTraffic(sources);
+
+//     this.filterProps = this.getFilterPropsAfterChange;
+//   },
+//   createAudienceList(props) {
+//     this.audienceMenu = props.menuSettings;
+//   },
+//   changeSource() {
+//     this.fitlerProps = this.getFilterPropsAfterChange;
+//   },
+//   async openCommunitiesMenu() {
+//     const { filter } = this.filterProps;
+//     const { platform, channel, communites, community } = filter;
+
+//     const exception = ["all", "unknown"];
+
+//     if (!exception.includes(platform)) {
+//       const formData = new FormData();
+
+//       formData.set("platform", platform);
+//       formData.set("channel", channel);
+//       formData.set("community", community);
+//       formData.set("communites", communites);
+
+//       const communities = await filterAPI.getCommunities(formData);
+
+//       const audienceData = {
+//         communities,
+//         communitesFilter: communites,
+//         communityFilter: community,
+//       };
+
+//       this.communities = audienceData;
+//     }
+//   },
+// },
 
 // const unknownOptions = [
 //   {

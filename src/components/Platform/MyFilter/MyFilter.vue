@@ -10,7 +10,7 @@
       <div class="filter-modal__content custom-scroll">
         <form ref="form" class="filter-modal__form">
           <ul
-            v-for="(item, index) of filterColumns"
+            v-for="(item, index) of propsColumns"
             :key="index"
             class="filter-modal__column"
           >
@@ -30,7 +30,7 @@
               <div class="filter-modal__select-wrapper">
                 <MySelect
                   v-if="elem.type === 'select'"
-                  :selectItem="{ ...elem }"
+                  :selectItem="elem"
                   :selectsArray="selectsArray"
                   :activeTab="activeTab"
                   @side-effect-after-change="selectSideEffect"
@@ -71,7 +71,6 @@ import MyInput from "@/components/UI/MyInput/MyInput.vue";
 
 // styles
 import "./MyFilter.scss";
-import "@/assets/scss/grid.scss";
 
 // vue
 import { defineComponent } from "@vue/runtime-core";
@@ -122,18 +121,16 @@ export default defineComponent({
       required: true,
     },
   },
+  emits: ["side-effect-after-change", "create-filter-modal"],
   setup(props, { emit }) {
     const modal = ref(<Ref<HTMLElement>>{});
     const wrapper = ref(<Ref<HTMLElement>>{});
     const form = ref(<Ref<HTMLFormElement>>{});
     let loader: Ref<HTMLElement>;
+    const propsColumns = <Array<iFilterColumnItem>>props.columns;
 
     const route = useRoute();
     const { path } = route;
-
-    const filterColumns: Array<iFilterColumnItem> = <Array<iFilterColumnItem>>(
-      props.columns
-    );
 
     const store = filterStore();
 
@@ -176,7 +173,7 @@ export default defineComponent({
 
           setTimeout(() => {
             location.reload();
-          }, 400);
+          }, 50);
         },
         () => {
           clearTimeout(showLoader);
@@ -197,7 +194,7 @@ export default defineComponent({
       (t as Element).classList.add("no-active");
       const showLoader = setTimeout(() => {
         loaderUtils.showLoader(loader);
-      }, 200);
+      }, 400);
 
       apply.then(
         () => {
@@ -215,7 +212,7 @@ export default defineComponent({
 
           setTimeout(() => {
             location.reload();
-          }, 200);
+          }, 50);
         },
         () => {
           clearTimeout(showLoader);
@@ -229,15 +226,11 @@ export default defineComponent({
       loader = t;
     };
 
-    const selectSideEffect = (selectName: string) => {
-      filterColumns[0].items[0].options = [
-        {
-          name: "Поменяли",
-          value: "changed",
-        },
-      ];
-
-      console.log(filterColumns);
+    const selectSideEffect = (
+      selectName: string,
+      value: null | number | string | boolean
+    ) => {
+      emit("side-effect-after-change", selectName, value);
     };
 
     onMounted(() => {
@@ -255,9 +248,9 @@ export default defineComponent({
       filter,
       modal,
       wrapper,
-      filterColumns,
       form,
       selectSideEffect,
+      propsColumns,
     };
   },
 });

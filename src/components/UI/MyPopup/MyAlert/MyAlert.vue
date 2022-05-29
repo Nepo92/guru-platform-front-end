@@ -9,25 +9,22 @@
 </template>
 
 <script lang="ts">
-import { ref } from "vue";
+import { defineComponent, ref } from "vue";
 
-// interfaces
-import { iMyAlert } from "./interfacesMyAlert/interfacesMyAlert";
-
-export default {
+export default defineComponent({
   props: {
     title: String,
     description: String,
-    popup: ref,
+    popup: Object,
   },
-  setup(props: any) {
+  setup(props) {
     const closePopup = (e: MouseEvent) => {
-      (props.popup as Element).classList.remove("open");
+      props.popup?.value.classList.remove("open");
     };
 
     return {
       closePopup,
     };
   },
-};
+});
 </script>

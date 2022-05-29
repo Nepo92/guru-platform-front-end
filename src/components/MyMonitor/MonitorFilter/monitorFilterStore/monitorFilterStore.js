@@ -133,6 +133,7 @@ export const monitorFilter = defineStore("monitorFilter", {
                 tabs: ["Продажи"],
               }),
             ],
+            tabs: ["Продажи"],
           },
         ],
       },

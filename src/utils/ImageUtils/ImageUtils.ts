@@ -1,5 +1,3 @@
-import { Ref } from "vue";
-
 class ImageUtils {
   adaptivePhotos(photos: Array<HTMLElement>) {
     if (Array.isArray(photos)) {

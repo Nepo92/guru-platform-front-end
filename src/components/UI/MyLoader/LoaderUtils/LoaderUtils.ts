@@ -4,9 +4,6 @@ class LoaderUtils {
   showLoader(loader: Ref<HTMLElement> | null) {
     if (!loader) return false;
 
-    console.log(loader);
-    console.log(loader.value);
-
     loader.value.classList.add("show");
   }
 

@@ -1,10 +1,15 @@
 <template>
-  <div ref="select" class="select select-icon" @click="(e) => openSelect(e)">
+  <div
+    ref="select"
+    class="select select-icon"
+    :data-name="selectItem.name"
+    @click="(e) => openSelect(e)"
+  >
     <input
       ref="inputSelect"
       type="hidden"
       :name="inputName"
-      :value="selectItem.selected"
+      v-model="selectItem.selected"
     />
     <div :title="selectItem.selectedName()?.name" class="select__head">
       <span class="select__placeholder">{{
@@ -31,14 +36,7 @@
 import "./MySelect.scss";
 
 // vue
-import {
-  defineComponent,
-  InputHTMLAttributes,
-  ref,
-  onMounted,
-  Ref,
-  reactive,
-} from "vue";
+import { defineComponent, ref, onMounted, Ref, reactive } from "vue";
 
 // interfaces
 import {
@@ -48,16 +46,25 @@ import {
 
 export default defineComponent({
   props: {
-    selectItem: Object,
-    selectsArray: Array,
-    activeTab: String,
+    selectItem: {
+      type: Object,
+      required: true,
+    },
+    selectsArray: {
+      type: Array,
+      required: true,
+    },
+    activeTab: {
+      type: String,
+      required: true,
+    },
   },
   emits: ["on-change", "side-effect-after-change"],
   setup(props, { emit }) {
     const select = ref({} as Ref<HTMLElement>);
     const selectBody = ref({} as Ref<HTMLElement>);
     const inputSelect = ref({} as Ref<EventTarget>);
-    const selectItem = reactive(props.selectItem as iMySelect);
+    const selectData = reactive(props.selectItem as iMySelect);
     const activeTab = props.activeTab as string;
 
     const openSelect = (e: MouseEvent) => {
@@ -79,18 +86,20 @@ export default defineComponent({
     };
 
     const selectOption = (item: iSelectOption, name: string) => {
-      selectItem.selected = item.value;
+      props.selectItem.selected = item.value;
 
-      setTimeout(() => {
-        emit("on-change", inputSelect.value);
-
-        if (selectItem.hasSideEffect) {
-          emit("side-effect-after-change", selectItem.name);
-        }
-      }, 100);
+      if (props.selectItem.hasSideEffect) {
+        setTimeout(() => {
+          emit("side-effect-after-change", {
+            selectName: selectData.name,
+            value: item.value,
+            target: inputSelect,
+          });
+        }, 100);
+      }
     };
 
-    const inputName = selectItem.nameEng.find((el) =>
+    const inputName = selectData.nameEng.find((el) =>
       el.tabs.includes(activeTab)
     )?.name;
 
@@ -119,7 +128,7 @@ export default defineComponent({
       selectOption,
       inputSelect,
       selectBody,
-      selectItem,
+      selectData,
       inputName,
     };
   },

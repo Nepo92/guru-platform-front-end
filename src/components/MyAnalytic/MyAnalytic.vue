@@ -8,25 +8,23 @@
         @open-tab-settings-menu="(e) => openTabSettingsMenu(e)"
       />
       <div v-if="activeTab" class="analytic-content__wrapper">
-        <Suspense>
-          <AnalyticFilter
-            :title="'Фильтровать аналитику'"
-            :select="selectPeriod"
-            :nested="false"
-            :selectsArray="selectsArray"
-            :activeTab="activeTab"
-          />
-        </Suspense>
-        <!-- <AnalyticTable
-          v-if="filterPeriodProps"
-          :props="{ ...filterPeriodProps }"
+        <AnalyticFilter
+          :title="'Фильтровать аналитику'"
+          :select="selectPeriod"
+          :nested="false"
+          :selectsArray="selectsArray"
+          :activeTab="activeTab"
+          @set-filter-period-props="setFilterProps"
         />
-        <FunnelTrafficSettings
-          v-if="$route.path === '/funnel/traffic/'"
-          :props="selectProps"
-          @create-tab-settings-menu="createMenu"
-        /> -->
+        <AnalyticTable
+          v-if="filterProps.start"
+          :start="filterProps.start"
+          :end="filterProps.end"
+          :periodSeparate="filterProps.periodSeparate"
+          :activeTab="activeTab"
+        />
         <MyModal
+          v-if="activeTab === 'Общая'"
           @create-modal="createTabSettingsMenu"
           :title="funnelColors.title"
           :hasCancel="funnelColors.hasCancel"
@@ -48,7 +46,6 @@
 <script lang="ts">
 // styles
 import "./MyAnalytic.scss";
-import "@/assets/scss/grid.scss";
 
 // utils
 import ModalUtils from "@/components/Platform/MyModal/ModalUtils/ModalUtils";
@@ -61,17 +58,16 @@ import MyMenu from "@/components/Platform/MyMenu/MyMenu.vue";
 import MyHeader from "@/components/Platform/MyHeader/MyHeader.vue";
 import FunnelColorSettings from "./Menus/FunnelColorSettings/FunnelColorSettings.vue";
 import AnalyticFilter from "./AnalyticFilter/AnalyticFilter.vue";
+import AnalyticTable from "./AnalyticTable/AnalyticTable.vue";
 
 // vue
-import { defineComponent, ref, Ref, reactive } from "vue";
+import { defineComponent, ref, Ref } from "vue";
 import MyModal from "../Platform/MyModal/MyModal.vue";
 import { useRoute } from "vue-router";
 
 // interfaces
-import {
-  iCreateModal,
-  iModalWrapper,
-} from "../Platform/MyModal/interfacesMyModal/interfacesMyModal";
+import { iCreateModal } from "../Platform/MyModal/interfacesMyModal/interfacesMyModal";
+import { iAnalyticFilterProps } from "@/components/MyAnalytic/AnalyticFilter/interfacesAnalyticFilter/interfacesAnalyticFilter";
 
 // api
 import { filterAPI } from "@/api/api";
@@ -85,35 +81,38 @@ export default defineComponent({
     MyModal,
     FunnelColorSettings,
     AnalyticFilter,
+    AnalyticTable,
   },
   setup() {
     let activeTab = ref("");
     let modal = ref({} as Ref<HTMLElement>);
     let wrapper = ref({} as Ref<HTMLElement>);
     let form = ref({} as Ref<HTMLFormElement>);
-    let funnelColors = reactive({} as iModalWrapper);
+    let filterProps = ref({} as Ref<iAnalyticFilterProps>);
 
     const route = useRoute();
     const { path } = route;
 
-    const store: any = analyticStore();
-    const { headerProps, selectsArray, selectPeriod } = store;
+    const store = analyticStore();
+    const { headerProps, selectsArray, selectPeriod, funnelColors } = store;
 
-    funnelColors = {
-      applyText: "Применить изменения",
-      apply() {
-        const formData = new FormData(form.value);
-        const apply = filterAPI.applyFilter(path, formData);
+    funnelColors.apply = () => {
+      const formData = new FormData(form.value);
+      const apply = filterAPI.applyFilter(path, formData);
 
-        apply.then(() => {
+      apply.then(() => {
+        const closeModalProps = {
+          modal,
+          wrapper,
+          isOverflowed: funnelColors.nested,
+        };
+
+        modalUtils.closeMenu(closeModalProps);
+
+        setTimeout(() => {
           location.reload();
-        });
-      },
-      title: "Настройки воронки",
-      hasCancel: false,
-      cancel() {},
-      cancelText: "",
-      nested: false,
+        }, 150);
+      });
     };
 
     const setActiveTab = (tab: string) => {
@@ -134,11 +133,16 @@ export default defineComponent({
         wrapper,
         isOverflowed: !funnelColors.nested,
       };
+
       modalUtils.openMenu(openModalProps);
     };
 
     const createFunnelColorSettings = (props: HTMLFormElement) => {
       form.value = props;
+    };
+
+    const setFilterProps = (props: iAnalyticFilterProps) => {
+      filterProps.value = props;
     };
 
     return {
@@ -151,6 +155,8 @@ export default defineComponent({
       activeTab,
       selectsArray,
       selectPeriod,
+      setFilterProps,
+      filterProps,
     };
   },
 });

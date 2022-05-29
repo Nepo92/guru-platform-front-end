@@ -9,13 +9,13 @@ export interface interfaceLoginForm {
   username: {
     required: Boolean;
     value: string | Blob;
-    validateError: Boolean;
+    validateError: boolean;
     validateErrorMessage: String;
   };
   password: {
     required: Boolean;
     value: string | Blob;
-    validateError: Boolean;
+    validateError: boolean;
     validateErrorMessage: String;
   };
   errorMessage: string | Blob;

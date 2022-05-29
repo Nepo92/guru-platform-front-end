@@ -32,7 +32,6 @@
       </div>
       <ManagerStatTable :props="{ managerStatistic, filter }" />
     </div>
-    <Loader @create-loader="createLoader" />
   </div>
 </template>
 
@@ -41,7 +40,7 @@
 import "./ManagerStat.scss";
 
 // store
-import { statMonitor } from "./ManagerStatStore/ManagerStatStore";
+import { statMonitor } from "./managerStatStore/managerStatStore";
 
 // utils
 import LoaderUtils from "@/components/UI/MyLoader/LoaderUtils/LoaderUtils";
@@ -72,8 +71,14 @@ export default defineComponent({
     MySelect,
   },
   props: {
-    activeTab: String,
-    selectsArray: Array,
+    activeTab: {
+      type: String,
+      required: true,
+    },
+    selectsArray: {
+      type: Array,
+      required: true,
+    },
   },
   setup(props) {
     const activeTab = props.activeTab as string;

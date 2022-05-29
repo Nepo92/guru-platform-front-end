@@ -184,8 +184,6 @@ export default defineComponent({
     let avatarBig = ref([] as Array<HTMLElement>);
     const avatarSmall = ref([] as Array<HTMLElement>);
 
-    console.log(props);
-
     onMounted(() => {
       if (avatarBig.value.length) {
         imageUtils.adaptivePhotos(avatarBig.value);

@@ -1,4 +1,7 @@
-import { iNameFilterItem } from "../../MySelect/interfacesMySelect/interfacesMySelect";
+import {
+  iNameFilterItem,
+  iSelectOption,
+} from "../../MySelect/interfacesMySelect/interfacesMySelect";
 
 export interface iMyInput {
   nameEng: Array<iNameFilterItem>;
@@ -7,7 +10,8 @@ export interface iMyInput {
   name: string;
   type: string;
   tabs?: Array<string>;
-  options?: Array<any>;
+  options?(): Array<iSelectOption>;
+  selected?: number | string | boolean | null;
 }
 
 export interface iMyInputProps {
@@ -16,5 +20,5 @@ export interface iMyInputProps {
   selected: number | string | null | boolean;
   value: number | string | null | boolean;
   tabs: Array<string>;
-  options?: Array<any>;
+  options?: Array<iSelectOption>;
 }

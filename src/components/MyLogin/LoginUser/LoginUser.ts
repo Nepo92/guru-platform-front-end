@@ -1,7 +1,7 @@
 import {
   iLoginProps,
   interfaceLoginForm,
-} from "../interfaces/interfacesMyLogin";
+} from "../interfacesMyLogin/interfacesMyLogin";
 import { loginAPI } from "@/api/api";
 import LoaderUtils from "@/components/UI/MyLoader/LoaderUtils/LoaderUtils";
 import Validation from "@/utils/Validation/Validation";
@@ -10,7 +10,7 @@ const loaderUtils = new LoaderUtils();
 const validation = new Validation();
 
 class LoginUser {
-  init(props: iLoginProps, e: any) {
+  init(props: iLoginProps, e: MouseEvent) {
     validation.init(props.form);
 
     if (props.form.validate) {
@@ -18,11 +18,11 @@ class LoginUser {
     }
   }
 
-  async #tryLogin(props: iLoginProps, e: any) {
+  async #tryLogin(props: iLoginProps, e: MouseEvent) {
     const t = e.target;
     const { loader } = props;
 
-    t.classList.add("no-active");
+    (t as Element).classList.add("no-active");
 
     const showLoader = setTimeout(() => {
       loaderUtils.showLoader(loader);
@@ -32,13 +32,13 @@ class LoginUser {
 
     const response = await loginAPI.login(send as FormData);
 
-    clearTimeout(showLoader);
-    loaderUtils.hideLoader(loader);
-    t.classList.remove("no-active");
-
     const hasError = response.includes("error=true");
 
     if (hasError) {
+      clearTimeout(showLoader);
+      loaderUtils.hideLoader(loader);
+      (t as Element).classList.remove("no-active");
+
       props.form.errorMessage = "Неверный логин или пароль";
     } else {
       location.reload();

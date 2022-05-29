@@ -14,7 +14,6 @@
           :selectsArray="selectsArray"
           :activeTab="activeTab"
         />
-        <!-- <ActionBanner v-if="showActionBanner()" /> -->
         <MonitorWidgets :activeTab="activeTab" />
         <ManagerStat :activeTab="activeTab" :selectsArray="selectsArray" />
         <MyModal
@@ -49,10 +48,10 @@ import "./MyMonitor.scss";
 
 // vue
 import { defineComponent } from "@vue/runtime-core";
-import { InputHTMLAttributes, reactive, ref, Ref } from "vue";
+import { InputHTMLAttributes, ref, Ref } from "vue";
 
 // store
-import { monitorStore } from "./MonitorStore/MonitorStore";
+import { monitorStore } from "./monitorStore/monitorStore";
 
 // components
 import MyMenu from "../Platform/MyMenu/MyMenu.vue";
@@ -69,12 +68,8 @@ import ManagerStat from "./ManagerStat/ManagerStat.vue";
 import ChangeBackgroundColor from "./Menus/BackgroundSettings/ChangeBackgroundColor/ChangeBackgroundColor";
 
 // interfaces
-import { iHeaderProps } from "../Platform/MyHeader/interfacesHeader/interfacesHeader";
 import { iCreateModal } from "../Platform/MyModal/interfacesMyModal/interfacesMyModal";
-import {
-  iModal,
-  iModalWrapper,
-} from "../Platform/MyModal/interfacesMyModal/interfacesMyModal";
+import { iModal } from "../Platform/MyModal/interfacesMyModal/interfacesMyModal";
 
 const changeBackgroundColor = new ChangeBackgroundColor();
 
@@ -97,54 +92,33 @@ export default defineComponent({
     let activeTab = ref("");
 
     const store = monitorStore();
-    const { company, background, selectsArray } = store;
+    const {
+      company,
+      background,
+      selectsArray,
+      headerProps,
+      monitorBackgroundProps,
+    } = store;
 
     let backgroundColor = ref(background);
 
-    const monitorBackgroundProps: iModalWrapper = {
-      applyText: "Сохранить изменения",
-      apply(e) {
-        const saveChangesBackground = {
-          inputColor,
-          company,
-          loader,
-          backgroundSettings,
-        };
+    monitorBackgroundProps.apply = (e) => {
+      const saveChangesBackground = {
+        inputColor,
+        company,
+        loader,
+        backgroundSettings,
+      };
 
-        const saveChanges = changeBackgroundColor.saveChanges(
-          saveChangesBackground,
-          e
-        );
+      const saveChanges = changeBackgroundColor.saveChanges(
+        saveChangesBackground,
+        e
+      );
 
-        saveChanges.then((color) => {
-          backgroundColor.value = color;
-        });
-      },
-      title: "Изменить фон рабочего стола",
-      hasCancel: false,
-      cancel() {},
-      cancelText: "",
-      nested: false,
+      saveChanges.then((color) => {
+        backgroundColor.value = color;
+      });
     };
-
-    const headerProps: iHeaderProps = reactive({
-      title: "Рабочий стол",
-      tabs: [
-        {
-          name: "Продажи",
-          link: "/monitor/",
-          settings: false,
-        },
-        {
-          name: "Контроль",
-          link: "/monitor-control/",
-          settings: false,
-        },
-      ],
-      color: false,
-      settings: true,
-      border: true,
-    });
 
     const createLoader = (t: Ref<HTMLElement>) => {
       loader = t;

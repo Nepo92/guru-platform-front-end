@@ -1,6 +1,6 @@
 <template>
   <div class="popup" ref="popup">
-    <div class="popup__wrapper">
+    <div v-if="popup.value" class="popup__wrapper">
       <MyAlert
         v-if="type === 'alert'"
         :title="title"
@@ -19,7 +19,7 @@ import "./MyPopup.scss";
 import MyAlert from "./MyAlert/MyAlert.vue";
 
 // vue
-import { ref } from "vue";
+import { ref, Ref } from "vue";
 
 export default {
   props: {
@@ -29,7 +29,7 @@ export default {
   },
   components: { MyAlert },
   setup() {
-    const popup = ref(null);
+    const popup = ref({} as Ref<HTMLElement>);
 
     return {
       popup,

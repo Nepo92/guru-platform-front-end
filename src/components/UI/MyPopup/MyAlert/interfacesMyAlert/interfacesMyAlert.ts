@@ -1,7 +1,7 @@
-import { ref } from "vue";
+import { Ref } from "vue";
 
 export interface iMyAlert {
-  popup: any;
+  popup: Ref<HTMLElement>;
   title: string;
   description: string;
 }

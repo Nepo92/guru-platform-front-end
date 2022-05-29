@@ -10,7 +10,7 @@
             name="username"
             class="login__input username__input"
             placeholder="Введите логин"
-            @input="(e) => inputLogin(e)"
+            v-model="form.username.value"
           />
           <ValidateError
             v-if="form.username.validateError"
@@ -29,7 +29,7 @@
             name="password"
             class="login__input"
             placeholder="Введите пароль"
-            @input="(e) => inputPassword(e)"
+            v-model="form.password.value"
           />
           <ValidateError
             v-if="form.password.validateError"
@@ -72,11 +72,11 @@
 import "./MyLogin.scss";
 
 // store
-import { loginStore } from "./LoginStore/LoginStore";
+import { loginStore } from "./loginStore/loginStore";
 import { mapActions, storeToRefs } from "pinia";
 
 // vue
-import { computed, InputHTMLAttributes, reactive, Ref } from "vue";
+import { computed, reactive, Ref } from "vue";
 
 // utils
 import LoginUser from "./LoginUser/LoginUser";
@@ -86,14 +86,11 @@ import MyCheckbox from "@/components/UI/MyCheckbox/MyCheckBox.vue";
 import MyLoader from "../UI/MyLoader/MyLoader.vue";
 import ValidateError from "../UI/ValidateError/ValidateError.vue";
 
-// interfaces
-import { interfaceLoginForm } from "./interfaces/interfacesMyLogin";
-
 const loginUser = new LoginUser();
 
 const store = loginStore();
 
-const { background, hidePassword } = storeToRefs(store);
+const { background, hidePassword, form } = storeToRefs(store);
 const { сhangeDisplayPassword } = mapActions(loginStore, [
   "сhangeDisplayPassword",
 ]);
@@ -106,24 +103,6 @@ export default {
   },
   setup() {
     let loader: Ref<HTMLElement>;
-    const form: interfaceLoginForm = reactive({
-      username: {
-        required: true,
-        value: "",
-        validateError: false,
-        validateErrorMessage: "",
-      },
-      password: {
-        required: true,
-        value: "",
-        validateError: false,
-        validateErrorMessage: "",
-      },
-      errorMessage: "",
-      loader: null,
-      "remember-me": false,
-      validate: false,
-    });
 
     const toggleIcon = computed(() => {
       return hidePassword.value ? "" : "close";
@@ -133,21 +112,6 @@ export default {
       return hidePassword.value ? "password" : "text";
     });
 
-    const inputLogin = (e: InputEvent) => {
-      const t = e.target;
-
-      const value: string = (t as InputHTMLAttributes).value;
-      form.username.value = value.trim();
-    };
-
-    const inputPassword = (e: InputEvent) => {
-      const t = e.target;
-
-      const value: string = (t as InputHTMLAttributes).value;
-
-      form.password.value = value.trim();
-    };
-
     let createLoader = (e: Ref<HTMLElement>) => {
       loader = e;
     };
@@ -155,7 +119,7 @@ export default {
     const isNeedRemember = (e: Event) => {
       let t = e.target as HTMLInputElement;
 
-      form["remember-me"] = t.checked;
+      form.value["remember-me"] = t.checked;
     };
 
     const checkboxProps = reactive({
@@ -166,7 +130,7 @@ export default {
 
     const loginInPlatform = (e: MouseEvent) => {
       const loginProps = {
-        form,
+        form: form.value,
         loader,
       };
 
@@ -180,8 +144,6 @@ export default {
       toggleIcon,
       toggleType,
       loginInPlatform,
-      inputLogin,
-      inputPassword,
       form,
       checkboxProps,
       createLoader,

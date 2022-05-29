@@ -248,6 +248,7 @@ export const analyticStore = defineStore("analyticStore", {
           },
         ],
         tabs: ["Общая", "Трафик", "База"],
+        hasSideEffect: true,
       }),
       datepickers: [],
       months: [
@@ -274,264 +275,266 @@ export const analyticStore = defineStore("analyticStore", {
           tabs: ["Трафик", "База"],
         },
       ],
-      columns: [
-        {
-          name: "Параметры",
-          items: [
-            getTemplateSelect({
-              name: "Менеджер",
-              nameEng: [
-                {
-                  name: "idManager",
-                  tabs: ["Обшая", "Трафик"],
-                },
-              ],
-              selected: filterData?.idManager,
-              options: [
-                {
-                  name: "Все Менеджеры",
-                  value: 0,
-                  title: null,
-                },
-                ...(managersFilterData || []).map((el) => {
-                  return {
-                    name: el.name,
-                    value: el.id,
-                    title: el.name,
-                  };
-                }),
-              ],
-              tabs: ["Общая", "Трафик"],
-            }),
-            getTemplateSelect({
-              name: "Проект",
-              nameEng: [
-                {
-                  tabs: ["Обшая", "Трафик"],
-                  name: "project",
-                },
-              ],
-              selected: filterData?.project,
-              options: [
-                {
-                  name: "Все проекты",
-                  value: 0,
-                },
-                ...(projectsData || []).map((project) => {
-                  return {
-                    name: project.name,
-                    value: project.id,
-                  };
-                }),
-              ],
-              tabs: ["Общая", "Трафик"],
-            }),
-            getTemplateSelect({
-              name: "Продукт",
-              nameEng: [
-                {
-                  tabs: ["Общая", "Трафик"],
-                  name: "course",
-                },
-              ],
-              selected: filterData?.course,
-              options: [
-                {
-                  name: "Все продукты",
-                  value: "all",
-                },
-                ...(coursesData || []).map((el) => {
-                  return {
-                    name: el,
-                    value: el,
-                  };
-                }),
-              ],
-              tabs: ["Общая", "Трафик"],
-            }),
-            getTemplateSelect({
-              name: "Тип сделки",
-              nameEng: [
-                {
-                  tabs: ["Общая"],
-                  name: "dealType",
-                },
-              ],
-              selected: filterData?.dealType,
-              options: [
-                {
-                  name: "Все сделки",
-                  value: null,
-                },
-                ...(dealType || []).map((el) => {
-                  return {
-                    name: el.name,
-                    value: el.value,
-                  };
-                }),
-              ],
-              tabs: ["Общая"],
-              hasSideEffect: true,
-            }),
-            getTemplateSelect({
-              name: "Сотрудники",
-              nameEng: [
-                {
-                  tabs: ["Общая", "Трафик"],
-                  name: "isNotDismiss",
-                },
-              ],
-              selected: filterData?.isNotDismiss,
-              options: [
-                {
-                  name: "Все сотрудники",
-                  value: null,
-                },
-                ...(employees || []).map((el) => {
-                  return {
-                    name: el ? "Работающие" : "Уволенные",
-                    value: el,
-                  };
-                }),
-              ],
-              tabs: ["Общая", "Трафик"],
-            }),
-            getTemplateSelect({
-              name: "Воронка",
-              nameEng: [
-                {
-                  tabs: ["Общая"],
-                  name: "idFunnel",
-                },
-              ],
-              selected: filterData?.idFunnel,
-              options: [
-                {
-                  name: "Все воронки",
-                  value: 0,
-                },
-              ],
-              tabs: ["Общая"],
-            }),
-            getTemplateSelect({
-              name: "Цели",
-              nameEng: [
-                {
-                  tabs: ["Общая", "Трафик"],
-                  name: "target",
-                },
-              ],
-              selected: filterData?.idFunnel,
-              options: [
-                {
-                  name: "Все цели",
-                  value: "all",
-                },
-                {
-                  name: "Профиль",
-                  value: "Подписка",
-                },
-                {
-                  name: "Заявка",
-                  value: "Посадочная",
-                },
-              ],
-              tabs: ["Трафик"],
-            }),
-          ],
-          tabs: ["Общая", "Трафик"],
-        },
-        {
-          name: "Аудитории",
-          items: [
-            getTemplateSelect({
-              name: "Рекламный кабинет",
-              nameEng: [
-                {
-                  name: "idUser",
-                  tabs: ["Трафик"],
-                },
-              ],
-              selected: filterData?.idUser,
-              options: [
-                {
-                  name: "Все кабинеты",
-                  value: 0,
-                  title: null,
-                },
-                ...(advertisersData || []).map((el) => {
-                  return {
-                    name: el.name,
-                    value: el.id,
-                    title: el.name,
-                  };
-                }),
-              ],
-              tabs: ["Трафик"],
-            }),
-            getTemplateSelect({
-              name: "Площадка",
-              nameEng: [
-                {
-                  name: "platform",
-                  tabs: ["Трафик"],
-                },
-              ],
-              selected: filterData?.platform,
-              options: [
-                {
-                  name: "Все площадки",
-                  value: "all",
-                  title: null,
-                },
-                {
-                  name: "Неизвестно",
-                  value: "unknown",
-                  title: "Неизвестно",
-                },
-                ...(platformsData || []).map((el) => {
-                  return {
-                    name: el,
-                    value: el,
-                    title: el,
-                  };
-                }),
-              ],
-              tabs: ["Трафик"],
-            }),
-            getTemplateSelect({
-              name: "Источники трафика",
-              nameEng: [
-                {
-                  name: "channel",
-                  tabs: ["/funnel/traffic/"],
-                },
-              ],
-              selected: filterData?.channel,
-              options: [
-                {
-                  name: "Все источники",
-                  value: "all",
-                  title: "Все источники",
-                },
-              ],
-              tabs: ["Трафик"],
-            }),
-            getTemplateInput({
-              name: "Аудитории",
-              nameEng: [
-                {
-                  name: "communites",
-                  tabs: ["Трафик"],
-                },
-              ],
-              value: filterData?.communites,
-              tabs: ["Трафик"],
-            }),
-          ],
-          tabs: ["Трафик"],
-        },
-      ],
+      filterProps: {
+        columns: [
+          {
+            name: "Параметры",
+            items: [
+              getTemplateSelect({
+                name: "Менеджер",
+                nameEng: [
+                  {
+                    name: "idManager",
+                    tabs: ["Общая", "Трафик"],
+                  },
+                ],
+                selected: filterData?.idManager,
+                options: [
+                  {
+                    name: "Все Менеджеры",
+                    value: 0,
+                    title: null,
+                  },
+                  ...(managersFilterData || []).map((el) => {
+                    return {
+                      name: el.name,
+                      value: el.id,
+                      title: el.name,
+                    };
+                  }),
+                ],
+                tabs: ["Общая", "Трафик"],
+              }),
+              getTemplateSelect({
+                name: "Проект",
+                nameEng: [
+                  {
+                    tabs: ["Общая", "Трафик"],
+                    name: "project",
+                  },
+                ],
+                selected: filterData?.project,
+                options: [
+                  {
+                    name: "Все проекты",
+                    value: 0,
+                  },
+                  ...(projectsData || []).map((project) => {
+                    return {
+                      name: project.name,
+                      value: project.id,
+                    };
+                  }),
+                ],
+                tabs: ["Общая", "Трафик"],
+              }),
+              getTemplateSelect({
+                name: "Продукт",
+                nameEng: [
+                  {
+                    tabs: ["Общая", "Трафик"],
+                    name: "course",
+                  },
+                ],
+                selected: filterData?.course,
+                options: [
+                  {
+                    name: "Все продукты",
+                    value: "all",
+                  },
+                  ...(coursesData || []).map((el) => {
+                    return {
+                      name: el,
+                      value: el,
+                    };
+                  }),
+                ],
+                tabs: ["Общая", "Трафик"],
+              }),
+              getTemplateSelect({
+                name: "Тип сделки",
+                nameEng: [
+                  {
+                    tabs: ["Общая"],
+                    name: "dealType",
+                  },
+                ],
+                selected: filterData?.dealType,
+                options: [
+                  {
+                    name: "Все сделки",
+                    value: filter.dealType === null ? null : "all",
+                  },
+                  ...(dealType || []).map((el) => {
+                    return {
+                      name: el.name,
+                      value: el.value,
+                    };
+                  }),
+                ],
+                tabs: ["Общая"],
+                hasSideEffect: true,
+              }),
+              getTemplateSelect({
+                name: "Сотрудники",
+                nameEng: [
+                  {
+                    tabs: ["Общая", "Трафик"],
+                    name: "isNotDismiss",
+                  },
+                ],
+                selected: filterData?.isNotDismiss,
+                options: [
+                  {
+                    name: "Все сотрудники",
+                    value: null,
+                  },
+                  ...(employees || []).map((el) => {
+                    return {
+                      name: el ? "Работающие" : "Уволенные",
+                      value: el,
+                    };
+                  }),
+                ],
+                tabs: ["Общая", "Трафик"],
+              }),
+              getTemplateSelect({
+                name: "Воронка",
+                nameEng: [
+                  {
+                    tabs: ["Общая"],
+                    name: "idFunnel",
+                  },
+                ],
+                selected: filterData?.idFunnel,
+                options: [
+                  {
+                    name: "Все воронки",
+                    value: 0,
+                  },
+                ],
+                tabs: ["Общая"],
+              }),
+              getTemplateSelect({
+                name: "Цели",
+                nameEng: [
+                  {
+                    tabs: ["Общая", "Трафик"],
+                    name: "target",
+                  },
+                ],
+                selected: filterData?.idFunnel,
+                options: [
+                  {
+                    name: "Все цели",
+                    value: "all",
+                  },
+                  {
+                    name: "Профиль",
+                    value: "Подписка",
+                  },
+                  {
+                    name: "Заявка",
+                    value: "Посадочная",
+                  },
+                ],
+                tabs: ["Трафик"],
+              }),
+            ],
+            tabs: ["Общая", "Трафик"],
+          },
+          {
+            name: "Аудитории",
+            items: [
+              getTemplateSelect({
+                name: "Рекламный кабинет",
+                nameEng: [
+                  {
+                    name: "idUser",
+                    tabs: ["Трафик"],
+                  },
+                ],
+                selected: filterData?.idUser,
+                options: [
+                  {
+                    name: "Все кабинеты",
+                    value: 0,
+                    title: null,
+                  },
+                  ...(advertisersData || []).map((el) => {
+                    return {
+                      name: el.name,
+                      value: el.id,
+                      title: el.name,
+                    };
+                  }),
+                ],
+                tabs: ["Трафик"],
+              }),
+              getTemplateSelect({
+                name: "Площадка",
+                nameEng: [
+                  {
+                    name: "platform",
+                    tabs: ["Трафик"],
+                  },
+                ],
+                selected: filterData?.platform,
+                options: [
+                  {
+                    name: "Все площадки",
+                    value: "all",
+                    title: null,
+                  },
+                  {
+                    name: "Неизвестно",
+                    value: "unknown",
+                    title: "Неизвестно",
+                  },
+                  ...(platformsData || []).map((el) => {
+                    return {
+                      name: el,
+                      value: el,
+                      title: el,
+                    };
+                  }),
+                ],
+                tabs: ["Трафик"],
+              }),
+              getTemplateSelect({
+                name: "Источники трафика",
+                nameEng: [
+                  {
+                    name: "channel",
+                    tabs: ["/funnel/traffic/"],
+                  },
+                ],
+                selected: filterData?.channel,
+                options: [
+                  {
+                    name: "Все источники",
+                    value: "all",
+                    title: "Все источники",
+                  },
+                ],
+                tabs: ["Трафик"],
+              }),
+              getTemplateInput({
+                name: "Аудитории",
+                nameEng: [
+                  {
+                    name: "communites",
+                    tabs: ["Трафик"],
+                  },
+                ],
+                value: filterData?.communites,
+                tabs: ["Трафик"],
+              }),
+            ],
+            tabs: ["Трафик"],
+          },
+        ],
+      },
       analyticData: {
         managers: managersData,
         rows: [
@@ -915,7 +918,7 @@ export const analyticStore = defineStore("analyticStore", {
             ],
           },
           {
-            page: "База",
+            tabs: "База",
             items: [
               {
                 name: "Выручка",
@@ -982,6 +985,15 @@ export const analyticStore = defineStore("analyticStore", {
         border: false,
       },
       selectsArray: [],
+      funnelColors: {
+        applyText: "Применить изменения",
+        apply() {},
+        title: "Настройки воронки",
+        hasCancel: false,
+        cancel() {},
+        cancelText: "",
+        nested: false,
+      },
     };
   },
 });

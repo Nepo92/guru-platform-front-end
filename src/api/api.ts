@@ -4,7 +4,7 @@ import {
   iChangeBackgroundMonitor,
   iGetBackgroundMonitorInfo,
   iBackgroundInfo,
-} from "./interfaces/interfacesAPI";
+} from "./interfacesAPI/interfacesAPI";
 
 export const loginAPI = {
   async login(data: FormData) {
@@ -38,29 +38,10 @@ export const filterAPI = {
   },
 };
 
-// export const filterAPI = {
-//   async getSourceTraffic(formData) {
-//     const request = await axios.post("getChannels", formData);
+export const dealAPI = {
+  async getFunnels() {
+    const request = await axios.get("/api/deals/getFunnels");
 
-//     return JSON.parse(request.request.response);
-//   },
-//   async getCommunities(formData) {
-//     const request = await axios.post("getCommunities", formData);
-
-//     return request.data;
-//   },
-// };
-
-// export const analyticAPI = {
-//   async changeColors(formData) {
-//     await axios.post("/funnel/", formData);
-//   },
-// };
-
-// export const dealAPI = {
-//   async getFunnels() {
-//     const request = await axios.get("/api/deals/getFunnels");
-
-//     return JSON.parse(request.request.response);
-//   },
-// };
+    return JSON.parse(request.request.response);
+  },
+};

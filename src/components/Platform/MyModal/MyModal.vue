@@ -40,6 +40,7 @@ import ModalUtils from "./ModalUtils/ModalUtils";
 
 // styles
 import "./MyModal.scss";
+import "@/assets/scss/grid.scss";
 
 const modalUtils = new ModalUtils();
 

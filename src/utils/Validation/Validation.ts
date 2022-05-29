@@ -1,55 +1,52 @@
+import { interfaceLoginForm } from "@/components/MyLogin/interfacesMyLogin/interfacesMyLogin";
+import { requiredItem } from "./interfacesValidation/interfacesValidation";
+import { Entries } from "@/components/Platform/interfacesPlatform/interfacesPlatform";
+
 class Validation {
-  validateTimer: number | null;
-  timers: Array<number>;
-
-  constructor() {
-    this.timers = [];
-  }
-
-  init(form: any) {
+  init(form: interfaceLoginForm) {
     const formEntries = Object.entries(form);
 
-    const fields = formEntries.filter(
-      (el) => typeof el[1] === "object" && el[1] !== null
+    const fields: Entries<interfaceLoginForm> = <Entries<interfaceLoginForm>>(
+      formEntries.filter((el) => typeof el[1] === "object" && el[1] !== null)
     );
 
     const required = this.#required(fields);
 
-    const validate = required;
-
-    form.validate = validate;
+    form.validate = required;
   }
 
-  #required(fields: any) {
-    const required = fields.filter((el: any) =>
+  #required(fields: Entries<interfaceLoginForm>) {
+    const required = fields.filter((el) =>
       Object.entries(el[1]).find((item) => item[0] === "required")
     );
 
-    required.map((el: any) => {
-      if (!el[1].value) {
-        el[1].validateError = true;
-        el[1].validateErrorMessage = "Заполните поле";
+    required.map((el) => {
+      const hasValue = !!(el[1] as requiredItem).value;
+
+      if (!hasValue) {
+        (el[1] as requiredItem).validateError = true;
+        (el[1] as requiredItem).validateErrorMessage = "Заполните поле";
 
         setTimeout(() => {
-          el[1].validateError = false;
-          el[1].validateErrorMessage = "";
+          (el[1] as requiredItem).validateError = false;
+          (el[1] as requiredItem).validateErrorMessage = "";
         }, 1800);
       } else {
-        el[1].validateError = false;
-        el[1].validateErrorMessage = "";
+        (el[1] as requiredItem).validateError = false;
+        (el[1] as requiredItem).validateErrorMessage = "";
       }
 
       return el;
     });
 
-    return required.every((el: any) => !el[1].validateError);
+    return required.every((el) => !(el[1] as requiredItem).validateError);
   }
 
   minLength() {}
 
   maxLength() {}
 
-  uniqNames() {}
+  uniqName() {}
 }
 
 export default Validation;

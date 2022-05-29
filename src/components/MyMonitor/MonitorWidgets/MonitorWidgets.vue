@@ -96,7 +96,7 @@ import { defineComponent } from "@vue/runtime-core";
 import "./MonitorWidgets.scss";
 
 // store
-import { monitorWidgets } from "./MonitorWidgetsStore/MonitorWidgetsStore";
+import { monitorWidgets } from "./monitorWidgetsStore/monitorWidgetsStore";
 
 // interfaces
 import { iMonitorWidget } from "./interfacesMonitorWidgets/interfacesMonitorWidgets";
