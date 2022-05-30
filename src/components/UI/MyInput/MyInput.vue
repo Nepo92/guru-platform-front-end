@@ -1,31 +1,30 @@
 <template>
-  <input 
-    type="text" 
-    :value="props.value" 
-    :name="nameEng" 
-    @click="(e) => inputClick(e)" 
-  />
+  <input type="text" :name="nameEng" @click="(e) => inputClick(e)" />
 </template>
 
-<script>
-export default {
-  props: ["props"],
-  emits: ['open-communities-menu'],
-  data() {
-    const { path } = this.$route;
+<script lang="ts">
+import { defineComponent } from "@vue/runtime-core";
 
-    const nameEng = this.props.nameEng.find((el) => el.pages.includes(path))?.name;
+export default defineComponent({
+  props: {
+    props: Object,
+  },
+  emits: ["open-communities-menu"],
+  setup(props, { emit }) {
+    // const nameEng = props.nameEng.find((el) => el.tabs.includes(path))?.name;
+
+    const nameEng = "";
+
+    const inputClick = (e: MouseEvent) => {
+      // if (props.name === "Аудитории") {
+      // emit("open-communities-menu", e);
+      // }
+    };
 
     return {
       nameEng,
+      inputClick,
     };
   },
-  methods: {
-    inputClick(e) {
-      if (this.props.name === "Аудитории") {
-        this.$emit("open-communities-menu", e);
-      }
-    },
-  },
-};
+});
 </script>

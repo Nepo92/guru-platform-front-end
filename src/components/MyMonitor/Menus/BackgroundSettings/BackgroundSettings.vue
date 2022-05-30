@@ -17,7 +17,7 @@ import { defineComponent } from "@vue/runtime-core";
 import { onMounted, ref } from "vue";
 
 export default defineComponent({
-  emit: ["create-background-settings"],
+  emits: ["create-background-settings"],
   setup(props, { emit }) {
     const inputColor = ref(null);
 

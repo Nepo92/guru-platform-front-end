@@ -105,7 +105,10 @@ const store = monitorWidgets();
 
 export default defineComponent({
   props: {
-    activeTab: String,
+    activeTab: {
+      type: String,
+      required: true,
+    },
   },
   setup(props, { emit }) {
     const activeTab = <string>props.activeTab;

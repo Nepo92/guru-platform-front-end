@@ -54,7 +54,12 @@ import "./MyHeader.scss";
 import { iHeaderTab } from "./interfacesHeader/interfacesHeader";
 
 export default defineComponent({
-  props: ["props"],
+  props: {
+    props: {
+      type: Object,
+      required: true,
+    },
+  },
   emits: ["open-settings-menu", "open-tab-settings-menu", "set-active-tab"],
   setup(props, { emit }) {
     const tabs = ref(null);

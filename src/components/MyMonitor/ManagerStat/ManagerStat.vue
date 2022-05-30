@@ -5,8 +5,8 @@
         <p class="stat-header__sort stat-header__icon">Рейтинг</p>
         <MySelect
           :selectItem="select"
-          :activeTab="activeTab"
           :selectsArray="selectsArray"
+          :activeTab="activeTab"
           @on-change="changeFilterManager"
         />
       </div>
@@ -46,17 +46,19 @@ import { statMonitor } from "./managerStatStore/managerStatStore";
 import LoaderUtils from "@/components/UI/MyLoader/LoaderUtils/LoaderUtils";
 
 // components
-import MyLoader from "@/components/UI/MyLoader/MyLoader.vue";
 import ManagerStatTable from "./ManagerStatTable/ManagerStatTable.vue";
 import MySelect from "@/components/UI/MySelect/MySelect.vue";
 
 // vue
 import { defineComponent } from "@vue/runtime-core";
-import { InputHTMLAttributes, Ref } from "vue";
+import { InputHTMLAttributes, Ref, reactive } from "vue";
 import { useRoute } from "vue-router";
 
 // interfaces
-import { iSelectOption } from "@/components/UI/MySelect/interfacesMySelect/interfacesMySelect";
+import {
+  iMySelect,
+  iSelectOption,
+} from "@/components/UI/MySelect/interfacesMySelect/interfacesMySelect";
 
 // api
 import { filterAPI } from "@/api/api";
@@ -66,7 +68,6 @@ const loaderUtils = new LoaderUtils();
 
 export default defineComponent({
   components: {
-    MyLoader,
     ManagerStatTable,
     MySelect,
   },
@@ -83,6 +84,7 @@ export default defineComponent({
   setup(props) {
     const activeTab = props.activeTab as string;
     let loader: Ref<HTMLElement>;
+    let select = reactive({} as iMySelect);
 
     const route = useRoute();
     const { path } = route;
@@ -95,12 +97,13 @@ export default defineComponent({
       managerStatistic,
     } = store;
 
-    const managerStatOptions = managerStatSelect()
+    const managerStatOptions = managerStatSelect
       .options()
       .filter((el: iSelectOption) => el.tabs?.includes(activeTab));
 
-    const select = managerStatSelect();
-    select.options = () => managerStatOptions;
+    select = <iMySelect>managerStatSelect;
+
+    select.options = (): Array<iSelectOption> => managerStatOptions;
 
     const description =
       statDescription.find((el) => el.tabs.includes(activeTab))?.value || "";
@@ -111,29 +114,27 @@ export default defineComponent({
       loader = e;
     };
 
-    const changeFilterManager = (t: InputHTMLAttributes) => {
+    const changeFilterManager = (t: HTMLElement) => {
       const formData = new FormData();
 
-      formData.set("rowSortType", t.value);
+      formData.set("rowSortType", (t as HTMLInputElement).value);
 
       const showLoader = setTimeout(() => {
         loaderUtils.showLoader(loader);
       }, 400);
-
-      (t as Element).classList.add("disabled");
 
       const apply = filterAPI.applyFilter(path, formData);
 
       apply.then(
         () => {
           clearTimeout(showLoader);
-          (t as Element).classList.remove("no-active");
+          loaderUtils.hideLoader(loader);
 
           location.reload();
         },
         () => {
           clearTimeout(showLoader);
-          (t as Element).classList.remove("no-active");
+          loaderUtils.hideLoader(loader);
         }
       );
     };

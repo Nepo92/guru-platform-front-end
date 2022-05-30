@@ -25,18 +25,33 @@
         />
         <MyModal
           v-if="activeTab === 'Общая'"
-          @create-modal="createTabSettingsMenu"
           :title="funnelColors.title"
           :hasCancel="funnelColors.hasCancel"
           :cancelText="funnelColors.cancelText"
           :applyText="funnelColors.applyText"
+          :apply="funnelColors.apply"
           :cancel="funnelColors.cancel"
           :nested="funnelColors.nested"
-          :settingsOject="funnelColors"
+          @create-modal="createTabSettingsMenu"
         >
-          <FunnelColorSettings
-            @create-funnel-color-settings="createFunnelColorSettings"
-          />
+          <form ref="formColorSettings">
+            <FunnelColorSettings />
+          </form>
+        </MyModal>
+        <MyModal
+          v-if="activeTab === 'Трафик'"
+          :title="'Настройки воронки'"
+          :hasCancel="false"
+          :cancelText="''"
+          :applyText="'Применить изменения'"
+          :cancel="() => false"
+          :nested="false"
+          :apply="applyFunnelTrafficSettings"
+          :selectsArray="selectsArray"
+          :activeTab="activeTab"
+          @create-modal="createFunnelTrafficSettings"
+        >
+          <FunnelTrafficSettings />
         </MyModal>
       </div>
     </div>
@@ -59,6 +74,7 @@ import MyHeader from "@/components/Platform/MyHeader/MyHeader.vue";
 import FunnelColorSettings from "./Menus/FunnelColorSettings/FunnelColorSettings.vue";
 import AnalyticFilter from "./AnalyticFilter/AnalyticFilter.vue";
 import AnalyticTable from "./AnalyticTable/AnalyticTable.vue";
+import FunnelTrafficSettings from "./Menus/FunnelTrafficSettings/FunnelTrafficSettings.vue";
 
 // vue
 import { defineComponent, ref, Ref } from "vue";
@@ -82,12 +98,13 @@ export default defineComponent({
     FunnelColorSettings,
     AnalyticFilter,
     AnalyticTable,
+    FunnelTrafficSettings,
   },
   setup() {
     let activeTab = ref("");
     let modal = ref({} as Ref<HTMLElement>);
     let wrapper = ref({} as Ref<HTMLElement>);
-    let form = ref({} as Ref<HTMLFormElement>);
+    let formColorSettings = ref({} as Ref<HTMLFormElement>);
     let filterProps = ref({} as Ref<iAnalyticFilterProps>);
 
     const route = useRoute();
@@ -97,7 +114,7 @@ export default defineComponent({
     const { headerProps, selectsArray, selectPeriod, funnelColors } = store;
 
     funnelColors.apply = () => {
-      const formData = new FormData(form.value);
+      const formData = new FormData(formColorSettings.value as HTMLFormElement);
       const apply = filterAPI.applyFilter(path, formData);
 
       apply.then(() => {
@@ -137,26 +154,31 @@ export default defineComponent({
       modalUtils.openMenu(openModalProps);
     };
 
-    const createFunnelColorSettings = (props: HTMLFormElement) => {
-      form.value = props;
-    };
-
     const setFilterProps = (props: iAnalyticFilterProps) => {
       filterProps.value = props;
     };
+
+    const createFunnelTrafficSettings = (createTrafficModal: iCreateModal) => {
+      modal = createTrafficModal.modal;
+      wrapper = createTrafficModal.wrapper;
+    };
+
+    const applyFunnelTrafficSettings = () => {};
 
     return {
       headerProps,
       setActiveTab,
       createTabSettingsMenu,
       openTabSettingsMenu,
-      createFunnelColorSettings,
+      formColorSettings,
       funnelColors,
       activeTab,
       selectsArray,
       selectPeriod,
       setFilterProps,
       filterProps,
+      createFunnelTrafficSettings,
+      applyFunnelTrafficSettings,
     };
   },
 });

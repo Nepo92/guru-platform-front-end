@@ -6,11 +6,11 @@
         <li class="login__item username">
           <p class="login__name">Логин</p>
           <input
+            v-model="form.username.value"
             type="text"
             name="username"
             class="login__input username__input"
             placeholder="Введите логин"
-            v-model="form.username.value"
           />
           <ValidateError
             v-if="form.username.validateError"
@@ -25,11 +25,11 @@
             @click="() => сhangeDisplayPassword()"
           />
           <input
+            v-model="form.password.value"
             :type="toggleType"
             name="password"
             class="login__input"
             placeholder="Введите пароль"
-            v-model="form.password.value"
           />
           <ValidateError
             v-if="form.password.validateError"
@@ -37,11 +37,15 @@
           />
         </li>
         <li class="login__item remember">
-          <MyCheckbox :props="checkboxProps" @need-remember="isNeedRemember" />
+          <MyCheckbox
+            :id="`${checkboxProps.id}`"
+            :text="checkboxProps.text"
+            :onChange="checkboxProps.onChange"
+          />
         </li>
       </ul>
       <div class="login__nav">
-        <div class="login__error" v-if="form.errorMessage">
+        <div v-if="form.errorMessage" class="login__error">
           {{ form.errorMessage }}
         </div>
         <button
@@ -122,10 +126,12 @@ export default {
       form.value["remember-me"] = t.checked;
     };
 
+    const onChange = isNeedRemember.bind(this);
+
     const checkboxProps = reactive({
       text: "Запомнить меня",
       id: "remember",
-      onChange: isNeedRemember,
+      onChange,
     });
 
     const loginInPlatform = (e: MouseEvent) => {

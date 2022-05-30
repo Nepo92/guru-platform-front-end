@@ -4,7 +4,8 @@
     <form class="analytic-filter__form">
       <ul class="analytic-filter__list">
         <li
-          v-for="item of filterPeriod"
+          v-for="(item, index) of filterPeriod"
+          :key="index"
           class="analytic-filter__item calendar-icon"
         >
           <input
@@ -18,9 +19,9 @@
         </li>
         <li class="analytic-filter__item period-delimeter angle-icon">
           <MySelect
-            :selectItem="select"
-            :selectsArray="selectsArray"
-            :activeTab="activeTab"
+            :select-item="select"
+            :selects-array="selectsArray"
+            :active-tab="activeTab"
             @side-effect-after-change="(e) => applyFilterSort(e)"
           />
         </li>
@@ -28,9 +29,9 @@
       <MyFilter
         :title="title"
         :columns="columns"
-        :selectsArray="selectsArray"
+        :selects-array="selectsArray"
         :nested="nested"
-        :activeTab="activeTab"
+        :active-tab="activeTab"
         @create-filter-modal="createFilterModal"
         @side-effect-after-change="selectSideEffect"
       />

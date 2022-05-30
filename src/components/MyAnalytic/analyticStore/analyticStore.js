@@ -75,8 +75,7 @@ export const analyticStore = defineStore("analyticStore", {
     // eslint-disable-next-line
     const averageTrafficMailingData = averageTrafficMailing || null;
     // eslint-disable-next-line
-    const managerAverageTrafficMailingData =
-      managerAverageTrafficMailing || null;
+    const managerAverageTrafficMailingData = managerAverageTrafficMailing || null;
     // eslint-disable-next-line
     const averageAdditionalData = averageAdditional || null;
     // eslint-disable-next-line
@@ -92,8 +91,7 @@ export const analyticStore = defineStore("analyticStore", {
     // eslint-disable-next-line
     const shareAdvExpensesTrafficPageData = shareAdvExpensesTrafficPage || null;
     // eslint-disable-next-line
-    const managerShareAdvExpensesTrafficPageData =
-      managerShareAdvExpensesTrafficPage || null;
+    const managerShareAdvExpensesTrafficPageData = managerShareAdvExpensesTrafficPage || null;
     // eslint-disable-next-line
     const advShowData = advShow || null;
     // eslint-disable-next-line
@@ -649,11 +647,9 @@ export const analyticStore = defineStore("analyticStore", {
                 name: "Средний чек трафик",
                 main: averageTrafficMailingData,
                 managers: managerAverageTrafficMailingData
-                  ? Object.entries(managerAverageTrafficMailingData).map(
-                      (item) => {
-                        return item[1];
-                      }
-                    )
+                  ? Object.entries(managerAverageTrafficMailingData).map((item) => {
+                      return item[1];
+                    })
                   : null,
                 units: "₽",
               },
@@ -710,8 +706,7 @@ export const analyticStore = defineStore("analyticStore", {
                 main: profitData,
                 managers: managerProfitData,
                 units: "₽",
-                visible:
-                  filterData?.visableSetting.blockProceedAdvertisingExpenses,
+                visible: filterData?.visableSetting.blockProceedAdvertisingExpenses,
               },
               {
                 name: "% ДРР (доля рекламных расходов)",

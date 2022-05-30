@@ -179,7 +179,12 @@ import { ref, onMounted, defineComponent } from "vue";
 const imageUtils = new ImageUtils();
 
 export default defineComponent({
-  props: ["props"],
+  props: {
+    props: {
+      type: Object,
+      required: true,
+    },
+  },
   setup(props) {
     let avatarBig = ref([] as Array<HTMLElement>);
     const avatarSmall = ref([] as Array<HTMLElement>);

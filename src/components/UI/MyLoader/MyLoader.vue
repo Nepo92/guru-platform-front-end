@@ -18,6 +18,7 @@ import "./MyLoader.scss";
 import { defineComponent, ref, onMounted, Ref } from "vue";
 
 export default defineComponent({
+  emits: ["create-loader"],
   setup(props, { emit }) {
     const loader = ref({} as Ref<HTMLElement>);
 

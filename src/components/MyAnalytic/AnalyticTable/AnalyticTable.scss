@@ -31,7 +31,8 @@
 .analytic-table {
   &__right {
     max-width: 775px;
-    overflow: auto;
+    overflow-x: auto;
+    overflow-y: hidden;
   }
 
   &__header {
@@ -417,6 +418,12 @@
     height: 40px;
     border-top-left-radius: 10px;
     overflow: hidden;
+
+    .analytic-table__column {
+      &:last-child {
+        border-right: 1px solid $manager-row-border;
+      }
+    }
   }
 }
 

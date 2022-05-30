@@ -5,10 +5,10 @@
         <div class="analytic-left__header">
           <div ref="searchColumn" class="analytic-table__search search-icon">
             <input
+              v-model="searchRow"
               class="analytic-table__input"
               placeholder="Метрики"
               type="text"
-              v-model="searchRow"
             />
           </div>
           <div class="analytic-table__column">Итого</div>
@@ -102,7 +102,6 @@
           >
             <div class="analytic-period__main">
               <div
-                v-if="item.main?.sums"
                 v-for="(elem, count) of item.main?.sums"
                 :key="count"
                 class="analytic-period__column"
@@ -124,11 +123,13 @@
                     : ""
                 }}
               </div>
-              <div
-                v-else-if="!item.main?.sums"
-                v-for="item of periodLength"
-                class="analytic-period__column"
-              ></div>
+              <div v-if="!item.main?.sums" class="analytic-period__main">
+                <div
+                  v-for="(elem, count) of periodLength"
+                  :key="count"
+                  class="analytic-period__column"
+                ></div>
+              </div>
             </div>
             <div
               ref="managersPeriod"
@@ -160,6 +161,19 @@
                         ? el.toLocaleString("ru-RU") + " " + (item.units || "")
                         : ""
                     }}
+                  </div>
+                </div>
+                <div v-if="!item.managers">
+                  <div
+                    v-for="(elem, count) of managersCounter"
+                    :key="count"
+                    class="analytic-period__manager"
+                  >
+                    <div
+                      v-for="(el, counter) of periodLength"
+                      :key="counter"
+                      class="analytic-period__column"
+                    ></div>
                   </div>
                 </div>
               </div>
@@ -219,17 +233,21 @@ export default defineComponent({
     let managerList = ref([] as Array<HTMLElement>);
     let managersPeriod = ref([] as Array<HTMLElement>);
     let periodLength = ref(1);
+    let start = ref(props.start);
+    let periodSeparate = ref(props.periodSeparate);
+    let activeTab = ref("");
 
     const store = analyticStore();
 
-    const { start, periodSeparate, activeTab } = props;
     const { analyticData, months } = store;
     const { rows, colors } = analyticData;
+
+    const managersCounter = analyticData.managers.length;
 
     const currentRowsProps = {
       searchRow,
       rows: rows as Array<iCurrentAnalytic>,
-      activeTab,
+      activeTab: activeTab.value,
       colors,
     };
 
@@ -238,8 +256,8 @@ export default defineComponent({
     );
 
     const periodItemsProps = {
-      start,
-      periodSeparate,
+      start: start.value,
+      periodSeparate: periodSeparate.value,
       currentRows,
       months,
     };
@@ -320,8 +338,6 @@ export default defineComponent({
 
     periodLength.value = analyticTableUtils.getPeriodLength;
 
-    console.log(currentRows);
-
     return {
       searchRow,
       currentRows,
@@ -332,6 +348,7 @@ export default defineComponent({
       managerList,
       managersPeriod,
       periodLength,
+      managersCounter,
     };
   },
 });

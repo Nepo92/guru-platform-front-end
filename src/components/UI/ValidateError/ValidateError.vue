@@ -8,6 +8,11 @@
 import "./ValidateError.scss";
 
 export default {
-  props: ["props"],
+  props: {
+    validateErrorMessage: {
+      type: String,
+      required: true,
+    },
+  },
 };
 </script>

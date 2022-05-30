@@ -35,10 +35,7 @@
                   :activeTab="activeTab"
                   @side-effect-after-change="selectSideEffect"
                 />
-                <MyInput
-                  v-else-if="elem.type === 'input'"
-                  :props="{ ...elem }"
-                />
+                <MyInput v-else-if="elem.type === 'input'" :props="elem" />
               </div>
             </li>
           </ul>

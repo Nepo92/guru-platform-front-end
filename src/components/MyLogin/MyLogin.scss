@@ -48,12 +48,12 @@
     padding: 0 40px 0 15px;
 
     &::placeholder {
-      color: rgba(101, 92, 117, 50%);
+      color: rgba(101, 92, 117, 0.5);
     }
   }
 
   &__nav {
-    border-top: 1px solid rgba(195, 194, 201, 40%);
+    border-top: 1px solid rgba(195, 194, 201, 0.4);
     margin-top: 15px;
     padding: 20px 20px 0;
   }

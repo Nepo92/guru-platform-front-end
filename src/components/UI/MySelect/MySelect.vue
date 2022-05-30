@@ -7,9 +7,9 @@
   >
     <input
       ref="inputSelect"
+      v-model="selectItem.selected"
       type="hidden"
       :name="inputName"
-      v-model="selectItem.selected"
     />
     <div :title="selectItem.selectedName()?.name" class="select__head">
       <span class="select__placeholder">{{
@@ -41,6 +41,7 @@ import { defineComponent, ref, onMounted, Ref, reactive } from "vue";
 // interfaces
 import {
   iMySelect,
+  iNameFilterItem,
   iSelectOption,
 } from "./interfacesMySelect/interfacesMySelect";
 
@@ -71,14 +72,11 @@ export default defineComponent({
       props.selectsArray?.forEach((item) => {
         (item as Element).classList.remove("open");
       });
-
       if (select.value && selectBody.value) {
         select.value.classList.add("open");
-
         const { left } = select.value.getBoundingClientRect();
         const { bottom } = select.value.getBoundingClientRect();
         const width = select.value.offsetWidth;
-
         selectBody.value.style.left = left + "px";
         selectBody.value.style.top = bottom + "px";
         selectBody.value.style.width = width + "px";
@@ -87,6 +85,10 @@ export default defineComponent({
 
     const selectOption = (item: iSelectOption, name: string) => {
       props.selectItem.selected = item.value;
+
+      setTimeout(() => {
+        emit("on-change", inputSelect.value);
+      }, 100);
 
       if (props.selectItem.hasSideEffect) {
         setTimeout(() => {
@@ -99,7 +101,7 @@ export default defineComponent({
       }
     };
 
-    const inputName = selectData.nameEng.find((el) =>
+    const inputName = props.selectItem.nameEng.find((el: iNameFilterItem) =>
       el.tabs.includes(activeTab)
     )?.name;
 
@@ -110,7 +112,6 @@ export default defineComponent({
           const isSelect =
             (t as Element).classList.contains("select__head") ||
             (t as Element).classList.contains("select");
-
           if (!isSelect) {
             props.selectsArray?.forEach((item) => {
               (item as Element).classList.remove("open");

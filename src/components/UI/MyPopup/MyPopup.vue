@@ -1,5 +1,5 @@
 <template>
-  <div class="popup" ref="popup">
+  <div ref="popup" class="popup">
     <div v-if="popup.value" class="popup__wrapper">
       <MyAlert
         v-if="type === 'alert'"
@@ -22,12 +22,21 @@ import MyAlert from "./MyAlert/MyAlert.vue";
 import { ref, Ref } from "vue";
 
 export default {
-  props: {
-    type: String,
-    title: String,
-    description: String,
-  },
   components: { MyAlert },
+  props: {
+    type: {
+      type: String,
+      required: true,
+    },
+    title: {
+      type: String,
+      required: true,
+    },
+    description: {
+      type: String,
+      required: true,
+    },
+  },
   setup() {
     const popup = ref({} as Ref<HTMLElement>);
 

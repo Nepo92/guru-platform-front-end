@@ -8,7 +8,9 @@
           @click="(e: MouseEvent) => closeMenu(e)"
         />
       </div>
-      <slot></slot>
+      <ul class="modal__content modal-content__list custom-scroll">
+        <slot :selectsArray="selectsArray" :activeTab="activeTab"></slot>
+      </ul>
       <div class="modal__footer modal-footer">
         <button
           type="button"
@@ -18,8 +20,8 @@
           {{ applyText }}
         </button>
         <button
-          type="button"
           v-if="hasCancel"
+          type="button"
           class="modal-footer__btn"
           @click="(e: MouseEvent) => cancel(e)"
         >
@@ -40,7 +42,6 @@ import ModalUtils from "./ModalUtils/ModalUtils";
 
 // styles
 import "./MyModal.scss";
-import "@/assets/scss/grid.scss";
 
 const modalUtils = new ModalUtils();
 
@@ -64,6 +65,7 @@ export default defineComponent({
     },
     apply: {
       type: Function,
+      required: true,
     },
     hasCancel: {
       type: Boolean,
@@ -74,7 +76,10 @@ export default defineComponent({
       required: true,
     },
     settingsOject: Object,
+    selectsArray: Array,
+    activeTab: String,
   },
+  emits: ["create-modal"],
   setup(props, { emit }) {
     const modal = ref({} as Ref<HTMLElement>);
     const wrapper = ref({} as Ref<HTMLElement>);

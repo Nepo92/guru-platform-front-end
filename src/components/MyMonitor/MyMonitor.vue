@@ -17,7 +17,6 @@
         <MonitorWidgets :activeTab="activeTab" />
         <ManagerStat :activeTab="activeTab" :selectsArray="selectsArray" />
         <MyModal
-          @create-modal="createSettingsMenu"
           :title="monitorBackgroundProps.title"
           :hasCancel="monitorBackgroundProps.hasCancel"
           :apply="monitorBackgroundProps.apply"
@@ -25,6 +24,7 @@
           :applyText="monitorBackgroundProps.applyText"
           :cancel="monitorBackgroundProps.cancel"
           :nested="monitorBackgroundProps.nested"
+          @create-modal="createSettingsMenu"
         >
           <BackgroundSettings
             @create-background-settings="(e) => createBackgroundSettings(e)"
