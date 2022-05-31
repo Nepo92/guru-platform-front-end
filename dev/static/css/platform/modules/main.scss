@@ -4192,7 +4192,9 @@ s #editor {
 }
 
 .menu-input__wrapper_row {
+  display: flex;
   flex-direction: row;
+  align-items: center;
 }
 
 .course-setting__row {
@@ -5568,36 +5570,6 @@ span.error-wrapper {
   position: absolute;
   bottom: 0;
   left: 0;
-}
-
-label.error::after,
-.validate-error::after {
-  position: absolute;
-  top: -5px;
-  left: 16px;
-  content: "";
-  width: 12px;
-  height: 6px;
-  background: url("../../img/error-arrow.png") no-repeat center;
-  background-size: cover;
-  z-index: 101;
-}
-
-label.error,
-.validate-error {
-  width: max-content;
-  position: absolute;
-  left: 16px;
-  bottom: -40px;
-  font-size: 12px;
-  line-height: 16px;
-  color: #161718;
-  padding: 14px 14px 9px;
-  z-index: 100;
-  background: #fff;
-  border: 1px solid #c3c2c9;
-  box-sizing: border-box;
-  border-radius: 3px;
 }
 
 .action__controls {

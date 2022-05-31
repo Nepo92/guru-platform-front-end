@@ -191,6 +191,11 @@
 .archive {
   font-size: 12px;
   line-height: 12px;
+  margin-left: 20px;
+
+  &__label {
+    transform: translateY(10px);
+  }
 }
 
 .platform-modal__file-name {
@@ -207,4 +212,16 @@
 
 .course__start {
   display: inline-block;
+}
+
+.unit-icon {
+  &::after {
+    mask-size: auto 10px;
+  }
+}
+
+.tilda-item {
+  padding: 0;
+  max-width: 280px;
+  margin: 0;
 }

@@ -1,16 +1,3 @@
-// $(document).on('click', '.datepicker-here', function(event){
-//     $('.datepicker.active').find('[data-action="today"]').trigger('click');
-// });
-// $(document).on('click', '.datepicker-here-b', function(event){
-//     $('.datepicker.active').find('[data-action="today"]').trigger('click');
-// });
-// $(document).on('click', '.datepicker-here-deal', function(event){
-//     $('.datepicker.active').find('[data-action="today"]').trigger('click');
-// });
-// $(document).on('click', '.datepicker-here-cs', function(event){
-//     $('.datepicker.active').find('[data-action="today"]').trigger('click');
-// });
-
 $(document).ready(function () {
   var $mobileMenu = $("[js-mobile-menu]");
   var $openMobileMenu = $("[js-open-mobile-menu]");
@@ -75,20 +62,6 @@ $(document).ready(function () {
       $(this).text("+");
     }
   });
-
-  // const $settingSideBtn = $('.setting-said__btn');
-  // const $settingSideList = $('.setting-said__list');
-  // $settingSideBtn.on('click', function () {
-  //     $settingSideList.toggleClass('setting-said__list_hide');
-  // });
-  // $(function() {
-  //     $('.datepicker').mousedown(function() {
-  //         $('.datepicker--cell').click(function() {
-  //             $(this).parents('.datepicker').removeClass('active');
-  //             $(this).parents('.datepicker').removeAttr('style');
-  //         });
-  //     });
-  // });
 
   $("[js-copy-link]").on("click", function () {
     var $tmp = $("<textarea>");
@@ -173,8 +146,8 @@ function validateForm(form) {
       label.insertAfter(element);
     },
     wrapper: "span",
-    // ignore: ['input[name="idProduct"]', 'input[name="product"]', 'input[name="idClient"]', 'input[name="idManager"]']
   });
+
   $(form).rules("add", {
     messages: {
       required: "Заполните это поле.",

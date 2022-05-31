@@ -353,6 +353,7 @@
 
 .funnels-funnel__form {
   padding: 20px 25px;
+  height: calc(100vh - 150px);
 }
 
 .funnels-funnel__name {
@@ -997,4 +998,12 @@
 .outside-select {
   font-size: 12px;
   line-height: 12px;
+}
+
+.funnel-item {
+  padding: 0;
+
+  &:first-child {
+    margin-top: 0;
+  }
 }

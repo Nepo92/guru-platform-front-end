@@ -1860,10 +1860,7 @@
               class="menu-header__close-btn menu-header__close-btn_absolute funnels-funnel__close"></div>
           </div>
           <form js-funnel-form class="funnels-funnel__form custom-scroll">
-            <p class="funnels-funnel__name">Название</p>
-            <input autocomplete="off" js-funnel-name
-              class="menu-input__input menu-input__input_small funnels-funnel__input" type="text" name="funnelName"
-              placeholder="Введите название воронки">
+
           </form>
           <div class="funnels-funnel__control">
             <span save-funnel class="funnels-control__btn funnels-funnel__save">Добавить</span>
@@ -4808,11 +4805,19 @@
                             </div>
                             <div class="menu-input menu-input_block-menu menu-input_f50">
                               <div class="menu-input__title">Стоимость *</div>
-                              <div class="menu-input__wrapper menu-input__wrapper_sum">
+                              <div class="menu-input__wrapper menu-input__wrapper_sum unit-icon">
                                 <input name="price"
-                                  class="menu-input__input menu-input__input_small  menu-input__transparent"
+                                  class="menu-input__input menu-input__input_small menu-input__transparent"
                                   placeholder="Введите стоимость" required="">
                               </div>
+                            </div>
+                          </div>
+                          <div class="menu-input menu-input_block-menu menu-input_f50 tilda-item">
+                            <p class="menu-input__title">Id на Тильда</p>
+                            <div class="menu-input__wrapper">
+                              <input id-tilda type="text"
+                                class="menu-input__input menu-input__input_small menu-input__transparent"
+                                placeholder="Введите номер товара с сервиса Тильды">
                             </div>
                           </div>
                         </div>
@@ -4960,6 +4965,7 @@
                               </div>
                             </div>
                           </div>
+
                           <div
                             class="menu-input__wrapper menu-input__wrapper_row menu-input__wrapper_wrap course-setting__row">
                             <div class="menu-input menu-input_block-menu course-setting__input">
@@ -4972,20 +4978,30 @@
                             </div>
                             <div class="menu-input menu-input_block-menu menu-input_f50">
                               <div class="menu-input__title">Стоимость *</div>
-                              <div class="menu-input__wrapper menu-input__wrapper_sum">
+                              <div class="menu-input__wrapper menu-input__wrapper_sum unit-icon">
                                 <input up-course-price name="price"
                                   class="menu-input__input menu-input__input_small menu-input__transparent"
                                   placeholder="Введите стоимость" required>
                               </div>
                             </div>
                           </div>
-                          <div
-                            class="menu-input__wrapper menu-input__wrapper_row menu-input__wrapper_wrap course-setting__row archive">
-                            <input type="checkbox" class="platform__checkbox" id="archive" name="archive">
-                            <label for="archive" class="platform-checkbox__label">
-                              <span class="platform__checkbox--fake"></span>
-                              <span class="ml_10">В архиве</span>
-                            </label>
+                          <div class="menu-input__wrapper_row">
+                            <div class="menu-input menu-input_block-menu menu-input_f50 tilda-item">
+                              <p class="menu-input__title">Id на Тильда</p>
+                              <div class="menu-input__wrapper">
+                                <input id-tilda type="text"
+                                  class="menu-input__input menu-input__input_small menu-input__transparent"
+                                  placeholder="Введите номер товара с сервиса Тильды">
+                              </div>
+                            </div>
+                            <div
+                              class="menu-input__wrapper menu-input__wrapper_row menu-input__wrapper_wrap course-setting__row archive">
+                              <input type="checkbox" class="platform__checkbox" id="archive" name="archive">
+                              <label for="archive" class="platform-checkbox__label archive__label">
+                                <span class="platform__checkbox--fake"></span>
+                                <span class="ml_10">В архиве</span>
+                              </label>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -4995,7 +5011,6 @@
                       <div class="menu-block__side tariff">
                         <div class="menu-block__title">Тарифы</div>
                         <div tariffs-list class="menu-block__content tariff__wrapper">
-
                         </div>
                       </div>
                     </div>
@@ -5635,6 +5650,14 @@
               </div>
             </div>
 
+            <div class="menu-input menu-input_xsmall">
+              <p class="menu-input__title">Id на Тильда</p>
+              <div class="menu-input__wrapper">
+                <input id-tilda type="text" class="menu-input__input menu-input__input_small menu-input__transparent"
+                  placeholder="Введите номер товара с сервиса Тильды">
+              </div>
+            </div>
+
             <div class="menu-input__delim menu-tariff__delim"></div>
           </div>
 
@@ -5674,6 +5697,14 @@
               <div class="menu-input__wrapper">
                 <input tariff-coast name="coast" class="menu-input__input menu-input__input_small"
                   placeholder="Введите стоимость тарифа" required />
+              </div>
+            </div>
+
+            <div class="menu-input menu-input_xsmall">
+              <p class="menu-input__title">Id на Тильда</p>
+              <div class="menu-input__wrapper">
+                <input id-tilda type="text" class="menu-input__input menu-input__input_small menu-input__transparent"
+                  placeholder="Введите номер товара с сервиса Тильды">
               </div>
             </div>
 

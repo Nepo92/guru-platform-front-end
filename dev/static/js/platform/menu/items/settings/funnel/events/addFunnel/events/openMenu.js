@@ -1,18 +1,20 @@
-import Utils from '../../../../../../../utils/utils.js';
-import SaveFunnel from './saveFunnel.js';
+import Utils from "../../../../../../../utils/utils.js";
+import SaveFunnel from "./saveFunnel.js";
+import FunnelTemplates from "../../../templates/funnelTemplates.js";
 
 const utils = new Utils();
 const saveFunnel = new SaveFunnel();
+const funnelTemplates = new FunnelTemplates();
 
 class OpenMenu {
   init(props) {
-    const addBtn = document.querySelector('[js-funnels-add]');
+    const addBtn = document.querySelector("[js-funnels-add]");
 
     if (addBtn) {
       const openAddMenu = this.openAddMenu.bind(this, props);
 
       const add = utils.setCloneElement(addBtn);
-      add.addEventListener('click', openAddMenu);
+      add.addEventListener("click", openAddMenu);
     }
   }
 
@@ -20,6 +22,7 @@ class OpenMenu {
     const { menu } = props;
 
     this.clearFunnelMenu(props);
+
     utils.openModalAnimation(menu, true);
 
     const items = [saveFunnel];
@@ -33,8 +36,13 @@ class OpenMenu {
   clearFunnelMenu(props) {
     const { menu } = props;
 
-    const name = menu.querySelector('[js-funnel-name]');
-    name.value = '';
+    const form = menu.querySelector("[js-funnel-form]");
+
+    if (form) {
+      Array.from(form.children).forEach((item) => item.remove());
+
+      form.insertAdjacentHTML("afterbegin", funnelTemplates.addFunnelMenu());
+    }
   }
 }
 
