@@ -36,13 +36,17 @@
 
 .homework-comments__item {
   position: relative;
-  margin-left: auto;
   display: flex;
   justify-content: flex-start;
   margin-top: 20px;
+  margin-left: 0;
+
+  &.client {
+    margin-left: 0;
+  }
 
   &.admin {
-    margin-left: 0;
+    margin-left: auto;
   }
 
   &.textarea {
@@ -89,6 +93,7 @@
   display: inherit;
   transition: all 0.2s linear;
   color: black;
+  text-align: left;
 }
 
 .homework-table__link:hover {
@@ -138,6 +143,12 @@
   max-width: 110px;
   padding-right: 5px;
   padding-left: 5px;
+}
+
+.homework-table__course-type {
+  width: 130px;
+  margin-top: 5px;
+  text-align: left;
 }
 
 .homework-table__row--header .homework-table__column:nth-child(10) {
@@ -218,6 +229,7 @@
 .homework-comments__item--admin {
   flex-flow: column;
   align-items: flex-end;
+  margin-left: auto;
 }
 
 .comments-item__wrapper {
