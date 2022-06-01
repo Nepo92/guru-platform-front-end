@@ -12,13 +12,8 @@
 </template>
 
 <script lang="ts">
-// styles
 import "./MyPopup.scss";
-
-// components
 import MyAlert from "./MyAlert/MyAlert.vue";
-
-// vue
 import { ref, Ref } from "vue";
 
 export default {

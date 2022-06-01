@@ -1,0 +1,47 @@
+.audiuence {
+  &__item {
+    display: grid;
+    grid-template-columns: 0 100px 1fr;
+    height: 40px;
+    padding: 0 15px;
+    border-bottom: 1px solid $manager-row-border;
+
+    &:not(:first-child) {
+      border-right: 1px solid $manager-row-border;
+      border-left: 1px solid $manager-row-border;
+    }
+  }
+}
+
+.audiuence-item {
+  &__label {
+    display: grid;
+    align-content: center;
+    justify-content: space-around;
+    grid-template-columns: 0.7fr 0.3fr;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  &__name {
+    display: inline-block;
+    font-size: 12px;
+    line-height: 14px;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    margin: 0 15px;
+    text-overflow: ellipsis;
+  }
+
+  &__link {
+    display: inline-block;
+    font-size: 12px;
+    line-height: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    margin: 0 15px;
+    text-overflow: ellipsis;
+    text-align: center;
+  }
+}

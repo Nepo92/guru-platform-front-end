@@ -12,7 +12,6 @@
 </template>
 
 <script lang="ts">
-// vue
 import { defineComponent } from "@vue/runtime-core";
 import { onMounted, ref } from "vue";
 

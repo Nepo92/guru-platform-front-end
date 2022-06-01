@@ -33,6 +33,10 @@
     &.open {
       right: 0;
     }
+
+    &.large {
+      width: calc(100vw - 70px);
+    }
   }
 
   &__header {

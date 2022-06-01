@@ -1,52 +1,54 @@
 import { Ref } from "vue";
+import { iFunnelVisible } from "@/components/Platform/interfacesPlatform/interfacesPlatform";
 
 export interface iAnalyticRowProperties {
-  sum: number;
-  sums: Array<number>;
+	sum: number;
+	sums: Array<number>;
 }
 
 export interface iAnalyticRowManagersProperties {
-  sum: number;
-  sums: Array<number>;
-  [key: number]: iAnalyticRowProperties;
+	sum: number;
+	sums: Array<number>;
+	[key: number]: iAnalyticRowProperties;
 }
 
 export interface iMetricColor {
-  green: number;
-  yellow: number;
-  red: number;
+	green: number;
+	yellow: number;
+	red: number;
 }
 
 export interface iAnalyticRow {
-  name: string;
-  main: iAnalyticRowProperties;
-  managers: iAnalyticRowManagersProperties;
-  units: string;
-  visible?: boolean;
-  colors?: iMetricColor;
+	name: string;
+	main: iAnalyticRowProperties;
+	managers: iAnalyticRowManagersProperties;
+	units: string;
+	visible?: boolean;
+	colors?: iMetricColor;
 }
 
 export interface iCurrentAnalytic {
-  tabs: string;
-  items: Array<iAnalyticRow>;
+	tabs: string;
+	items: Array<iAnalyticRow>;
 }
 
 export interface iCurrentProps {
-  searchRow: Ref<string>;
-  rows: Array<iCurrentAnalytic>;
-  activeTab: string;
-  colors: iAnalyticColors;
+	searchRow: Ref<string>;
+	rows: Array<iCurrentAnalytic>;
+	activeTab: string;
+	colors: iAnalyticColors;
+	visibleSettings: iFunnelVisible;
 }
 
 export interface iAnalyticColors {
-  kpdColor: iMetricColor;
-  ratingColor: iMetricColor;
+	kpdColor: iMetricColor;
+	ratingColor: iMetricColor;
 }
 
 export interface iGetPeriodItemsProps {
-  currentRows: Ref<Array<iAnalyticRow>>;
-  start: number;
-  periodSeparate: number;
-  months: Array<string>;
-  periodLength?: number;
+	currentRows: Ref<Array<iAnalyticRow>>;
+	start: number;
+	periodSeparate: number;
+	months: Array<string>;
+	periodLength?: number;
 }

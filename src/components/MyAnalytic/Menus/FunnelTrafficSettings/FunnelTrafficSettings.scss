@@ -38,10 +38,6 @@
   &.open {
     cursor: default;
 
-    .collapse__body {
-      max-height: max-content;
-    }
-
     .collapse-icon {
       pointer-events: all;
 
@@ -55,5 +51,19 @@
 .funnel-settings {
   &__title {
     margin-top: 25px;
+  }
+}
+
+.modal-content {
+  &__item {
+    &.color-settings {
+      margin-top: 25px;
+    }
+
+    &.select {
+      .select__wrapper {
+        margin-top: 5px;
+      }
+    }
   }
 }

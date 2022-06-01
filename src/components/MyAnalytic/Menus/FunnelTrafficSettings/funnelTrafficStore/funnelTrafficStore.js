@@ -13,7 +13,12 @@ export const funnelTrafficStore = defineStore("funnelTrafficStore", {
 					items: [
 						getTemplateSelect({
 							name: "Тип",
-							nameEng: "periodType",
+							nameEng: [
+								{
+									tabs: ["Трафик"],
+									name: "periodType",
+								},
+							],
 							selected: filterData?.periodType,
 							options: [
 								{
@@ -38,12 +43,12 @@ export const funnelTrafficStore = defineStore("funnelTrafficStore", {
 								{
 									name: "Выручка общая",
 									value: filterData?.visableSetting.blockProceed,
-									nameEng: "_visableSetting.blockProceed",
+									nameEng: "visableSetting.blockProceed",
 								},
 								{
 									name: "Расходы на рекламу",
 									value: filterData?.visableSetting.blockAdvertisingExpenses,
-									nameEng: "_visableSetting.blockAdvertisingExpenses",
+									nameEng: "visableSetting.blockAdvertisingExpenses",
 								},
 								{
 									name: "Выручка общая - Расходы на рекламу",
@@ -223,7 +228,7 @@ export const funnelTrafficStore = defineStore("funnelTrafficStore", {
 								{
 									name: "CV из целевой заявки в оплату по ДО",
 									value: filterData?.visableSetting.blockApplicationToClientDO,
-									nameEng: "_visableSetting.blockApplicationToClientDO",
+									nameEng: "visableSetting.blockApplicationToClientDO",
 								},
 							],
 						},

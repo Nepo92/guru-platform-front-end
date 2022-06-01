@@ -99,17 +99,10 @@
 </template>
 
 <script lang="ts">
-// styles
 import "./MyMenu.scss";
-
-// store
 import { platformStore } from "@/store/platformStore";
-
-// vue
 import { reactive, onMounted, ref, computed } from "vue";
 import { useRoute } from "vue-router";
-
-// interfaces
 import { iMenuItem, iHoverProps } from "./interfacesMenu/interfacesMenu";
 
 export default {

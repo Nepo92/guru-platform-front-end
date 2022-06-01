@@ -1,21 +1,27 @@
 <template>
   <div ref="modal" class="modal">
-    <div ref="wrapper" class="modal__wrapper">
+    <div
+      ref="wrapper"
+      class="modal__wrapper"
+      :class="size === 'large' ? 'large' : ''"
+    >
       <div class="modal__header modal-header">
         <h2 class="modal-header__title">{{ title }}</h2>
-        <span
-          class="modal-header__close"
-          @click="(e: MouseEvent) => closeMenu(e)"
-        />
+        <span class="modal-header__close" @click="(e) => closeMenu(e)" />
       </div>
       <ul class="modal__content modal-content__list custom-scroll">
-        <slot :selectsArray="selectsArray" :activeTab="activeTab"></slot>
+        <slot
+          :activeTab="activeTab"
+          :selectsArray="selectsArray"
+          :slotData="slotData"
+        ></slot>
       </ul>
       <div class="modal__footer modal-footer">
         <button
+          v-if="hasApply"
           type="button"
           class="modal-footer__btn"
-          @click="(e: MouseEvent) => apply ? apply(e) : settingsOject?.apply(e)"
+          @click="() => apply()"
         >
           {{ applyText }}
         </button>
@@ -23,7 +29,7 @@
           v-if="hasCancel"
           type="button"
           class="modal-footer__btn"
-          @click="(e: MouseEvent) => cancel(e)"
+          @click="(e) => cancel(e)"
         >
           {{ cancelText }}
         </button>
@@ -33,14 +39,9 @@
 </template>
 
 <script lang="ts">
-// vue
 import { defineComponent } from "@vue/runtime-core";
-import { ref, onMounted, Ref } from "vue";
-
-// utils
+import { ref, Ref, onMounted } from "vue";
 import ModalUtils from "./ModalUtils/ModalUtils";
-
-// styles
 import "./MyModal.scss";
 
 const modalUtils = new ModalUtils();
@@ -75,9 +76,24 @@ export default defineComponent({
       type: Boolean,
       required: true,
     },
-    settingsOject: Object,
+    hasApply: {
+      type: Boolean,
+      required: true,
+    },
+    size: {
+      type: String,
+      required: true,
+    },
+    modalSideEffect: {
+      type: Function,
+    },
+    hasSideEffect: {
+      type: Boolean,
+      required: false,
+    },
     selectsArray: Array,
     activeTab: String,
+    slotData: Object,
   },
   emits: ["create-modal"],
   setup(props, { emit }) {
@@ -86,18 +102,25 @@ export default defineComponent({
 
     const closeMenu = (e: MouseEvent) => {
       const closeModalProps = {
-        modal: modal,
-        wrapper: wrapper,
+        modal,
+        wrapper,
         isOverflowed: props.nested,
       };
 
       modalUtils.closeMenu(closeModalProps);
+
+      if (props.hasSideEffect) {
+        if (props.modalSideEffect) {
+          props.modalSideEffect();
+        }
+      }
     };
 
     onMounted(() => {
       emit("create-modal", {
         modal: modal,
         wrapper: wrapper,
+        slotData: props.slotData,
       });
     });
 

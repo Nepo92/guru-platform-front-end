@@ -10,11 +10,13 @@ class AnalyticTableUtils {
 	periodLength: number;
 
 	getCurrentRows(props: iCurrentProps) {
-		const { rows, activeTab, searchRow, colors } = props;
-		const current = rows.find((el) => el.tabs?.includes(activeTab))?.items;
+		const { rows, activeTab, searchRow, colors, visibleSettings } = props;
+
+		const current = rows.find((el) => el.tabs === activeTab)?.items;
 
 		if (current) {
 			const currentVisible = current.filter((el) => el.visible && el.visible !== undefined);
+
 			const currentData = currentVisible.length
 				? currentVisible
 				: current.filter((el) => el.visible === undefined);

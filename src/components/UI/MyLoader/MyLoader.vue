@@ -11,10 +11,7 @@
 </template>
 
 <script lang="ts">
-// styles
 import "./MyLoader.scss";
-
-// vue
 import { defineComponent, ref, onMounted, Ref } from "vue";
 
 export default defineComponent({

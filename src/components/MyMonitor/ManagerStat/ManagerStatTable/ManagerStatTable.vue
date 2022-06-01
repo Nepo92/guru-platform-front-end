@@ -56,7 +56,19 @@
       <div
         class="order-wrapper"
         :class="[
-          item.bill?.type,
+          item.bill?.type == 11
+            ? 'eleven'
+            : item.bill?.type == 12
+            ? 'twelve'
+            : item.bill?.type == 13
+            ? 'thirteen'
+            : item.bill?.type == 14
+            ? 'fourteen'
+            : item.bill?.type == 15
+            ? 'fiveteen'
+            : item.bill?.type === 'default'
+            ? 'default'
+            : '',
           { tooltip: item.bill?.value > 1000 || item.bill?.plan > 1000 },
         ]"
       >
@@ -85,7 +97,19 @@
       <div
         class="payment-wrapper"
         :class="[
-          item.sale?.type,
+          item.sale?.type == 11
+            ? 'eleven'
+            : item.sale?.type == 12
+            ? 'twelve'
+            : item.sale?.type == 13
+            ? 'thirteen'
+            : item.sale?.type == 14
+            ? 'fourteen'
+            : item.sale?.type == 15
+            ? 'fiveteen'
+            : item.bill?.type === 'default'
+            ? 'default'
+            : '',
           { tooltip: item.sale?.value > 1000 || item.sale?.plan > 1000 },
         ]"
       >
@@ -110,7 +134,24 @@
       {{ item.sale?.percent + " %" }}
     </div>
     <div class="monitor-stat__revenue revenue">
-      <div class="revenue-wrapper" :class="item.proceed?.type">
+      <div
+        class="revenue-wrapper"
+        :class="
+          item.proceed?.type == 11
+            ? 'eleven'
+            : item.proceed?.type == 12
+            ? 'twelve'
+            : item.proceed?.type == 13
+            ? 'thirteen'
+            : item.proceed?.type == 14
+            ? 'fourteen'
+            : item.proceed?.type == 15
+            ? 'fiveteen'
+            : item.bill?.type === 'default'
+            ? 'default'
+            : ''
+        "
+      >
         <span class="revenue-wrapper__value">
           {{
             (item.proceed?.value?.toLocaleString("ru-RU") || 0) + " ₽" || "0 ₽"
@@ -147,7 +188,24 @@
       <div v-else>Нет</div>
     </div>
     <div class="monitor-stat__deviation deviation">
-      <div class="deviation-wrapper" :class="item.deviation?.type">
+      <div
+        class="deviation-wrapper"
+        :class="
+          item.deviation?.type == 11
+            ? 'eleven'
+            : item.deviation?.type == 12
+            ? 'twelve'
+            : item.deviation?.type == 13
+            ? 'thirteen'
+            : item.deviation?.type == 14
+            ? 'fourteen'
+            : item.deviation?.type == 15
+            ? 'fiveteen'
+            : item.bill?.type === 'default'
+            ? 'default'
+            : ''
+        "
+      >
         <div v-if="item.deviation?.message.match('[-+]?[0-9]*')">
           {{
             (item.deviation.plan?.toLocaleString("ru-RU") || 0) + " ₽" || "0 ₽"
@@ -167,13 +225,8 @@
 </template>
 
 <script lang="ts">
-// styles
 import "./ManagerStatTable.scss";
-
-// utils
 import ImageUtils from "@/utils/ImageUtils/ImageUtils";
-
-// vue
 import { ref, onMounted, defineComponent } from "vue";
 
 const imageUtils = new ImageUtils();

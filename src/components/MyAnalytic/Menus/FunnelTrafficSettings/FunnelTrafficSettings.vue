@@ -1,7 +1,7 @@
 <template>
-  <li class="modal-content__item">
+  <li class="modal-content__item select">
     <p class="modal-content__name">Тип</p>
-    <div>
+    <div class="select__wrapper">
       <MySelect
         :activeTab="activeTab"
         :selectItem="selectItem"
@@ -9,7 +9,7 @@
       />
     </div>
   </li>
-  <li class="modal-content__item">
+  <li class="modal-content__item color-settings">
     <ul>
       <FunnelColorSettings />
     </ul>
@@ -21,6 +21,7 @@
     <ul>
       <li
         class="modal-content__item collapse"
+        :data-index="index"
         @click.self="(e) => openCollapse(e)"
       >
         <p
@@ -29,7 +30,7 @@
         >
           {{ collapse.name }}
         </p>
-        <ul class="collapse__body">
+        <ul ref="collapseBody" class="collapse__body" :data-index="index">
           <li
             v-for="(checkbox, count) of collapse.items"
             :key="count"
@@ -59,51 +60,96 @@
 </template>
 
 <script lang="ts">
-// styles
 import "./FunnelTrafficSettings.scss";
 import "@/components/UI/MyCheckbox/MyCheckbox.scss";
-
-// components
 import FunnelColorSettings from "../FunnelColorSettings/FunnelColorSettings.vue";
 import { defineComponent } from "@vue/runtime-core";
-
-// vue
-import { onMounted, ref, reactive } from "vue";
-
-// store
+import MySelect from "@/components/UI/MySelect/MySelect.vue";
+import { onMounted, ref, reactive, Ref } from "vue";
 import { funnelTrafficStore } from "./funnelTrafficStore/funnelTrafficStore";
-
-// interfaces
 import { iMySelect } from "@/components/UI/MySelect/interfacesMySelect/interfacesMySelect";
 
 export default defineComponent({
   components: {
     FunnelColorSettings,
+    MySelect,
   },
   props: {
-    selectsArray: Array,
-    activeTab: String,
+    activeTab: {
+      type: String,
+      required: true,
+    },
+    selectsArray: {
+      type: Array,
+      required: true,
+    },
   },
-  emits: ["create-funnel-traffic-settings"],
+  emits: ["create-slot"],
   setup(props, { emit }) {
     let filterSettings = ref({} as HTMLFormElement);
     let selectItem = reactive({} as iMySelect);
+    let collapseBody = ref({} as Ref<Array<HTMLElement>>);
+    let visibleCheck = ref({} as Ref<Array<HTMLElement>>);
 
     const store = funnelTrafficStore();
     const { menu } = store;
 
     onMounted(() => {
-      emit("create-funnel-traffic-settings", filterSettings.value);
+      emit("create-slot", visibleCheck);
     });
 
     const collapseItems = menu.find((el) => el.type === "collapse")?.items;
 
     selectItem = <iMySelect>menu.find((el) => el.type === "select")?.items[0];
 
+    const calculateMaxHeight = (t: HTMLElement) => {
+      const currentBody = <HTMLElement>(
+        collapseBody.value.find(
+          (el) =>
+            el.getAttribute("data-index") ===
+            (t as Element).getAttribute("data-index")
+        )
+      );
+
+      let maxHeight: string;
+
+      if (currentBody) {
+        if ((t as Element).classList.contains("open")) {
+          maxHeight =
+            (
+              Array.from(currentBody.children) as Array<
+                number | Element | undefined
+              >
+            ).reduce((first, second) => {
+              if (typeof first !== "number" && second) {
+                return (
+                  (first as HTMLElement).offsetHeight +
+                  15 +
+                  (second as HTMLElement).offsetHeight +
+                  15
+                );
+              } else if (typeof first === "number" && second) {
+                return first + (second as HTMLElement).offsetHeight + 15;
+              } else if (typeof first === "number" && !second) {
+                return first;
+              } else if (typeof first !== "number" && !second) {
+                return (first as HTMLElement).offsetHeight + 15;
+              }
+            }) + "px";
+        } else {
+          maxHeight = 0 + "px";
+        }
+
+        currentBody.style.maxHeight = maxHeight;
+      }
+    };
+
     const openCollapse = (e: MouseEvent) => {
       const t = e.target;
 
       (t as Element).classList.toggle("open");
+
+      calculateMaxHeight(t as HTMLElement);
     };
 
     const closeCollapse = (e: MouseEvent) => {
@@ -112,6 +158,8 @@ export default defineComponent({
       const parent = (t as HTMLElement).parentNode;
 
       (parent as Element).classList.toggle("open");
+
+      calculateMaxHeight(parent as HTMLElement);
     };
 
     return {
@@ -120,6 +168,8 @@ export default defineComponent({
       collapseItems,
       openCollapse,
       closeCollapse,
+      collapseBody,
+      visibleCheck,
     };
   },
 });

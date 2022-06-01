@@ -90,15 +90,10 @@
 </template>
 
 <script lang="ts">
-// styles
 import "@/assets/scss/tooltip.scss";
 import { defineComponent } from "@vue/runtime-core";
 import "./MonitorWidgets.scss";
-
-// store
 import { monitorWidgets } from "./monitorWidgetsStore/monitorWidgetsStore";
-
-// interfaces
 import { iMonitorWidget } from "./interfacesMonitorWidgets/interfacesMonitorWidgets";
 
 const store = monitorWidgets();

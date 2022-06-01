@@ -9,10 +9,7 @@
 </template>
 
 <script lang="ts">
-// styles
 import "./FilterBtn.scss";
-
-// store
 import { filterStore } from "../filterStore/filterStore";
 import { defineComponent } from "@vue/runtime-core";
 

@@ -36,31 +36,18 @@
 </template>
 
 <script lang="ts">
-// styles
 import "./ManagerStat.scss";
-
-// store
 import { statMonitor } from "./managerStatStore/managerStatStore";
-
-// utils
 import LoaderUtils from "@/components/UI/MyLoader/LoaderUtils/LoaderUtils";
-
-// components
 import ManagerStatTable from "./ManagerStatTable/ManagerStatTable.vue";
 import MySelect from "@/components/UI/MySelect/MySelect.vue";
-
-// vue
 import { defineComponent } from "@vue/runtime-core";
 import { InputHTMLAttributes, Ref, reactive } from "vue";
 import { useRoute } from "vue-router";
-
-// interfaces
 import {
   iMySelect,
   iSelectOption,
 } from "@/components/UI/MySelect/interfacesMySelect/interfacesMySelect";
-
-// api
 import { filterAPI } from "@/api/api";
 
 const store = statMonitor();

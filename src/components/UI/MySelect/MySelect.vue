@@ -32,13 +32,8 @@
 </template>
 
 <script lang="ts">
-// styles
 import "./MySelect.scss";
-
-// vue
 import { defineComponent, ref, onMounted, Ref, reactive } from "vue";
-
-// interfaces
 import {
   iMySelect,
   iNameFilterItem,

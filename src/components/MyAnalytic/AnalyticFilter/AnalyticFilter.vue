@@ -34,52 +34,76 @@
         :active-tab="activeTab"
         @create-filter-modal="createFilterModal"
         @side-effect-after-change="selectSideEffect"
+        @input-side-effect="inputSideEffect"
       />
       <MyLoader @create-loader="createLoader" />
+      <MyModal
+        v-slot="slotProps"
+        :title="audienceList.title"
+        :hasCancel="audienceList.hasCancel"
+        :cancelText="audienceList.cancelText"
+        :hasApply="audienceList.hasApply"
+        :applyText="audienceList.applyText"
+        :cancel="() => false"
+        :nested="false"
+        :apply="audienceList.apply"
+        :activeTab="activeTab"
+        :selectsArray="selectsArray"
+        :size="audienceList.size"
+        :slotData="slotData"
+        :hasSideEffect="audienceList.hasSideEffect"
+        :modalSideEffect="modalSideEffect"
+        @create-modal="createAudienceList"
+      >
+        <AudienceList
+          :activeTab="slotProps.activeTab"
+          :selectsArray="slotProps.selectsArray"
+          :slotData="slotProps.slotData"
+          @slot-side-effect="slotSideEffect"
+        />
+      </MyModal>
     </form>
   </div>
 </template>
 
 <script lang="ts">
-// styles
 import "./AnalyticFilter.scss";
 import "air-datepicker/air-datepicker.css";
-
-// utils
 import LoaderUtils from "@/components/UI/MyLoader/LoaderUtils/LoaderUtils";
 import DateUtils from "@/utils/DateUtils/DateUtils";
 import ModalUtils from "@/components/Platform/MyModal/ModalUtils/ModalUtils";
 import SelectUtils from "@/components/UI/MySelect/SelectUtils/SelectUtils";
-
-//plugins
 import AirDatepicker from "air-datepicker";
-
-// api
 import { filterAPI, dealAPI } from "@/api/api";
-
-// components
 import MyLoader from "@/components/UI/MyLoader/MyLoader.vue";
 import FilterBtn from "@/components/Platform/MyFilter/FilterBtn/FilterBtn.vue";
 import MyFilter from "@/components/Platform/MyFilter/MyFilter.vue";
 import MySelect from "@/components/UI/MySelect/MySelect.vue";
-import { defineComponent } from "@vue/runtime-core";
-
-// vue
-import { Ref, onMounted, ref, InputHTMLAttributes, reactive, watch } from "vue";
+import { defineComponent, watch } from "@vue/runtime-core";
+import { Ref, onMounted, ref, InputHTMLAttributes, reactive } from "vue";
 import { iCreateModal } from "@/components/Platform/MyModal/interfacesMyModal/interfacesMyModal";
 import { useRoute } from "vue-router";
-
-// store
 import { analyticStore } from "@/components/MyAnalytic/analyticStore/analyticStore";
-
-// interfaces
 import { iFilterColumnItem } from "@/components/Platform/MyFilter/interfacesMyFilter/interfacesMyFilter";
 import { iEmitSideEffectProps } from "@/components/UI/MySelect/interfacesMySelect/interfacesMySelect";
+import ChangeDealType from "./AnalyticFilterUtils/ChangeDealType/ChangeDealType";
+import ChangePlatform from "./AnalyticFilterUtils/ChangePlatform/ChangePlatform";
+import ChangeAdvertiserCabinet from "./AnalyticFilterUtils/ChangeAdvertiserCabinet/ChangeAdvertiserCabinet";
+import AudienceList from "../Menus/AudienceList/AudienceList.vue";
+import MyModal from "@/components/Platform/MyModal/MyModal.vue";
+import ChangeSource from "./AnalyticFilterUtils/ChangeSource/ChangeSource";
+import { iMySelect } from "@/components/UI/MySelect/interfacesMySelect/interfacesMySelect";
+import { monitorAPI } from "@/api/api";
+import { iMyInput } from "@/components/UI/MyInput/interfacesMyInput/interfacesMyInput";
 
 const loaderUtils = new LoaderUtils();
 const dateUtils = new DateUtils();
 const modalUtils = new ModalUtils();
 const selectUtils = new SelectUtils();
+const changeDealType = new ChangeDealType();
+const changePlatform = new ChangePlatform();
+const changeAdvertiserCabinet = new ChangeAdvertiserCabinet();
+const changeSource = new ChangeSource();
 
 export default defineComponent({
   components: {
@@ -87,6 +111,8 @@ export default defineComponent({
     FilterBtn,
     MyFilter,
     MySelect,
+    AudienceList,
+    MyModal,
   },
   props: {
     title: {
@@ -114,14 +140,20 @@ export default defineComponent({
   setup(props, { emit }) {
     const funnels = dealAPI.getFunnels();
 
+    let slotData = ref({});
     let loader = ref({} as Ref<HTMLElement>);
     let modal = ref({} as Ref<HTMLElement>);
     let wrapper = ref({} as Ref<HTMLElement>);
     let datepicker = ref([] as Array<HTMLElement>);
+    let activeTab = ref("" as string);
+    let modalAudience = ref({} as Ref<HTMLElement>);
+    let modalAudienceWrapper = ref({} as Ref<HTMLElement>);
+    let audiencesCheckboxs = ref({} as Ref<Array<Ref<HTMLElement>>>);
+
     const route = useRoute();
 
     const store = analyticStore();
-    const { filter, filterProps } = store;
+    const { filter, filterProps, audienceList } = store;
     let { datepickers } = store;
     const { startDate, endDate } = filter;
 
@@ -178,13 +210,14 @@ export default defineComponent({
         dateUtils.dateToServer((datepicker.value[1] as HTMLInputElement).value)
       );
 
-      const props = {
+      const changeFilterSortProps = {
         target: t,
         selectName: "",
         value: "",
+        activeTab: props.activeTab,
       };
 
-      changeFilterSort(formData, props);
+      changeFilterSort(formData, changeFilterSortProps);
     };
 
     const changeFilterSort = (
@@ -245,9 +278,10 @@ export default defineComponent({
             value: <null | number | string | boolean>el.selected,
             funnels,
             selectName: "Тип сделки",
+            activeTab: "",
           };
 
-          selectUtils.changeDealType(changeDealTypeProps);
+          changeDealType.changeDealType(changeDealTypeProps);
         }
       });
     });
@@ -261,9 +295,36 @@ export default defineComponent({
           value,
           funnels,
           selectName,
+          activeTab: props.activeTab,
         };
 
-        selectUtils.changeDealType(changeDealTypeProps);
+        changeDealType.changeDealType(changeDealTypeProps);
+      } else if (selectName === "Площадка") {
+        const changePlatformProps = {
+          columns: <Array<iFilterColumnItem>>columns,
+          value,
+          selectName,
+          activeTab,
+          loader,
+        };
+
+        changePlatform.changePlatform(changePlatformProps);
+      } else if (selectName === "Рекламный кабинет") {
+        const changeAdvCabinetProps = {
+          columns,
+          value,
+          activeTab,
+        };
+
+        changeAdvertiserCabinet.changeAdvertisingСabinet(changeAdvCabinetProps);
+      } else if (selectName === "Источники трафика") {
+        const changeSourceProps = {
+          columns,
+          value,
+          activeTab,
+        };
+
+        changeSource.changeSource(changeSourceProps);
       }
     };
 
@@ -295,9 +356,137 @@ export default defineComponent({
       };
 
       emit("set-filter-period-props", filterProps);
+
+      activeTab.value = props.activeTab;
     });
 
-    selectUtils.initSelectAfetComponentLoad(columns, filter);
+    selectUtils.initSelectAfterComponentLoad(columns, filter);
+
+    const createAudienceList = (props: iCreateModal) => {
+      modalAudience = props.modal;
+      modalAudienceWrapper = props.wrapper;
+    };
+
+    const inputSideEffect = (props: Ref<HTMLElement>) => {
+      let platformItem, channelItem, communityItem;
+
+      columns.forEach((item) => {
+        const advCabinet = item.items.find(
+          (el) => el.name === "Рекламный кабинет"
+        );
+        const platform = item.items.find((el) => el.name === "Площадка");
+        const channel = item.items.find(
+          (el) => el.name === "Источники трафика"
+        );
+        const community = item.items.find((el) => el.name === "Аудитории");
+
+        if (platform) {
+          platformItem = platform;
+        }
+
+        if (channel) {
+          channelItem = channel;
+        }
+
+        if (community) {
+          communityItem = community;
+        }
+      });
+
+      if (channelItem) {
+        const exception = ["all", "unknown"];
+
+        const isException = exception.includes(
+          (channelItem as iMySelect).selected as string
+        );
+
+        if (!isException && platformItem && channelItem && communityItem) {
+          const formData = new FormData();
+
+          const communityValue = `${(communityItem as iMyInput).value}`;
+
+          formData.set(
+            "platform",
+            (platformItem as iMySelect).selected as string
+          );
+          formData.set(
+            "channel",
+            (channelItem as iMySelect).selected as string
+          );
+          formData.set("community", `${(communityItem as iMyInput).value}`);
+
+          const getCommunities = monitorAPI.getCommunities(formData);
+
+          const showUtils = setTimeout(() => {
+            loaderUtils.showLoader(loader);
+          }, 400);
+
+          (props.value as Element).classList.add("no-active");
+
+          getCommunities.then(
+            (communitesData) => {
+              clearTimeout(showUtils);
+              loaderUtils.hideLoader(loader);
+
+              (props.value as Element).classList.remove("no-active");
+
+              slotData.value = {
+                communitesData,
+                value: communityValue,
+              };
+
+              const openAudienceProps = {
+                modal: modalAudience,
+                wrapper: modalAudienceWrapper,
+                isOverflowed: audienceList.nested,
+              };
+
+              modalUtils.openMenu(openAudienceProps);
+            },
+            () => {
+              clearTimeout(showUtils);
+              loaderUtils.hideLoader(loader);
+
+              (props.value as Element).classList.remove("no-active");
+            }
+          );
+        }
+      }
+    };
+
+    const slotSideEffect = (props: Ref<Array<Ref<HTMLElement>>>) => {
+      audiencesCheckboxs.value = props.value;
+    };
+
+    const modalSideEffect = () => {
+      let communityItem;
+
+      columns.forEach((item) => {
+        const community = item.items.find((el) => el.name === "Аудитории");
+
+        if (community) {
+          communityItem = community;
+        }
+      });
+
+      if (communityItem) {
+        if ((audiencesCheckboxs.value[0].value as HTMLInputElement).checked) {
+          (communityItem as iMyInput).value = (
+            audiencesCheckboxs.value[0].value as HTMLInputElement
+          ).value;
+        } else {
+          (communityItem as iMyInput).value = <Array<string>>[
+            ...audiencesCheckboxs.value
+              .map((item) => {
+                if ((item.value as HTMLInputElement).checked) {
+                  return (item.value as HTMLInputElement).value;
+                }
+              })
+              .filter((el) => el),
+          ];
+        }
+      }
+    };
 
     return {
       createLoader,
@@ -313,101 +502,15 @@ export default defineComponent({
       filterPeriod,
       datepicker,
       columns,
+      audienceList,
+      createAudienceList,
+      inputSideEffect,
+      changeDealType,
+      slotData,
+      slotSideEffect,
+      modalSideEffect,
     };
   },
 });
-
-// watch: {
-//   audienceMenu() {
-//     if (this.audienceMenu) {
-//       const openAudienceProps = {
-//         menu: this.audienceMenu.menu,
-//         wrapper: this.audienceMenu.wrapper,
-//       };
-
-//       menuUtils.openMenu(openAudienceProps);
-//     }
-//   },
-// },
-// created() {
-//   this.setPage(path);
-//   this.setFilterPropsColumns();
-
-//   this.filterProps = this.getFilterPropsAfterChange;
-// },
-// methods: {
-//   createFilterModal(props) {
-//     const { modal, wrapper } = props;
-//     this.filterModal = modal;
-//     this.filterModalWrapper = wrapper;
-//   },
-//   changeFilterDealType() {
-//     this.filterProps = this.getCurrentFunnels;
-//   },
-//   changeFilterSelect() {
-//     this.filterProps = this.getFilterPropsAfterChange;
-//   },
-//   async getSourceTraffic(props) {
-//     const formData = new FormData();
-
-//     formData.set("platform", props.selectedOption.value);
-
-//     const sources = await filterAPI.getSourceTraffic(formData);
-
-//     this.setSourceTraffic(sources);
-
-//     this.filterProps = this.getFilterPropsAfterChange;
-//   },
-//   createAudienceList(props) {
-//     this.audienceMenu = props.menuSettings;
-//   },
-//   changeSource() {
-//     this.fitlerProps = this.getFilterPropsAfterChange;
-//   },
-//   async openCommunitiesMenu() {
-//     const { filter } = this.filterProps;
-//     const { platform, channel, communites, community } = filter;
-
-//     const exception = ["all", "unknown"];
-
-//     if (!exception.includes(platform)) {
-//       const formData = new FormData();
-
-//       formData.set("platform", platform);
-//       formData.set("channel", channel);
-//       formData.set("community", community);
-//       formData.set("communites", communites);
-
-//       const communities = await filterAPI.getCommunities(formData);
-
-//       const audienceData = {
-//         communities,
-//         communitesFilter: communites,
-//         communityFilter: community,
-//       };
-
-//       this.communities = audienceData;
-//     }
-//   },
-// },
-
-// const unknownOptions = [
-//   {
-//     name: "Неизвестно",
-//     value: "unknown",
-//     title: "Неизвестно",
-//   },
-// ];
-
-// const options = [
-
-//   ...channelsData.map((el) => {
-//     return {
-//       name: el,
-//       value: el,
-//       title: el,
-//     };
-//   }),
-// ];
 </script>
 

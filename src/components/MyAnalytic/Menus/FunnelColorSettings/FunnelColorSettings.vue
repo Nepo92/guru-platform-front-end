@@ -153,10 +153,7 @@
 </template>
 
 <script lang="ts">
-// styles
 import "./FunnelColorSettings.scss";
-
-// store
 import { filterStore } from "@/components/Platform/MyFilter/filterStore/filterStore";
 import { defineComponent } from "@vue/runtime-core";
 

@@ -34,6 +34,10 @@
     display: inline-flex;
     align-items: center;
     cursor: pointer;
+
+    &.analytic-auditories {
+      justify-content: space-between;
+    }
   }
 
   &__text {

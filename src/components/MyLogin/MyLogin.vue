@@ -72,20 +72,11 @@
 </template>
 
 <script lang="ts">
-// styles
 import "./MyLogin.scss";
-
-// store
 import { loginStore } from "./loginStore/loginStore";
 import { mapActions, storeToRefs } from "pinia";
-
-// vue
 import { computed, reactive, Ref } from "vue";
-
-// utils
 import LoginUser from "./LoginUser/LoginUser";
-
-// components
 import MyCheckbox from "@/components/UI/MyCheckbox/MyCheckBox.vue";
 import MyLoader from "../UI/MyLoader/MyLoader.vue";
 import ValidateError from "../UI/ValidateError/ValidateError.vue";

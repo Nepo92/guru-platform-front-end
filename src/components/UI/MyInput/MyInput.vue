@@ -1,29 +1,51 @@
 <template>
-  <input type="text" :name="nameEng" @click="(e) => inputClick(e)" />
+  <input
+    ref="inputRef"
+    type="text"
+    placeholder="Аудитории"
+    class="input"
+    :value="inputItem.value"
+    :name="nameEng"
+    :title="inputItem.value.toString()"
+    @click="(e) => inputClick(e)"
+  />
 </template>
 
 <script lang="ts">
+import "./MyInput.scss";
 import { defineComponent } from "@vue/runtime-core";
+import { Ref, ref } from "vue";
+import { iNameFilterItem } from "../MySelect/interfacesMySelect/interfacesMySelect";
 
 export default defineComponent({
   props: {
-    props: Object,
+    inputItem: {
+      type: Object,
+      required: true,
+    },
+    activeTab: {
+      type: String,
+      required: true,
+    },
   },
-  emits: ["open-communities-menu"],
+  emits: ["input-side-effect"],
   setup(props, { emit }) {
-    // const nameEng = props.nameEng.find((el) => el.tabs.includes(path))?.name;
-
-    const nameEng = "";
+    let inputRef = ref({} as Ref<HTMLElement>);
 
     const inputClick = (e: MouseEvent) => {
-      // if (props.name === "Аудитории") {
-      // emit("open-communities-menu", e);
-      // }
+      if (props.inputItem.hasSideEffect) {
+        emit("input-side-effect", inputRef);
+      }
     };
 
+    const nameEng = (props.inputItem.nameEng as Array<iNameFilterItem>).find(
+      (el) => el.tabs.includes(props.activeTab)
+    )?.name;
+
     return {
-      nameEng,
       inputClick,
+      inputRef,
+      nameEng,
     };
   },
 });

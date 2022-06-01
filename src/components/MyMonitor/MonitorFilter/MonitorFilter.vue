@@ -30,31 +30,16 @@
 </template>
 
 <script lang="ts">
-// styles
 import "./MonitorFilter.scss";
-
-// components
 import MyFilter from "../../Platform/MyFilter/MyFilter.vue";
 import FilterBtn from "@/components/Platform/MyFilter/FilterBtn/FilterBtn.vue";
-
-// utils
 import ModalUtils from "@/components/Platform/MyModal/ModalUtils/ModalUtils";
 import LoaderUtils from "@/components/UI/MyLoader/LoaderUtils/LoaderUtils";
 import SelectUtils from "@/components/UI/MySelect/SelectUtils/SelectUtils";
-
-// api
 import { filterAPI } from "@/api/api";
-
-// store
 import { monitorFilter } from "./monitorFilterStore/monitorFilterStore";
-
-// interfaces
 import { iCreateModal } from "@/components/Platform/MyModal/interfacesMyModal/interfacesMyModal";
 import { iFilterPeriod } from "./interfacesMonitorFilter/interfacesMonitorFilter";
-import { iFilterColumnItem } from "@/components/Platform/MyFilter/interfacesMyFilter/interfacesMyFilter";
-import { iMySelect } from "@/components/UI/MySelect/interfacesMySelect/interfacesMySelect";
-
-// vue
 import { defineComponent } from "@vue/runtime-core";
 import MyLoader from "@/components/UI/MyLoader/MyLoader.vue";
 import { Ref, reactive } from "vue";

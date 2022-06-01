@@ -186,19 +186,10 @@
 </template>
 
 <script lang="ts">
-// styles
 import "./AnalyticTable.scss";
-
-// store
 import { analyticStore } from "../analyticStore/analyticStore";
-
-// vue
 import { defineComponent, InputHTMLAttributes, ref } from "vue";
-
-// utils
 import AnalyticTableUtils from "./AnalyticTableUtils/AnalyticTableUtils";
-
-// interfaces
 import {
   iAnalyticRow,
   iCurrentAnalytic,
@@ -235,11 +226,10 @@ export default defineComponent({
     let periodLength = ref(1);
     let start = ref(props.start);
     let periodSeparate = ref(props.periodSeparate);
-    let activeTab = ref("");
 
     const store = analyticStore();
 
-    const { analyticData, months } = store;
+    const { analyticData, months, filter } = store;
     const { rows, colors } = analyticData;
 
     const managersCounter = analyticData.managers.length;
@@ -247,8 +237,9 @@ export default defineComponent({
     const currentRowsProps = {
       searchRow,
       rows: rows as Array<iCurrentAnalytic>,
-      activeTab: activeTab.value,
+      activeTab: props.activeTab,
       colors,
+      visibleSettings: filter.visibleSettings,
     };
 
     currentRows.value = <Array<iAnalyticRow>>(
@@ -273,7 +264,6 @@ export default defineComponent({
       (t as HTMLElement).classList.toggle("open");
 
       const index = t.getAttribute("data-index");
-
       const currentIndex = index !== null ? +index : undefined;
 
       const currentList = managerList.value.find((el) => {
@@ -287,7 +277,6 @@ export default defineComponent({
           }
         }
       });
-
       const currentPeriod = managersPeriod.value.find((el) => {
         if (currentIndex !== undefined) {
           const currentPeriod = el.getAttribute("data-index");

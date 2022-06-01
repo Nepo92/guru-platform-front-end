@@ -35,7 +35,12 @@
                   :activeTab="activeTab"
                   @side-effect-after-change="selectSideEffect"
                 />
-                <MyInput v-else-if="elem.type === 'input'" :props="elem" />
+                <MyInput
+                  v-else-if="elem.type === 'input'"
+                  :inputItem="elem"
+                  :activeTab="activeTab"
+                  @input-side-effect="inputSideEffect"
+                />
               </div>
             </li>
           </ul>
@@ -61,30 +66,17 @@
 </template>
 
 <script lang="ts">
-// components
 import MyLoader from "../../UI/MyLoader/MyLoader.vue";
 import MySelect from "@/components/UI/MySelect/MySelect.vue";
 import MyInput from "@/components/UI/MyInput/MyInput.vue";
-
-// styles
 import "./MyFilter.scss";
-
-// vue
 import { defineComponent } from "@vue/runtime-core";
 import { ref, onMounted, Ref } from "vue";
 import { useRoute } from "vue-router";
-
-// store
 import { filterStore } from "./filterStore/filterStore";
-
-// interfaces
 import { iFilterColumnItem } from "./interfacesMyFilter/interfacesMyFilter";
-
-// utils
 import ModalUtils from "../MyModal/ModalUtils/ModalUtils";
 import LoaderUtils from "@/components/UI/MyLoader/LoaderUtils/LoaderUtils";
-
-// api
 import { filterAPI } from "@/api/api";
 
 const modalUtils = new ModalUtils();
@@ -118,7 +110,11 @@ export default defineComponent({
       required: true,
     },
   },
-  emits: ["side-effect-after-change", "create-filter-modal"],
+  emits: [
+    "side-effect-after-change",
+    "create-filter-modal",
+    "input-side-effect",
+  ],
   setup(props, { emit }) {
     const modal = ref(<Ref<HTMLElement>>{});
     const wrapper = ref(<Ref<HTMLElement>>{});
@@ -230,6 +226,10 @@ export default defineComponent({
       emit("side-effect-after-change", selectName, value);
     };
 
+    const inputSideEffect = (props: Ref<HTMLElement>) => {
+      emit("input-side-effect", props);
+    };
+
     onMounted(() => {
       emit("create-filter-modal", {
         modal: modal,
@@ -248,6 +248,7 @@ export default defineComponent({
       form,
       selectSideEffect,
       propsColumns,
+      inputSideEffect,
     };
   },
 });

@@ -4,8 +4,8 @@
     <div class="monitor-content custom-scroll">
       <MyHeader
         :props="headerProps"
-        @open-settings-menu="(e: MouseEvent) => openSettingsMenu(e)"
-        @set-active-tab="(tab: string) => setActiveTab(tab)"
+        @open-settings-menu="(e) => openSettingsMenu(e)"
+        @set-active-tab="(tab) => setActiveTab(tab)"
       />
       <div v-if="activeTab" class="monitor-content__wrapper">
         <MonitorFilter
@@ -43,17 +43,10 @@
 </template>
 
 <script lang="ts">
-// styles
 import "./MyMonitor.scss";
-
-// vue
 import { defineComponent } from "@vue/runtime-core";
 import { InputHTMLAttributes, ref, Ref } from "vue";
-
-// store
 import { monitorStore } from "./monitorStore/monitorStore";
-
-// components
 import MyMenu from "../Platform/MyMenu/MyMenu.vue";
 import MyHeader from "../Platform/MyHeader/MyHeader.vue";
 import MyModal from "../Platform/MyModal/MyModal.vue";
@@ -63,11 +56,7 @@ import MonitorFilter from "./MonitorFilter/MonitorFilter.vue";
 import MyPopup from "../UI/MyPopup/MyPopup.vue";
 import MonitorWidgets from "./MonitorWidgets/MonitorWidgets.vue";
 import ManagerStat from "./ManagerStat/ManagerStat.vue";
-
-// utils
 import ChangeBackgroundColor from "./Menus/BackgroundSettings/ChangeBackgroundColor/ChangeBackgroundColor";
-
-// interfaces
 import { iCreateModal } from "../Platform/MyModal/interfacesMyModal/interfacesMyModal";
 import { iModal } from "../Platform/MyModal/interfacesMyModal/interfacesMyModal";
 
