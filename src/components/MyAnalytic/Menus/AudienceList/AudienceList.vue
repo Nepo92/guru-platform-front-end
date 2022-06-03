@@ -74,7 +74,7 @@ export default defineComponent({
     MyCheckBox,
   },
   props: {
-    activeTab: String,
+    activeTab: Object,
     selectsArray: Array,
     slotData: Object,
   },

@@ -7,9 +7,11 @@ export interface iAnalyticRowProperties {
 }
 
 export interface iAnalyticRowManagersProperties {
+	id?: number;
 	sum: number;
 	sums: Array<number>;
 	[key: number]: iAnalyticRowProperties;
+	name: string;
 }
 
 export interface iMetricColor {
@@ -21,10 +23,11 @@ export interface iMetricColor {
 export interface iAnalyticRow {
 	name: string;
 	main: iAnalyticRowProperties;
-	managers: iAnalyticRowManagersProperties;
-	units: string;
+	managers: iAnalyticRowManagersProperties | null;
+	units?: string;
 	visible?: boolean;
 	colors?: iMetricColor;
+	nameEng: string;
 }
 
 export interface iCurrentAnalytic {

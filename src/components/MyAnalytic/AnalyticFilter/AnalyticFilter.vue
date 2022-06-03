@@ -19,9 +19,9 @@
         </li>
         <li class="analytic-filter__item period-delimeter angle-icon">
           <MySelect
-            :select-item="select"
-            :selects-array="selectsArray"
-            :active-tab="activeTab"
+            :selectItem="select"
+            :selectsArray="selectsArray"
+            :activeTab="activeTab"
             @side-effect-after-change="(e) => applyFilterSort(e)"
           />
         </li>
@@ -29,9 +29,9 @@
       <MyFilter
         :title="title"
         :columns="columns"
-        :selects-array="selectsArray"
+        :selectsArray="selectsArray"
         :nested="nested"
-        :active-tab="activeTab"
+        :activeTab="activeTab"
         @create-filter-modal="createFilterModal"
         @side-effect-after-change="selectSideEffect"
         @input-side-effect="inputSideEffect"
@@ -79,7 +79,7 @@ import MyLoader from "@/components/UI/MyLoader/MyLoader.vue";
 import FilterBtn from "@/components/Platform/MyFilter/FilterBtn/FilterBtn.vue";
 import MyFilter from "@/components/Platform/MyFilter/MyFilter.vue";
 import MySelect from "@/components/UI/MySelect/MySelect.vue";
-import { defineComponent, watch } from "@vue/runtime-core";
+import { defineComponent } from "@vue/runtime-core";
 import { Ref, onMounted, ref, InputHTMLAttributes, reactive } from "vue";
 import { iCreateModal } from "@/components/Platform/MyModal/interfacesMyModal/interfacesMyModal";
 import { useRoute } from "vue-router";
@@ -128,7 +128,7 @@ export default defineComponent({
       required: true,
     },
     activeTab: {
-      type: String,
+      type: Object,
       required: true,
     },
     selectsArray: {
@@ -214,7 +214,7 @@ export default defineComponent({
         target: t,
         selectName: "",
         value: "",
-        activeTab: props.activeTab,
+        activeTab: props.activeTab.value,
       };
 
       changeFilterSort(formData, changeFilterSortProps);
@@ -256,10 +256,10 @@ export default defineComponent({
 
     const columns = <Array<iFilterColumnItem>>reactive([
       ...filterProps.columns.filter((el) => {
-        if (el.tabs.includes(props.activeTab)) {
+        if (el.tabs.includes(props.activeTab.value)) {
           el.items = [
             ...el.items.filter((el) => {
-              if (el.tabs.includes(props.activeTab)) {
+              if (el.tabs.includes(props.activeTab.value)) {
                 return reactive(el);
               }
             }),
@@ -282,6 +282,20 @@ export default defineComponent({
           };
 
           changeDealType.changeDealType(changeDealTypeProps);
+        }
+        if (el.name === "Площадка") {
+          const changePlatformProps = {
+            columns: <Array<iFilterColumnItem>>columns,
+            value: filter.platform,
+            selectName: el.name,
+            activeTab,
+            loader,
+          };
+
+          changePlatform.setDefaultPlatform(changePlatformProps);
+        }
+        if (el.name === "Источники трафика") {
+          el.selected = filter.channel;
         }
       });
     });
@@ -357,7 +371,7 @@ export default defineComponent({
 
       emit("set-filter-period-props", filterProps);
 
-      activeTab.value = props.activeTab;
+      activeTab.value = props.activeTab.value;
     });
 
     selectUtils.initSelectAfterComponentLoad(columns, filter);

@@ -1,7 +1,7 @@
 import { iMyInputProps } from "./interfacesMyInput/interfacesMyInput";
 
 export function getTemplateInput(props: iMyInputProps) {
-	const { name, nameEng, value, tabs, hasSideEffect } = props;
+	const { name, nameEng, value, tabs, hasSideEffect, hidden } = props;
 
 	return {
 		type: "input",
@@ -10,5 +10,6 @@ export function getTemplateInput(props: iMyInputProps) {
 		value,
 		tabs,
 		hasSideEffect,
+		hidden,
 	};
 }

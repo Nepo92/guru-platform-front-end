@@ -6,11 +6,39 @@ import { iChangeSourceOptionsProps } from "../../interfacesAnalyticFilter/interf
 import AnalyticFilterUtils from "../AnalyticFilterUtils";
 import { iMyInput } from "@/components/UI/MyInput/interfacesMyInput/interfacesMyInput";
 import LoaderUtils from "@/components/UI/MyLoader/LoaderUtils/LoaderUtils";
+import { watch } from "vue";
 
 const analyticFilterUtils = new AnalyticFilterUtils();
 const loaderUtils = new LoaderUtils();
 
 class ChangePlatform {
+	setDefaultPlatform(changePlatformProps: iChangePlatformProps) {
+		const { value, columns, activeTab } = changePlatformProps;
+
+		const formData = new FormData();
+
+		formData.set("platform", `${value}`);
+
+		watch(activeTab, () => {
+			if (activeTab.value) {
+				const getChannels = monitorAPI.getChannels(formData);
+
+				const currentColumns = analyticFilterUtils.getCurrentColumns(columns, activeTab);
+
+				getChannels.then((channels) => {
+					const changeOptionsProps = {
+						columns: currentColumns,
+						activeTab,
+						value,
+						channels,
+					};
+
+					this.#changeOptionsInSourceSelect(changeOptionsProps);
+				});
+			}
+		});
+	}
+
 	changePlatform(props: iChangePlatformProps) {
 		const { value, columns, activeTab, loader } = props;
 
@@ -62,7 +90,7 @@ class ChangePlatform {
 	}
 
 	#changeOptionsInSourceSelect(changeOptionsProps: iChangeSourceOptionsProps) {
-		const { value, channels, columns, activeTab } = changeOptionsProps;
+		const { value, channels, columns } = changeOptionsProps;
 
 		let sourceItem;
 		let platformItem;

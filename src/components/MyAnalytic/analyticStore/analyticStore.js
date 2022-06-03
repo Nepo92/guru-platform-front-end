@@ -1,6 +1,7 @@
 import { getTemplateSelect } from "@/components/UI/MySelect/MySelectTemplate";
 import { defineStore } from "pinia";
 import { getTemplateInput } from "@/components/UI/MyInput/MyInputTemplate";
+import { getTemplateAnalyticRow } from "./AnalyticStoreUtils/AnalytiStoreUtils";
 
 export const analyticStore = defineStore("analyticStore", {
 	state() {
@@ -16,6 +17,7 @@ export const analyticStore = defineStore("analyticStore", {
 
 		// eslint-disable-next-line
 		const managersFilterData = managersFilter || null;
+
 		// eslint-disable-next-line
 		const projectsData = projects || null;
 		// eslint-disable-next-line
@@ -283,7 +285,7 @@ export const analyticStore = defineStore("analyticStore", {
 								nameEng: [
 									{
 										name: "idManager",
-										tabs: ["Общая", "Трафик"],
+										tabs: ["Общая", "Трафик", "База"],
 									},
 								],
 								selected: filterData?.idManager,
@@ -301,13 +303,13 @@ export const analyticStore = defineStore("analyticStore", {
 										};
 									}),
 								],
-								tabs: ["Общая", "Трафик"],
+								tabs: ["Общая", "Трафик", "База"],
 							}),
 							getTemplateSelect({
 								name: "Проект",
 								nameEng: [
 									{
-										tabs: ["Общая", "Трафик"],
+										tabs: ["Общая", "Трафик", "База"],
 										name: "project",
 									},
 								],
@@ -324,13 +326,13 @@ export const analyticStore = defineStore("analyticStore", {
 										};
 									}),
 								],
-								tabs: ["Общая", "Трафик"],
+								tabs: ["Общая", "Трафик", "База"],
 							}),
 							getTemplateSelect({
 								name: "Продукт",
 								nameEng: [
 									{
-										tabs: ["Общая", "Трафик"],
+										tabs: ["Общая", "Трафик", "База"],
 										name: "course",
 									},
 								],
@@ -347,7 +349,7 @@ export const analyticStore = defineStore("analyticStore", {
 										};
 									}),
 								],
-								tabs: ["Общая", "Трафик"],
+								tabs: ["Общая", "Трафик", "База"],
 							}),
 							getTemplateSelect({
 								name: "Тип сделки",
@@ -377,7 +379,7 @@ export const analyticStore = defineStore("analyticStore", {
 								name: "Сотрудники",
 								nameEng: [
 									{
-										tabs: ["Общая", "Трафик"],
+										tabs: ["Общая", "Трафик", "База"],
 										name: "isNotDismiss",
 									},
 								],
@@ -394,7 +396,7 @@ export const analyticStore = defineStore("analyticStore", {
 										};
 									}),
 								],
-								tabs: ["Общая", "Трафик"],
+								tabs: ["Общая", "Трафик", "База"],
 							}),
 							getTemplateSelect({
 								name: "Воронка",
@@ -439,7 +441,7 @@ export const analyticStore = defineStore("analyticStore", {
 								tabs: ["Трафик"],
 							}),
 						],
-						tabs: ["Общая", "Трафик"],
+						tabs: ["Общая", "Трафик", "База"],
 					},
 					{
 						name: "Аудитории",
@@ -506,7 +508,7 @@ export const analyticStore = defineStore("analyticStore", {
 								nameEng: [
 									{
 										name: "channel",
-										tabs: ["/funnel/traffic/"],
+										tabs: ["Трафик"],
 									},
 								],
 								selected: filterData?.channel,
@@ -532,6 +534,18 @@ export const analyticStore = defineStore("analyticStore", {
 								tabs: ["Трафик"],
 								hasSideEffect: true,
 							}),
+							getTemplateInput({
+								name: "",
+								nameEng: [
+									{
+										name: "community",
+										tabs: ["Трафик"],
+									},
+								],
+								value: "Выберите аудиторию",
+								tabs: ["Трафик"],
+								hidden: true,
+							}),
 						],
 						tabs: ["Трафик"],
 					},
@@ -543,464 +557,413 @@ export const analyticStore = defineStore("analyticStore", {
 					{
 						tabs: "Общая",
 						items: [
-							{
-								name: "Выручка общая",
-								nameEng: "totalRevenueData",
-								main: totalRevenueData,
-								managers: managerTotalRevenueData
-									? Object.entries(managerTotalRevenueData).map((item) => {
-											return item[1];
-									  })
-									: null,
-								units: "₽",
-							},
-							{
-								name: "Выручка с трафика",
-								nameEng: "trafficRevenue",
-								main: trafficRevenueData,
-								managers: managerTrafficRevenueData
-									? Object.entries(managerTrafficRevenueData).map((item) => {
-											return item[1];
-									  })
-									: null,
-								units: "₽",
-							},
-							{
-								name: "Выручка с базы",
-								nameEng: "additionalRevenue",
-								main: additionalRevenueData,
-								managers: managerAdditionalRevenueData
-									? Object.entries(managerAdditionalRevenueData).map((item) => {
-											return item[1];
-									  })
-									: null,
-								units: "₽",
-							},
-							{
-								name: "Расходы на рекламу",
-								nameEng: "advExpenses",
-								main: advExpensesData,
-								managers: managerAdvExpensesData
-									? Object.entries(managerAdvExpensesData).map((item) => {
-											return item[1];
-									  })
-									: null,
-								units: "₽",
-							},
-							{
-								name: "КПД",
-								nameEng: "KPD",
-								main: kpdData,
-								managers: managerKpdData
-									? Object.entries(managerKpdData).map((item) => {
-											return item[1];
-									  })
-									: null,
-							},
-							{
-								name: "Продажи всего",
-								nameEng: "sales",
-								main: salesData,
-								managers: managerSalesData
-									? Object.entries(managerSalesData).map((item) => {
-											return item[1];
-									  })
-									: null,
-							},
-							{
-								name: "Продажи трафик",
-								nameEng: "salesTraffic",
-								main: salesTrafficData,
-								managers: managerSalesTrafficData
-									? Object.entries(managerSalesTrafficData).map((item) => {
-											return item[1];
-									  })
-									: null,
-							},
-							{
-								name: "Продажи рассылка",
-								nameEng: "salesMailing",
-								main: salesMailingData,
-								managers: managerSalesMailingData
-									? Object.entries(managerSalesMailingData).map((item) => {
-											return item[1];
-									  })
-									: null,
-							},
-							{
-								name: "Продажи база",
-								nameEng: "salesAdditional",
-								main: salesAdditionalData,
-								managers: managerSalesAdditionalData
-									? Object.entries(managerSalesAdditionalData).map((item) => {
-											return item[1];
-									  })
-									: null,
-							},
-							{
-								name: "Отказов",
-								nameEng: "rejectsRow",
-								main: rejectsRowData,
-								managers: mRejectsRowData
-									? Object.entries(mRejectsRowData).map((item) => {
-											return item[1];
-									  })
-									: null,
-							},
-							{
-								name: "Средний чек",
-								nameEng: "average",
-								main: averageData,
-								managers: managerAverageData
-									? Object.entries(managerAverageData).map((item) => {
-											return item[1];
-									  })
-									: null,
-								units: "₽",
-							},
-							{
-								name: "Средний чек трафик",
-								nameEng: "averageTrafficMailing",
-								main: averageTrafficMailingData,
-								managers: managerAverageTrafficMailingData
-									? Object.entries(managerAverageTrafficMailingData).map((item) => {
-											return item[1];
-									  })
-									: null,
-								units: "₽",
-							},
-							{
-								name: "Средний чек база",
-								nameEng: "averageAdditional",
-								main: averageAdditionalData,
-								managers: managerAverageAdditionalData
-									? Object.entries(managerAverageAdditionalData).map((item) => {
-											return item[1];
-									  })
-									: null,
-								units: "₽",
-							},
-							{
-								name: "Выручка общая - расходы на рекламу",
-								nameEng: "profit",
-								main: profitData,
-								managers: managerProfitData
-									? Object.entries(managerProfitData).map((item) => {
-											return item[1];
-									  })
-									: null,
-								units: "₽",
-							},
-							{
-								name: "Рейтинг",
-								nameEng: "rating",
-								main: ratingData,
-								managers: managerRatingData
-									? Object.entries(managerRatingData).map((item) => {
-											return item[1];
-									  })
-									: null,
-							},
+							...getTemplateAnalyticRow(
+								[
+									{
+										name: "Выручка общая",
+										nameEng: "totalRevenueData",
+										main: totalRevenueData,
+										managers: managerTotalRevenueData,
+										units: "₽",
+									},
+									{
+										name: "Выручка с трафика",
+										nameEng: "trafficRevenue",
+										main: trafficRevenueData,
+										managers: managerTrafficRevenueData,
+										units: "₽",
+									},
+									{
+										name: "Выручка с базы",
+										nameEng: "additionalRevenue",
+										main: additionalRevenueData,
+										managers: managerAdditionalRevenueData,
+										units: "₽",
+									},
+									{
+										name: "Расходы на рекламу",
+										nameEng: "advExpenses",
+										main: advExpensesData,
+										managers: managerAdvExpensesData,
+										units: "₽",
+									},
+									{
+										name: "КПД",
+										nameEng: "KPD",
+										main: kpdData,
+										managers: managerKpdData,
+									},
+									{
+										name: "Продажи всего",
+										nameEng: "sales",
+										main: salesData,
+										managers: managerSalesData,
+									},
+									{
+										name: "Продажи трафик",
+										nameEng: "salesTraffic",
+										main: salesTrafficData,
+										managers: managerSalesTrafficData,
+									},
+									{
+										name: "Продажи рассылка",
+										nameEng: "salesMailing",
+										main: salesMailingData,
+										managers: managerSalesMailingData,
+									},
+									{
+										name: "Продажи база",
+										nameEng: "salesAdditional",
+										main: salesAdditionalData,
+										managers: managerSalesAdditionalData,
+									},
+									{
+										name: "Отказов",
+										nameEng: "rejectsRow",
+										main: rejectsRowData,
+										managers: mRejectsRowData,
+									},
+									{
+										name: "Средний чек",
+										nameEng: "average",
+										main: averageData,
+										managers: managerAverageData,
+										units: "₽",
+									},
+									{
+										name: "Средний чек трафик",
+										nameEng: "averageTrafficMailing",
+										main: averageTrafficMailingData,
+										managers: managerAverageTrafficMailingData,
+										units: "₽",
+									},
+									{
+										name: "Средний чек база",
+										nameEng: "averageAdditional",
+										main: averageAdditionalData,
+										managers: managerAverageAdditionalData,
+										units: "₽",
+									},
+									{
+										name: "Выручка общая - расходы на рекламу",
+										nameEng: "profit",
+										main: profitData,
+										managers: managerProfitData,
+										units: "₽",
+									},
+									{
+										name: "Рейтинг",
+										nameEng: "rating",
+										main: ratingData,
+										managers: managerRatingData,
+									},
+								],
+								managersData
+							),
 						],
 					},
 					{
 						tabs: "Трафик",
 						items: [
-							{
-								name: "Выручка общая",
-								nameEng: "totalRevenue",
-								main: totalRevenueData,
-								managers: managerTotalRevenueData,
-								units: "₽",
-								visible: filterData?.visableSetting.blockProceed,
-							},
-							{
-								name: "Расходы на рекламу",
-								nameEng: "advExpenses",
-								main: advExpensesData,
-								managers: managerAdvExpensesData,
-								units: "₽",
-								visible: filterData?.visableSetting.blockAdvertisingExpenses,
-							},
-							{
-								name: "Выручка общая - расходы на рекламу",
-								nameEng: "profit",
-								main: profitData,
-								managers: managerProfitData,
-								units: "₽",
-								visible: filterData?.visableSetting.blockProceedAdvertisingExpenses,
-							},
-							{
-								name: "% ДРР (доля рекламных расходов)",
-								nameEng: "shareAdvExpensesTrafficPage",
-								main: shareAdvExpensesTrafficPageData,
-								managers: managerShareAdvExpensesTrafficPageData,
-								units: "%",
-								visible: filterData?.visableSetting.blockPercentNetProceed,
-							},
-							{
-								name: "КПД",
-								nameEng: "KPD",
-								main: kpdData,
-								managers: managerKpdData,
-								visible: filterData?.visableSetting.blockKPD,
-							},
-							{
-								name: "Показов",
-								nameEng: "advShow",
-								main: advShowData,
-								managers: managerAdvShowData,
-								visible: filterData?.visableSetting.blockShows,
-							},
-							{
-								name: "Кликов",
-								nameEng: "advClick",
-								main: advClickData,
-								managers: managerAdvClickData,
-								visible: filterData?.visableSetting.blockClicks,
-							},
-							{
-								name: "Заявок",
-								nameEng: "advApplication",
-								main: advApplicationData,
-								managers: managerAdvApplicationData,
-								visible: filterData?.visableSetting.blockApplications,
-							},
-							{
-								name: "Целевых заявок",
-								nameEng: "importantRow",
-								main: importantRowData,
-								managers: managerImportantRowData,
-								visible: filterData?.visableSetting.blockAveragePrepayment,
-							},
-							{
-								name: "Заказов",
-								nameEng: "invoices",
-								main: invoicesData,
-								managers: managerInvoicesData,
-								visible: filterData?.visableSetting.blockBills,
-							},
-							{
-								name: "Продаж",
-								nameEng: "salesNewClient",
-								main: salesNewClientData,
-								managers: managerSalesNewClientData,
-								visible: filterData?.visableSetting.blockSales,
-							},
-							{
-								name: "Продаж без рассылки",
-								nameEng: "salesNewClientNM",
-								main: salesNewClientNMData,
-								managers: salesMNewClientNMData,
-								visible: filterData?.visableSetting.blockSalesWithoutSales,
-							},
-							{
-								name: "Продаж c рассылки",
-								nameEng: "salesNewClientM",
-								main: salesNewClientMData,
-								managers: salesMNewClientMData,
-								visible: filterData?.visableSetting.blockSalesWithSales,
-							},
-							{
-								name: "Отказов",
-								nameEng: "rejectsRow",
-								main: rejectsRowData,
-								managers: mRejectsRowData,
-								visible: filterData?.visableSetting.blockSurcharges,
-							},
-							{
-								name: "Новых клиентов по ДО",
-								nameEng: "newClientsDo",
-								main: newClientsDoData,
-								managers: newMClientsDoData,
-								visible: filterData?.visableSetting.blockClientsDO,
-							},
-							{
-								name: "Новых клиентов с трафика за период",
-								nameEng: "newClientsTraffic",
-								main: newClientsTrafficData,
-								managers: newMClientsTrafficData,
-								visible: filterData?.visableSetting.blockClientsTraffic,
-							},
-							{
-								name: "Дотекло клиентов по ДО",
-								nameEng: "newClientsAll",
-								main: newClientsAllData,
-								managers: newMClientsAllData,
-								visible: filterData?.visableSetting.blockSalesDo,
-							},
-							{
-								name: "Дотекло клиентов по ДО (без рассылки)",
-								nameEng: "newClientsWithoutMailing",
-								main: newClientsWithoutMailingData,
-								managers: newMClientsWithoutMailingData,
-								visible: filterData?.visableSetting.blockSalesDoWithoutMailing,
-							},
-							{
-								name: "Дотекло клиентов по ДО (по рассылке)",
-								nameEng: "newClientsWithMailing",
-								main: newClientsWithMailingData,
-								managers: newMClientsWithMailingData,
-								visible: filterData?.visableSetting.blockSalesDoWithMailing,
-							},
-							{
-								name: "Средний чек",
-								nameEng: "averageCheckTraffic",
-								main: averageCheckTrafficData,
-								managers: managerAverageCheckTrafficData,
-								units: "₽",
-								visible: filterData?.visableSetting.blockAverage,
-							},
-							{
-								name: "Стоимость 1000 показов",
-								nameEng: "showPrice",
-								main: showPriceData,
-								managers: mShowPriceData,
-								units: "₽",
-								visible: filterData?.visableSetting.blockPriceShows,
-							},
-							{
-								name: "Стоимость клика",
-								nameEng: "clickPrice",
-								main: clickPriceData,
-								managers: mClickPriceData,
-								units: "₽",
-								visible: filterData?.visableSetting.blockPriceClick,
-							},
-							{
-								name: "Стоимость заявки",
-								nameEng: "applicationPrice",
-								main: applicationPriceData,
-								managers: mApplicationPriceData,
-								units: "₽",
-								visible: filterData?.visableSetting.blockPriceApplication,
-							},
-							{
-								name: "Стоимость целевой заявки",
-								nameEng: "importantPriceRow",
-								main: importantPriceRowData,
-								managers: mImportantPriceRowData,
-								units: "₽",
-								visible: filterData?.visableSetting.blockAverageSurcharge,
-							},
-							{
-								name: "Стоимость заказа",
-								nameEng: "invoicePrice",
-								main: invoicePriceData,
-								managers: mInvoicePriceData,
-								units: "₽",
-								visible: filterData?.visableSetting.blockPriceBill,
-							},
-							{
-								name: "Стоимость клиента",
-								nameEng: "clientPrice",
-								main: clientPriceData,
-								managers: mClientPriceData,
-								units: "₽",
-								visible: filterData?.visableSetting.blockClient,
-							},
-							{
-								name: "Стоимость клиента по ДО",
-								nameEng: "clientPriceDo",
-								main: clientPriceDoData,
-								managers: mClientPriceDoData,
-								units: "₽",
-								visible: filterData?.visableSetting.blockClientDO,
-							},
-							{
-								name: "CV из показа в клик",
-								nameEng: "showToClick",
-								main: showToClickData,
-								managers: mShowToClickData,
-								units: "%",
-								visible: filterData?.visableSetting.blockShowToClick,
-							},
-							{
-								name: "CV1 из клика в заявку",
-								nameEng: "clickToApplication",
-								main: clickToApplicationData,
-								managers: mClickToApplicationData,
-								units: "%",
-								visible: filterData?.visableSetting.blockClickToApplication,
-							},
-							{
-								name: "CV2 из заявки в заказ",
-								nameEng: "applicationToInvoice",
-								main: applicationToInvoiceData,
-								managers: mApplicationToInvoiceData,
-								units: "%",
-								visible: filterData?.visableSetting.blockApplicationToBill,
-							},
-							{
-								name: "CV3 из заказа в оплату",
-								nameEng: "invoiceToClient",
-								main: invoiceToClientData,
-								managers: mInvoiceToClientData,
-								units: "%",
-								visible: filterData?.visableSetting.blockBillToClient,
-							},
-							{
-								name: "CV4 из заявки в оплату",
-								nameEng: "applicationToClient",
-								main: applicationToClientData,
-								managers: mApplicationToClientData,
-								units: "%",
-								visible: filterData?.visableSetting.blockApplicationToClient,
-							},
-							{
-								name: "CV4 из заявки в оплату по ДО",
-								nameEng: "clickToApplicationDo",
-								main: clickToApplicationDoData,
-								managers: mClickToApplicationDoData,
-								units: "%",
-								visible: filterData?.visableSetting.blockPrepaymentProceed,
-							},
-							{
-								name: "CV из целевой заявки в оплату по ДО",
-								nameEng: "CV5Row",
-								main: CV5RowData,
-								managers: mCV5RowData,
-								units: "%",
-								visible: filterData?.visableSetting.blockApplicationToClientDO,
-							},
+							...getTemplateAnalyticRow([
+								{
+									name: "Выручка общая",
+									nameEng: "totalRevenue",
+									main: totalRevenueData,
+									managers: managerTotalRevenueData,
+									units: "₽",
+									visible: filterData?.visableSetting.blockProceed,
+								},
+								{
+									name: "Расходы на рекламу",
+									nameEng: "advExpenses",
+									main: advExpensesData,
+									managers: managerAdvExpensesData,
+									units: "₽",
+									visible: filterData?.visableSetting.blockAdvertisingExpenses,
+								},
+								{
+									name: "Выручка общая - расходы на рекламу",
+									nameEng: "profit",
+									main: profitData,
+									managers: managerProfitData,
+									units: "₽",
+									visible: filterData?.visableSetting.blockProceedAdvertisingExpenses,
+								},
+								{
+									name: "% ДРР (доля рекламных расходов)",
+									nameEng: "shareAdvExpensesTrafficPage",
+									main: shareAdvExpensesTrafficPageData,
+									managers: managerShareAdvExpensesTrafficPageData,
+									units: "%",
+									visible: filterData?.visableSetting.blockPercentNetProceed,
+								},
+								{
+									name: "КПД",
+									nameEng: "KPD",
+									main: kpdData,
+									managers: managerKpdData,
+									visible: filterData?.visableSetting.blockKPD,
+								},
+								{
+									name: "Показов",
+									nameEng: "advShow",
+									main: advShowData,
+									managers: managerAdvShowData,
+									visible: filterData?.visableSetting.blockShows,
+								},
+								{
+									name: "Кликов",
+									nameEng: "advClick",
+									main: advClickData,
+									managers: managerAdvClickData,
+									visible: filterData?.visableSetting.blockClicks,
+								},
+								{
+									name: "Заявок",
+									nameEng: "advApplication",
+									main: advApplicationData,
+									managers: managerAdvApplicationData,
+									visible: filterData?.visableSetting.blockApplications,
+								},
+								{
+									name: "Целевых заявок",
+									nameEng: "importantRow",
+									main: importantRowData,
+									managers: managerImportantRowData,
+									visible: filterData?.visableSetting.blockAveragePrepayment,
+								},
+								{
+									name: "Заказов",
+									nameEng: "invoices",
+									main: invoicesData,
+									managers: managerInvoicesData,
+									visible: filterData?.visableSetting.blockBills,
+								},
+								{
+									name: "Продаж",
+									nameEng: "salesNewClient",
+									main: salesNewClientData,
+									managers: managerSalesNewClientData,
+									visible: filterData?.visableSetting.blockSales,
+								},
+								{
+									name: "Продаж без рассылки",
+									nameEng: "salesNewClientNM",
+									main: salesNewClientNMData,
+									managers: salesMNewClientNMData,
+									visible: filterData?.visableSetting.blockSalesWithoutSales,
+								},
+								{
+									name: "Продаж c рассылки",
+									nameEng: "salesNewClientM",
+									main: salesNewClientMData,
+									managers: salesMNewClientMData,
+									visible: filterData?.visableSetting.blockSalesWithSales,
+								},
+								{
+									name: "Отказов",
+									nameEng: "rejectsRow",
+									main: rejectsRowData,
+									managers: mRejectsRowData,
+									visible: filterData?.visableSetting.blockSurcharges,
+								},
+								{
+									name: "Новых клиентов по ДО",
+									nameEng: "newClientsDo",
+									main: newClientsDoData,
+									managers: newMClientsDoData,
+									visible: filterData?.visableSetting.blockClientsDO,
+								},
+								{
+									name: "Новых клиентов с трафика за период",
+									nameEng: "newClientsTraffic",
+									main: newClientsTrafficData,
+									managers: newMClientsTrafficData,
+									visible: filterData?.visableSetting.blockClientsTraffic,
+								},
+								{
+									name: "Дотекло клиентов по ДО",
+									nameEng: "newClientsAll",
+									main: newClientsAllData,
+									managers: newMClientsAllData,
+									visible: filterData?.visableSetting.blockSalesDo,
+								},
+								{
+									name: "Дотекло клиентов по ДО (без рассылки)",
+									nameEng: "newClientsWithoutMailing",
+									main: newClientsWithoutMailingData,
+									managers: newMClientsWithoutMailingData,
+									visible: filterData?.visableSetting.blockSalesDoWithoutMailing,
+								},
+								{
+									name: "Дотекло клиентов по ДО (по рассылке)",
+									nameEng: "newClientsWithMailing",
+									main: newClientsWithMailingData,
+									managers: newMClientsWithMailingData,
+									visible: filterData?.visableSetting.blockSalesDoWithMailing,
+								},
+								{
+									name: "Средний чек",
+									nameEng: "averageCheckTraffic",
+									main: averageCheckTrafficData,
+									managers: managerAverageCheckTrafficData,
+									units: "₽",
+									visible: filterData?.visableSetting.blockAverage,
+								},
+								{
+									name: "Стоимость 1000 показов",
+									nameEng: "showPrice",
+									main: showPriceData,
+									managers: mShowPriceData,
+									units: "₽",
+									visible: filterData?.visableSetting.blockPriceShows,
+								},
+								{
+									name: "Стоимость клика",
+									nameEng: "clickPrice",
+									main: clickPriceData,
+									managers: mClickPriceData,
+									units: "₽",
+									visible: filterData?.visableSetting.blockPriceClick,
+								},
+								{
+									name: "Стоимость заявки",
+									nameEng: "applicationPrice",
+									main: applicationPriceData,
+									managers: mApplicationPriceData,
+									units: "₽",
+									visible: filterData?.visableSetting.blockPriceApplication,
+								},
+								{
+									name: "Стоимость целевой заявки",
+									nameEng: "importantPriceRow",
+									main: importantPriceRowData,
+									managers: mImportantPriceRowData,
+									units: "₽",
+									visible: filterData?.visableSetting.blockAverageSurcharge,
+								},
+								{
+									name: "Стоимость заказа",
+									nameEng: "invoicePrice",
+									main: invoicePriceData,
+									managers: mInvoicePriceData,
+									units: "₽",
+									visible: filterData?.visableSetting.blockPriceBill,
+								},
+								{
+									name: "Стоимость клиента",
+									nameEng: "clientPrice",
+									main: clientPriceData,
+									managers: mClientPriceData,
+									units: "₽",
+									visible: filterData?.visableSetting.blockClient,
+								},
+								{
+									name: "Стоимость клиента по ДО",
+									nameEng: "clientPriceDo",
+									main: clientPriceDoData,
+									managers: mClientPriceDoData,
+									units: "₽",
+									visible: filterData?.visableSetting.blockClientDO,
+								},
+								{
+									name: "CV из показа в клик",
+									nameEng: "showToClick",
+									main: showToClickData,
+									managers: mShowToClickData,
+									units: "%",
+									visible: filterData?.visableSetting.blockShowToClick,
+								},
+								{
+									name: "CV1 из клика в заявку",
+									nameEng: "clickToApplication",
+									main: clickToApplicationData,
+									managers: mClickToApplicationData,
+									units: "%",
+									visible: filterData?.visableSetting.blockClickToApplication,
+								},
+								{
+									name: "CV2 из заявки в заказ",
+									nameEng: "applicationToInvoice",
+									main: applicationToInvoiceData,
+									managers: mApplicationToInvoiceData,
+									units: "%",
+									visible: filterData?.visableSetting.blockApplicationToBill,
+								},
+								{
+									name: "CV3 из заказа в оплату",
+									nameEng: "invoiceToClient",
+									main: invoiceToClientData,
+									managers: mInvoiceToClientData,
+									units: "%",
+									visible: filterData?.visableSetting.blockBillToClient,
+								},
+								{
+									name: "CV4 из заявки в оплату",
+									nameEng: "applicationToClient",
+									main: applicationToClientData,
+									managers: mApplicationToClientData,
+									units: "%",
+									visible: filterData?.visableSetting.blockApplicationToClient,
+								},
+								{
+									name: "CV4 из заявки в оплату по ДО",
+									nameEng: "clickToApplicationDo",
+									main: clickToApplicationDoData,
+									managers: mClickToApplicationDoData,
+									units: "%",
+									visible: filterData?.visableSetting.blockPrepaymentProceed,
+								},
+								{
+									name: "CV из целевой заявки в оплату по ДО",
+									nameEng: "CV5Row",
+									main: CV5RowData,
+									managers: mCV5RowData,
+									units: "%",
+									visible: filterData?.visableSetting.blockApplicationToClientDO,
+								},
+							]),
 						],
 					},
 					{
 						tabs: "База",
 						items: [
-							{
-								name: "Выручка",
-								nameEng: "totalRevenue",
-								main: totalRevenueData,
-								managers: managerTotalRevenueData,
-								units: "₽",
-							},
-							{
-								name: "Количество прописанных людей",
-								nameEng: "prescribed",
-								main: prescribedData,
-								managers: managerPrescribedData,
-							},
-							{
-								name: "Отказов",
-								nameEng: "rejectsRow",
-								main: rejectsRowData,
-								managers: mRejectsRowData,
-							},
-							{
-								name: "Средний чек",
-								nameEng: "average",
-								main: averageData,
-								managers: managerAverageData,
-								units: "₽",
-							},
-							{
-								name: "CV из прописанных людей в продажи",
-								nameEng: "prescribedToSale",
-								main: prescribedToSaleData,
-								managers: managerPrescribedToSaleData,
-								units: "%",
-							},
+							...getTemplateAnalyticRow([
+								{
+									name: "Выручка",
+									nameEng: "totalRevenue",
+									main: totalRevenueData,
+									managers: managerTotalRevenueData,
+									units: "₽",
+								},
+								{
+									name: "Количество прописанных людей",
+									nameEng: "prescribed",
+									main: prescribedData,
+									managers: managerPrescribedData,
+								},
+								{
+									name: "Отказов",
+									nameEng: "rejectsRow",
+									main: rejectsRowData,
+									managers: mRejectsRowData,
+								},
+								{
+									name: "Средний чек",
+									nameEng: "average",
+									main: averageData,
+									managers: managerAverageData,
+									units: "₽",
+								},
+								{
+									name: "CV из прописанных людей в продажи",
+									nameEng: "prescribedToSale",
+									main: prescribedToSaleData,
+									managers: managerPrescribedToSaleData,
+									units: "%",
+								},
+							]),
 						],
 					},
 				],

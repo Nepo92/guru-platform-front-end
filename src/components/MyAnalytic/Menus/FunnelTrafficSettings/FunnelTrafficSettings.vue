@@ -76,7 +76,7 @@ export default defineComponent({
   },
   props: {
     activeTab: {
-      type: String,
+      type: Object,
       required: true,
     },
     selectsArray: {

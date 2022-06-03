@@ -1,13 +1,13 @@
 <template>
-  <div class="analytic">
+  <div class="page">
     <MyMenu />
-    <div class="analytic-content custom-scroll">
+    <div class="page-content custom-scroll">
       <MyHeader
         :props="headerProps"
         @set-active-tab="(tab) => setActiveTab(tab)"
         @open-tab-settings-menu="(e) => openTabSettingsMenu(e)"
       />
-      <div v-if="activeTab" class="analytic-content__wrapper">
+      <div v-if="activeTab.value" class="page-content__wrapper">
         <AnalyticFilter
           :title="'Фильтровать аналитику'"
           :select="selectPeriod"
@@ -24,7 +24,8 @@
           :activeTab="activeTab"
         />
         <MyModal
-          v-if="activeTab === 'Общая'"
+          v-if="activeTab.value === 'Общая'"
+          v-slot="slotProps"
           :title="funnelColors.title"
           :hasCancel="funnelColors.hasCancel"
           :hasApply="funnelColors.hasApply"
@@ -36,14 +37,12 @@
           :size="funnelColors.size"
           @create-modal="createTabSettingsMenu"
         >
-          <template #modalContent="slotProps">
-            <form ref="formColorSettings">
-              <FunnelColorSettings :props="slotProps" />
-            </form>
-          </template>
+          <form ref="formColorSettings">
+            <FunnelColorSettings :props="slotProps" />
+          </form>
         </MyModal>
         <MyModal
-          v-if="activeTab === 'Трафик'"
+          v-if="activeTab.value === 'Трафик'"
           v-slot="slotProps"
           :title="funnelTrafficSettings.title"
           :hasCancel="funnelTrafficSettings.hasCancel"
@@ -73,7 +72,6 @@
 </template>
 
 <script lang="ts">
-import "./MyAnalytic.scss";
 import ModalUtils from "@/components/Platform/MyModal/ModalUtils/ModalUtils";
 import { analyticStore } from "./analyticStore/analyticStore";
 import MyMenu from "@/components/Platform/MyMenu/MyMenu.vue";
@@ -102,7 +100,7 @@ export default defineComponent({
     FunnelTrafficSettings,
   },
   setup(props, { emit }) {
-    let activeTab = ref("" as string);
+    let activeTab = reactive({ value: "" });
     let modal = ref({} as Ref<HTMLElement>);
     let wrapper = ref({} as Ref<HTMLElement>);
     let formColorSettings = ref({} as Ref<HTMLFormElement>);

@@ -64,17 +64,23 @@ export default defineComponent({
   setup(props, { emit }) {
     const tabs = ref(null);
     const route = useRoute();
+    let activeTab = ref("");
 
     onMounted(() => {
       if (tabs.value) {
         const tabsArray: Array<HTMLElement> = [...tabs.value];
 
-        const activeTab = tabsArray
-          .find((el) => el.classList.contains("active"))
-          ?.getAttribute("data-name");
+        activeTab.value = <string>(
+          tabsArray
+            .find((el) => el.classList.contains("active"))
+            ?.getAttribute("data-name")
+        );
 
-        if (activeTab) {
-          emit("set-active-tab", activeTab);
+        if (activeTab.value) {
+          emit(
+            "set-active-tab",
+            props.props?.activeTab?.value || activeTab.value
+          );
         }
       }
     });
@@ -82,7 +88,7 @@ export default defineComponent({
     const classActiveTab = (tab: iHeaderTab) => {
       const { path } = route;
 
-      const isActive = path === tab.link;
+      const isActive = path === tab.link || props.props.activeTab === tab.name;
 
       return isActive ? "active" : "";
     };

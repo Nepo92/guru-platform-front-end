@@ -51,7 +51,7 @@ export default defineComponent({
       required: true,
     },
     activeTab: {
-      type: String,
+      type: Object,
       required: true,
     },
   },
@@ -61,7 +61,7 @@ export default defineComponent({
     const selectBody = ref({} as Ref<HTMLElement>);
     const inputSelect = ref({} as Ref<EventTarget>);
     const selectData = reactive(props.selectItem as iMySelect);
-    const activeTab = props.activeTab as string;
+    const activeTab = props.activeTab.value as string;
 
     const openSelect = (e: MouseEvent) => {
       props.selectsArray?.forEach((item) => {
@@ -69,6 +69,7 @@ export default defineComponent({
       });
       if (select.value && selectBody.value) {
         select.value.classList.add("open");
+
         const { left } = select.value.getBoundingClientRect();
         const { bottom } = select.value.getBoundingClientRect();
         const width = select.value.offsetWidth;

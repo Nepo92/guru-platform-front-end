@@ -23,6 +23,7 @@
               v-for="(elem, count) of item.items"
               :key="count"
               class="filter-modal__item"
+              :class="elem.hidden ? 'hide' : ''"
             >
               <p class="filter-modal__name">
                 {{ elem.name }}
@@ -102,7 +103,7 @@ export default defineComponent({
       required: true,
     },
     activeTab: {
-      type: String,
+      type: Object,
       required: true,
     },
     selectsArray: {
@@ -185,6 +186,7 @@ export default defineComponent({
       const t = e.target;
 
       (t as Element).classList.add("no-active");
+
       const showLoader = setTimeout(() => {
         loaderUtils.showLoader(loader);
       }, 400);
@@ -193,6 +195,7 @@ export default defineComponent({
         () => {
           clearTimeout(showLoader);
           loaderUtils.hideLoader(loader);
+
           (t as Element).classList.remove("no-active");
 
           const closeModalProps = {
@@ -210,6 +213,7 @@ export default defineComponent({
         () => {
           clearTimeout(showLoader);
           loaderUtils.hideLoader(loader);
+
           (t as Element).classList.remove("no-active");
         }
       );

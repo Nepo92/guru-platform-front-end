@@ -20,7 +20,7 @@
     <div class="monitor-stat__wrapper">
       <div
         class="monitor-stat__header-row"
-        :class="activeTab === 'Контроль' ? 'control' : ''"
+        :class="activeTabValue === 'Контроль' ? 'control' : ''"
       >
         <div
           v-for="(item, index) of stats"
@@ -42,7 +42,7 @@ import LoaderUtils from "@/components/UI/MyLoader/LoaderUtils/LoaderUtils";
 import ManagerStatTable from "./ManagerStatTable/ManagerStatTable.vue";
 import MySelect from "@/components/UI/MySelect/MySelect.vue";
 import { defineComponent } from "@vue/runtime-core";
-import { InputHTMLAttributes, Ref, reactive } from "vue";
+import { Ref, reactive } from "vue";
 import { useRoute } from "vue-router";
 import {
   iMySelect,
@@ -60,7 +60,7 @@ export default defineComponent({
   },
   props: {
     activeTab: {
-      type: String,
+      type: Object,
       required: true,
     },
     selectsArray: {
@@ -69,7 +69,7 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const activeTab = props.activeTab as string;
+    const activeTabValue = props.activeTab.value as string;
     let loader: Ref<HTMLElement>;
     let select = reactive({} as iMySelect);
 
@@ -86,16 +86,17 @@ export default defineComponent({
 
     const managerStatOptions = managerStatSelect
       .options()
-      .filter((el: iSelectOption) => el.tabs?.includes(activeTab));
+      .filter((el: iSelectOption) => el.tabs?.includes(activeTabValue));
 
     select = <iMySelect>managerStatSelect;
 
     select.options = (): Array<iSelectOption> => managerStatOptions;
 
     const description =
-      statDescription.find((el) => el.tabs.includes(activeTab))?.value || "";
+      statDescription.find((el) => el.tabs.includes(activeTabValue))?.value ||
+      "";
 
-    const stats = statsName.filter((el) => el.tabs.includes(activeTab));
+    const stats = statsName.filter((el) => el.tabs.includes(activeTabValue));
 
     const createLoader = (e: Ref<HTMLElement>) => {
       loader = e;
@@ -127,6 +128,7 @@ export default defineComponent({
     };
 
     return {
+      activeTabValue,
       select,
       filter,
       description,

@@ -27,11 +27,14 @@ class SelectUtils {
 
 	initSelectAfterComponentLoad(columns: Array<iFilterColumnItem>, filter: iPlatformFilter) {
 		let funnelSelect = ref({} as Ref<iMySelect | iMyInput>);
+		let sourceSelect = ref({} as Ref<iMySelect | iMyInput>);
 
 		columns.forEach((item) => {
 			item.items.forEach((el) => {
 				if (el.name === "Воронка") {
 					funnelSelect.value = el;
+				} else if (el.name === "Источники трафика") {
+					sourceSelect.value = el;
 				}
 			});
 		});

@@ -4,10 +4,10 @@
     :key="index"
     class="monitor-stat__row"
   >
-    <div class="monitor-stat__count count">
+    <div class="column monitor-stat__count count">
       {{ index + 1 }}
     </div>
-    <div class="monitor-stat__manager manager">
+    <div class="column monitor-stat__manager manager">
       <div class="manager__avatar" :class="{ tooltip: item.manager.avatar }">
         <div
           v-if="item.manager.avatar"
@@ -34,7 +34,7 @@
         </p>
       </div>
     </div>
-    <div class="monitor-stat__reward reward">
+    <div class="column monitor-stat__reward reward">
       <div
         class="rewards-tooltip"
         :class="{ tooltip: item.bonuses?.length > 0 }"
@@ -52,7 +52,7 @@
         {{ item.bonuses?.length }}
       </div>
     </div>
-    <div class="monitor-stat__order order">
+    <div class="column monitor-stat__order order">
       <div
         class="order-wrapper"
         :class="[
@@ -69,31 +69,19 @@
             : item.bill?.type === 'default'
             ? 'default'
             : '',
-          { tooltip: item.bill?.value > 1000 || item.bill?.plan > 1000 },
         ]"
       >
-        <div
-          v-if="item.bill?.value > 1000 || item.bill?.plan > 1000"
-          class="tooltip__wrapper"
-        >
-          {{ item.bill?.value?.toLocaleString("ru-RU") || "0" }} /
-          {{ item.bill?.plan?.toLocaleString("ru-RU") || "0" }}
-        </div>
-
         <span ref="orderValue" class="order-wrapper__value">
           {{ item.bill?.value?.toLocaleString("ru-RU") || "0" }}
         </span>
-        <span
-          ref="orderValuePlan"
-          class="order-wrapper__plan"
-          :class="item.bill?.plan !== null ? 'active' : ''"
-        >
+        <span>&nbsp;/&nbsp;</span>
+        <span ref="orderValuePlan" class="order-wrapper__plan">
           {{ item.bill?.plan?.toLocaleString("ru-RU") || "0" }}
         </span>
       </div>
       {{ item.bill?.percent + " %" }}
     </div>
-    <div class="monitor-stat__payment payment">
+    <div class="column monitor-stat__payment payment">
       <div
         class="payment-wrapper"
         :class="[
@@ -110,30 +98,19 @@
             : item.bill?.type === 'default'
             ? 'default'
             : '',
-          { tooltip: item.sale?.value > 1000 || item.sale?.plan > 1000 },
         ]"
       >
-        <div
-          v-if="item.sale?.value > 1000 || item.sale?.plan > 1000"
-          class="tooltip__wrapper"
-        >
-          {{ item.sale?.value?.toLocaleString("ru-RU") || "0" }} /
-          {{ item.sale?.plan?.toLocaleString("ru-RU") || "0" }}
-        </div>
-
         <span class="payment-wrapper__value">
           {{ item.sale?.value?.toLocaleString("ru-RU") || "0" }}
         </span>
-        <span
-          class="payment-wrapper__plan"
-          :class="item.sale?.plan !== null ? 'active' : ''"
-        >
+        <span>&nbsp;/&nbsp;</span>
+        <span class="payment-wrapper__plan">
           {{ item.sale?.plan?.toLocaleString("ru-RU") || "0" }}
         </span>
       </div>
       {{ item.sale?.percent + " %" }}
     </div>
-    <div class="monitor-stat__revenue revenue">
+    <div class="column monitor-stat__revenue revenue">
       <div
         class="revenue-wrapper"
         :class="
@@ -157,10 +134,10 @@
             (item.proceed?.value?.toLocaleString("ru-RU") || 0) + " ₽" || "0 ₽"
           }}
         </span>
+        <span>&nbsp;/&nbsp;</span>
         <span
           v-if="item.proceed?.message !== '—'"
           class="revenue-wrapper__plan"
-          :class="item.proceed?.value ? 'active' : ''"
         >
           {{
             (item.proceed?.plan?.toLocaleString("ru-RU") || 0) + " ₽" || "0 ₽"
@@ -169,12 +146,20 @@
       </div>
       {{ item.proceed?.percent + " %" || "0 %" }}
     </div>
-    <div class="monitor-stat__left left-wrapper left">
-      <span class="left-wrapper__text">{{
-        (item.proceedLeft?.plan?.toLocaleString("ru-RU") || 0) + " ₽" || "0 ₽"
-      }}</span>
+    <div
+      class="column monitor-stat__left left-wrapper left"
+      :class="item.proceedLeft?.plan > 999999 ? 'tooltip' : ''"
+    >
+      <span class="tooltip__wrapper left__tooltip">
+        {{ (item.proceedLeft?.plan?.toLocaleString("ru-RU") || 0) + " ₽" }}
+      </span>
+      <span class="left-wrapper__text">
+        {{
+          (item.proceedLeft?.plan?.toLocaleString("ru-RU") || 0) + " ₽" || "0 ₽"
+        }}
+      </span>
     </div>
-    <div class="monitor-stat__prediction prediction">
+    <div class="column monitor-stat__prediction prediction">
       <div
         v-if="
           item.prediction?.message.match('[-+]?[0-9]*') &&
@@ -187,7 +172,7 @@
       </div>
       <div v-else>Нет</div>
     </div>
-    <div class="monitor-stat__deviation deviation">
+    <div class="column monitor-stat__deviation deviation">
       <div
         class="deviation-wrapper"
         :class="

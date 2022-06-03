@@ -65,7 +65,7 @@ export default defineComponent({
       required: true,
     },
     activeTab: {
-      type: String,
+      type: Object,
       required: true,
     },
     selectsArray: {
@@ -74,7 +74,7 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const activeTab = props.activeTab as string;
+    const activeTab = props.activeTab.value as string;
     let openFilterSettings: iCreateModal;
     let loader: Ref<HTMLElement>;
 

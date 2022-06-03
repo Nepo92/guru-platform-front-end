@@ -13,6 +13,7 @@ export interface iMyInput {
 	options?(): Array<iSelectOption>;
 	selected?: number | string | boolean | null;
 	hasSideEffect?: boolean;
+	hidden?: boolean;
 }
 
 export interface iMyInputProps {
@@ -23,4 +24,5 @@ export interface iMyInputProps {
 	tabs: Array<string>;
 	options?: Array<iSelectOption>;
 	hasSideEffect?: boolean;
+	hidden?: boolean;
 }

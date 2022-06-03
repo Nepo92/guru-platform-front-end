@@ -33,7 +33,6 @@
       display: grid;
       grid-template-columns: max-content max-content;
       align-items: center;
-      height: 55px;
       border-right: 1px solid $manager-row-border;
     }
   }
@@ -46,7 +45,6 @@
       display: grid;
       grid-template-columns: max-content max-content;
       align-items: center;
-      height: 55px;
       border-right: 1px solid $manager-row-border;
     }
   }
@@ -60,7 +58,6 @@
       grid-template-columns: max-content max-content;
       align-items: center;
       border-right: 1px solid $manager-row-border;
-      height: 55px;
     }
   }
 
@@ -73,7 +70,6 @@
       grid-template-columns: max-content max-content;
       align-items: center;
       border-right: 1px solid $manager-row-border;
-      height: 55px;
     }
   }
 
@@ -81,7 +77,6 @@
     padding: 0 15px;
 
     &.left {
-      height: 55px;
       padding: 0 15px;
       display: grid;
       align-items: center;
@@ -89,7 +84,9 @@
   }
 
   &__count {
-    justify-self: center;
+    display: grid;
+    align-items: center;
+    justify-content: center;
 
     &.count {
       color: $menu-icon;
@@ -98,7 +95,9 @@
 
   &__prediction,
   &__deviation {
-    justify-self: center;
+    display: grid;
+    align-items: center;
+    justify-content: center;
   }
 
   &__manager {
@@ -119,47 +118,41 @@
   }
 }
 
+.column {
+  height: 100%;
+  justify-content: space-between;
+
+  &.deviation,
+  &.prediction,
+  &.count {
+    justify-content: center;
+  }
+}
+
 .order-wrapper,
 .payment-wrapper,
 .revenue-wrapper,
 .deviation-wrapper {
   position: relative;
-  padding: 5px 10px;
+  padding: 5px 8px;
   margin-right: 5px;
   border-radius: 5px;
   font-weight: 400;
-  display: grid;
-  grid-template-columns: max-content max-content;
-  justify-content: start;
-  width: max-content;
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  max-width: 105px;
 
   &__value {
+    font-size: 9px;
     font-weight: 600;
     display: inline-block;
-    width: max-content;
-    max-width: 40px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
   }
 
   &__plan {
     display: inline-block;
     width: max-content;
-    max-width: 40px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-
-    &.active {
-      &::before {
-        content: " /";
-        font-size: 12px;
-        font-weight: 500;
-        line-height: 15px;
-        color: rgba($login-name, 0.3);
-      }
-    }
+    font-size: 9px;
   }
 
   &.default {
@@ -207,5 +200,27 @@
   &.control {
     grid-template-columns: auto 150px 200px 200px 200px 260px 175px;
     grid-template-areas: "count manager deal-count rate-count debate-count debate-count-estimation score";
+  }
+}
+
+.reward {
+  &__list {
+    width: max-content;
+  }
+}
+
+.left {
+  &__tooltip {
+    left: -25%;
+    transform: translate(10px, 0);
+    width: max-content;
+  }
+}
+
+.left-wrapper {
+  &__text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }

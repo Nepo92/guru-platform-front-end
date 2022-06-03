@@ -1,7 +1,7 @@
 <template>
   <input
     ref="inputRef"
-    type="text"
+    :type="inputItem.hidden ? 'hidden' : 'text'"
     placeholder="Аудитории"
     class="input"
     :value="inputItem.value"
@@ -24,7 +24,7 @@ export default defineComponent({
       required: true,
     },
     activeTab: {
-      type: String,
+      type: Object,
       required: true,
     },
   },
@@ -39,7 +39,7 @@ export default defineComponent({
     };
 
     const nameEng = (props.inputItem.nameEng as Array<iNameFilterItem>).find(
-      (el) => el.tabs.includes(props.activeTab)
+      (el) => el.tabs.includes(props.activeTab.value)
     )?.name;
 
     return {

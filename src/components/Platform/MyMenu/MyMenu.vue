@@ -107,7 +107,6 @@ import { iMenuItem, iHoverProps } from "./interfacesMenu/interfacesMenu";
 
 export default {
   setup() {
-    const submenu = ref([] as HTMLElement[]);
     const store = platformStore();
 
     const { company, avatar, getMenuItems } = store;

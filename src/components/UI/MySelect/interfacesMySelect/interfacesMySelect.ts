@@ -18,6 +18,7 @@ export interface iMySelect {
 	selectedName(): iSelectOption;
 	tabs: Array<string>;
 	hasSideEffect?: boolean;
+	hidden?: boolean;
 }
 
 export interface iMySelectProps {

@@ -21,7 +21,7 @@
           v-if="hasApply"
           type="button"
           class="modal-footer__btn"
-          @click="() => apply()"
+          @click="(e) => apply(e)"
         >
           {{ applyText }}
         </button>
@@ -92,7 +92,7 @@ export default defineComponent({
       required: false,
     },
     selectsArray: Array,
-    activeTab: String,
+    activeTab: Object,
     slotData: Object,
   },
   emits: ["create-modal"],

@@ -55,3 +55,11 @@ export const dealAPI = {
 		return JSON.parse(request.request.response);
 	},
 };
+
+export const settingsContractsAPI = {
+	async getContracts() {
+		const request = await axios.get("./getDocumentLinks");
+
+		return JSON.parse(request.request.response);
+	},
+};

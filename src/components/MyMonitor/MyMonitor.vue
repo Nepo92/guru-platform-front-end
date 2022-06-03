@@ -1,13 +1,13 @@
 <template>
-  <div class="monitor" :style="{ backgroundColor: backgroundColor }">
+  <div class="page" :style="{ backgroundColor: backgroundColor }">
     <MyMenu />
-    <div class="monitor-content custom-scroll">
+    <div class="page-content custom-scroll">
       <MyHeader
         :props="headerProps"
         @open-settings-menu="(e) => openSettingsMenu(e)"
         @set-active-tab="(tab) => setActiveTab(tab)"
       />
-      <div v-if="activeTab" class="monitor-content__wrapper">
+      <div v-if="activeTab" class="page-content__wrapper">
         <MonitorFilter
           :title="'Фильтровать монитор'"
           :nested="false"
@@ -24,6 +24,8 @@
           :applyText="monitorBackgroundProps.applyText"
           :cancel="monitorBackgroundProps.cancel"
           :nested="monitorBackgroundProps.nested"
+          :hasApply="monitorBackgroundProps.hasApply"
+          :size="monitorBackgroundProps.size"
           @create-modal="createSettingsMenu"
         >
           <BackgroundSettings
@@ -43,9 +45,8 @@
 </template>
 
 <script lang="ts">
-import "./MyMonitor.scss";
 import { defineComponent } from "@vue/runtime-core";
-import { InputHTMLAttributes, ref, Ref } from "vue";
+import { InputHTMLAttributes, ref, Ref, watch } from "vue";
 import { monitorStore } from "./monitorStore/monitorStore";
 import MyMenu from "../Platform/MyMenu/MyMenu.vue";
 import MyHeader from "../Platform/MyHeader/MyHeader.vue";
@@ -74,7 +75,7 @@ export default defineComponent({
     MonitorWidgets,
     ManagerStat,
   },
-  setup() {
+  setup(props, {}) {
     let loader: Ref<HTMLElement>;
     let backgroundSettings: iModal;
     let inputColor: InputHTMLAttributes;

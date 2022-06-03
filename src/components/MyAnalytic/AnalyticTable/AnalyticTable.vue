@@ -60,22 +60,20 @@
               <div class="managers-list__wrapper">
                 <h2 class="analytic-main__title">Список менеджеров</h2>
                 <div
-                  v-for="(manager, count) of managers"
+                  v-for="(manager, count) of metric.managers"
                   :key="count"
                   class="analytic-main__manager"
                 >
                   <div class="analytic-manager__name metric-icon">
-                    {{ manager.name }}
+                    {{ manager?.name }}
                   </div>
                   <div class="analytic-manager__value">
                     {{
-                      metric.managers
-                        ? `${
-                            metric.managers[count]?.sum?.toLocaleString(
-                              "ru-RU"
-                            ) || "0"
-                          } ${metric.units || ""}` || `0 ${metric.units || ""}`
-                        : `0 ${metric.units || ""}`
+                      manager?.sum
+                        ? `${manager.sum.toLocaleString("ru-Ru")} ${
+                            metric?.units ? metric.units : ""
+                          }`
+                        : `0${metric.units ? ` ${metric.units}` : ""}`
                     }}
                   </div>
                 </div>
@@ -143,7 +141,7 @@
                   class="analytic-period__manager"
                 >
                   <div
-                    v-for="(el, counter) of elem.sums"
+                    v-for="(el, counter) of elem?.sums"
                     :key="counter"
                     class="analytic-period__column"
                     :class="
@@ -194,6 +192,7 @@ import {
   iAnalyticRow,
   iCurrentAnalytic,
 } from "./interfacesAnalyticTable/interfacesAnalyticTable";
+import { iManager } from "@/components/Platform/interfacesPlatform/interfacesPlatform";
 
 const analyticTableUtils = new AnalyticTableUtils();
 
@@ -212,7 +211,7 @@ export default defineComponent({
       required: true,
     },
     activeTab: {
-      type: String,
+      type: Object,
       required: true,
     },
   },
@@ -232,12 +231,10 @@ export default defineComponent({
     const { analyticData, months, filter } = store;
     const { rows, colors } = analyticData;
 
-    const managersCounter = analyticData.managers.length;
-
     const currentRowsProps = {
       searchRow,
       rows: rows as Array<iCurrentAnalytic>,
-      activeTab: props.activeTab,
+      activeTab: props.activeTab.value,
       colors,
       visibleSettings: filter.visibleSettings,
     };
@@ -257,7 +254,14 @@ export default defineComponent({
       analyticTableUtils.getPeriodItems(periodItemsProps)
     );
 
-    const managers = analyticData.managers;
+    const managers =
+      filter.isNotDismiss !== null
+        ? (analyticData.managers as Array<iManager>).filter(
+            (el) => el.notDisMiss === filter.isNotDismiss
+          )
+        : analyticData.managers;
+
+    const managersCounter = managers.length;
 
     const toggleRow = (e: MouseEvent) => {
       const t = <HTMLInputElement>e.target;
