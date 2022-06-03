@@ -12,11 +12,11 @@
     <div th:replace="base :: main-nav"></div>
     <div th:replace="base :: transition-loader"></div>
     <script th:src="@{/js/transition-loader.js}"></script>
-<script th:inline='javascript'>
-    /*<![CDATA[*/
-    showLoader();
+    <script th:inline='javascript'>
+        /*<![CDATA[*/
+        showLoader();
 /*]]>*/
-</script>
+    </script>
 
     <div class="platform__wrapper">
         <div class="platform__header monitor">
@@ -611,10 +611,17 @@
                                 <td class="monitor-table__col monitor-manager__index"></td>
                                 <td class="monitor-table__col monitor-manager__info">Менеджер</td>
                                 <td class="monitor-table__col monitor-manager__awards no-border">Награды</td>
-                                <td class="monitor-table__col monitor-manager__order no-border">Заказы</td>
-                                <td class="monitor-table__col monitor-manager__payment no-border">Продажи</td>
-                                <td class="monitor-table__col monitor-manager__revenue no-border">Выручка</td>
-                                <td class="monitor-table__col monitor-manager__remained no-border">Осталось</td>
+                                <td class="monitor-table__col monitor-manager__column monitor-manager__order no-border">
+                                    Заказы</td>
+                                <td
+                                    class="monitor-table__col monitor-manager__column monitor-manager__payment no-border">
+                                    Продажи</td>
+                                <td
+                                    class="monitor-table__col monitor-manager__column monitor-manager__revenue no-border">
+                                    Выручка</td>
+                                <td
+                                    class="monitor-table__col monitor-manager__column monitor-manager__remained no-border">
+                                    Осталось</td>
                                 <td class="monitor-table__col monitor-manager__forecast no-border">Прогноз</td>
                                 <td class="monitor-table__col monitor-manager__deviation">Отклонение</td>
                             </tr>
