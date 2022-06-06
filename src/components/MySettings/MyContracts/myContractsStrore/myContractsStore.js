@@ -17,6 +17,7 @@ export const contractStore = defineStore("contractStore", {
 						settings: false,
 					},
 				],
+				changeTab: true,
 				color: true,
 				settings: false,
 				border: false,

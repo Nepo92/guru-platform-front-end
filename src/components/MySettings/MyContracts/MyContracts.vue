@@ -3,25 +3,26 @@
     <MyMenu />
     <div class="page-content custom-scroll">
       <MyHeader :props="headerProps" @set-active-tab="setActiveTab" />
-      <div v-if="activeTab" class="page-content__wrapper contracts">
+      <div v-if="settings.activeTab" class="page-content__wrapper contracts">
         <div class="contracts__nav">
-          <div class="contracts-nav__search constracts-search">
+          <div class="contracts-search search-icon">
             <input
               id="searchContract"
               autocomplete="off"
-              class="constracts-search__input contracts-search__icon"
+              class="contracts-search__input contracts-search__icon"
               type="text"
               placeholder="Введите название документа"
             />
           </div>
           <div class="contracts-nav__upload">
-            <button
-              type="button"
-              upload-contract
-              class="contracts-upload__button"
+            <input
+							id="contract"
+              type="file"
+							class="contracts-upload__button"
             >
-              Загрузить договор
-            </button>
+						<label for="contract" class="contracts-upload__label">
+							Загрузить договор
+						</label>
           </div>
         </div>
         <table class="contracts__table">
@@ -57,8 +58,10 @@ import { defineComponent } from "@vue/runtime-core";
 import MyHeader from "@/components/Platform/MyHeader/MyHeader.vue";
 import MyMenu from "@/components/Platform/MyMenu/MyMenu.vue";
 import { contractStore } from "./myContractsStrore/myContractsStore";
-import { ref } from "vue";
+import { ref, reactive } from "vue";
 import { settingsContractsAPI } from "@/api/api";
+import './MyContracts.scss';
+import '@/assets/scss/search.scss';
 
 export default defineComponent({
   components: {
@@ -66,7 +69,7 @@ export default defineComponent({
     MyMenu,
   },
   async setup() {
-    let activeTab = ref("");
+    let settings = reactive({activeTab: ''});
     let contracts = ref({});
 
     const store = contractStore();
@@ -74,7 +77,7 @@ export default defineComponent({
     const { headerProps } = store;
 
     const setActiveTab = (tab: string) => {
-      activeTab.value = tab;
+      settings.activeTab = tab;
     };
 
     contracts = await settingsContractsAPI.getContracts();
@@ -82,7 +85,7 @@ export default defineComponent({
     return {
       headerProps,
       setActiveTab,
-      activeTab,
+			settings,
       contracts,
     };
   },

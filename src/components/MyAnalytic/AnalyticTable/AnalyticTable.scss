@@ -96,31 +96,6 @@
   }
 }
 
-.search-icon {
-  position: relative;
-
-  &::after {
-    position: absolute;
-    top: 12px;
-    right: 20px;
-    content: "";
-    display: inline-block;
-    width: 15px;
-    height: 16px;
-    mask-image: url("../../../assets/img/search.svg");
-    background-color: $filter-clear-btn;
-    mask-repeat: no-repeat;
-    mask-position: center;
-    mask-size: 100% 100%;
-  }
-
-  &.active {
-    &::after {
-      background-color: $black;
-    }
-  }
-}
-
 .analytic-metric {
   &__info {
     display: grid;

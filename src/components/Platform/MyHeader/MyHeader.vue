@@ -27,7 +27,7 @@
           class="header-tabs__item"
           :class="[classActiveTab(tab), tab.nameClass || '']"
         >
-          <a :href="tab.link" class="header-tabs__link">
+          <a :href="tab.link" class="header-tabs__link" @click="(e) => changeTab(e, tab)">
             {{ tab.name }}
             <span
               v-if="tab.settings"
@@ -101,12 +101,19 @@ export default defineComponent({
       emit("open-tab-settings-menu", e);
     };
 
+		const changeTab = (e: MouseEvent, tab: iHeaderTab) => {
+			if (props.props.changeTab) {
+				props.props.activeTab = tab.name;
+			}
+		};
+
     return {
       classActiveTab,
       openSettingsMenu,
       openTabSettingsMenu,
       route,
       tabs,
+			changeTab,
     };
   },
 });

@@ -193,6 +193,7 @@ import {
   iCurrentAnalytic,
 } from "./interfacesAnalyticTable/interfacesAnalyticTable";
 import { iManager } from "@/components/Platform/interfacesPlatform/interfacesPlatform";
+import '@/assets/scss/search.scss';
 
 const analyticTableUtils = new AnalyticTableUtils();
 
