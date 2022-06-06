@@ -11,13 +11,17 @@ class PageData {
 
     const banned = ['#', '?'];
 
+    const hasError = last.includes('login?error=true') ? last : false;
+
     /* eslint-disable-next-line */
     const exception = (isNaN(last) && banned.includes(last)) || (last.split('?').length > 1 || last.split('#').length > 1);
 
     /* eslint-disable-next-line */
     const needPageName = !last || !isNaN(last) || exception;
 
-    return needPageName ? this.getPageName(page) : last;
+    const noError = needPageName ? this.getPageName(page) : last;
+
+    return hasError || noError;
   }
 
   addHttps(link) {

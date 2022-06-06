@@ -5,6 +5,7 @@ import state from './store/store.js';
 const pageData = new PageData();
 
 const LOGIN = 'login';
+const LOGIN_ERROR = 'login?error=true';
 const BILL_PAYMENT = 'bill-payment';
 const PUBLIC_REGISTRATION = 'public-registration';
 const PAYMENT_FORM_PUBLIC = 'payment-form-public';
@@ -17,7 +18,7 @@ class Router {
 
     const modules = this.#getModules;
 
-    const currentModule = modules.find((el) => el.page === page);
+    const currentModule = modules.find((el) => el.page?.includes(page));
 
     if (currentModule) {
       currentModule.getModule().then((module) => {
@@ -35,25 +36,25 @@ class Router {
   get #getModules() {
     return [
       {
-        page: LOGIN,
+        page: [LOGIN, LOGIN_ERROR],
         getModule() {
           return import('./modules/login/Ipassword.js');
         },
       },
       {
-        page: BILL_PAYMENT,
+        page: [BILL_PAYMENT],
         getModule() {
           return import('./modules/bill-payment/bill-payment.js');
         },
       },
       {
-        page: PUBLIC_REGISTRATION,
+        page: [PUBLIC_REGISTRATION],
         getModule() {
           return import('./modules/registration/registration.js');
         },
       },
       {
-        page: PAYMENT_FORM_PUBLIC,
+        page: [PAYMENT_FORM_PUBLIC],
         getModule() {
           return import('./menu/items/settings/payment-form/public/public.js');
         },
