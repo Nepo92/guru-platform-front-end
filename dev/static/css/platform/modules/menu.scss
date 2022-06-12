@@ -60,6 +60,7 @@
   font-size: 14px;
   line-height: 14px;
   cursor: pointer;
+  padding-top: 20px;
 
   &.products-menu::after,
   &.team::after,
@@ -68,8 +69,8 @@
     display: inline-block;
     min-width: 70px;
     width: 70px;
-    min-height: 50px;
-    height: 50px;
+    min-height: 24px;
+    height: 24px;
     background-color: #bfc0c4;
     mask-repeat: no-repeat;
     mask-position: center;
@@ -177,13 +178,14 @@
 .platform-menu__link.funnels::after,
 .platform-menu__link.clients::after,
 .platform-menu__link.homework::after,
-.platform-menu__link.salary-item::after {
+.platform-menu__link.salary-item::after,
+.platform-menu__link.bills-item::after {
   content: "";
   display: inline-block;
   min-width: 70px;
   width: 70px;
-  min-height: 50px;
-  height: 50px;
+  min-height: 24px;
+  height: 24px;
   background-color: #bfc0c4;
   mask-repeat: no-repeat;
   mask-position: center;
@@ -236,19 +238,8 @@
 }
 
 .platform-menu__link.bills-item::after {
-  content: "";
-  display: inline-block;
-  min-width: 70px;
-  width: 70px;
-  min-height: 50px;
-  height: 50px;
   mask-image: url("../../img/nav-bills.svg");
-  background-color: #bfc0c4;
-  mask-repeat: no-repeat;
-  mask-position: center;
   mask-size: 19px 24px;
-  position: relative;
-  transition: all 0.2s linear;
 }
 
 .platform-menu_link {
@@ -303,7 +294,7 @@
 .platform-submenu__item {
   width: 100%;
   height: auto;
-  border-top: 1px solid #7c7b85;
+  border-bottom: 1px solid #c4c3c9;
   white-space: nowrap;
 
   &.title {
@@ -330,26 +321,34 @@
   }
 }
 
+.platform-submenu__link {
+  display: flex;
+  padding: 20px;
+  color: #c4c3c9;
+  font-size: 14px;
+  line-height: 14px;
+  white-space: nowrap;
+
+  &::before {
+    background-color: #c4c3c9;
+  }
+
+  &:hover {
+    color: inherit;
+
+    &::before {
+      background-color: $black;
+    }
+  }
+}
+
 .platform-submenu__item:hover {
   color: black;
-  border-top: 1px solid black;
 }
 
 .platform-submenu__item.active {
   color: white;
   background-color: #282828 !important;
-}
-
-.platform-submenu__link {
-  display: flex;
-  padding: 20px;
-  color: #7c7b85;
-  font-size: 14px;
-  line-height: 14px;
-}
-
-.platform-submenu__link:hover {
-  color: inherit;
 }
 
 .submenu {
@@ -428,6 +427,136 @@
   width: 0;
   height: 0;
   margin-left: 0;
+}
+
+.platform-submenu__link.distribution-deals::before,
+.platform-submenu__link.distribution-applications::before,
+.platform-submenu__link.products-icon::before,
+.platform-submenu__link.streams-icon::before,
+.platform-submenu__link.users-icon::before,
+.platform-submenu__link.calc-salary-icon::before,
+.platform-submenu__link.schedule-icon::before,
+.platform-submenu__link.plans-icon::before,
+.platform-submenu__link.motivation-icon::before,
+.platform-submenu__link.actions-icon::before,
+.platform-submenu__link.main-icon::before,
+.platform-submenu__link.contracts-icon::before,
+.platform-submenu__link.payments-icon::before,
+.platform-submenu__link.projects-icon::before,
+.platform-submenu__link.acquiring-icon::before,
+.platform-submenu__link.integrations-icon::before,
+.platform-submenu__link.clear-clones-icon::before,
+.platform-submenu__link.template-bills-icon::before,
+.platform-submenu__link.banners-icon::before {
+  content: "";
+  display: inline-block;
+  min-width: 15px;
+  width: 15px;
+  min-height: 15px;
+  height: 15px;
+  margin-right: 10px;
+  mask-repeat: no-repeat;
+  mask-position: center;
+}
+
+.platform-submenu__link.products-icon::before {
+  mask-image: url("../../img/nav-products-catalog.svg");
+  mask-size: 100% 100%;
+}
+
+.platform-submenu__link.streams-icon::before {
+  mask-image: url("../../img/nav-products-streams.svg");
+  mask-size: 100% 100%;
+}
+
+.platform-submenu__link.users-icon::before {
+  mask-image: url("../../img/nav-settings-users.svg");
+  mask-size: 100% 100%;
+}
+
+.platform-submenu__link.calc-salary-icon::before {
+  mask-image: url("../../img/nav-team-salary.svg");
+  mask-size: 100% 100%;
+}
+
+.platform-submenu__link.schedule-icon::before {
+  mask-image: url("../../img/nav-team-graphic.svg");
+  mask-size: 100% 100%;
+}
+
+.platform-submenu__link.plans-icon::before {
+  mask-image: url("../../img/nav-team-plan.svg");
+  mask-size: 100% 100%;
+}
+
+.platform-submenu__link.motivation-icon::before {
+  mask-image: url("../../img/nav-team-motivation.svg");
+  mask-size: 100% 100%;
+}
+
+.platform-submenu__link.actions-icon::before {
+  mask-image: url("../../img/nav-team-actions.svg");
+  mask-size: 100% 100%;
+}
+
+.platform-submenu__link.main-icon::before {
+  mask-image: url("../../img/nav-settings-main.svg");
+  mask-size: 100% 100%;
+}
+
+.platform-submenu__link.contracts-icon::before, {
+  mask-image: url("../../img/nav-settings-contracts.svg");
+  mask-size: 100% 100%;
+}
+
+.platform-submenu__link.payment-icon::before {
+  mask-image: url("../../img/nav-settings-pm-bills.svg");
+  mask-size: 100% 100%;
+}
+
+.platform-submenu__link.projects-icon::before {
+  mask-image: url("../../img/nav-settings-projects.svg");
+  mask-size: 100% 100%;
+}
+
+.platform-submenu__link.acquiring-icon::before {
+  mask-image: url("../../img/nav-settings-pf-builder.svg");
+  mask-size: 100% 100%;
+}
+
+.platform-submenu__link.integrations-icon::before {
+  mask-image: url("../../img/nav-settings-integrations.svg");
+  mask-size: 100% 100%;
+}
+
+.platform-submenu__link.clear-clones-icon::before {
+  mask-image: url("../../img/nav-settings-clear-clones.svg");
+  mask-size: 100% 100%;
+}
+
+.platform-submenu__link.template-bills-icon::before {
+  mask-image: url("../../img/nav-settings-template-bills.svg");
+  mask-size: 100% 100%;
+}
+
+.platform-submenu__link.banners-icon::before {
+  mask-image: url("../../img/nav-settings-module-banner.svg");
+  mask-size: 100% 100%;
+}
+
+.platform-submenu__link.payments-icon::before {
+  mask-image: url("../../img/nav-settings-pm-bills.svg");
+  mask-size: 100% 100%;
+}
+
+.platform-submenu__link.distribution-deals {
+  mask-image: url("../../img/nav-adv-dist-deals.svg");
+  mask-size: 100% 100%;
+}
+
+.platform-submenu__link.distribution-applications {
+  mask-image: url("../../img/nav-adv-dist-applications.svg");
+  mask-size: 100% 100%;
 }
 
 @media (min-width: 1260px) {
