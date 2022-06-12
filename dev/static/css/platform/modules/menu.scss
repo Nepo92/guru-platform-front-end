@@ -64,7 +64,8 @@
 
   &.products-menu::after,
   &.team::after,
-  &.settings::after {
+  &.settings::after,
+  &.adv-cabinet::after {
     content: "";
     display: inline-block;
     min-width: 70px;
@@ -151,6 +152,11 @@
   mask-size: 22px 22px;
 }
 
+.platform-menu__item.adv-cabinet::after {
+  mask-image: url("../../img/nav-adv-cabinet.svg");
+  mask-size: 22px 22px;
+}
+
 .platform-menu__link,
 .platform-menu_link {
   display: flex;
@@ -179,7 +185,8 @@
 .platform-menu__link.clients::after,
 .platform-menu__link.homework::after,
 .platform-menu__link.salary-item::after,
-.platform-menu__link.bills-item::after {
+.platform-menu__link.bills-item::after,
+.platform-menu__link.adv-cabinet::after {
   content: "";
   display: inline-block;
   min-width: 70px;
@@ -549,12 +556,12 @@
   mask-size: 100% 100%;
 }
 
-.platform-submenu__link.distribution-deals {
+.platform-submenu__link.distribution-deals::before {
   mask-image: url("../../img/nav-adv-dist-deals.svg");
   mask-size: 100% 100%;
 }
 
-.platform-submenu__link.distribution-applications {
+.platform-submenu__link.distribution-applications::before {
   mask-image: url("../../img/nav-adv-dist-applications.svg");
   mask-size: 100% 100%;
 }

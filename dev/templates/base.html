@@ -149,7 +149,7 @@
           <a class="platform-menu__link analytics"
              th:href="${role == 'ROLE_ADVERTISER' ? '/funnel/traffic/' : role == 'ROLE_ADMIN' ? '/funnel/' : ''}">Аналитика</a>
         </li>
-        <li class="platform-menu__item" title="Рекламный кабинет" data-item="Рекламный кабинет" th:if="${role == 'ROLE_ADMIN' || role == 'ROLE_ADVERTISER'}">
+        <li class="platform-menu__item" th:classappend="${role == 'ROLE_ADVERTISER' ? 'adv-cabinet submenu' : ''}" title="Рекламный кабинет" data-item="Рекламный кабинет" th:if="${role == 'ROLE_ADMIN' || role == 'ROLE_ADVERTISER'}">
           <a class="platform-menu__link marketing" th:if="${role == 'ROLE_ADMIN'}"
              th:href="${role == 'ROLE_ADMIN' ? '/a-advertising/' : '#'}">
             Рекламный кабинет
@@ -168,7 +168,7 @@
         <li class="platform-menu__item" title="Счета и платежи"
             th:if="${role == 'ROLE_HEAD_MANAGER' || role == 'ROLE_MANAGER' || role == 'ROLE_ADMIN'}">
           <a class="platform-menu__link bills-item"
-             th:href="${role == 'ROLE_HEAD_MANAGER' ? '/head-manager-transactions/bills' : role == 'ROLE_MANAGER' ? '/transactions/bills/' : role == 'ROLE_ADMIN' ? '/deals/bills/' : ''}">
+             th:href="${role == 'ROLE_HEAD_MANAGER' ? '/head-manager-transactions/bills/' : role == 'ROLE_MANAGER' ? '/transactions/bills/' : role == 'ROLE_ADMIN' ? '/deals/bills/' : ''}">
             Счета и платежи
           </a>
         </li>
@@ -319,24 +319,6 @@
       </div>
     </div>
   </th:block>
-
-  <div class="platform__tabs" th:fragment="bookmarks-nav">
-    <a th:classappend="${subtype == 'all' ? 'active' : ''}" th:href="@{/corporate-center/bookmarks/}"
-      class="platform-tabs__link">Общие</a>
-    <a th:if="${role == 'ROLE_ADVERTISER'}" th:classappend="${subtype == 'advertiser' ? 'active' : ''}"
-      th:href="@{/corporate-center/bookmarks/advertiser/}" class="platform-tabs__link">Маркетинг</a>
-    <a th:if="${role == 'ROLE_HEAD_MANAGER' || role == 'ROLE_MANAGER'}"
-      th:classappend="${subtype == 'manager' ? 'active' : ''}" th:href="@{/corporate-center/bookmarks/manager/}"
-      class="platform-tabs__link">Продажи</a>
-  </div>
-
-  <div class="platform__tabs" th:fragment="faq-nav">
-    <a th:if="${role == 'ROLE_ADVERTISER'}" th:classappend="${subtype == 'advertiser' ? 'active' : ''}"
-      th:href="@{/corporate-center/faq/advertiser/}" class="platform-tabs__link">Маркетинг</a>
-    <a th:if="${role == 'ROLE_HEAD_MANAGER' || role == 'ROLE_MANAGER'}"
-      th:classappend="${subtype == 'manager' ? 'active' : ''}" th:href="@{/corporate-center/faq/manager/}"
-      class="platform-tabs__link">Продажи</a>
-  </div>
 
   <div th:fragment="settings-said-nav" class="setting-said">
     <div class="setting-said__wrapper">
@@ -575,54 +557,6 @@
     </div>
   </div>
 
-  <div class="platform__tabs" th:fragment="transactions-nav">
-    <a th:classappend="${type == 'deals' ? 'active' : ''}" th:href="@{/transactions/}"
-      class="platform-tabs__link">Сделки</a>
-    <a th:classappend="${type == 'bills' ? 'active' : ''}" th:href="@{/transactions/bills/}"
-      class="platform-tabs__link">Счета</a>
-    <a th:classappend="${type == 'transaction' ? 'active' : ''}" th:href="@{/transactions/transaction/}"
-      class="platform-tabs__link">Транзакции</a>
-    <a th:classappend="${type == 'sms-checks' ? 'active' : ''}" th:href="@{/sms-checks/}"
-      class="platform-tabs__link">Чеки</a>
-    <a th:classappend="${type == 'clients-list' ? 'active' : ''}" th:href="@{/clients-list/}"
-      class="platform-tabs__link">Клиенты</a>
-  </div>
-
-  <div class="platform__tabs" th:fragment="reglament-tabs">
-    <a th:classappend="${subtype == 'all' ? 'active' : ''}" th:href="@{/corporate-center/regulations/}"
-      class="platform-tabs__link">Общие</a>
-    <a th:if="${role == 'ROLE_ADVERTISER'}" th:classappend="${subtype == 'advertiser' ? 'active' : ''}"
-      th:href="@{/corporate-center/regulations/advertiser/}" class="platform-tabs__link">Маркетинг</a>
-    <a th:if="${role == 'ROLE_MANAGER' || role == 'ROLE_HEAD_MANAGER'}"
-      th:classappend="${subtype == 'manager' ? 'active' : ''}" th:href="@{/corporate-center/regulations/manager/}"
-      class="platform-tabs__link">Продажи</a>
-  </div>
-
-  <div class="platform__tabs" th:fragment="head-manager-transactions-nav">
-    <a th:classappend="${type == 'deals' ? 'active' : ''}" th:href="@{/head-manager-transactions/}"
-      class="platform-tabs__link">Сделки</a>
-    <a th:classappend="${type == 'bills' ? 'active' : ''}" th:href="@{/head-manager-transactions/bills/}"
-      class="platform-tabs__link">Счета</a>
-    <a th:classappend="${type == 'transaction' ? 'active' : ''}" th:href="@{/head-manager-transactions/transaction/}"
-      class="platform-tabs__link">Транзакции</a>
-    <a th:classappend="${type == 'sms-checks' ? 'active' : ''}" th:href="@{/sms-checks/}"
-      class="platform-tabs__link">Чеки</a>
-    <a th:classappend="${type == 'clients-list' ? 'active' : ''}" th:href="@{/clients-list/}"
-      class="platform-tabs__link">Клиенты</a>
-  </div>
-
-  <div class="platform__tabs" th:fragment="deals-nav">
-    <a th:classappend="${type == 'deals' ? 'active' : ''}" th:href="@{/deals/}" class="platform-tabs__link">Сделки</a>
-    <a th:classappend="${type == 'bills' ? 'active' : ''}" th:href="@{/deals/bills/}"
-      class="platform-tabs__link">Счета</a>
-    <a th:classappend="${type == 'transaction' ? 'active' : ''}" th:href="@{/deals/transaction/}"
-      class="platform-tabs__link">Транзакции</a>
-    <a th:classappend="${type == 'sms-checks' ? 'active' : ''}" th:href="@{/sms-checks/}"
-      class="platform-tabs__link">Чеки</a>
-    <a th:classappend="${type == 'clients-list' ? 'active' : ''}" th:href="@{/clients-list/}"
-      class="platform-tabs__link">Клиенты</a>
-  </div>
-
   <div th:fragment="employee-salary-nav" class="content-top__nav">
     <div class="top-nav">
       <div class="top-nav__list-items">
@@ -815,37 +749,6 @@
       th:classappend="${settings == 'sales' ? 'active' : ''}" class="platform-tabs__link">Продажи</a>
     <a th:href="@{/monitor-control/}" th:classappend="${settings == 'control' ? 'active' : ''}"
       class="platform-tabs__link">Контроль</a>
-  </div>
-
-  <div class="platform__tabs" th:fragment="bookmarks-tab">
-    <a th:classappend="${subtype == 'all' ? 'active' : ''}" th:href="@{/a-corporate-center/bookmarks/}"
-      class="platform-tabs__link">Общие</a>
-    <a th:classappend="${subtype == 'admin' ? 'active' : ''}" th:href="@{/a-corporate-center/bookmarks/management/}"
-      class="platform-tabs__link">Управление</a>
-    <a th:classappend="${subtype == 'advertiser' ? 'active' : ''}"
-      th:href="@{/a-corporate-center/bookmarks/advertiser/}" class="platform-tabs__link">Маркетинг</a>
-    <a th:classappend="${subtype == 'manager' ? 'active' : ''}" th:href="@{/a-corporate-center/bookmarks/manager/}"
-      class="platform-tabs__link">Продажи</a>
-  </div>
-
-  <div class="platform__tabs" th:fragment="reglaments-tab">
-    <a th:classappend="${subtype == 'all' ? 'active' : ''}" th:href="@{/a-corporate-center/regulations/}"
-      class="platform-tabs__link">Общие</a>
-    <a th:classappend="${subtype == 'admin' ? 'active' : ''}" th:href="@{/a-corporate-center/regulations/management/}"
-      class="platform-tabs__link">Управление</a>
-    <a th:classappend="${subtype == 'advertiser' ? 'active' : ''}"
-      th:href="@{/a-corporate-center/regulations/advertiser/}" class="platform-tabs__link">Маркетинг</a>
-    <a th:classappend="${subtype == 'manager' ? 'active' : ''}" th:href="@{/a-corporate-center/regulations/manager/}"
-      class="platform-tabs__link">Продажи</a>
-  </div>
-
-  <div class="platform__tabs" th:fragment="training-centr-tabs">
-    <a th:classappend="${subtype == 'admin' ? 'active' : ''}" th:href="@{/a-corporate-center/training-center/}"
-      class="platform-tabs__link">Управление</a>
-    <a th:classappend="${subtype == 'advertiser' ? 'active' : ''}"
-      th:href="@{/a-corporate-center/training-center/advertiser/}" class="platform-tabs__link">Маркетинг</a>
-    <a th:classappend="${subtype == 'manager' ? 'active' : ''}"
-      th:href="@{/a-corporate-center/training-center/manager/}" class="platform-tabs__link">Продажи</a>
   </div>
 
   <div js-pay-menu class="platform-modal pay-menu" th:fragment="pay-menu">
