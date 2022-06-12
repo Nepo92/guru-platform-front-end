@@ -32,11 +32,6 @@
   mask-size: 22px 22px;
 }
 
-.platform-menu__item.marketing::after {
-  mask-image: url("../../img/nav-marketing.svg");
-  mask-size: 22px 22px;
-}
-
 .platform-menu__logo {
   display: flex;
   align-items: center;
@@ -65,7 +60,7 @@
   &.products-menu::after,
   &.team::after,
   &.settings::after,
-  &.adv-cabinet::after {
+  &.marketing::after {
     content: "";
     display: inline-block;
     min-width: 70px;
@@ -152,9 +147,15 @@
   mask-size: 22px 22px;
 }
 
-.platform-menu__item.adv-cabinet::after {
+.platform-menu__item.marketing::after {
   mask-image: url("../../img/nav-adv-cabinet.svg");
   mask-size: 22px 22px;
+}
+
+.platform-menu__item.active {
+  &::after {
+    background-color: $black;
+  }
 }
 
 .platform-menu__link,
@@ -255,6 +256,12 @@
 
 .platform-menu_link.active {
   color: black;
+}
+
+.platform-menu__link.active {
+  &::after {
+    background-color: $black;
+  }
 }
 
 .platform-menu__logout {
@@ -564,6 +571,14 @@
 .platform-submenu__link.distribution-applications::before {
   mask-image: url("../../img/nav-adv-dist-applications.svg");
   mask-size: 100% 100%;
+}
+
+.platform-submenu__link.active {
+  color: $black;
+
+  &::before {
+    background-color: $black;
+  }
 }
 
 @media (min-width: 1260px) {

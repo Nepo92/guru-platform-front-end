@@ -1,11 +1,7 @@
 import Utils from '../utils/utils.js';
+import { menuItems, subMenuItems } from './menuItemsList';
 
 const utils = new Utils();
-
-// const WORKERS_SALARY = 'workers-salary';
-// const MOTIVATION_BUILDER = 'motivation-builder';
-// const WORK_TRACKER = 'work-tracker';
-// const SETTINGS_FUNNELS = 'funnels';
 
 class Menu {
   hoverTimeout = null;
@@ -40,6 +36,36 @@ class Menu {
 
         const mouseEnterSubMenu = this.mouseEnterSubMenu.bind(this, props);
         subMenuList.addEventListener('mouseover', mouseEnterSubMenu);
+      }
+
+      this.addClassActive();
+    }
+  }
+
+  addClassActive() {
+    const page = utils.getPage();
+    const menuItemsEntries = Object.entries(menuItems);
+
+    const currentMenuItem = menuItemsEntries.find((el) => el[1].includes(page));
+
+    if (currentMenuItem) {
+      const [currentSelector] = currentMenuItem;
+      const menuItem = document.querySelector(`.${currentSelector}`);
+
+      if (menuItem) {
+        menuItem.classList.add('active');
+      }
+    }
+
+    const subMenuEntries = Object.entries(subMenuItems);
+    const currentSubMenuItem = subMenuEntries.find((el) => el[1].includes(page));
+
+    if (currentSubMenuItem) {
+      const [currentSelector] = currentSubMenuItem;
+      const subMenuItem = document.querySelector(`.${currentSelector}`);
+
+      if (subMenuItem) {
+        subMenuItem.classList.add('active');
       }
     }
   }
