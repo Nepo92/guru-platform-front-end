@@ -10,53 +10,46 @@
     <link th:href="@{/css/jquery.fancybox.min.css}" rel="stylesheet">
 </head>
 
-<body class="page custom-scroll">
-    <div th:replace="base :: main-nav"></div>
-    <div th:replace="base :: transition-loader"></div>
-    <div th:replace="base :: bill-copy-tooltip"></div>
-    <script th:src="@{/js/transition-loader.js}"></script>
-<script th:inline='javascript'>
-    /*<![CDATA[*/
-    showLoader();
-/*]]>*/
-</script>
+<body class="page">
+    <div class="page__content">
+        <div th:replace="base :: main-nav"></div>
 
-    <div class="platform__wrapper">
-        <div class="platform__header">
-            <h1 class="platform__title">CRM</h1>
-            <div th:replace="base :: transactions-nav"></div>
-        </div>
-        <div class="platform__content overflowed custom-scroll">
-            <div class="platform__nav crm">
-                <div class="platform__nav--left">
-                    <div class="platform__filter--btn">Фильтр</div>
-                    <form th:action="@{/transactions/}" class="platform__search" th:object="${filter}" th:method="post">
-                        <input autocomplete="off" id="searchClient" class="platform__input--search" type="text"
-                            placeholder="Введите ссылку, ФИО, № сделки или телефон клиента" th:field="*{searchRow}">
-                        <label search-client-btn for="searchClient" class="platform__search--start"
-                            th:classappend="${#strings.isEmpty(filter.searchRow) == true}? '' : 'active'"></label>
-                    </form>
-                    <form th:action="@{/transactions/}" class="platform__showed-toggle" method="post">
-                        <span class="showed-toggle__text">Отображать удаленные</span>
-                        <input th:if="${filter.hidden == false}" type="hidden" name="hiddenClient" th:value="${null}">
-                        <input th:if="${filter.hidden == null}" type="hidden" name="hiddenClient" th:value="${null}">
-                        <input class="platform__checkbox" checked th:if="${filter.hidden == false}" id="hidden" type="checkbox" name="hidden" th:value="null" js-filter-hidden-deals>
-                        <input class="platform__checkbox" checked th:if="${filter.hidden == null}" id="hidden" type="checkbox" name="hidden" th:value="false" js-filter-hidden-deals>
-                        <label for="hidden" class="platform__toggle"
-                            th:classappend="${filter.hidden == null ? 'active' : ''}">
-                            <span class="platform__thumb"></span>
-                        </label>
-                    </form>
-                </div>
-                <div class="platform__nav--right">
+        <div class="platform__wrapper custom-scroll">
+            <div class="platform__header">
+                <h1 class="platform__title">CRM</h1>
+                <div th:replace="base :: transactions-nav"></div>
+            </div>
+            <div class="platform__content overflowed custom-scroll">
+                <div class="platform__nav crm">
+                    <div class="platform__nav--left">
+                        <div class="platform__filter--btn">Фильтр</div>
+                        <form th:action="@{/transactions/}" class="platform__search" th:object="${filter}" th:method="post">
+                            <input autocomplete="off" id="searchClient" class="platform__input--search" type="text"
+                                   placeholder="Введите ссылку, ФИО, № сделки или телефон клиента" th:field="*{searchRow}">
+                            <label search-client-btn for="searchClient" class="platform__search--start"
+                                   th:classappend="${#strings.isEmpty(filter.searchRow) == true}? '' : 'active'"></label>
+                        </form>
+                        <form th:action="@{/transactions/}" class="platform__showed-toggle" method="post">
+                            <span class="showed-toggle__text">Отображать удаленные</span>
+                            <input th:if="${filter.hidden == false}" type="hidden" name="hiddenClient" th:value="${null}">
+                            <input th:if="${filter.hidden == null}" type="hidden" name="hiddenClient" th:value="${null}">
+                            <input class="platform__checkbox" checked th:if="${filter.hidden == false}" id="hidden" type="checkbox" name="hidden" th:value="null" js-filter-hidden-deals>
+                            <input class="platform__checkbox" checked th:if="${filter.hidden == null}" id="hidden" type="checkbox" name="hidden" th:value="false" js-filter-hidden-deals>
+                            <label for="hidden" class="platform__toggle"
+                                   th:classappend="${filter.hidden == null ? 'active' : ''}">
+                                <span class="platform__thumb"></span>
+                            </label>
+                        </form>
+                    </div>
+                    <div class="platform__nav--right">
                     <span class="platform-nav__right--counter" deals-counter
                           th:utext="${dealCounter.count} + ' сделки на сумму ' + ${#numbers.formatInteger(dealCounter.price,0,'WHITESPACE')} + ' / ' + ${#numbers.formatInteger(dealCounter.paid,0,'WHITESPACE') + ' ₽'}"></span>
-                    <div search-client-add-deal class="platform__download--btn search">Добавить сделку</div>
+                        <div search-client-add-deal class="platform__download--btn search">Добавить сделку</div>
+                    </div>
                 </div>
-            </div>
 
-            <table class="platform-table crm" th:classappend="${deals.pagesAvailable == 1 ? 'mb_40' : ''}">
-                <tbody class="custom-table__body custom-table__body_white custom-table__body--crm deals-table__wrapper">
+                <table class="platform-table crm" th:classappend="${deals.pagesAvailable == 1 ? 'mb_40' : ''}">
+                    <tbody class="custom-table__body custom-table__body_white custom-table__body--crm deals-table__wrapper">
                     <tr class="platform-table__row--header">
                         <td class="platform-table__column date">Дата</td>
                         <td class="platform-table__column client-column">Клиент</td>
@@ -68,64 +61,74 @@
                         <td class="platform-table__column">Задача</td>
                         <td class="platform-table__column column-hide"></td>
                     </tr>
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
 
-            <div class="platform__pagination pagination hide" th:if="${deals.pagesAvailable > 1}" th:with="left=4,right=5">
-                <div class="pagination__wrapper">
-                    <a th:attrappend="href=${deals.pageNumber - 1 > 0} ? 'page?id=' + ${deals.pageNumber - 1} : ''"
-                        th:classappend="${deals.pageNumber - 1} == 0 ? 'pagination__elem--disabled' : ''"
-                        class="pagination__elem pagination__elem--prev"></a>
-                    <th:block th:if="${deals.pagesAvailable <= 10}" th:with="start=1,end=${deals.pagesAvailable}">
-                        <th:block th:each="i : ${#numbers.sequence(start,end)}">
-                            <a th:attrappend="href='page?id=' + ${i}"
-                                th:classappend="${deals.pageNumber == i} ? 'active' : ''" th:utext="${i}"
-                                class="pagination__elem"></a>
-                        </th:block>
-                    </th:block>
-                    <th:block th:unless="${deals.pagesAvailable <= 10}">
-                        <th:block th:if="${deals.pageNumber > left && deals.pageNumber < (deals.pagesAvailable - right)}"
-                            th:with="start=${deals.pageNumber - left},end=${deals.pageNumber + right}">
-                            <a class="pagination__elem" th:if="${deals.pageNumber > (left + 1)}"
-                                th:attrappend="href='page?id=1'">1</a>
+                <div class="platform__pagination pagination hide" th:if="${deals.pagesAvailable > 1}" th:with="left=4,right=5">
+                    <div class="pagination__wrapper">
+                        <a th:attrappend="href=${deals.pageNumber - 1 > 0} ? 'page?id=' + ${deals.pageNumber - 1} : ''"
+                           th:classappend="${deals.pageNumber - 1} == 0 ? 'pagination__elem--disabled' : ''"
+                           class="pagination__elem pagination__elem--prev"></a>
+                        <th:block th:if="${deals.pagesAvailable <= 10}" th:with="start=1,end=${deals.pagesAvailable}">
                             <th:block th:each="i : ${#numbers.sequence(start,end)}">
                                 <a th:attrappend="href='page?id=' + ${i}"
-                                    th:classappend="${deals.pageNumber == i} ? 'active' : ''" th:utext="${i}"
-                                    class="pagination__elem"></a>
-                            </th:block>
-                            <a class="pagination__elem" th:if="${deals.pageNumber <= deals.pagesAvailable - right}"
-                                th:attrappend="href='page?id=' + ${deals.pagesAvailable}"
-                                th:text="${deals.pagesAvailable}"></a>
-                        </th:block>
-                        <th:block th:if="${deals.pageNumber <= left}"
-                            th:with="start=1,end=${deals.pageNumber + (right + 1 + left - deals.pageNumber)}">
-                            <th:block th:each="i : ${#numbers.sequence(start,end)}">
-                                <a th:attrappend="href='page?id=' + ${i}"
-                                    th:classappend="${deals.pageNumber == i} ? 'active' : ''" th:utext="${i}"
-                                    class="pagination__elem"></a>
-                            </th:block>
-                            <a class="pagination__elem" th:if="${deals.pageNumber <= deals.pagesAvailable - right}"
-                                th:attrappend="href='page?id=' + ${deals.pagesAvailable}"
-                                th:text="${deals.pagesAvailable}"></a>
-                        </th:block>
-                        <th:block
-                            th:unless="${(deals.pageNumber > left && deals.pageNumber < (deals.pagesAvailable - right)) || (deals.pageNumber <= left)}"
-                            th:with="start=${deals.pageNumber - (left + right - (deals.pagesAvailable - deals.pageNumber))},end=${deals.pagesAvailable}">
-                            <a class="pagination__elem" th:attrappend="href='page?id=1'">1</a>
-                            <th:block th:each="i : ${#numbers.sequence(start,end)}">
-                                <a th:attrappend="href='page?id=' + ${i}"
-                                    th:classappend="${deals.pageNumber == i} ? 'active' : ''" th:utext="${i}"
-                                    class="pagination__elem"></a>
+                                   th:classappend="${deals.pageNumber == i} ? 'active' : ''" th:utext="${i}"
+                                   class="pagination__elem"></a>
                             </th:block>
                         </th:block>
-                    </th:block>
-                    <a th:attrappend="href=${deals.pageNumber + 1 <= deals.pagesAvailable } ? 'page?id=' + ${deals.pageNumber + 1} : ''"
-                        th:classappend="${deals.pageNumber != deals.pagesAvailable} ? '' : 'pagination__elem--disabled'"
-                        class="pagination__elem pagination__elem--next"></a>
+                        <th:block th:unless="${deals.pagesAvailable <= 10}">
+                            <th:block th:if="${deals.pageNumber > left && deals.pageNumber < (deals.pagesAvailable - right)}"
+                                      th:with="start=${deals.pageNumber - left},end=${deals.pageNumber + right}">
+                                <a class="pagination__elem" th:if="${deals.pageNumber > (left + 1)}"
+                                   th:attrappend="href='page?id=1'">1</a>
+                                <th:block th:each="i : ${#numbers.sequence(start,end)}">
+                                    <a th:attrappend="href='page?id=' + ${i}"
+                                       th:classappend="${deals.pageNumber == i} ? 'active' : ''" th:utext="${i}"
+                                       class="pagination__elem"></a>
+                                </th:block>
+                                <a class="pagination__elem" th:if="${deals.pageNumber <= deals.pagesAvailable - right}"
+                                   th:attrappend="href='page?id=' + ${deals.pagesAvailable}"
+                                   th:text="${deals.pagesAvailable}"></a>
+                            </th:block>
+                            <th:block th:if="${deals.pageNumber <= left}"
+                                      th:with="start=1,end=${deals.pageNumber + (right + 1 + left - deals.pageNumber)}">
+                                <th:block th:each="i : ${#numbers.sequence(start,end)}">
+                                    <a th:attrappend="href='page?id=' + ${i}"
+                                       th:classappend="${deals.pageNumber == i} ? 'active' : ''" th:utext="${i}"
+                                       class="pagination__elem"></a>
+                                </th:block>
+                                <a class="pagination__elem" th:if="${deals.pageNumber <= deals.pagesAvailable - right}"
+                                   th:attrappend="href='page?id=' + ${deals.pagesAvailable}"
+                                   th:text="${deals.pagesAvailable}"></a>
+                            </th:block>
+                            <th:block
+                                th:unless="${(deals.pageNumber > left && deals.pageNumber < (deals.pagesAvailable - right)) || (deals.pageNumber <= left)}"
+                                th:with="start=${deals.pageNumber - (left + right - (deals.pagesAvailable - deals.pageNumber))},end=${deals.pagesAvailable}">
+                                <a class="pagination__elem" th:attrappend="href='page?id=1'">1</a>
+                                <th:block th:each="i : ${#numbers.sequence(start,end)}">
+                                    <a th:attrappend="href='page?id=' + ${i}"
+                                       th:classappend="${deals.pageNumber == i} ? 'active' : ''" th:utext="${i}"
+                                       class="pagination__elem"></a>
+                                </th:block>
+                            </th:block>
+                        </th:block>
+                        <a th:attrappend="href=${deals.pageNumber + 1 <= deals.pagesAvailable } ? 'page?id=' + ${deals.pageNumber + 1} : ''"
+                           th:classappend="${deals.pageNumber != deals.pagesAvailable} ? '' : 'pagination__elem--disabled'"
+                           class="pagination__elem pagination__elem--next"></a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <div th:replace="base :: transition-loader"></div>
+    <div th:replace="base :: bill-copy-tooltip"></div>
+    <script th:src="@{/js/transition-loader.js}"></script>
+<script th:inline='javascript'>
+    /*<![CDATA[*/
+    showLoader();
+/*]]>*/
+</script>
 
     <div class="platform__filter">
         <div class="filter__wrapper">

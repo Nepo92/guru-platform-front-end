@@ -8,8 +8,31 @@
     <th:block th:insert="base :: links"/>
 </head>
 
-<body class="custom-scroll">
-<div th:replace="base :: main-nav"></div>
+<body class="page custom-scroll">
+    <div class="page__content">
+        <div th:replace="base :: main-nav"></div>
+
+        <div class="platform__wrapper funnels">
+            <div class="platform__header funnels__top">
+                <h1 class="platform__title funnels-head__title">Воронки</h1>
+            </div>
+
+            <div class="content-main__panel funnels__panel">
+                <div class="menu-input__wrapper menu-input__wrapper_select funnels-select__wrapper funnels-funnel__type">
+                    <select name="year" js-select-type
+                            class="menu-input__input menu-input__input_small menu-input__input_select funnels-funnel__select-type">
+                        <option value="traffic" selected>Трафик</option>
+                        <option value="additional">База</option>
+                    </select>
+                </div>
+
+                <button js-funnels-add class="funnels-panel__add" type="button">Добавить воронку</button>
+            </div>
+
+            <div js-funnels-now__block class="funnels-now__list"></div>
+        </div>
+    </div>
+
 <div th:replace="base :: transition-loader"></div>
 <script th:src="@{/js/transition-loader.js}"></script>
 <script th:inline='javascript'>
@@ -17,26 +40,6 @@
     showLoader();
 /*]]>*/
 </script>
-
-<div class="platform__wrapper funnels">
-    <div class="platform__header funnels__top">
-        <h1 class="platform__title funnels-head__title">Воронки</h1>
-    </div>
-
-    <div class="content-main__panel funnels__panel">
-        <div class="menu-input__wrapper menu-input__wrapper_select funnels-select__wrapper funnels-funnel__type">
-            <select name="year" js-select-type
-                    class="menu-input__input menu-input__input_small menu-input__input_select funnels-funnel__select-type">
-                <option value="traffic" selected>Трафик</option>
-                <option value="additional">База</option>
-            </select>
-        </div>
-
-        <button js-funnels-add class="funnels-panel__add" type="button">Добавить воронку</button>
-    </div>
-
-    <div js-funnels-now__block class="funnels-now__list"></div>
-</div>
 
 <div th:replace="base :: add-funnel-menu"></div>
 <div th:replace="base :: tunnel-links"></div>

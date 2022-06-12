@@ -848,6 +848,8 @@ p {
 
   .mobile-nav {
     display: block;
+    position: relative;
+    z-index: 1;
 
     &__item {
       &_avatar {
@@ -875,10 +877,6 @@ p {
 @media (max-width: 319px) {
   .mobile-nav__items-wrapper {
     width: 100%;
-    margin: 0;
-  }
-
-  mobile-nav__item {
     margin: 0;
   }
 

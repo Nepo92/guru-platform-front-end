@@ -88,3 +88,20 @@ a:hover {
 ::selection {
   background: #c5c5c5;
 }
+
+.page {
+  overflow: hidden;
+
+  &__content {
+    display: flex;
+    max-height: 100vh;
+  }
+}
+
+@media (max-width: 1000px) {
+  .page {
+    &__content {
+      flex-direction: column;
+    }
+  }
+}

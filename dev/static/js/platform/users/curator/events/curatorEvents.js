@@ -2,11 +2,13 @@ import Homework from '../../../menu/items/products/homework/homework.js';
 import OpenCourse from '../../../menu/items/crm/dealRow/events/openCourse/openEditMenu/openCourse.js';
 import OpenClientCard from '../../../menu/items/crm/clientCard/events/openClientCard/openClientCard.js';
 import CloseClientCard from '../../../menu/items/crm/clientCard/events/closeClientCard.js';
+import Filter from '../../../modules/filter/filter';
 
 const homework = new Homework();
 const openCourse = new OpenCourse();
 const openClientCard = new OpenClientCard();
 const closeClientCard = new CloseClientCard();
+const filter = new Filter();
 
 class CuratorEvents {
   init(props) {
@@ -15,6 +17,7 @@ class CuratorEvents {
       openCourse,
       openClientCard,
       closeClientCard,
+      filter,
     ];
 
     items.forEach((item) => {

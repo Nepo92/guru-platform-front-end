@@ -763,7 +763,9 @@ class Marketing {
 
     const checkToken = this.checkToken.bind(this);
 
-    checkBtn.addEventListener('click', checkToken);
+    if (checkBtn) {
+      checkBtn.addEventListener('click', checkToken);
+    }
   }
 
   checkToken(e) {

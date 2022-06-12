@@ -13,7 +13,145 @@
 </head>
 
 <body class="page custom-scroll">
-<div th:replace="base :: main-nav"></div>
+    <div class="page__content">
+        <div th:replace="base :: main-nav"></div>
+
+        <div class="platform__wrapper">
+            <div class="platform__header">
+                <h1 class="platform__title">Контроль</h1>
+                <th:block th:if="${role == 'ROLE_ADMIN'}">
+                    <div th:replace="base :: performance-assessment-tab"></div>
+                </th:block>
+                <th:block th:if="${role == 'ROLE_MANAGER' || role == 'ROLE_HEAD_MANAGER'}">
+                    <div th:replace="base :: m-performance-assessment-tab"></div>
+                </th:block>
+            </div>
+
+            <div class="platform__content overflowed custom-scroll">
+                <div class="platform__nav">
+                    <div class="platform__nav--left">
+                        <div class="platform__filter--btn">Фильтр</div>
+                        <form th:action="@{/performance-assessment/}" class="platform__search" th:object="${filter}"
+                              th:method="post">
+                            <input id="searchClient" class="platform__input--search" type="text"
+                                   placeholder="Введите ФИО клиента" th:field="*{searchRow}">
+                            <label search-client-btn for="searchClient" class="platform__search--start"
+                                   th:classappend="${#strings.isEmpty(filter.searchRow) == true}? '' : 'active'"></label>
+                        </form>
+                    </div>
+                    <div class="platform__nav--right">
+                <span deals-counter
+                      th:utext="${'оценок: ' + ratesCount.count + ' / со средним рейтингом: ' + (ratesCount.count != 0 ? middleRate : '0')}"></span>
+                    </div>
+                </div>
+
+                <table class="platform-table performance-assessment">
+                    <tbody class="custom-table__body custom-table__body_white custom-table__body--crm">
+                    <tr class="platform-table__row--header">
+                        <td class="platform-table__column date-rates">Дата изменения</td>
+                        <td class="platform-table__column client-column">Клиент</td>
+                        <td class="platform-table__column what-appreciated">Что оценили</td>
+                        <td class="platform-table__column list">Список</td>
+                        <td class="platform-table__column general">Общая</td>
+                        <td class="platform-table__column rate-point-pa">Оценки по пунктам</td>
+                        <td class="platform-table__column detail"></td>
+                    </tr>
+
+                    <tr class="platform-table__row" th:each="rate : ${rates.pageItems}" th:attr="data-rate=${rate.id},data-client=${rate.idClient}">
+                        <td class="platform-table__column date-rates" th:utext="${rate.createDate}"></td>
+                        <td class="platform-table__column column-client">
+                            <a js-client-card href="" class="platform-table__row--link client-name" th:title="${rate.clientName}"
+                               th:text="${rate.clientName}"></a>
+                            <span js-copy-link th:attr="data-link=${rate.clientPhone}" class="client-phone"
+                                  th:text="${#strings.isEmpty(rate.clientPhone)} ? '&mdash;' : ${rate.clientPhone}"></span>
+                        </td>
+                        <td class="platform-table__column what-appreciated" th:utext="${'Сделка № ' + rate.idDeal}"></td>
+                        <td class="platform-table__column list" th:utext="${rate.performanceAssessmentTemplateName}"></td>
+                        <td class="platform-table__column general">
+                            <div class="score item-score"
+                                 th:classappend="${rate.totalScore > 0} ? 'score_green' : (${rate.totalScore == 0} ? 'score_gray' : 'score_red')"
+                                 th:utext="${rate.totalScore > 0} ? ('+' + ${rate.totalScore}) : ${rate.totalScore}"></div>
+                        </td>
+                        <td class="platform-table__column rate-point-pa">
+                            <th:block th:each="item : ${rate.items}">
+                                <div class="tooltip">
+                                    <div class="tooltip__wrapper">
+                                        <p th:utext="${item.itemName}"></p>
+                                    </div>
+                                    <span th:utext="${item.score}"></span>
+                                </div>
+                                <span class="rate-box" th:classappend="${item.score > 0} ? 'green' : 'red'" th:utext="${item.score}"></span>
+                            </th:block>
+                        </td>
+                        <td class="platform-table__column detail">
+                            <div open-rate class="platform-table__detail-button">Подробнее</div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <div class="platform__pagination pagination" th:if="${rates.pagesAvailable > 1}"
+                     th:with="left=4,right=5">
+                    <div class="pagination__wrapper">
+                        <a th:attrappend="href=${rates.pageNumber - 1 > 0} ? 'page?id=' + ${rates.pageNumber - 1} : ''"
+                           th:classappend="${rates.pageNumber - 1} == 0 ? 'pagination__elem--disabled' : ''"
+                           class="pagination__elem pagination__elem--prev"></a>
+                        <th:block th:if="${rates.pagesAvailable <= 10}"
+                                  th:with="start=1,end=${rates.pagesAvailable}">
+                            <th:block th:each="i : ${#numbers.sequence(start,end)}">
+                                <a th:attrappend="href='page?id=' + ${i}"
+                                   th:classappend="${rates.pageNumber == i} ? 'active' : ''" th:utext="${i}"
+                                   class="pagination__elem"></a>
+                            </th:block>
+                        </th:block>
+                        <th:block th:unless="${rates.pagesAvailable <= 10}">
+                            <th:block
+                                th:if="${rates.pageNumber > left && rates.pageNumber < (rates.pagesAvailable - right)}"
+                                th:with="start=${rates.pageNumber - left},end=${rates.pageNumber + right}">
+                                <a class="pagination__elem" th:if="${rates.pageNumber > (left + 1)}"
+                                   th:attrappend="href='page?id=1'">1</a>
+                                <th:block th:each="i : ${#numbers.sequence(start,end)}">
+                                    <a th:attrappend="href='page?id=' + ${i}"
+                                       th:classappend="${rates.pageNumber == i} ? 'active' : ''" th:utext="${i}"
+                                       class="pagination__elem"></a>
+                                </th:block>
+                                <a class="pagination__elem"
+                                   th:if="${rates.pageNumber <= rates.pagesAvailable - right}"
+                                   th:attrappend="href='page?id=' + ${rates.pagesAvailable}"
+                                   th:text="${rates.pagesAvailable}"></a>
+                            </th:block>
+                            <th:block th:if="${rates.pageNumber <= left}"
+                                      th:with="start=1,end=${rates.pageNumber + (right + 1 + left - rates.pageNumber)}">
+                                <th:block th:each="i : ${#numbers.sequence(start,end)}">
+                                    <a th:attrappend="href='page?id=' + ${i}"
+                                       th:classappend="${rates.pageNumber == i} ? 'active' : ''" th:utext="${i}"
+                                       class="pagination__elem"></a>
+                                </th:block>
+                                <a class="pagination__elem"
+                                   th:if="${rates.pageNumber <= rates.pagesAvailable - right}"
+                                   th:attrappend="href='page?id=' + ${rates.pagesAvailable}"
+                                   th:text="${rates.pagesAvailable}"></a>
+                            </th:block>
+                            <th:block
+                                th:unless="${(rates.pageNumber > left && rates.pageNumber < (rates.pagesAvailable - right)) || (rates.pageNumber <= left)}"
+                                th:with="start=${rates.pageNumber - (left + right - (rates.pagesAvailable - rates.pageNumber))},end=${rates.pagesAvailable}">
+                                <a class="pagination__elem" th:attrappend="href='page?id=1'">1</a>
+                                <th:block th:each="i : ${#numbers.sequence(start,end)}">
+                                    <a th:attrappend="href='page?id=' + ${i}"
+                                       th:classappend="${rates.pageNumber == i} ? 'active' : ''" th:utext="${i}"
+                                       class="pagination__elem"></a>
+                                </th:block>
+                            </th:block>
+                        </th:block>
+                        <a th:attrappend="href=${rates.pageNumber + 1 <= rates.pagesAvailable } ? 'page?id=' + ${rates.pageNumber + 1} : ''"
+                           th:classappend="${rates.pageNumber != rates.pagesAvailable} ? '' : 'pagination__elem--disabled'"
+                           class="pagination__elem pagination__elem--next"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 <div th:replace="base :: transition-loader"></div>
 <div th:replace="base :: bill-copy-tooltip"></div>
 <script th:src="@{/js/transition-loader.js}"></script>
@@ -22,141 +160,6 @@
     showLoader();
 /*]]>*/
 </script>
-
-<div class="platform__wrapper">
-    <div class="platform__header">
-        <h1 class="platform__title">Контроль</h1>
-        <th:block th:if="${role == 'ROLE_ADMIN'}">
-            <div th:replace="base :: performance-assessment-tab"></div>
-        </th:block>
-        <th:block th:if="${role == 'ROLE_MANAGER' || role == 'ROLE_HEAD_MANAGER'}">
-            <div th:replace="base :: m-performance-assessment-tab"></div>
-        </th:block>
-    </div>
-
-    <div class="platform__content overflowed custom-scroll">
-        <div class="platform__nav">
-            <div class="platform__nav--left">
-                <div class="platform__filter--btn">Фильтр</div>
-                <form th:action="@{/performance-assessment/}" class="platform__search" th:object="${filter}"
-                      th:method="post">
-                    <input id="searchClient" class="platform__input--search" type="text"
-                           placeholder="Введите ФИО клиента" th:field="*{searchRow}">
-                    <label search-client-btn for="searchClient" class="platform__search--start"
-                           th:classappend="${#strings.isEmpty(filter.searchRow) == true}? '' : 'active'"></label>
-                </form>
-            </div>
-            <div class="platform__nav--right">
-                <span deals-counter
-                      th:utext="${'оценок: ' + ratesCount.count + ' / со средним рейтингом: ' + (ratesCount.count != 0 ? middleRate : '0')}"></span>
-            </div>
-        </div>
-
-        <table class="platform-table performance-assessment">
-            <tbody class="custom-table__body custom-table__body_white custom-table__body--crm">
-            <tr class="platform-table__row--header">
-                <td class="platform-table__column date-rates">Дата изменения</td>
-                <td class="platform-table__column client-column">Клиент</td>
-                <td class="platform-table__column what-appreciated">Что оценили</td>
-                <td class="platform-table__column list">Список</td>
-                <td class="platform-table__column general">Общая</td>
-                <td class="platform-table__column rate-point-pa">Оценки по пунктам</td>
-                <td class="platform-table__column detail"></td>
-            </tr>
-
-            <tr class="platform-table__row" th:each="rate : ${rates.pageItems}" th:attr="data-rate=${rate.id},data-client=${rate.idClient}">
-                <td class="platform-table__column date-rates" th:utext="${rate.createDate}"></td>
-                <td class="platform-table__column column-client">
-                    <a js-client-card href="" class="platform-table__row--link client-name" th:title="${rate.clientName}"
-                       th:text="${rate.clientName}"></a>
-                    <span js-copy-link th:attr="data-link=${rate.clientPhone}" class="client-phone"
-                          th:text="${#strings.isEmpty(rate.clientPhone)} ? '&mdash;' : ${rate.clientPhone}"></span>
-                </td>
-                <td class="platform-table__column what-appreciated" th:utext="${'Сделка № ' + rate.idDeal}"></td>
-                <td class="platform-table__column list" th:utext="${rate.performanceAssessmentTemplateName}"></td>
-                <td class="platform-table__column general">
-                    <div class="score item-score"
-                         th:classappend="${rate.totalScore > 0} ? 'score_green' : (${rate.totalScore == 0} ? 'score_gray' : 'score_red')"
-                         th:utext="${rate.totalScore > 0} ? ('+' + ${rate.totalScore}) : ${rate.totalScore}"></div>
-                </td>
-                <td class="platform-table__column rate-point-pa">
-                    <th:block th:each="item : ${rate.items}">
-                        <div class="tooltip">
-                            <div class="tooltip__wrapper">
-                                <p th:utext="${item.itemName}"></p>
-                            </div>
-                            <span th:utext="${item.score}"></span>
-                        </div>
-                        <span class="rate-box" th:classappend="${item.score > 0} ? 'green' : 'red'" th:utext="${item.score}"></span>
-                    </th:block>
-                </td>
-                <td class="platform-table__column detail">
-                    <div open-rate class="platform-table__detail-button">Подробнее</div>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-
-        <div class="platform__pagination pagination" th:if="${rates.pagesAvailable > 1}"
-             th:with="left=4,right=5">
-            <div class="pagination__wrapper">
-                <a th:attrappend="href=${rates.pageNumber - 1 > 0} ? 'page?id=' + ${rates.pageNumber - 1} : ''"
-                   th:classappend="${rates.pageNumber - 1} == 0 ? 'pagination__elem--disabled' : ''"
-                   class="pagination__elem pagination__elem--prev"></a>
-                <th:block th:if="${rates.pagesAvailable <= 10}"
-                          th:with="start=1,end=${rates.pagesAvailable}">
-                    <th:block th:each="i : ${#numbers.sequence(start,end)}">
-                        <a th:attrappend="href='page?id=' + ${i}"
-                           th:classappend="${rates.pageNumber == i} ? 'active' : ''" th:utext="${i}"
-                           class="pagination__elem"></a>
-                    </th:block>
-                </th:block>
-                <th:block th:unless="${rates.pagesAvailable <= 10}">
-                    <th:block
-                            th:if="${rates.pageNumber > left && rates.pageNumber < (rates.pagesAvailable - right)}"
-                            th:with="start=${rates.pageNumber - left},end=${rates.pageNumber + right}">
-                        <a class="pagination__elem" th:if="${rates.pageNumber > (left + 1)}"
-                           th:attrappend="href='page?id=1'">1</a>
-                        <th:block th:each="i : ${#numbers.sequence(start,end)}">
-                            <a th:attrappend="href='page?id=' + ${i}"
-                               th:classappend="${rates.pageNumber == i} ? 'active' : ''" th:utext="${i}"
-                               class="pagination__elem"></a>
-                        </th:block>
-                        <a class="pagination__elem"
-                           th:if="${rates.pageNumber <= rates.pagesAvailable - right}"
-                           th:attrappend="href='page?id=' + ${rates.pagesAvailable}"
-                           th:text="${rates.pagesAvailable}"></a>
-                    </th:block>
-                    <th:block th:if="${rates.pageNumber <= left}"
-                              th:with="start=1,end=${rates.pageNumber + (right + 1 + left - rates.pageNumber)}">
-                        <th:block th:each="i : ${#numbers.sequence(start,end)}">
-                            <a th:attrappend="href='page?id=' + ${i}"
-                               th:classappend="${rates.pageNumber == i} ? 'active' : ''" th:utext="${i}"
-                               class="pagination__elem"></a>
-                        </th:block>
-                        <a class="pagination__elem"
-                           th:if="${rates.pageNumber <= rates.pagesAvailable - right}"
-                           th:attrappend="href='page?id=' + ${rates.pagesAvailable}"
-                           th:text="${rates.pagesAvailable}"></a>
-                    </th:block>
-                    <th:block
-                            th:unless="${(rates.pageNumber > left && rates.pageNumber < (rates.pagesAvailable - right)) || (rates.pageNumber <= left)}"
-                            th:with="start=${rates.pageNumber - (left + right - (rates.pagesAvailable - rates.pageNumber))},end=${rates.pagesAvailable}">
-                        <a class="pagination__elem" th:attrappend="href='page?id=1'">1</a>
-                        <th:block th:each="i : ${#numbers.sequence(start,end)}">
-                            <a th:attrappend="href='page?id=' + ${i}"
-                               th:classappend="${rates.pageNumber == i} ? 'active' : ''" th:utext="${i}"
-                               class="pagination__elem"></a>
-                        </th:block>
-                    </th:block>
-                </th:block>
-                <a th:attrappend="href=${rates.pageNumber + 1 <= rates.pagesAvailable } ? 'page?id=' + ${rates.pageNumber + 1} : ''"
-                   th:classappend="${rates.pageNumber != rates.pagesAvailable} ? '' : 'pagination__elem--disabled'"
-                   class="pagination__elem pagination__elem--next"></a>
-            </div>
-        </div>
-    </div>
-</div>
 
 <div class="platform__filter">
     <div class="filter__wrapper">

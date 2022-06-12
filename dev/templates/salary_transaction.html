@@ -11,41 +11,33 @@
     <link th:href="@{/css/jquery.fancybox.min.css}" rel="stylesheet">
 </head>
 
-<body>
-    <div th:replace="base :: dialog2"></div>
-    <div th:replace="base :: transition-loader"></div>
-    <div th:replace="base :: main-nav"></div>
-    <div th:replace="base :: bill-copy-tooltip"></div>
-    <script th:src="@{/js/transition-loader.js}"></script>
-<script th:inline='javascript'>
-    /*<![CDATA[*/
-    showLoader();
-/*]]>*/
-</script>
+<body class="page">
+    <div class="page__content">
+        <div th:replace="base :: main-nav"></div>
 
-    <div class="platform__wrapper">
-        <div class="platform__header">
-            <h1 class="platform__title">CRM</h1>
-            <div th:replace="base :: deals-nav"></div>
-        </div>
-        <div class="platform__content">
-            <div class="platform__nav">
-                <div class="platform__nav--left">
-                    <div class="platform__filter--btn no-selector transaction-filter">Фильтр</div>
-                </div>
-                <div class="platform__nav--right">
-                    <!--                <span th:utext="${dealCounter.count} + ' сделки на сумму ' + ${#numbers.formatInteger(dealCounter.price,0,'WHITESPACE')} + ' / ' + ${#numbers.formatInteger(dealCounter.paid,0,'WHITESPACE') + ' ₽'}"></span>-->
-
-                    <form js-report-form action="#" enctype="multipart/form-data">
-                        <input js-report-file accept=".csv" class="input-file" name="file" type="file"
-                            id="uploadReport" />
-                        <label for="uploadReport" class="platform__download--btn">Загрузить отчет</label>
-                    </form>
-                </div>
+        <div class="platform__wrapper">
+            <div class="platform__header">
+                <h1 class="platform__title">CRM</h1>
+                <div th:replace="base :: deals-nav"></div>
             </div>
+            <div class="platform__content">
+                <div class="platform__nav">
+                    <div class="platform__nav--left">
+                        <div class="platform__filter--btn no-selector transaction-filter">Фильтр</div>
+                    </div>
+                    <div class="platform__nav--right">
+                        <!--                <span th:utext="${dealCounter.count} + ' сделки на сумму ' + ${#numbers.formatInteger(dealCounter.price,0,'WHITESPACE')} + ' / ' + ${#numbers.formatInteger(dealCounter.paid,0,'WHITESPACE') + ' ₽'}"></span>-->
 
-            <table id="is-need-sort-table" class="white-table white-table_full  white-table_half-top">
-                <thead class="white-table__header">
+                        <form js-report-form action="#" enctype="multipart/form-data">
+                            <input js-report-file accept=".csv" class="input-file" name="file" type="file"
+                                   id="uploadReport" />
+                            <label for="uploadReport" class="platform__download--btn">Загрузить отчет</label>
+                        </form>
+                    </div>
+                </div>
+
+                <table id="is-need-sort-table" class="white-table white-table_full  white-table_half-top">
+                    <thead class="white-table__header">
                     <tr class="header__row">
                         <th class="header__text"></th>
                         <th class="header__text">Дата оплаты</th>
@@ -57,22 +49,22 @@
                         <th class="header__text">Чек</th>
                         <th class="header__text">Сумма</th>
                     </tr>
-                </thead>
-                <tbody class="white-table__body check-payment">
+                    </thead>
+                    <tbody class="white-table__body check-payment">
                     <tr class="body__row" th:each="transaction, stat : ${transactions.pageItems}">
                         <td class="body__cell">
                             <div class="column_bstatus"
-                                th:classappend="${(transaction.status == 2) ? 'column_bstatus_checked' : (transaction.status == 3) ? 'column_bstatus_notfound' : 'column_bstatus_unchecked'}">
+                                 th:classappend="${(transaction.status == 2) ? 'column_bstatus_checked' : (transaction.status == 3) ? 'column_bstatus_notfound' : 'column_bstatus_unchecked'}">
                             </div>
                         </td>
                         <td class="body__cell">
                             <form js-pay-form action="#"
-                                class="menu-input__wrapper menu-input__wrapper_small menu-input__wrapper_cal">
+                                  class="menu-input__wrapper menu-input__wrapper_small menu-input__wrapper_cal">
                                 <input type="hidden" th:value="${transaction.id}" name="id" required>
                                 <input js-pay-date name="payDate" autocomplete="off" data-position="top left"
-                                    class="datepicker-here-b menu-input__input menu-input__input_small"
-                                    data-autoclose="true" placeholder="Дата оплаты" th:value="${transaction.payDate}"
-                                    required />
+                                       class="datepicker-here-b menu-input__input menu-input__input_small"
+                                       data-autoclose="true" placeholder="Дата оплаты" th:value="${transaction.payDate}"
+                                       required />
                             </form>
                         </td>
                         <td class="body__cell " th:utext="${transaction.manager}"></td>
@@ -80,104 +72,115 @@
                         <td class="body__cell " th:utext="${transaction.course}"></td>
                         <td class="body__cell  body__cell_full">
                             <form js-change-pm-form action="#"
-                                class="menu-input__wrapper menu-input__wrapper_small pmethod-wrapper">
+                                  class="menu-input__wrapper menu-input__wrapper_small pmethod-wrapper">
                                 <input type="hidden" th:value="${transaction.id}" name="id" required>
                                 <select name="paymentMethod" js-change-pm-selector
-                                    class="column_pmethod-select column_pmethod-tr"
-                                    th:classappend="${'column_pmethod_' + transaction.paymentMethodType}">
+                                        class="column_pmethod-select column_pmethod-tr"
+                                        th:classappend="${'column_pmethod_' + transaction.paymentMethodType}">
                                     <option th:value="null"
-                                        th:selected="${transaction.paymentMethod == 'null' || #strings.isEmpty(transaction.paymentMethod)}"
-                                        disabled>Выберите способ оплаты
+                                            th:selected="${transaction.paymentMethod == 'null' || #strings.isEmpty(transaction.paymentMethod)}"
+                                            disabled>Выберите способ оплаты
                                     </option>
                                     <option th:each="paymentMethod : ${paymentMethods}"
-                                        th:attr="data-code=${paymentMethod.code}" th:value="${paymentMethod.title}"
-                                        th:utext="${paymentMethod.title}"
-                                        th:selected="${paymentMethod.title == transaction.paymentMethod}"></option>
+                                            th:attr="data-code=${paymentMethod.code}" th:value="${paymentMethod.title}"
+                                            th:utext="${paymentMethod.title}"
+                                            th:selected="${paymentMethod.title == transaction.paymentMethod}"></option>
                                 </select>
                             </form>
                         </td>
                         <td class="body__cell" th:utext="${transaction.accountNumber}"></td>
                         <td class="body__cell">
                             <div js-check-add
-                                th:attrappend="data-image=${transaction.billImage},data-comment=${transaction.comment}"
-                                class="check__wrapper payoff no-selector"
-                                th:classappend="${(#strings.isEmpty(transaction.billImage) || #strings.isEmpty(transaction.comment)) ? '' : 'active'}">
+                                 th:attrappend="data-image=${transaction.billImage},data-comment=${transaction.comment}"
+                                 class="check__wrapper payoff no-selector"
+                                 th:classappend="${(#strings.isEmpty(transaction.billImage) || #strings.isEmpty(transaction.comment)) ? '' : 'active'}">
                             </div>
                         </td>
                         <td class="body__cell">
                             <form js-change-amount-form action="#"
-                                class="menu-input__wrapper menu-input__wrapper_small">
+                                  class="menu-input__wrapper menu-input__wrapper_small">
                                 <input type="hidden" th:value="${transaction.id}" name="id" required>
                                 <input js-change-amount name="sum" class="menu-input__input menu-input__input_small"
-                                    th:value="${transaction.sum}" />
+                                       th:value="${transaction.sum}" />
                                 <button js-change-amount-btn type="button" class="btn_save"></button>
                             </form>
                         </td>
                     </tr>
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
 
-            <div class="pagination" th:if="${transactions.pagesAvailable > 1}" th:with="left=4,right=5">
-                <div class="pagination__wrapper">
-                    <a th:attrappend="href=${transactions.pageNumber - 1 > 0} ? 'page?id=' + ${transactions.pageNumber - 1} : ''"
-                        th:classappend="${transactions.pageNumber - 1} == 0 ? 'active' : ''"
-                        class="pagination__elem pagination__elem_prev"></a>
-                    <th:block th:if="${transactions.pagesAvailable <= 10}"
-                        th:with="start=1,end=${transactions.pagesAvailable}">
-                        <th:block th:each="i : ${#numbers.sequence(start,end)}">
-                            <a th:attrappend="href='page?id=' + ${i}"
-                                th:classappend="${transactions.pageNumber == i} ? 'active' : ''" th:utext="${i}"
-                                class="pagination__elem"></a>
-                        </th:block>
-                    </th:block>
-                    <th:block th:unless="${transactions.pagesAvailable <= 10}">
-                        <th:block
-                            th:if="${transactions.pageNumber > left && transactions.pageNumber < (transactions.pagesAvailable - right)}"
-                            th:with="start=${transactions.pageNumber - left},end=${transactions.pageNumber + right}">
-                            <a class="pagination-elem__default" th:if="${transactions.pageNumber > (left + 1)}"
-                                th:attrappend="href='page?id=1'">1</a>
+                <div class="pagination" th:if="${transactions.pagesAvailable > 1}" th:with="left=4,right=5">
+                    <div class="pagination__wrapper">
+                        <a th:attrappend="href=${transactions.pageNumber - 1 > 0} ? 'page?id=' + ${transactions.pageNumber - 1} : ''"
+                           th:classappend="${transactions.pageNumber - 1} == 0 ? 'active' : ''"
+                           class="pagination__elem pagination__elem_prev"></a>
+                        <th:block th:if="${transactions.pagesAvailable <= 10}"
+                                  th:with="start=1,end=${transactions.pagesAvailable}">
                             <th:block th:each="i : ${#numbers.sequence(start,end)}">
                                 <a th:attrappend="href='page?id=' + ${i}"
-                                    th:classappend="${transactions.pageNumber == i} ? 'active' : ''" th:utext="${i}"
-                                    class="pagination__elem"></a>
+                                   th:classappend="${transactions.pageNumber == i} ? 'active' : ''" th:utext="${i}"
+                                   class="pagination__elem"></a>
                             </th:block>
-                            <a class="pagination-elem__default"
-                                th:if="${transactions.pageNumber <= transactions.pagesAvailable - right}"
-                                th:attrappend="href='page?id=' + ${transactions.pagesAvailable}"
-                                th:text="${transactions.pagesAvailable}"></a>
+                        </th:block>
+                        <th:block th:unless="${transactions.pagesAvailable <= 10}">
+                            <th:block
+                                th:if="${transactions.pageNumber > left && transactions.pageNumber < (transactions.pagesAvailable - right)}"
+                                th:with="start=${transactions.pageNumber - left},end=${transactions.pageNumber + right}">
+                                <a class="pagination-elem__default" th:if="${transactions.pageNumber > (left + 1)}"
+                                   th:attrappend="href='page?id=1'">1</a>
+                                <th:block th:each="i : ${#numbers.sequence(start,end)}">
+                                    <a th:attrappend="href='page?id=' + ${i}"
+                                       th:classappend="${transactions.pageNumber == i} ? 'active' : ''" th:utext="${i}"
+                                       class="pagination__elem"></a>
+                                </th:block>
+                                <a class="pagination-elem__default"
+                                   th:if="${transactions.pageNumber <= transactions.pagesAvailable - right}"
+                                   th:attrappend="href='page?id=' + ${transactions.pagesAvailable}"
+                                   th:text="${transactions.pagesAvailable}"></a>
+                            </th:block>
+
+                            <th:block th:if="${transactions.pageNumber <= left}"
+                                      th:with="start=1,end=${transactions.pageNumber + (right + 1 + left - transactions.pageNumber)}">
+                                <th:block th:each="i : ${#numbers.sequence(start,end)}">
+                                    <a th:attrappend="href='page?id=' + ${i}"
+                                       th:classappend="${transactions.pageNumber == i} ? 'active' : ''" th:utext="${i}"
+                                       class="pagination__elem"></a>
+                                </th:block>
+                                <a class="pagination-elem__default"
+                                   th:if="${transactions.pageNumber <= transactions.pagesAvailable - right}"
+                                   th:attrappend="href='page?id=' + ${transactions.pagesAvailable}"
+                                   th:text="${transactions.pagesAvailable}"></a>
+                            </th:block>
+                            <th:block
+                                th:unless="${(transactions.pageNumber > left && transactions.pageNumber < (transactions.pagesAvailable - right)) || (transactions.pageNumber <= left)}"
+                                th:with="start=${transactions.pageNumber - (left + right - (transactions.pagesAvailable - transactions.pageNumber))},end=${transactions.pagesAvailable}">
+                                <a class="pagination-elem__default" th:attrappend="href='page?id=1'">1</a>
+                                <th:block th:each="i : ${#numbers.sequence(start,end)}">
+                                    <a th:attrappend="href='page?id=' + ${i}"
+                                       th:classappend="${transactions.pageNumber == i} ? 'active' : ''" th:utext="${i}"
+                                       class="pagination__elem"></a>
+                                </th:block>
+                            </th:block>
                         </th:block>
 
-                        <th:block th:if="${transactions.pageNumber <= left}"
-                            th:with="start=1,end=${transactions.pageNumber + (right + 1 + left - transactions.pageNumber)}">
-                            <th:block th:each="i : ${#numbers.sequence(start,end)}">
-                                <a th:attrappend="href='page?id=' + ${i}"
-                                    th:classappend="${transactions.pageNumber == i} ? 'active' : ''" th:utext="${i}"
-                                    class="pagination__elem"></a>
-                            </th:block>
-                            <a class="pagination-elem__default"
-                                th:if="${transactions.pageNumber <= transactions.pagesAvailable - right}"
-                                th:attrappend="href='page?id=' + ${transactions.pagesAvailable}"
-                                th:text="${transactions.pagesAvailable}"></a>
-                        </th:block>
-                        <th:block
-                            th:unless="${(transactions.pageNumber > left && transactions.pageNumber < (transactions.pagesAvailable - right)) || (transactions.pageNumber <= left)}"
-                            th:with="start=${transactions.pageNumber - (left + right - (transactions.pagesAvailable - transactions.pageNumber))},end=${transactions.pagesAvailable}">
-                            <a class="pagination-elem__default" th:attrappend="href='page?id=1'">1</a>
-                            <th:block th:each="i : ${#numbers.sequence(start,end)}">
-                                <a th:attrappend="href='page?id=' + ${i}"
-                                    th:classappend="${transactions.pageNumber == i} ? 'active' : ''" th:utext="${i}"
-                                    class="pagination__elem"></a>
-                            </th:block>
-                        </th:block>
-                    </th:block>
-
-                    <a th:attrappend="href=${transactions.pageNumber + 1 <= transactions.pagesAvailable } ? 'page?id=' + ${transactions.pageNumber + 1} : ''"
-                        th:classappend="${transactions.pageNumber + 1 > transactions.pagesAvailable} ? 'active' : ''"
-                        class="pagination__elem pagination__elem_next"></a>
+                        <a th:attrappend="href=${transactions.pageNumber + 1 <= transactions.pagesAvailable } ? 'page?id=' + ${transactions.pageNumber + 1} : ''"
+                           th:classappend="${transactions.pageNumber + 1 > transactions.pagesAvailable} ? 'active' : ''"
+                           class="pagination__elem pagination__elem_next"></a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <div th:replace="base :: dialog2"></div>
+    <div th:replace="base :: transition-loader"></div>
+    <div th:replace="base :: bill-copy-tooltip"></div>
+    <script th:src="@{/js/transition-loader.js}"></script>
+<script th:inline='javascript'>
+    /*<![CDATA[*/
+    showLoader();
+/*]]>*/
+</script>
 
     <div class="platform__filter">
         <div class="filter__wrapper">

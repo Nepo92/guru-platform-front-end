@@ -33,25 +33,28 @@
     <!--/Yandex.Metrika counter -->
 </head>
 
-<body class="body">
-    <div th:replace="base :: user-nav"></div>
-    <div th:replace="base :: user-mobile-nav"></div>
+<body class="page body">
     <div th:replace="base :: transition-loader"></div>
     <input type="hidden" class="lesson-passed" th:value="${lesson.passed}">
 
-    <div class="body__wrapper">
-        <div class="body__header">
-            <header class="header">
-                <div class="header__box block">
-                    <div class="header__wrapper block-wrapper">
-                        <div class="header__main">
-                            <div class="header__items">
-                                <div class="header__items-wrapper">
-                                    <h3 class="header__item header__item_title">Мои курсы</h3>
-                                    <div class="header__item header__item_btn">
-                                        <a th:href="'/user/courses/' + ${idDeal} + '/' + ${idModule} + ${idBlock == null ? '' : '?idBlock=' + idBlock}"
-                                            class="btn btn_outline header__btn header-btn">
-                                            <div class="btn__content btn__content_large">
+        <div class="page__content">
+            <div th:replace="base :: user-nav"></div>
+            <div th:replace="base :: user-mobile-nav"></div>
+            <div class="platform__wrapper custom-scroll courses">
+
+                <div class="body__wrapper">
+                <div class="body__header">
+                    <header class="header">
+                        <div class="header__box block">
+                            <div class="header__wrapper block-wrapper">
+                                <div class="header__main">
+                                    <div class="header__items">
+                                        <div class="header__items-wrapper">
+                                            <h3 class="header__item header__item_title">Мои курсы</h3>
+                                            <div class="header__item header__item_btn">
+                                                <a th:href="'/user/courses/' + ${idDeal} + '/' + ${idModule} + ${idBlock == null ? '' : '?idBlock=' + idBlock}"
+                                                   class="btn btn_outline header__btn header-btn">
+                                                    <div class="btn__content btn__content_large">
                                                 <span
                                                     class="btn__title btn__title_small btn__icon btn__icon_arrow-left">
                                                     <span
@@ -59,325 +62,327 @@
                                                         К списку уроков
                                                     </span>
                                                 </span>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </header>
-        </div>
-
-        <div class="body__content course-lesson">
-            <div class="lessons lesson-course">
-                <div class="lessons__inner">
-                    <a class="back"
-                        th:href="'/user/courses/' + ${idDeal} + '/' + ${idModule} + '?idBlock=' + ${idBlock == null ? '' : idBlock}">
-                        <span class="back__icon"></span>
-                        Назад к списку уроков
-                    </a>
-
-                    <p class="lessons__headtitle title title-h2 -gap_0 title__modules"
-                        th:utext="${lesson.moduleLesson.title}"></p>
-                    <p class="lessons__headsubtitle subtitle subtitle-h5 subtitle__modules"
-                        th:utext="'Урок ' + ${lesson.moduleLesson.index}"></p>
-
-                    <div class="lessons__list">
-                        <th:block th:each="lessonBlock,stat : ${lesson.moduleLesson.lessonBlocks}">
-                            <div class="lessons__item lesson-video" th:if="${lessonBlock.type == 'video'}">
-                                <div class="lesson-item__inner lesson-video__inner">
-                                    <p class="lessons__title lesson-video__title" th:utext="${lessonBlock.title}">
-                                        Заголовок</p>
-                                    <a data-fancybox th:href="${lessonBlock.value}"
-                                        class="lesson-item__content content-video"
-                                        th:data-videoLink="${lessonBlock.value}">
-                                        <img class="content-video__preview">
-                                        <div class="content-video__play-btn"></div>
-                                    </a>
-                                </div>
-                            </div>
-
-                            <div class="lessons__item lessons-text" th:if="${lessonBlock.type == 'text'}">
-                                <div class="lessons__inner lesson-text__inner">
-                                    <p class="lessons__title lesson-text__title" th:utext="${lessonBlock.title}"></p>
-
-                                    <div class="lessons-text__content lesson-item__content"
-                                        style="white-space: pre-line;" th:utext="${lessonBlock.value}">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="lessons__item lessons-document" th:if="${lessonBlock.type == 'document'}">
-                                <div class="lessons-document__inner">
-                                    <div class="lessons-document__left">
-                                        <div class="lessons-document__item">
-                                            <th:block
-                                                th:with="format=${#strings.substring(lessonBlock.value, #strings.indexOf(lessonBlock.value, '.') + 1)}">
-                                                <span class="lessons-document__format"
-                                                    th:attrappend="class=' lesson-document__type_' + ${format}"
-                                                    th:utext="${format}"></span>
-                                            </th:block>
-                                        </div>
-                                        <div class="lessons-document__item">
-                                            <span class="lessons-document__title"
-                                                th:utext="${lessonBlock.title}"></span>
-                                        </div>
-                                    </div>
-
-                                    <div class="lessons-document__item">
-                                        <div class="lessons-document__controls">
-                                            <a class="lessons-document__btn btn-download"
-                                                th:href="'/' + ${lessonBlock.value}" download>
-                                                <span class="btn-download__icon"></span>
-                                                <span class="btn-download__text">Скачать</span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="lessons__item lesson-image" th:if="${lessonBlock.type == 'image'}">
-                                <div class="lesson-item__inner lesson-image__inner">
-                                    <p class="lessons__title lesson-image__title" th:utext="${lessonBlock.title}">
-                                        Заголовок</p>
-                                    <a data-fancybox th:href="'/' + ${lessonBlock.value}"
-                                        class="lesson-item__content content-image">
-                                        <img th:src="'/' + ${lessonBlock.value}" class="content-image__preview"
-                                            alt="image-content">
-                                    </a>
-                                </div>
-                            </div>
-
-                            <div class="lessons__item lesson-banner" th:if="${lessonBlock.type == 'banner'}">
-                                <div class="lesson-banner__mobile">
-                                    <th:block th:each="img, index : ${lessonBlock.blockValues}">
-                                        <th:block th:if="${index.index == #lists.size(lessonBlock.blockValues) - 2}">
-                                            <script th:inline='javascript'>
-                                                /*<![CDATA[*/
-                                                var link = [[${ lessonBlock.value }]];
-                                                      /*]]>*/
-                                            </script>
-                                            <a lesson-banner-mobile rel="noopener noreferrer" target="_blank"
-                                                th:href="${lessonBlock.value}" class="lesson-banner__link">
-                                                <img class="lesson-banner__mobile-img" src="">
-                                            </a>
-                                        </th:block>
-                                    </th:block>
-                                </div>
-                                <div class="lesson-banner__desktop">
-                                    <th:block th:each="img, index : ${lessonBlock.blockValues}">
-                                        <th:block th:if="${index.index == #lists.size(lessonBlock.blockValues) - 1}">
-                                            <a lesson-banner-desktop rel="noopener noreferrer" target="_blank"
-                                                th:href="${lessonBlock.value}" class="lesson-banner__link">
-                                                <img class="lesson-banner__desktop-img" src="">
-                                            </a>
-                                        </th:block>
-                                    </th:block>
-                                </div>
-                            </div>
-
-                            <div class="lessons__item lessons-gallery" th:if="${lessonBlock.type == 'gallery'}">
-                                <p class="lessons__title lessons-gallery__title" th:utext="${lessonBlock.title}"></p>
-                                <div gallery-lesson
-                                    class="lesson-item__content gallery__wrapper gallery__wrapper_small lessons-gallery__wrapper">
-                                    <div class="gallery__list slider">
-                                        <th:block th:each="img : ${lessonBlock.blockValues}">
-                                            <div class="slider-item__wrapper">
-                                                <a data-fancybox th:href="'/' + ${img.value}" href="">
-                                                    <img class="gallery-item__img" th:src="'/' + ${img.value}">
+                                                    </div>
                                                 </a>
                                             </div>
-                                        </th:block>
+                                        </div>
                                     </div>
-
-                                </div>
-                            </div>
-                        </th:block>
-
-                        <div class="estimation" th:if="${isVoted}">
-                            <div class="estimation__inner--client">
-                                <p class="estimation__title estimation__title--vote">Ваша оценка урока</p>
-                                <div class="estimation__value--client">
-                                    <div class="estimation__icon--client"></div>
-                                    <div class="estimation__text--client" th:text="${ClientsVote}"></div>
                                 </div>
                             </div>
                         </div>
+                    </header>
+                </div>
 
-                        <div class="estimation" th:unless="${isVoted}">
-                            <div class="estimation__inner">
-                                <p class="estimation__title">Пожалуйста, оцените урок</p>
-                                <ul class="estimation__list">
-                                    <li vote data-rate='1' class="estimation__item">
-                                        <input class="estimation__rate" type="radio" value="1" name="rate">
-                                        <span class="estimation__icon"></span>
-                                        <span class="estimation__value">1</span>
-                                    </li>
-                                    <li vote data-rate='2' class="estimation__item">
-                                        <input class="estimation__rate" type="radio" value="1" name="rate">
-                                        <span class="estimation__icon"></span>
-                                        <span class="estimation__value">2</span>
-                                    </li>
-                                    <li vote data-rate='3' class="estimation__item">
-                                        <input class="estimation__rate" type="radio" value="1" name="rate">
-                                        <span class="estimation__icon"></span>
-                                        <span class="estimation__value">3</span>
-                                    </li>
-                                    <li vote data-rate='4' class="estimation__item">
-                                        <input class="estimation__rate" type="radio" value="1" name="rate">
-                                        <span class="estimation__icon"></span>
-                                        <span class="estimation__value">4</span>
-                                    </li>
-                                    <li vote data-rate='5' class="estimation__item">
-                                        <input class="estimation__rate" type="radio" value="1" name="rate">
-                                        <span class="estimation__icon"></span>
-                                        <span class="estimation__value">5</span>
-                                    </li>
-                                    <li vote data-rate='6' class="estimation__item">
-                                        <input class="estimation__rate" type="radio" value="1" name="rate">
-                                        <span class="estimation__icon"></span>
-                                        <span class="estimation__value">6</span>
-                                    </li>
-                                    <li vote data-rate='7' class="estimation__item">
-                                        <input class="estimation__rate" type="radio" value="1" name="rate">
-                                        <span class="estimation__icon"></span>
-                                        <span class="estimation__value">7</span>
-                                    </li>
-                                    <li vote data-rate='8' class="estimation__item">
-                                        <input class="estimation__rate" type="radio" value="1" name="rate">
-                                        <span class="estimation__icon"></span>
-                                        <span class="estimation__value">8</span>
-                                    </li>
-                                    <li vote data-rate='9' class="estimation__item">
-                                        <input class="estimation__rate" type="radio" value="1" name="rate">
-                                        <span class="estimation__icon"></span>
-                                        <span class="estimation__value">9</span>
-                                    </li>
-                                    <li vote data-rate='10' class="estimation__item">
-                                        <input class="estimation__rate" type="radio" value="1" name="rate">
-                                        <span class="estimation__icon"></span>
-                                        <span class="estimation__value">10</span>
-                                    </li>
-                                </ul>
+                <div class="body__content course-lesson">
+                    <div class="lessons lesson-course">
+                        <div class="lessons__inner">
+                            <a class="back"
+                               th:href="'/user/courses/' + ${idDeal} + '/' + ${idModule} + '?idBlock=' + ${idBlock == null ? '' : idBlock}">
+                                <span class="back__icon"></span>
+                                Назад к списку уроков
+                            </a>
+
+                            <p class="lessons__headtitle title title-h2 -gap_0 title__modules"
+                               th:utext="${lesson.moduleLesson.title}"></p>
+                            <p class="lessons__headsubtitle subtitle subtitle-h5 subtitle__modules"
+                               th:utext="'Урок ' + ${lesson.moduleLesson.index}"></p>
+
+                            <div class="lessons__list">
+                                <th:block th:each="lessonBlock,stat : ${lesson.moduleLesson.lessonBlocks}">
+                                    <div class="lessons__item lesson-video" th:if="${lessonBlock.type == 'video'}">
+                                        <div class="lesson-item__inner lesson-video__inner">
+                                            <p class="lessons__title lesson-video__title" th:utext="${lessonBlock.title}">
+                                                Заголовок</p>
+                                            <a data-fancybox th:href="${lessonBlock.value}"
+                                               class="lesson-item__content content-video"
+                                               th:data-videoLink="${lessonBlock.value}">
+                                                <img class="content-video__preview">
+                                                <div class="content-video__play-btn"></div>
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <div class="lessons__item lessons-text" th:if="${lessonBlock.type == 'text'}">
+                                        <div class="lessons__inner lesson-text__inner">
+                                            <p class="lessons__title lesson-text__title" th:utext="${lessonBlock.title}"></p>
+
+                                            <div class="lessons-text__content lesson-item__content"
+                                                 style="white-space: pre-line;" th:utext="${lessonBlock.value}">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="lessons__item lessons-document" th:if="${lessonBlock.type == 'document'}">
+                                        <div class="lessons-document__inner">
+                                            <div class="lessons-document__left">
+                                                <div class="lessons-document__item">
+                                                    <th:block
+                                                        th:with="format=${#strings.substring(lessonBlock.value, #strings.indexOf(lessonBlock.value, '.') + 1)}">
+                                                <span class="lessons-document__format"
+                                                      th:attrappend="class=' lesson-document__type_' + ${format}"
+                                                      th:utext="${format}"></span>
+                                                    </th:block>
+                                                </div>
+                                                <div class="lessons-document__item">
+                                            <span class="lessons-document__title"
+                                                  th:utext="${lessonBlock.title}"></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="lessons-document__item">
+                                                <div class="lessons-document__controls">
+                                                    <a class="lessons-document__btn btn-download"
+                                                       th:href="'/' + ${lessonBlock.value}" download>
+                                                        <span class="btn-download__icon"></span>
+                                                        <span class="btn-download__text">Скачать</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="lessons__item lesson-image" th:if="${lessonBlock.type == 'image'}">
+                                        <div class="lesson-item__inner lesson-image__inner">
+                                            <p class="lessons__title lesson-image__title" th:utext="${lessonBlock.title}">
+                                                Заголовок</p>
+                                            <a data-fancybox th:href="'/' + ${lessonBlock.value}"
+                                               class="lesson-item__content content-image">
+                                                <img th:src="'/' + ${lessonBlock.value}" class="content-image__preview"
+                                                     alt="image-content">
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <div class="lessons__item lesson-banner" th:if="${lessonBlock.type == 'banner'}">
+                                        <div class="lesson-banner__mobile">
+                                            <th:block th:each="img, index : ${lessonBlock.blockValues}">
+                                                <th:block th:if="${index.index == #lists.size(lessonBlock.blockValues) - 2}">
+                                                    <script th:inline='javascript'>
+                                                        /*<![CDATA[*/
+                                                        var link = [[${ lessonBlock.value }]];
+                                                        /*]]>*/
+                                                    </script>
+                                                    <a lesson-banner-mobile rel="noopener noreferrer" target="_blank"
+                                                       th:href="${lessonBlock.value}" class="lesson-banner__link">
+                                                        <img class="lesson-banner__mobile-img" src="">
+                                                    </a>
+                                                </th:block>
+                                            </th:block>
+                                        </div>
+                                        <div class="lesson-banner__desktop">
+                                            <th:block th:each="img, index : ${lessonBlock.blockValues}">
+                                                <th:block th:if="${index.index == #lists.size(lessonBlock.blockValues) - 1}">
+                                                    <a lesson-banner-desktop rel="noopener noreferrer" target="_blank"
+                                                       th:href="${lessonBlock.value}" class="lesson-banner__link">
+                                                        <img class="lesson-banner__desktop-img" src="">
+                                                    </a>
+                                                </th:block>
+                                            </th:block>
+                                        </div>
+                                    </div>
+
+                                    <div class="lessons__item lessons-gallery" th:if="${lessonBlock.type == 'gallery'}">
+                                        <p class="lessons__title lessons-gallery__title" th:utext="${lessonBlock.title}"></p>
+                                        <div gallery-lesson
+                                             class="lesson-item__content gallery__wrapper gallery__wrapper_small lessons-gallery__wrapper">
+                                            <div class="gallery__list slider">
+                                                <th:block th:each="img : ${lessonBlock.blockValues}">
+                                                    <div class="slider-item__wrapper">
+                                                        <a data-fancybox th:href="'/' + ${img.value}" href="">
+                                                            <img class="gallery-item__img" th:src="'/' + ${img.value}">
+                                                        </a>
+                                                    </div>
+                                                </th:block>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </th:block>
+
+                                <div class="estimation" th:if="${isVoted}">
+                                    <div class="estimation__inner--client">
+                                        <p class="estimation__title estimation__title--vote">Ваша оценка урока</p>
+                                        <div class="estimation__value--client">
+                                            <div class="estimation__icon--client"></div>
+                                            <div class="estimation__text--client" th:text="${ClientsVote}"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="estimation" th:unless="${isVoted}">
+                                    <div class="estimation__inner">
+                                        <p class="estimation__title">Пожалуйста, оцените урок</p>
+                                        <ul class="estimation__list">
+                                            <li vote data-rate='1' class="estimation__item">
+                                                <input class="estimation__rate" type="radio" value="1" name="rate">
+                                                <span class="estimation__icon"></span>
+                                                <span class="estimation__value">1</span>
+                                            </li>
+                                            <li vote data-rate='2' class="estimation__item">
+                                                <input class="estimation__rate" type="radio" value="1" name="rate">
+                                                <span class="estimation__icon"></span>
+                                                <span class="estimation__value">2</span>
+                                            </li>
+                                            <li vote data-rate='3' class="estimation__item">
+                                                <input class="estimation__rate" type="radio" value="1" name="rate">
+                                                <span class="estimation__icon"></span>
+                                                <span class="estimation__value">3</span>
+                                            </li>
+                                            <li vote data-rate='4' class="estimation__item">
+                                                <input class="estimation__rate" type="radio" value="1" name="rate">
+                                                <span class="estimation__icon"></span>
+                                                <span class="estimation__value">4</span>
+                                            </li>
+                                            <li vote data-rate='5' class="estimation__item">
+                                                <input class="estimation__rate" type="radio" value="1" name="rate">
+                                                <span class="estimation__icon"></span>
+                                                <span class="estimation__value">5</span>
+                                            </li>
+                                            <li vote data-rate='6' class="estimation__item">
+                                                <input class="estimation__rate" type="radio" value="1" name="rate">
+                                                <span class="estimation__icon"></span>
+                                                <span class="estimation__value">6</span>
+                                            </li>
+                                            <li vote data-rate='7' class="estimation__item">
+                                                <input class="estimation__rate" type="radio" value="1" name="rate">
+                                                <span class="estimation__icon"></span>
+                                                <span class="estimation__value">7</span>
+                                            </li>
+                                            <li vote data-rate='8' class="estimation__item">
+                                                <input class="estimation__rate" type="radio" value="1" name="rate">
+                                                <span class="estimation__icon"></span>
+                                                <span class="estimation__value">8</span>
+                                            </li>
+                                            <li vote data-rate='9' class="estimation__item">
+                                                <input class="estimation__rate" type="radio" value="1" name="rate">
+                                                <span class="estimation__icon"></span>
+                                                <span class="estimation__value">9</span>
+                                            </li>
+                                            <li vote data-rate='10' class="estimation__item">
+                                                <input class="estimation__rate" type="radio" value="1" name="rate">
+                                                <span class="estimation__icon"></span>
+                                                <span class="estimation__value">10</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <th:block th:if="${lesson.moduleLesson.type == 'homework'}">
+                                    <th:block
+                                        th:if="${allowHomeworkStart and !isHomeworkCompleted and !isHomeworkOnReprocess and !isHomeworkOnCheck}">
+                                        <input type="hidden" th:value="${lesson.id}" class="homework-id">
+
+                                        <div class="block-delimiter -gap_7" js-hide-on-complete></div>
+
+                                        <div class="block-header -gap_5" js-hide-on-complete>
+                                            <div class="title title-h2 -gap_0">Сдать домашнее задание</div>
+                                        </div>
+
+                                        <form save-homework-form class="lesson-homework homework-comments__send" action="#">
+                                            <h2 class="homework-comments__title">Ваше сообщение</h2>
+                                            <div class="homework-comments__item textarea mt_0">
+                                        <textarea name="comments[0].text"
+                                                  class="homework-comments__message homework-text__area" required
+                                                  placeholder="Введите ваше сообщение"></textarea>
+                                            </div>
+                                            <div
+                                                class="homework-comments__gallery homework-comment__gallery--client custom-scroll">
+                                            </div>
+                                            <div class="gallery-homework homework-comments__warning client">Максимальное число
+                                                файлов &mdash; 8</div>
+                                            <div class="homework-comments__buttons">
+                                                <input type="file" data-name="comments[0].files" name="file"
+                                                       accept=".jpeg,.jpg,.png" id="imageFile"
+                                                       class="homework-comment__input--file" multiple>
+                                                <label for="imageFile"
+                                                       class="homework-comment__label homework-comment__label--image client">Добавить
+                                                    фотографию</label>
+                                                <input type="file" data-name="comments[0].files" name="file"
+                                                       accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.psd" id="docFile"
+                                                       class="homework-comment__input--file" multiple>
+                                                <label for="docFile"
+                                                       class="homework-comment__label homework-comment__label--file client">Добавить
+                                                    файл</label>
+                                            </div>
+                                            <div class="homework-comments__send--btn">Отправить</div>
+                                        </form>
+                                    </th:block>
+
+                                    <th:block th:if="${isHomeworkCompleted}">
+                                        <ul class="homework-menu__comments--client">
+                                            <div class="homework-comments__wrapper client custom-scroll">
+                                            </div>
+                                        </ul>
+                                    </th:block>
+
+                                    <th:block th:if="${isHomeworkOnCheck}">
+                                        <div class="content-element__wrapper homework__popup">
+                                            <p class="homework__popup--text">Спасибо! Ваше домашнее задание принято на проверку,
+                                                ответ получите в скором времени!</p>
+                                        </div>
+                                    </th:block>
+
+                                    <th:block th:if="${isHomeworkOnReprocess}">
+                                        <form save-homework-form class="lesson-homework homework-comments__send" action="#">
+                                            <input type="hidden" id-homework th:value="${homework.id}" name="id">
+                                            <h2 class="homework-comments__title">Ваше сообщение</h2>
+                                            <div class="homework-comments__item textarea">
+                                        <textarea name="comments[0].text"
+                                                  class="homework-comments__message homework-text__area" required
+                                                  placeholder="Введите ваше сообщение"></textarea>
+                                            </div>
+                                            <div
+                                                class="homework-comments__gallery homework-comment__gallery--client custom-scroll">
+                                            </div>
+                                            <div class="gallery-homework homework-comments__warning client">Максимальное число
+                                                файлов &mdash; 8</div>
+                                            <div class="homework-comments__buttons">
+                                                <input type="file" data-name="comments[0].files" name="file"
+                                                       accept=".jpeg,.jpg,.png" id="imageFile"
+                                                       class="homework-comment__input--file" multiple>
+                                                <label for="imageFile"
+                                                       class="homework-comment__label homework-comment__label--image client">Добавить
+                                                    фотографию</label>
+                                                <input type="file" data-name="comments[0].files" name="file"
+                                                       accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.psd" id="docFile"
+                                                       class="homework-comment__input--file" multiple>
+                                                <label for="docFile"
+                                                       class="homework-comment__label homework-comment__label--file client">Добавить
+                                                    файл</label>
+                                            </div>
+
+                                            <div class="homework-comments__send--btn">Отправить</div>
+                                        </form>
+                                    </th:block>
+                                </th:block>
                             </div>
-                        </div>
 
-                        <th:block th:if="${lesson.moduleLesson.type == 'homework'}">
-                            <th:block
-                                th:if="${allowHomeworkStart and !isHomeworkCompleted and !isHomeworkOnReprocess and !isHomeworkOnCheck}">
-                                <input type="hidden" th:value="${lesson.id}" class="homework-id">
-
-                                <div class="block-delimiter -gap_7" js-hide-on-complete></div>
-
-                                <div class="block-header -gap_5" js-hide-on-complete>
-                                    <div class="title title-h2 -gap_0">Сдать домашнее задание</div>
+                            <div class="lessons__list">
+                                <div class="content-nav__wrapper lessons-nav">
+                                    <a th:href="'/user/courses/' + ${idDeal} + '/' + ${idModule} + '/' + ${prevLesson.moduleLesson.id} + '/'"
+                                       class="content-nav__item content-nav__item_prev" th:if="${prevLesson != null}">
+                                        <div class="content-nav__item-number" th:utext="${prevLesson.moduleLesson.index}">2
+                                        </div>
+                                        <div class="content-nav__item-text" th:utext="${prevLesson.moduleLesson.title}">Еще
+                                            какой-нибудь урок
+                                        </div>
+                                    </a>
+                                    <a th:href="'/user/courses/' + ${idDeal} + '/' + ${idModule} + '/' + ${nextLesson.moduleLesson.id} + '/'"
+                                       class="content-nav__item content-nav__item_next" th:if="${nextLesson != null}">
+                                        <div class="content-nav__item-text" th:utext="${nextLesson.moduleLesson.title}">Еще
+                                            какой-нибудь урок
+                                        </div>
+                                        <div class="content-nav__item-number" th:utext="${nextLesson.moduleLesson.index}">3
+                                        </div>
+                                    </a>
                                 </div>
-
-                                <form save-homework-form class="lesson-homework homework-comments__send" action="#">
-                                    <h2 class="homework-comments__title">Ваше сообщение</h2>
-                                    <div class="homework-comments__item textarea mt_0">
-                                        <textarea name="comments[0].text"
-                                            class="homework-comments__message homework-text__area" required
-                                            placeholder="Введите ваше сообщение"></textarea>
-                                    </div>
-                                    <div
-                                        class="homework-comments__gallery homework-comment__gallery--client custom-scroll">
-                                    </div>
-                                    <div class="gallery-homework homework-comments__warning client">Максимальное число
-                                        файлов &mdash; 8</div>
-                                    <div class="homework-comments__buttons">
-                                        <input type="file" data-name="comments[0].files" name="file"
-                                            accept=".jpeg,.jpg,.png" id="imageFile"
-                                            class="homework-comment__input--file" multiple>
-                                        <label for="imageFile"
-                                            class="homework-comment__label homework-comment__label--image client">Добавить
-                                            фотографию</label>
-                                        <input type="file" data-name="comments[0].files" name="file"
-                                            accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.psd" id="docFile"
-                                            class="homework-comment__input--file" multiple>
-                                        <label for="docFile"
-                                            class="homework-comment__label homework-comment__label--file client">Добавить
-                                            файл</label>
-                                    </div>
-                                    <div class="homework-comments__send--btn">Отправить</div>
-                                </form>
-                            </th:block>
-
-                            <th:block th:if="${isHomeworkCompleted}">
-                                <ul class="homework-menu__comments--client">
-                                    <div class="homework-comments__wrapper client custom-scroll">
-                                    </div>
-                                </ul>
-                            </th:block>
-
-                            <th:block th:if="${isHomeworkOnCheck}">
-                                <div class="content-element__wrapper homework__popup">
-                                    <p class="homework__popup--text">Спасибо! Ваше домашнее задание принято на проверку,
-                                        ответ получите в скором времени!</p>
-                                </div>
-                            </th:block>
-
-                            <th:block th:if="${isHomeworkOnReprocess}">
-                                <form save-homework-form class="lesson-homework homework-comments__send" action="#">
-                                    <input type="hidden" id-homework th:value="${homework.id}" name="id">
-                                    <h2 class="homework-comments__title">Ваше сообщение</h2>
-                                    <div class="homework-comments__item textarea">
-                                        <textarea name="comments[0].text"
-                                            class="homework-comments__message homework-text__area" required
-                                            placeholder="Введите ваше сообщение"></textarea>
-                                    </div>
-                                    <div
-                                        class="homework-comments__gallery homework-comment__gallery--client custom-scroll">
-                                    </div>
-                                    <div class="gallery-homework homework-comments__warning client">Максимальное число
-                                        файлов &mdash; 8</div>
-                                    <div class="homework-comments__buttons">
-                                        <input type="file" data-name="comments[0].files" name="file"
-                                            accept=".jpeg,.jpg,.png" id="imageFile"
-                                            class="homework-comment__input--file" multiple>
-                                        <label for="imageFile"
-                                            class="homework-comment__label homework-comment__label--image client">Добавить
-                                            фотографию</label>
-                                        <input type="file" data-name="comments[0].files" name="file"
-                                            accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.psd" id="docFile"
-                                            class="homework-comment__input--file" multiple>
-                                        <label for="docFile"
-                                            class="homework-comment__label homework-comment__label--file client">Добавить
-                                            файл</label>
-                                    </div>
-
-                                    <div class="homework-comments__send--btn">Отправить</div>
-                                </form>
-                            </th:block>
-                        </th:block>
-                    </div>
-
-                    <div class="lessons__list">
-                        <div class="content-nav__wrapper lessons-nav">
-                            <a th:href="'/user/courses/' + ${idDeal} + '/' + ${idModule} + '/' + ${prevLesson.moduleLesson.id} + '/'"
-                                class="content-nav__item content-nav__item_prev" th:if="${prevLesson != null}">
-                                <div class="content-nav__item-number" th:utext="${prevLesson.moduleLesson.index}">2
-                                </div>
-                                <div class="content-nav__item-text" th:utext="${prevLesson.moduleLesson.title}">Еще
-                                    какой-нибудь урок
-                                </div>
-                            </a>
-                            <a th:href="'/user/courses/' + ${idDeal} + '/' + ${idModule} + '/' + ${nextLesson.moduleLesson.id} + '/'"
-                                class="content-nav__item content-nav__item_next" th:if="${nextLesson != null}">
-                                <div class="content-nav__item-text" th:utext="${nextLesson.moduleLesson.title}">Еще
-                                    какой-нибудь урок
-                                </div>
-                                <div class="content-nav__item-number" th:utext="${nextLesson.moduleLesson.index}">3
-                                </div>
-                            </a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+            </div>
         </div>
-    </div>
 
     <script th:inline='javascript'>
         /*<![CDATA[*/

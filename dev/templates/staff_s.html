@@ -9,8 +9,670 @@
     <th:block th:insert="base :: links" />
 </head>
 
-<body class="custom-scroll">
-<div th:replace="base :: main-nav (logoClass='main-nav__logo_white')"></div>
+<body class="page custom-scroll">
+    <div class="page__content">
+        <div th:replace="base :: main-nav (logoClass='main-nav__logo_white')"></div>
+
+        <div class="platform__wrapper">
+            <div class="platform__header">
+                <h1 class="platform__title">Сотрудники</h1>
+            </div>
+            <div class="content-main">
+                <th:block th:each="department : ${departments}">
+                    <th:block th:if="${department.id == 9}">
+                        <div class="content-main__wrapper content-main__wrapper_b50 staff">
+                            <div class="content-main__panel content-main__panel_col content-main__panel_align content-main__panel_large content-main__panel_p staff__department">
+                                <div class="table-title">
+                                    <div class="table-title_wrapper">
+                                        <div th:attr="department=${department.department}, id-department=${department.id}" class="table-title__title" th:utext="${department.title}"></div>
+                                        <div js-create-examiner class="add-button add-button_right button_add">Добавить сотрудника</div>
+                                    </div>
+                                </div>
+
+                                <table class="custom-table staff-table">
+                                    <tbody table-body class="custom-table__body custom-table__body_white">
+                                    <tr class="custom-table__header-row staff-table__header-row">
+                                        <td class="custom-table__header-col custom-table__header-col_big staff-table__id">#</td>
+                                        <td class="custom-table__header-col custom-table__header-col_big staff-table__avatar"></td>
+                                        <td class="custom-table__header-col custom-table__header-col_big staff-table__name">Имя</td>
+                                        <td class="custom-table__header-col custom-table__header-col_big staff-table__login">Логин</td>
+                                        <td class="custom-table__header-col custom-table__header-col_big staff-table__password">Пароль</td>
+                                        <td class="custom-table__header-col custom-table__header-col_big staff-table__tel">Телефон</td>
+                                        <td class="custom-table__header-col custom-table__header-col_big staff-table__vk">Ссылка ВК</td>
+                                        <td class="custom-table__header-col custom-table__header-col_big staff-table__card">Номер карты</td>
+                                        <td class="custom-table__header-col custom-table__header-col_big staff-table__birthday">День рождения</td>
+                                        <td class="custom-table__header-col custom-table__header-col_big staff-table__key">Ключ</td>
+                                        <td class="custom-table__header-col custom-table__header-col_big staff-table__position">Должность</td>
+                                        <td class="custom-table__header-col custom-table__header-col_big staff-table__status">Статус</td>
+                                        <td class="custom-table__header-col custom-table__header-col_big staff-table__settings"></td>
+                                    </tr>
+                                    <tr th:attr="data-employee=${employee.idEmployee}" class="custom-table__body-row staff-table__body-row" th:each="employee, stat : ${staffDepartment.get(department.department)}">
+                                        <input type="hidden" u-id th:value="${employee.idEmployee}" name="id" required>
+                                        <td class="custom-table__body-col staff-table__id" th:utext="${employee.idEmployee}"></td>
+                                        <td class="custom-table__body-col staff-table__avatar">
+                                            <div class="avatar-upload">
+                                                <form u-upload-avatar-form action="#" enctype="multipart/form-data">
+                                                    <input type="hidden" th:value="${employee.idEmployee}" name="id" required>
+                                                    <input u-upload-avatar accept="image/*,image/jpeg" class="input-file" name="file" type="file" th:id="'avatar' + ${employee.idEmployee}">
+                                                    <label th:for="'avatar' + ${employee.idEmployee}">
+                                            <span class="avatar-upload__upload" th:classappend="${#strings.isEmpty(employee.avatar) ? 'avatar-upload__upload_default-user' : ''}">
+                                                <img th:if="${!#strings.isEmpty(employee.avatar)}" th:src="'/' + ${employee.avatar}" alt="avatar">
+                                            </span>
+                                                    </label>
+                                                </form>
+                                            </div>
+                                        </td>
+                                        <td class="custom-table__body-col custom-table__body-col_xlarge staff-table__name" >
+                                            <input u-name name="name"
+                                                   class="menu-input__input menu-input__input_small editable"
+                                                   th:attr="title=${employee.name}"
+                                                   th:value="${employee.name}"
+                                                   disabled
+                                                   placeholder="—">
+                                        </td>
+                                        <td class="custom-table__body-col custom-table__body-col_xlarge staff-table__login">
+                                            <input u-username name="user.username"
+                                                   class="menu-input__input menu-input__input_small editable"
+                                                   th:attr="title=${employee.user.username}"
+                                                   th:value="${employee.user.username}"
+                                                   disabled
+                                                   placeholder="—"
+                                                   required>
+                                        </td>
+                                        <td class="custom-table__body-col custom-table__body-col_medium staff-table__password">
+                                            <input u-password name="user.password"
+                                                   class="menu-input__input menu-input__input_small editable"
+                                                   th:value="${''}"
+                                                   disabled
+                                                   placeholder="✱✱✱✱✱✱"
+                                                   required>
+                                        </td>
+                                        <td class="custom-table__body-col custom-table__body-col_medium staff-table__tel">
+                                            <input u-phone name="phone"
+                                                   class="menu-input__input menu-input__input_small editable"
+                                                   th:attr="title=${employee.phone}"
+                                                   th:value="${employee.phone}"
+                                                   disabled
+                                                   placeholder="—">
+                                        </td>
+                                        <td class="custom-table__body-col custom-table__body-col_medium staff-table__vk">
+                                            <input u-link name="link"
+                                                   class="menu-input__input menu-input__input_small editable"
+                                                   th:attr="title=${employee.link}"
+                                                   th:value="${employee.link}"
+                                                   disabled
+                                                   placeholder="—">
+                                        </td>
+                                        <td class="custom-table__body-col custom-table__body-col_medium staff-table__card">
+                                            <input u-doorscardnumber name="doorsCardNumber"
+                                                   class="menu-input__input menu-input__input_small editable"
+                                                   th:attr="title=${employee.doorsCardNumber}"
+                                                   th:value="${employee.doorsCardNumber}"
+                                                   disabled
+                                                   placeholder="—">
+                                        </td>
+                                        <td class="custom-table__body-col custom-table__body-col_small staff-table__birthday">
+                                            <input u-birthday
+                                                   data-position="top left"
+                                                   name="birthday"
+                                                   class="datepicker-here-e menu-input__input menu-input__input_small editable"
+                                                   autocomplete="off"
+                                                   th:value="${employee.birthday}"
+                                                   disabled
+                                                   data-autoclose="true"
+                                                   placeholder="—">
+                                        </td>
+                                        <td class="custom-table__body-col staff-table__key">
+                                            <div class="input-element__checkbox input-element__checkbox_mid">
+                                                <input u-ishaskey
+                                                       name="isHasKey"
+                                                       type="checkbox"
+                                                       class="checkbox"
+                                                       value="true"
+                                                       disabled
+                                                       th:id="'key' + ${employee.idEmployee}"
+                                                       th:checked="${employee.isHasKey}">
+                                                <label class="checkbox-label checkbox-label_gray" th:for="'key' + ${employee.idEmployee}"></label>
+                                            </div>
+                                        </td>
+                                        <td class="custom-table__body-col custom-table__body-col_medium staff-table__position">
+                                            <div u-type-wrapper class="menu-input__wrapper menu-input__wrapper_select disabled">
+                                                <select u-type-selector disabled class="editable menu-input__input menu-input__input_medium menu-input__input_select menu-input__input_white">
+                                                    <option th:value="0" disabled>Выберите тип</option>
+                                                    <option th:each="type : ${typesDepartment.get(department.department)}"
+                                                            th:value="${type.id}"
+                                                            th:utext="${type.title}"
+                                                            th:selected="${type.id == employee.type}"
+                                                    ></option>
+                                                </select>
+                                            </div>
+                                        </td>
+                                        <td class="custom-table__body-col custom-table__body-col_medium staff-table__status">
+                                            <div u-dismiss-wrapper class="indicated-select menu-input__wrapper menu-input__wrapper_select disabled" th:classappend="'indicated-select_' + ${employee.isNotDisMiss}">
+                                                <select u-dismiss-selector disabled class="editable menu-input__input menu-input__input_xsmall menu-input__input_select menu-input__input_white">
+                                                    <option value="true" th:selected="${true == employee.isNotDisMiss}">Работает</option>
+                                                    <option value="false" th:selected="${false == employee.isNotDisMiss}">Уволен</option>
+                                                </select>
+                                            </div>
+                                        </td>
+                                        <td class="custom-table__body-col custom-table__body-col_last staff-table__settings">
+                                            <div edit-btns class="column-links display-flex-none">
+                                                <div edit-employee-accept class="column_mwidth column_mwidth-accept"></div>
+                                                <div edit-employee-cancel class="column_mwidth column_mwidth-cancel"></div>
+                                            </div>
+                                            <div edit-menu class="column-links display-flex-none is-open">
+                                                <div edit-employee class="column_mwidth div-table__body-col_center column_mwidth-edit column_mwidth-edit-b"></div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </th:block>
+
+                    <th:block th:if="${department.id == 1000}">
+                        <div class="content-main__wrapper content-main__wrapper_b50 staff">
+                            <div class="content-main__panel content-main__panel_col content-main__panel_align content-main__panel_p staff__department">
+
+                                <div class="table-title">
+                                    <div class="table-title_wrapper">
+                                        <div class="table-title__title" th:attr="department=${department.department}, id-department=${department.id}"
+                                             th:utext="${department.title}"></div>
+                                        <div js-create-manager class="add-button add-button_right button_add">Добавить менеджера</div>
+                                    </div>
+                                </div>
+
+                                <table class="custom-table staff-table">
+                                    <tbody class="custom-table__body custom-table__body_white">
+                                    <tr class="custom-table__header-row staff-table__header-row">
+                                        <td class="custom-table__header-col custom-table__header-col_big staff-table__id">#</td>
+                                        <td class="custom-table__header-col custom-table__header-col_big staff-table__avatar"></td>
+                                        <td class="custom-table__header-col custom-table__header-col_big staff-table__name">Имя</td>
+                                        <td class="custom-table__header-col custom-table__header-col_big staff-table__login">Логин</td>
+                                        <td class="custom-table__header-col custom-table__header-col_big staff-table__password">Пароль</td>
+                                        <td class="custom-table__header-col custom-table__header-col_big staff-table__tel">Телефон</td>
+                                        <td class="custom-table__header-col custom-table__header-col_big staff-table__vk">Ссылка ВК</td>
+                                        <td class="custom-table__header-col custom-table__header-col_big staff-table__card">Номер карты</td>
+                                        <td class="custom-table__header-col custom-table__header-col_big staff-table__birthday">День рождения</td>
+                                        <td class="custom-table__header-col custom-table__header-col_big staff-table__key">Ключ</td>
+                                        <td class="custom-table__header-col custom-table__header-col_big staff-table__monitor">Монитор</td>
+                                        <td class="custom-table__header-col custom-table__header-col_big staff-table__position">Должность</td>
+                                        <td class="custom-table__header-col custom-table__header-col_big staff-table__status">Статус</td>
+                                        <td class="custom-table__header-col custom-table__header-col_big staff-table__projects">Проекты</td>
+                                        <td class="custom-table__header-col custom-table__header-col_big staff-table__settings"></td>
+                                    </tr>
+                                    <tr th:attr="data-manager=${manager.id}" department="manager" class="custom-table__body-row staff-table__body-row" th:each="manager, stat : ${managers}">
+                                        <input type="hidden" u-id th:value="${manager.id}" name="id" required>
+                                        <input type="hidden" u-id-manager th:value="${manager.idManager}" required>
+                                        <td class="custom-table__body-col staff-table__id" th:utext="${manager.idManager}"></td>
+                                        <td class="custom-table__body-col staff-table__avatar">
+                                            <div class="avatar-upload">
+                                                <form u-upload-avatar-form action="#" enctype="multipart/form-data">
+                                                    <input type="hidden" th:value="${manager.idManager}" name="id" required>
+                                                    <input u-upload-manager-avatar accept="image/*,image/jpeg" class="input-file" name="file" type="file" th:id="'avatarM' + ${manager.id}">
+                                                    <label th:for="'avatarM' + ${manager.id}">
+                                            <span class="avatar-upload__upload" th:classappend="${#strings.isEmpty(manager.avatar) ? 'avatar-upload__upload_default-user' : ''}">
+                                                <img th:if="${!#strings.isEmpty(manager.avatar)}" th:src="'/' + ${manager.avatar}" alt="">
+                                            </span>
+                                                    </label>
+                                                </form>
+                                            </div>
+                                        </td>
+                                        <td class="custom-table__body-col custom-table__body-col_xlarge staff-table__name" >
+                                            <input u-name name="name"
+                                                   class="menu-input__input menu-input__input_small editable"
+                                                   th:attr="title=${manager.name}"
+                                                   th:value="${manager.name}"
+                                                   disabled
+                                                   placeholder="—">
+                                        </td>
+                                        <td class="custom-table__body-col custom-table__body-col_xlarge staff-table__login">
+                                            <input u-username name="username"
+                                                   class="menu-input__input menu-input__input_small editable"
+                                                   th:attr="title=${manager.username}"
+                                                   th:value="${manager.username}"
+                                                   disabled
+                                                   placeholder="—"
+                                                   required>
+                                        </td>
+                                        <td class="custom-table__body-col custom-table__body-col_medium staff-table__password">
+                                            <input u-password name="password"
+                                                   class="menu-input__input menu-input__input_small editable"
+                                                   th:value="${''}"
+                                                   disabled
+                                                   placeholder="✱✱✱✱✱✱"
+                                                   required>
+                                        </td>
+                                        <td class="custom-table__body-col custom-table__body-col_medium staff-table__tel">
+                                            <input u-phone name="phone"
+                                                   class="menu-input__input menu-input__input_small editable"
+                                                   th:attr="title=${manager.phone}"
+                                                   th:value="${manager.phone}"
+                                                   disabled
+                                                   placeholder="—">
+                                        </td>
+                                        <td class="custom-table__body-col custom-table__body-col_medium staff-table__vk">
+                                            <input u-link name="link"
+                                                   class="menu-input__input menu-input__input_small editable"
+                                                   th:attr="title=${manager.link}"
+                                                   th:value="${manager.link}"
+                                                   disabled
+                                                   placeholder="—">
+                                        </td>
+                                        <td class="custom-table__body-col custom-table__body-col_medium staff-table__card">
+                                            <input u-doorscardnumber name="doorsCardNumber"
+                                                   class="menu-input__input menu-input__input_small editable"
+                                                   th:attr="title=${manager.doorsCardNumber}"
+                                                   th:value="${manager.doorsCardNumber}"
+                                                   disabled
+                                                   placeholder="—">
+                                        </td>
+                                        <td class="custom-table__body-col custom-table__body-col_small staff-table__birthday">
+                                            <input u-birthday
+                                                   data-position="top left"
+                                                   name="birthday"
+                                                   class="datepicker-here-u menu-input__input menu-input__input_small editable"
+                                                   autocomplete="off"
+                                                   th:value="${manager.birthday}"
+                                                   disabled
+                                                   data-autoclose="true"
+                                                   placeholder="—">
+                                        </td>
+                                        <td class="custom-table__body-col staff-table__key">
+                                            <div class="input-element__checkbox input-element__checkbox_mid">
+                                                <input u-ishaskey
+                                                       name="isHasKey"
+                                                       type="checkbox"
+                                                       class="checkbox"
+                                                       value="true"
+                                                       disabled
+                                                       th:id="'keyM' + ${manager.id}"
+                                                       th:checked="${manager.isHasKey}">
+                                                <label class="checkbox-label checkbox-label_gray" th:for="'keyM' + ${manager.id}"></label>
+                                            </div>
+                                        </td>
+                                        <td class="custom-table__body-col staff-table__monitor">
+                                            <div class="input-element__checkbox input-element__checkbox_mid">
+                                                <input u-isneedshow
+                                                       name="isNeedShow"
+                                                       type="checkbox"
+                                                       class="checkbox"
+                                                       value="true"
+                                                       disabled
+                                                       th:id="'showM' + ${manager.id}"
+                                                       th:checked="${manager.isNeedShow}">
+                                                <label class="checkbox-label checkbox-label_gray" th:for="'showM' + ${manager.id}"></label>
+                                            </div>
+                                        </td>
+                                        <td class="custom-table__body-col custom-table__body-col_medium staff-table__position">
+                                            <div u-type-wrapper class="menu-input__wrapper menu-input__wrapper_select disabled">
+                                                <select u-type-selector disabled class="editable menu-input__input menu-input__input_medium menu-input__input_select menu-input__input_white">
+                                                    <option th:value="0" disabled>Выберите тип</option>
+                                                    <option th:each="type : ${managerTypes}"
+                                                            th:attr="data-code=${type.code}"
+                                                            th:value="${type.id}"
+                                                            th:utext="${type.title}"
+                                                            th:selected="${type.id == manager.type}"
+                                                    ></option>
+                                                </select>
+                                            </div>
+                                        </td>
+                                        <td class="custom-table__body-col custom-table__body-col_medium staff-table__status">
+                                            <div u-dismiss-wrapper class="indicated-select menu-input__wrapper menu-input__wrapper_select disabled" th:classappend="'indicated-select_' + ${manager.isNotDisMiss}">
+                                                <input type="hidden" th:value="${manager.idManager}" name="idManagerAccess" required>
+                                                <select u-dismiss-selector manager-access disabled class="editable menu-input__input menu-input__input_xsmall menu-input__input_select menu-input__input_white">
+                                                    <option value="true" th:selected="${true == manager.isNotDisMiss}">Работает</option>
+                                                    <option th:attr="data-access=${manager.isDeleted}" value="false" th:selected="${false == manager.isNotDisMiss}">Уволен</option>
+                                                </select>
+                                            </div>
+                                        </td>
+                                        <td class="custom-table__body-col custom-table__body-col_small staff-table__projects">
+                                            <div js-set-projects class="setting-wrapper">
+                                                <div class="theme-setting theme-setting_big theme-setting_m"></div>
+                                            </div>
+                                        </td>
+                                        <td class="custom-table__body-col custom-table__body-col_last staff-table__settings">
+                                            <div edit-btns class="column-links display-flex-none">
+                                                <div edit-user-accept class="column_mwidth column_mwidth-accept"></div>
+                                                <div edit-user-cancel class="column_mwidth column_mwidth-cancel"></div>
+                                            </div>
+                                            <div edit-menu class="column-links display-flex-none is-open">
+                                                <div edit-user class="column_mwidth div-table__body-col_center column_mwidth-edit column_mwidth-edit-b"></div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </th:block>
+
+                    <th:block th:if="${department.id == 1001}">
+                        <div class="content-main__wrapper content-main__wrapper_b50 staff">
+                            <div class="content-main__panel content-main__panel_col content-main__panel_align content-main__panel_p staff__department">
+
+                                <div class="table-title">
+                                    <div class="table-title_wrapper">
+                                        <div class="table-title__title"
+                                             th:attr="department=${department.department}, id-department=${department.id}"
+                                             th:utext="${department.title}"></div>
+                                        <div js-create-advertiser class="add-button add-button_right button_add">Добавить рекламщика</div>
+                                    </div>
+                                </div>
+                                <table class="custom-table staff-table">
+                                    <tbody class="custom-table__body custom-table__body_white">
+                                    <tr class="custom-table__header-row staff-table__header-row">
+                                        <td class="custom-table__header-col custom-table__header-col_big staff-table__id">#</td>
+                                        <td class="custom-table__header-col custom-table__header-col_big staff-table__avatar"></td>
+                                        <td class="custom-table__header-col custom-table__header-col_big staff-table__name">Имя</td>
+                                        <td class="custom-table__header-col custom-table__header-col_big staff-table__login">Логин</td>
+                                        <td class="custom-table__header-col custom-table__header-col_big staff-table__password">Пароль</td>
+                                        <td class="custom-table__header-col custom-table__header-col_big staff-table__tel">Телефон</td>
+                                        <td class="custom-table__header-col custom-table__header-col_big staff-table__vk">Ссылка ВК</td>
+                                        <td class="custom-table__header-col custom-table__header-col_big staff-table__card">Номер карты</td>
+                                        <td class="custom-table__header-col custom-table__header-col_big staff-table__birthday">День рождения</td>
+                                        <td class="custom-table__header-col custom-table__header-col_big staff-table__key">Ключ</td>
+                                        <td class="custom-table__header-col custom-table__header-col_big staff-table__position">Должность</td>
+                                        <td class="custom-table__header-col custom-table__header-col_big staff-table__status">Статус</td>
+                                        <td class="custom-table__header-col custom-table__header-col_big staff-table__access">Доступ</td>
+                                        <td class="custom-table__header-col custom-table__header-col_big staff-table__settings"></td>
+                                    </tr>
+                                    <tr th:attr="data-advertiser=${advertiser.id}" department="advertiser" class="custom-table__body-row staff-table__body-row" th:each="advertiser : ${advertisers}">
+                                        <input type="hidden" u-id th:value="${advertiser.id}" name="id" required>
+                                        <td class="custom-table__body-col staff-table__id" th:utext="${advertiser.idManager}"></td>
+                                        <td class="custom-table__body-col staff-table__avatar">
+                                            <div class="avatar-upload">
+                                                <input type="hidden" th:value="${advertiser.idManager}" name="id" required>
+                                                <span class="avatar-upload__upload" th:classappend="${advertiser.avatar == null ? 'avatar-upload__upload_default-user' : ''}">
+                                        <img th:if="${advertiser.avatar}" th:src="'/' + ${advertiser.avatar}" alt="">
+                                             </span>
+                                            </div>
+                                        </td>
+                                        <td class="custom-table__body-col custom-table__body-col_xlarge staff-table__name" >
+                                            <input u-name name="name"
+                                                   class="menu-input__input menu-input__input_small editable"
+                                                   th:attr="title=${advertiser.name}"
+                                                   th:value="${advertiser.name}"
+                                                   disabled
+                                                   placeholder="—">
+                                        </td>
+                                        <td class="custom-table__body-col custom-table__body-col_xlarge staff-table__login">
+                                            <input u-username name="username"
+                                                   class="menu-input__input menu-input__input_small editable"
+                                                   th:attr="title=${advertiser.username}"
+                                                   th:value="${advertiser.username}"
+                                                   disabled
+                                                   placeholder="—"
+                                                   required>
+                                        </td>
+                                        <td class="custom-table__body-col custom-table__body-col_medium staff-table__password">
+                                            <input u-password name="password"
+                                                   class="menu-input__input menu-input__input_small editable"
+                                                   th:value="${''}"
+                                                   disabled
+                                                   placeholder="✱✱✱✱✱✱"
+                                                   required>
+                                        </td>
+                                        <td class="custom-table__body-col custom-table__body-col_medium staff-table__tel">
+                                            <input u-phone name="phone"
+                                                   class="menu-input__input menu-input__input_small editable"
+                                                   th:attr="title=${advertiser.phone}"
+                                                   th:value="${advertiser.phone}"
+                                                   disabled
+                                                   placeholder="—">
+                                        </td>
+                                        <td class="custom-table__body-col custom-table__body-col_medium staff-table__vk">
+                                            <input u-link name="link"
+                                                   class="menu-input__input menu-input__input_small editable"
+                                                   th:attr="title=${advertiser.link}"
+                                                   th:value="${advertiser.link}"
+                                                   disabled
+                                                   placeholder="—">
+                                        </td>
+                                        <td class="custom-table__body-col custom-table__body-col_medium staff-table__card">
+                                            <input u-doorscardnumber name="doorsCardNumber"
+                                                   class="menu-input__input menu-input__input_small editable"
+                                                   th:attr="title=${advertiser.doorsCardNumber}"
+                                                   th:value="${advertiser.doorsCardNumber}"
+                                                   disabled
+                                                   placeholder="—">
+                                        </td>
+                                        <td class="custom-table__body-col custom-table__body-col_small staff-table__birthday">
+                                            <input u-birthday
+                                                   data-position="top left"
+                                                   name="birthday"
+                                                   class="datepicker-here-u menu-input__input menu-input__input_small editable"
+                                                   autocomplete="off"
+                                                   th:value="${advertiser.birthday}"
+                                                   disabled
+                                                   data-autoclose="true"
+                                                   placeholder="—">
+                                        </td>
+                                        <td class="custom-table__body-col staff-table__key">
+                                            <div class="input-element__checkbox input-element__checkbox_mid">
+                                                <input u-ishaskey
+                                                       name="isHasKey"
+                                                       type="checkbox"
+                                                       class="checkbox"
+                                                       value="true"
+                                                       disabled
+                                                       th:id="'keyA' + ${advertiser.id}"
+                                                       th:checked="${advertiser.isHasKey}">
+                                                <label class="checkbox-label checkbox-label_gray" th:for="'keyA' + ${advertiser.id}"></label>
+                                            </div>
+                                        </td>
+                                        <td class="custom-table__body-col custom-table__body-col_medium staff-table__position">
+                                            <div u-type-wrapper class="menu-input__wrapper menu-input__wrapper_select disabled">
+                                                <select u-type-selector disabled class="editable menu-input__input menu-input__input_medium menu-input__input_select menu-input__input_white">
+                                                    <option th:value="0" disabled>Выберите тип</option>
+                                                    <option th:each="type : ${advertiserTypes}"
+                                                            th:attr="data-code=${type.code}"
+                                                            th:value="${type.id}"
+                                                            th:utext="${type.title}"
+                                                            th:selected="${type.id == advertiser.type}"
+                                                    ></option>
+                                                </select>
+                                            </div>
+                                        </td>
+                                        <td class="custom-table__body-col custom-table__body-col_medium staff-table__status">
+                                            <div u-dismiss-wrapper class="indicated-select menu-input__wrapper menu-input__wrapper_select disabled" th:classappend="'indicated-select_' + ${advertiser.isNotDisMiss}">
+                                                <select u-dismiss-selector disabled class="editable menu-input__input menu-input__input_xsmall menu-input__input_select menu-input__input_white">
+                                                    <option value="true" th:selected="${true == advertiser.isNotDisMiss}">Работает</option>
+                                                    <option value="false" th:selected="${false == advertiser.isNotDisMiss}">Уволен</option>
+                                                </select>
+                                            </div>
+                                        </td>
+                                        <td class="custom-table__body-col custom-table__body-col_small staff-table__access">
+                                            <div class="input-element__checkbox input-element__checkbox_mid">
+                                                <input u-access
+                                                       name="access"
+                                                       type="checkbox"
+                                                       class="checkbox"
+                                                       value="true"
+                                                       disabled
+                                                       th:id="'keyAccess' + ${advertiser.id}"
+                                                       th:checked="${advertiser.access}">
+                                                <label class="label-pk" th:for="'keyAccess' + ${advertiser.id}"></label>
+                                            </div>
+                                        </td>
+                                        <td class="custom-table__body-col custom-table__body-col_last staff-table__settings">
+                                            <div edit-btns class="column-links display-flex-none">
+                                                <div edit-user-accept class="column_mwidth column_mwidth-accept"></div>
+                                                <div edit-user-cancel class="column_mwidth column_mwidth-cancel"></div>
+                                            </div>
+                                            <div edit-menu class="column-links display-flex-none is-open">
+                                                <div edit-user class="column_mwidth div-table__body-col_center column_mwidth-edit column_mwidth-edit-b"></div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </th:block>
+
+                    <th:block th:if="${department.id != 1000 && department.id != 1001 && department.id != 9}">
+                        <div class="content-main__wrapper content-main__wrapper_b50 staff">
+                            <div class="content-main__panel content-main__panel_col content-main__panel_align content-main__panel_large content-main__panel_p staff__department">
+
+                                <div class="table-title">
+                                    <div class="table-title_wrapper">
+                                        <div th:attr="department=${department.department}, id-department=${department.id}" class="table-title__title" th:utext="${department.title}"></div>
+                                        <div js-create-employee class="add-button add-button_right button_add">Добавить сотрудника</div>
+                                    </div>
+                                </div>
+
+                                <table class="custom-table staff-table">
+                                    <tbody table-body class="custom-table__body custom-table__body_white">
+                                    <tr class="custom-table__header-row staff-table__header-row">
+                                        <td class="custom-table__header-col custom-table__header-col_big staff-table__id">#</td>
+                                        <td class="custom-table__header-col custom-table__header-col_big staff-table__avatar"></td>
+                                        <td class="custom-table__header-col custom-table__header-col_big staff-table__name">Имя</td>
+                                        <td class="custom-table__header-col custom-table__header-col_big staff-table__login" th:if="${department.id == 7}">Логин</td>
+                                        <td class="custom-table__header-col custom-table__header-col_big staff-table__password" th:if="${department.id == 7}">Пароль</td>
+                                        <td class="custom-table__header-col custom-table__header-col_big staff-table__tel">Телефон</td>
+                                        <td class="custom-table__header-col custom-table__header-col_big staff-table__vk">Ссылка ВК</td>
+                                        <td class="custom-table__header-col custom-table__header-col_big staff-table__card">Номер карты</td>
+                                        <td class="custom-table__header-col custom-table__header-col_big staff-table__birthday">День рождения</td>
+                                        <td class="custom-table__header-col custom-table__header-col_big staff-table__key">Ключ</td>
+                                        <td class="custom-table__header-col custom-table__header-col_big staff-table__position">Должность</td>
+                                        <td class="custom-table__header-col custom-table__header-col_big staff-table__status">Статус</td>
+                                        <td class="custom-table__header-col custom-table__header-col_big staff-table__settings"></td>
+                                    </tr>
+                                    <th:block th:if="${employeeData.key == department.department}" th:each="employeeData : ${staffDepartment}">
+                                        <th:block th:if="employeeData.value.length != 0" th:each="employee : ${employeeData.value}">
+                                            <tr class="custom-table__body-row staff-table__body-row">
+                                                <input type="hidden" u-id th:value="${employee.idEmployee}" name="id" required>
+                                                <td class="custom-table__body-col staff-table__id" th:utext="${employee.idEmployee}"></td>
+                                                <td class="custom-table__body-col staff-table__avatar">
+                                                    <div class="avatar-upload">
+                                                        <form u-upload-avatar-form action="#" enctype="multipart/form-data">
+                                                            <input type="hidden" th:value="${employee.idEmployee}" name="id" required>
+                                                            <input u-upload-avatar accept="image/*,image/jpeg" class="input-file" name="file" type="file" th:id="'avatar' + ${employee.idEmployee}">
+                                                            <label th:for="'avatar' + ${employee.idEmployee}">
+                                                <span class="avatar-upload__upload" th:classappend="${#strings.isEmpty(employee.avatar) ? 'avatar-upload__upload_default-user' : ''}">
+                                                    <img th:if="${!#strings.isEmpty(employee.avatar)}" th:src="'/' + ${employee.avatar}" alt="">
+                                                </span>
+                                                            </label>
+                                                        </form>
+                                                    </div>
+                                                </td>
+                                                <td class="custom-table__body-col custom-table__body-col_xlarge staff-table__name" >
+                                                    <input u-name name="name"
+                                                           class="menu-input__input menu-input__input_small editable"
+                                                           th:attr="title=${employee.name}"
+                                                           th:value="${employee.name}"
+                                                           disabled
+                                                           placeholder="—">
+                                                </td>
+                                                <td class="custom-table__body-col custom-table__body-col_xlarge staff-table__login" th:if="${department.id == 7}">
+                                                    <input u-username name="username"
+                                                           class="menu-input__input menu-input__input_small editable"
+                                                           th:attr="title=${employee.user.username}"
+                                                           th:value="${employee.user.username}"
+                                                           disabled
+                                                           placeholder="—"
+                                                           required>
+                                                </td>
+                                                <td class="custom-table__body-col custom-table__body-col_medium staff-table__password" th:if="${department.id == 7}">
+                                                    <input u-password name="password"
+                                                           class="menu-input__input menu-input__input_small editable"
+                                                           th:value="${''}"
+                                                           disabled
+                                                           placeholder="✱✱✱✱✱✱"
+                                                           required>
+                                                </td>
+                                                <td class="custom-table__body-col custom-table__body-col_medium staff-table__tel">
+                                                    <input u-phone name="phone"
+                                                           class="menu-input__input menu-input__input_small editable"
+                                                           th:attr="title=${employee.phone}"
+                                                           th:value="${employee.phone}"
+                                                           disabled
+                                                           placeholder="—">
+                                                </td>
+                                                <td class="custom-table__body-col custom-table__body-col_medium staff-table__vk">
+                                                    <input u-link name="link"
+                                                           class="menu-input__input menu-input__input_small editable"
+                                                           th:attr="title=${employee.link}"
+                                                           th:value="${employee.link}"
+                                                           disabled
+                                                           placeholder="—">
+                                                </td>
+                                                <td class="custom-table__body-col custom-table__body-col_medium staff-table__card">
+                                                    <input u-doorscardnumber name="doorsCardNumber"
+                                                           class="menu-input__input menu-input__input_small editable"
+                                                           th:attr="title=${employee.doorsCardNumber}"
+                                                           th:value="${employee.doorsCardNumber}"
+                                                           disabled
+                                                           placeholder="—">
+                                                </td>
+                                                <td class="custom-table__body-col custom-table__body-col_small staff-table__birthday">
+                                                    <input u-birthday
+                                                           data-position="top left"
+                                                           name="birthday"
+                                                           class="datepicker-here-e menu-input__input menu-input__input_small editable"
+                                                           autocomplete="off"
+                                                           th:value="${employee.birthday}"
+                                                           disabled
+                                                           data-autoclose="true"
+                                                           placeholder="—">
+                                                </td>
+                                                <td class="custom-table__body-col staff-table__key">
+                                                    <div class="input-element__checkbox input-element__checkbox_mid">
+                                                        <input u-ishaskey
+                                                               name="isHasKey"
+                                                               type="checkbox"
+                                                               class="checkbox"
+                                                               value="true"
+                                                               disabled
+                                                               th:id="'key' + ${employee.idEmployee}"
+                                                               th:checked="${employee.isHasKey}">
+                                                        <label class="checkbox-label checkbox-label_gray" th:for="'key' + ${employee.idEmployee}"></label>
+                                                    </div>
+                                                </td>
+                                                <td class="custom-table__body-col custom-table__body-col_medium staff-table__position">
+                                                    <div u-type-wrapper class="menu-input__wrapper menu-input__wrapper_select disabled">
+                                                        <select u-type-selector disabled class="editable menu-input__input menu-input__input_medium menu-input__input_select menu-input__input_white">
+                                                            <option th:value="0" disabled>Выберите тип</option>
+                                                            <option th:each="type : ${typesDepartment.get(department.department)}"
+                                                                    th:value="${type.id}"
+                                                                    th:utext="${type.title}"
+                                                                    th:selected="${type.id == employee.type}"
+                                                            ></option>
+                                                        </select>
+                                                    </div>
+                                                </td>
+                                                <td class="custom-table__body-col custom-table__body-col_medium staff-table__status">
+                                                    <div u-dismiss-wrapper class="indicated-select menu-input__wrapper menu-input__wrapper_select disabled" th:classappend="'indicated-select_' + ${employee.isNotDisMiss}">
+                                                        <select u-dismiss-selector disabled class="editable menu-input__input menu-input__input_xsmall menu-input__input_select menu-input__input_white">
+                                                            <option value="true" th:selected="${true == employee.isNotDisMiss}">Работает</option>
+                                                            <option value="false" th:selected="${false == employee.isNotDisMiss}">Уволен</option>
+                                                        </select>
+                                                    </div>
+                                                </td>
+                                                <td class="custom-table__body-col custom-table__body-col_last staff-table__settings">
+                                                    <div edit-btns class="column-links display-flex-none">
+                                                        <div edit-employee-accept class="column_mwidth column_mwidth-accept"></div>
+                                                        <div edit-employee-cancel class="column_mwidth column_mwidth-cancel"></div>
+                                                    </div>
+                                                    <div edit-menu class="column-links display-flex-none is-open">
+                                                        <div edit-employee class="column_mwidth div-table__body-col_center column_mwidth-edit column_mwidth-edit-b"></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </th:block>
+                                    </th:block>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </th:block>
+                </th:block>
+            </div>
+        </div>
+    </div>
+
 <div th:replace="base :: transition-loader"></div>
 <script th:src="@{/js/transition-loader.js}"></script>
 <script th:inline='javascript'>
@@ -18,665 +680,6 @@
     showLoader();
 /*]]>*/
 </script>
-
-<div class="platform__wrapper">
-    <div class="platform__header">
-        <h1 class="platform__title">Сотрудники</h1>
-    </div>
-    <div class="content-main">
-        <th:block th:each="department : ${departments}">
-            <th:block th:if="${department.id == 9}">
-                <div class="content-main__wrapper content-main__wrapper_b50 staff">
-                    <div class="content-main__panel content-main__panel_col content-main__panel_align content-main__panel_large content-main__panel_p staff__department">
-                        <div class="table-title">
-                            <div class="table-title_wrapper">
-                                <div th:attr="department=${department.department}, id-department=${department.id}" class="table-title__title" th:utext="${department.title}"></div>
-                                <div js-create-examiner class="add-button add-button_right button_add">Добавить сотрудника</div>
-                            </div>
-                        </div>
-
-                        <table class="custom-table staff-table">
-                            <tbody table-body class="custom-table__body custom-table__body_white">
-                            <tr class="custom-table__header-row staff-table__header-row">
-                                <td class="custom-table__header-col custom-table__header-col_big staff-table__id">#</td>
-                                <td class="custom-table__header-col custom-table__header-col_big staff-table__avatar"></td>
-                                <td class="custom-table__header-col custom-table__header-col_big staff-table__name">Имя</td>
-                                <td class="custom-table__header-col custom-table__header-col_big staff-table__login">Логин</td>
-                                <td class="custom-table__header-col custom-table__header-col_big staff-table__password">Пароль</td>
-                                <td class="custom-table__header-col custom-table__header-col_big staff-table__tel">Телефон</td>
-                                <td class="custom-table__header-col custom-table__header-col_big staff-table__vk">Ссылка ВК</td>
-                                <td class="custom-table__header-col custom-table__header-col_big staff-table__card">Номер карты</td>
-                                <td class="custom-table__header-col custom-table__header-col_big staff-table__birthday">День рождения</td>
-                                <td class="custom-table__header-col custom-table__header-col_big staff-table__key">Ключ</td>
-                                <td class="custom-table__header-col custom-table__header-col_big staff-table__position">Должность</td>
-                                <td class="custom-table__header-col custom-table__header-col_big staff-table__status">Статус</td>
-                                <td class="custom-table__header-col custom-table__header-col_big staff-table__settings"></td>
-                            </tr>
-                            <tr th:attr="data-employee=${employee.idEmployee}" class="custom-table__body-row staff-table__body-row" th:each="employee, stat : ${staffDepartment.get(department.department)}">
-                                <input type="hidden" u-id th:value="${employee.idEmployee}" name="id" required>
-                                <td class="custom-table__body-col staff-table__id" th:utext="${employee.idEmployee}"></td>
-                                <td class="custom-table__body-col staff-table__avatar">
-                                    <div class="avatar-upload">
-                                        <form u-upload-avatar-form action="#" enctype="multipart/form-data">
-                                            <input type="hidden" th:value="${employee.idEmployee}" name="id" required>
-                                            <input u-upload-avatar accept="image/*,image/jpeg" class="input-file" name="file" type="file" th:id="'avatar' + ${employee.idEmployee}">
-                                            <label th:for="'avatar' + ${employee.idEmployee}">
-                                            <span class="avatar-upload__upload" th:classappend="${#strings.isEmpty(employee.avatar) ? 'avatar-upload__upload_default-user' : ''}">
-                                                <img th:if="${!#strings.isEmpty(employee.avatar)}" th:src="'/' + ${employee.avatar}" alt="avatar">
-                                            </span>
-                                            </label>
-                                        </form>
-                                    </div>
-                                </td>
-                                <td class="custom-table__body-col custom-table__body-col_xlarge staff-table__name" >
-                                    <input u-name name="name"
-                                           class="menu-input__input menu-input__input_small editable"
-                                           th:attr="title=${employee.name}"
-                                           th:value="${employee.name}"
-                                           disabled
-                                           placeholder="—">
-                                </td>
-                                <td class="custom-table__body-col custom-table__body-col_xlarge staff-table__login">
-                                    <input u-username name="user.username"
-                                           class="menu-input__input menu-input__input_small editable"
-                                           th:attr="title=${employee.user.username}"
-                                           th:value="${employee.user.username}"
-                                           disabled
-                                           placeholder="—"
-                                           required>
-                                </td>
-                                <td class="custom-table__body-col custom-table__body-col_medium staff-table__password">
-                                    <input u-password name="user.password"
-                                           class="menu-input__input menu-input__input_small editable"
-                                           th:value="${''}"
-                                           disabled
-                                           placeholder="✱✱✱✱✱✱"
-                                           required>
-                                </td>
-                                <td class="custom-table__body-col custom-table__body-col_medium staff-table__tel">
-                                    <input u-phone name="phone"
-                                           class="menu-input__input menu-input__input_small editable"
-                                           th:attr="title=${employee.phone}"
-                                           th:value="${employee.phone}"
-                                           disabled
-                                           placeholder="—">
-                                </td>
-                                <td class="custom-table__body-col custom-table__body-col_medium staff-table__vk">
-                                    <input u-link name="link"
-                                           class="menu-input__input menu-input__input_small editable"
-                                           th:attr="title=${employee.link}"
-                                           th:value="${employee.link}"
-                                           disabled
-                                           placeholder="—">
-                                </td>
-                                <td class="custom-table__body-col custom-table__body-col_medium staff-table__card">
-                                    <input u-doorscardnumber name="doorsCardNumber"
-                                           class="menu-input__input menu-input__input_small editable"
-                                           th:attr="title=${employee.doorsCardNumber}"
-                                           th:value="${employee.doorsCardNumber}"
-                                           disabled
-                                           placeholder="—">
-                                </td>
-                                <td class="custom-table__body-col custom-table__body-col_small staff-table__birthday">
-                                    <input u-birthday
-                                           data-position="top left"
-                                           name="birthday"
-                                           class="datepicker-here-e menu-input__input menu-input__input_small editable"
-                                           autocomplete="off"
-                                           th:value="${employee.birthday}"
-                                           disabled
-                                           data-autoclose="true"
-                                           placeholder="—">
-                                </td>
-                                <td class="custom-table__body-col staff-table__key">
-                                    <div class="input-element__checkbox input-element__checkbox_mid">
-                                        <input u-ishaskey
-                                               name="isHasKey"
-                                               type="checkbox"
-                                               class="checkbox"
-                                               value="true"
-                                               disabled
-                                               th:id="'key' + ${employee.idEmployee}"
-                                               th:checked="${employee.isHasKey}">
-                                        <label class="checkbox-label checkbox-label_gray" th:for="'key' + ${employee.idEmployee}"></label>
-                                    </div>
-                                </td>
-                                <td class="custom-table__body-col custom-table__body-col_medium staff-table__position">
-                                    <div u-type-wrapper class="menu-input__wrapper menu-input__wrapper_select disabled">
-                                        <select u-type-selector disabled class="editable menu-input__input menu-input__input_medium menu-input__input_select menu-input__input_white">
-                                            <option th:value="0" disabled>Выберите тип</option>
-                                            <option th:each="type : ${typesDepartment.get(department.department)}"
-                                                    th:value="${type.id}"
-                                                    th:utext="${type.title}"
-                                                    th:selected="${type.id == employee.type}"
-                                            ></option>
-                                        </select>
-                                    </div>
-                                </td>
-                                <td class="custom-table__body-col custom-table__body-col_medium staff-table__status">
-                                    <div u-dismiss-wrapper class="indicated-select menu-input__wrapper menu-input__wrapper_select disabled" th:classappend="'indicated-select_' + ${employee.isNotDisMiss}">
-                                        <select u-dismiss-selector disabled class="editable menu-input__input menu-input__input_xsmall menu-input__input_select menu-input__input_white">
-                                            <option value="true" th:selected="${true == employee.isNotDisMiss}">Работает</option>
-                                            <option value="false" th:selected="${false == employee.isNotDisMiss}">Уволен</option>
-                                        </select>
-                                    </div>
-                                </td>
-                                <td class="custom-table__body-col custom-table__body-col_last staff-table__settings">
-                                    <div edit-btns class="column-links display-flex-none">
-                                        <div edit-employee-accept class="column_mwidth column_mwidth-accept"></div>
-                                        <div edit-employee-cancel class="column_mwidth column_mwidth-cancel"></div>
-                                    </div>
-                                    <div edit-menu class="column-links display-flex-none is-open">
-                                        <div edit-employee class="column_mwidth div-table__body-col_center column_mwidth-edit column_mwidth-edit-b"></div>
-                                    </div>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </th:block>
-
-            <th:block th:if="${department.id == 1000}">
-                <div class="content-main__wrapper content-main__wrapper_b50 staff">
-                    <div class="content-main__panel content-main__panel_col content-main__panel_align content-main__panel_p staff__department">
-
-                        <div class="table-title">
-                            <div class="table-title_wrapper">
-                                <div class="table-title__title" th:attr="department=${department.department}, id-department=${department.id}"
-                                 th:utext="${department.title}"></div>
-                                <div js-create-manager class="add-button add-button_right button_add">Добавить менеджера</div>
-                            </div>
-                        </div>
-
-                        <table class="custom-table staff-table">
-                            <tbody class="custom-table__body custom-table__body_white">
-                            <tr class="custom-table__header-row staff-table__header-row">
-                                <td class="custom-table__header-col custom-table__header-col_big staff-table__id">#</td>
-                                <td class="custom-table__header-col custom-table__header-col_big staff-table__avatar"></td>
-                                <td class="custom-table__header-col custom-table__header-col_big staff-table__name">Имя</td>
-                                <td class="custom-table__header-col custom-table__header-col_big staff-table__login">Логин</td>
-                                <td class="custom-table__header-col custom-table__header-col_big staff-table__password">Пароль</td>
-                                <td class="custom-table__header-col custom-table__header-col_big staff-table__tel">Телефон</td>
-                                <td class="custom-table__header-col custom-table__header-col_big staff-table__vk">Ссылка ВК</td>
-                                <td class="custom-table__header-col custom-table__header-col_big staff-table__card">Номер карты</td>
-                                <td class="custom-table__header-col custom-table__header-col_big staff-table__birthday">День рождения</td>
-                                <td class="custom-table__header-col custom-table__header-col_big staff-table__key">Ключ</td>
-                                <td class="custom-table__header-col custom-table__header-col_big staff-table__monitor">Монитор</td>
-                                <td class="custom-table__header-col custom-table__header-col_big staff-table__position">Должность</td>
-                                <td class="custom-table__header-col custom-table__header-col_big staff-table__status">Статус</td>
-                                <td class="custom-table__header-col custom-table__header-col_big staff-table__projects">Проекты</td>
-                                <td class="custom-table__header-col custom-table__header-col_big staff-table__settings"></td>
-                            </tr>
-                            <tr th:attr="data-manager=${manager.id}" department="manager" class="custom-table__body-row staff-table__body-row" th:each="manager, stat : ${managers}">
-                                <input type="hidden" u-id th:value="${manager.id}" name="id" required>
-                                <input type="hidden" u-id-manager th:value="${manager.idManager}" required>
-                                <td class="custom-table__body-col staff-table__id" th:utext="${manager.idManager}"></td>
-                                <td class="custom-table__body-col staff-table__avatar">
-                                    <div class="avatar-upload">
-                                        <form u-upload-avatar-form action="#" enctype="multipart/form-data">
-                                            <input type="hidden" th:value="${manager.idManager}" name="id" required>
-                                            <input u-upload-manager-avatar accept="image/*,image/jpeg" class="input-file" name="file" type="file" th:id="'avatarM' + ${manager.id}">
-                                            <label th:for="'avatarM' + ${manager.id}">
-                                            <span class="avatar-upload__upload" th:classappend="${#strings.isEmpty(manager.avatar) ? 'avatar-upload__upload_default-user' : ''}">
-                                                <img th:if="${!#strings.isEmpty(manager.avatar)}" th:src="'/' + ${manager.avatar}" alt="">
-                                            </span>
-                                            </label>
-                                        </form>
-                                    </div>
-                                </td>
-                                <td class="custom-table__body-col custom-table__body-col_xlarge staff-table__name" >
-                                    <input u-name name="name"
-                                           class="menu-input__input menu-input__input_small editable"
-                                           th:attr="title=${manager.name}"
-                                           th:value="${manager.name}"
-                                           disabled
-                                           placeholder="—">
-                                </td>
-                                <td class="custom-table__body-col custom-table__body-col_xlarge staff-table__login">
-                                    <input u-username name="username"
-                                           class="menu-input__input menu-input__input_small editable"
-                                           th:attr="title=${manager.username}"
-                                           th:value="${manager.username}"
-                                           disabled
-                                           placeholder="—"
-                                           required>
-                                </td>
-                                <td class="custom-table__body-col custom-table__body-col_medium staff-table__password">
-                                    <input u-password name="password"
-                                           class="menu-input__input menu-input__input_small editable"
-                                           th:value="${''}"
-                                           disabled
-                                           placeholder="✱✱✱✱✱✱"
-                                           required>
-                                </td>
-                                <td class="custom-table__body-col custom-table__body-col_medium staff-table__tel">
-                                    <input u-phone name="phone"
-                                           class="menu-input__input menu-input__input_small editable"
-                                           th:attr="title=${manager.phone}"
-                                           th:value="${manager.phone}"
-                                           disabled
-                                           placeholder="—">
-                                </td>
-                                <td class="custom-table__body-col custom-table__body-col_medium staff-table__vk">
-                                    <input u-link name="link"
-                                           class="menu-input__input menu-input__input_small editable"
-                                           th:attr="title=${manager.link}"
-                                           th:value="${manager.link}"
-                                           disabled
-                                           placeholder="—">
-                                </td>
-                                <td class="custom-table__body-col custom-table__body-col_medium staff-table__card">
-                                    <input u-doorscardnumber name="doorsCardNumber"
-                                           class="menu-input__input menu-input__input_small editable"
-                                           th:attr="title=${manager.doorsCardNumber}"
-                                           th:value="${manager.doorsCardNumber}"
-                                           disabled
-                                           placeholder="—">
-                                </td>
-                                <td class="custom-table__body-col custom-table__body-col_small staff-table__birthday">
-                                    <input u-birthday
-                                           data-position="top left"
-                                           name="birthday"
-                                           class="datepicker-here-u menu-input__input menu-input__input_small editable"
-                                           autocomplete="off"
-                                           th:value="${manager.birthday}"
-                                           disabled
-                                           data-autoclose="true"
-                                           placeholder="—">
-                                </td>
-                                <td class="custom-table__body-col staff-table__key">
-                                    <div class="input-element__checkbox input-element__checkbox_mid">
-                                        <input u-ishaskey
-                                               name="isHasKey"
-                                               type="checkbox"
-                                               class="checkbox"
-                                               value="true"
-                                               disabled
-                                               th:id="'keyM' + ${manager.id}"
-                                               th:checked="${manager.isHasKey}">
-                                        <label class="checkbox-label checkbox-label_gray" th:for="'keyM' + ${manager.id}"></label>
-                                    </div>
-                                </td>
-                                <td class="custom-table__body-col staff-table__monitor">
-                                    <div class="input-element__checkbox input-element__checkbox_mid">
-                                        <input u-isneedshow
-                                               name="isNeedShow"
-                                               type="checkbox"
-                                               class="checkbox"
-                                               value="true"
-                                               disabled
-                                               th:id="'showM' + ${manager.id}"
-                                               th:checked="${manager.isNeedShow}">
-                                        <label class="checkbox-label checkbox-label_gray" th:for="'showM' + ${manager.id}"></label>
-                                    </div>
-                                </td>
-                                <td class="custom-table__body-col custom-table__body-col_medium staff-table__position">
-                                    <div u-type-wrapper class="menu-input__wrapper menu-input__wrapper_select disabled">
-                                        <select u-type-selector disabled class="editable menu-input__input menu-input__input_medium menu-input__input_select menu-input__input_white">
-                                            <option th:value="0" disabled>Выберите тип</option>
-                                            <option th:each="type : ${managerTypes}"
-                                                    th:attr="data-code=${type.code}"
-                                                    th:value="${type.id}"
-                                                    th:utext="${type.title}"
-                                                    th:selected="${type.id == manager.type}"
-                                            ></option>
-                                        </select>
-                                    </div>
-                                </td>
-                                <td class="custom-table__body-col custom-table__body-col_medium staff-table__status">
-                                    <div u-dismiss-wrapper class="indicated-select menu-input__wrapper menu-input__wrapper_select disabled" th:classappend="'indicated-select_' + ${manager.isNotDisMiss}">
-                                        <input type="hidden" th:value="${manager.idManager}" name="idManagerAccess" required>
-                                        <select u-dismiss-selector manager-access disabled class="editable menu-input__input menu-input__input_xsmall menu-input__input_select menu-input__input_white">
-                                            <option value="true" th:selected="${true == manager.isNotDisMiss}">Работает</option>
-                                            <option th:attr="data-access=${manager.isDeleted}" value="false" th:selected="${false == manager.isNotDisMiss}">Уволен</option>
-                                        </select>
-                                    </div>
-                                </td>
-                                <td class="custom-table__body-col custom-table__body-col_small staff-table__projects">
-                                    <div js-set-projects class="setting-wrapper">
-                                        <div class="theme-setting theme-setting_big theme-setting_m"></div>
-                                    </div>
-                                </td>
-                                <td class="custom-table__body-col custom-table__body-col_last staff-table__settings">
-                                    <div edit-btns class="column-links display-flex-none">
-                                        <div edit-user-accept class="column_mwidth column_mwidth-accept"></div>
-                                        <div edit-user-cancel class="column_mwidth column_mwidth-cancel"></div>
-                                    </div>
-                                    <div edit-menu class="column-links display-flex-none is-open">
-                                        <div edit-user class="column_mwidth div-table__body-col_center column_mwidth-edit column_mwidth-edit-b"></div>
-                                    </div>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </th:block>
-
-            <th:block th:if="${department.id == 1001}">
-                <div class="content-main__wrapper content-main__wrapper_b50 staff">
-                    <div class="content-main__panel content-main__panel_col content-main__panel_align content-main__panel_p staff__department">
-
-                        <div class="table-title">
-                            <div class="table-title_wrapper">
-                                <div class="table-title__title"
-                                th:attr="department=${department.department}, id-department=${department.id}"
-                                 th:utext="${department.title}"></div>
-                                <div js-create-advertiser class="add-button add-button_right button_add">Добавить рекламщика</div>
-                            </div>
-                        </div>
-                        <table class="custom-table staff-table">
-                            <tbody class="custom-table__body custom-table__body_white">
-                            <tr class="custom-table__header-row staff-table__header-row">
-                                <td class="custom-table__header-col custom-table__header-col_big staff-table__id">#</td>
-                                <td class="custom-table__header-col custom-table__header-col_big staff-table__avatar"></td>
-                                <td class="custom-table__header-col custom-table__header-col_big staff-table__name">Имя</td>
-                                <td class="custom-table__header-col custom-table__header-col_big staff-table__login">Логин</td>
-                                <td class="custom-table__header-col custom-table__header-col_big staff-table__password">Пароль</td>
-                                <td class="custom-table__header-col custom-table__header-col_big staff-table__tel">Телефон</td>
-                                <td class="custom-table__header-col custom-table__header-col_big staff-table__vk">Ссылка ВК</td>
-                                <td class="custom-table__header-col custom-table__header-col_big staff-table__card">Номер карты</td>
-                                <td class="custom-table__header-col custom-table__header-col_big staff-table__birthday">День рождения</td>
-                                <td class="custom-table__header-col custom-table__header-col_big staff-table__key">Ключ</td>
-                                <td class="custom-table__header-col custom-table__header-col_big staff-table__position">Должность</td>
-                                <td class="custom-table__header-col custom-table__header-col_big staff-table__status">Статус</td>
-                                <td class="custom-table__header-col custom-table__header-col_big staff-table__access">Доступ</td>
-                                <td class="custom-table__header-col custom-table__header-col_big staff-table__settings"></td>
-                            </tr>
-                            <tr th:attr="data-advertiser=${advertiser.id}" department="advertiser" class="custom-table__body-row staff-table__body-row" th:each="advertiser : ${advertisers}">
-                                <input type="hidden" u-id th:value="${advertiser.id}" name="id" required>
-                                <td class="custom-table__body-col staff-table__id" th:utext="${advertiser.idManager}"></td>
-                                <td class="custom-table__body-col staff-table__avatar">
-                                    <div class="avatar-upload">
-                                        <input type="hidden" th:value="${advertiser.idManager}" name="id" required>
-                                        <span class="avatar-upload__upload" th:classappend="${advertiser.avatar == null ? 'avatar-upload__upload_default-user' : ''}">
-                                        <img th:if="${advertiser.avatar}" th:src="'/' + ${advertiser.avatar}" alt=""> 
-                                             </span>
-                                    </div>
-                                </td>
-                                <td class="custom-table__body-col custom-table__body-col_xlarge staff-table__name" >
-                                    <input u-name name="name"
-                                           class="menu-input__input menu-input__input_small editable"
-                                           th:attr="title=${advertiser.name}"
-                                           th:value="${advertiser.name}"
-                                           disabled
-                                           placeholder="—">
-                                </td>
-                             <td class="custom-table__body-col custom-table__body-col_xlarge staff-table__login">
-                                    <input u-username name="username"
-                                           class="menu-input__input menu-input__input_small editable"
-                                           th:attr="title=${advertiser.username}"
-                                           th:value="${advertiser.username}"
-                                           disabled
-                                           placeholder="—"
-                                           required>
-                                </td>
-                                <td class="custom-table__body-col custom-table__body-col_medium staff-table__password">
-                                    <input u-password name="password"
-                                           class="menu-input__input menu-input__input_small editable"
-                                           th:value="${''}"
-                                           disabled
-                                           placeholder="✱✱✱✱✱✱"
-                                           required>
-                                </td>
-                                <td class="custom-table__body-col custom-table__body-col_medium staff-table__tel">
-                                    <input u-phone name="phone"
-                                           class="menu-input__input menu-input__input_small editable"
-                                           th:attr="title=${advertiser.phone}"
-                                           th:value="${advertiser.phone}"
-                                           disabled
-                                           placeholder="—">
-                                </td>
-                                <td class="custom-table__body-col custom-table__body-col_medium staff-table__vk">
-                                    <input u-link name="link"
-                                           class="menu-input__input menu-input__input_small editable"
-                                           th:attr="title=${advertiser.link}"
-                                           th:value="${advertiser.link}"
-                                           disabled
-                                           placeholder="—">
-                                </td>
-                                <td class="custom-table__body-col custom-table__body-col_medium staff-table__card">
-                                    <input u-doorscardnumber name="doorsCardNumber"
-                                           class="menu-input__input menu-input__input_small editable"
-                                           th:attr="title=${advertiser.doorsCardNumber}"
-                                           th:value="${advertiser.doorsCardNumber}"
-                                           disabled
-                                           placeholder="—">
-                                </td>
-                                <td class="custom-table__body-col custom-table__body-col_small staff-table__birthday">
-                                    <input u-birthday
-                                           data-position="top left"
-                                           name="birthday"
-                                           class="datepicker-here-u menu-input__input menu-input__input_small editable"
-                                           autocomplete="off"
-                                           th:value="${advertiser.birthday}"
-                                           disabled
-                                           data-autoclose="true"
-                                           placeholder="—">
-                                </td>
-                                <td class="custom-table__body-col staff-table__key">
-                                    <div class="input-element__checkbox input-element__checkbox_mid">
-                                        <input u-ishaskey
-                                               name="isHasKey"
-                                               type="checkbox"
-                                               class="checkbox"
-                                               value="true"
-                                               disabled
-                                               th:id="'keyA' + ${advertiser.id}"
-                                               th:checked="${advertiser.isHasKey}">
-                                        <label class="checkbox-label checkbox-label_gray" th:for="'keyA' + ${advertiser.id}"></label>
-                                    </div>
-                                </td>
-                                <td class="custom-table__body-col custom-table__body-col_medium staff-table__position">
-                                    <div u-type-wrapper class="menu-input__wrapper menu-input__wrapper_select disabled">
-                                        <select u-type-selector disabled class="editable menu-input__input menu-input__input_medium menu-input__input_select menu-input__input_white">
-                                            <option th:value="0" disabled>Выберите тип</option>
-                                            <option th:each="type : ${advertiserTypes}"
-                                                    th:attr="data-code=${type.code}"
-                                                    th:value="${type.id}"
-                                                    th:utext="${type.title}"
-                                                    th:selected="${type.id == advertiser.type}"
-                                            ></option>
-                                        </select>
-                                    </div>
-                                </td>
-                                <td class="custom-table__body-col custom-table__body-col_medium staff-table__status">
-                                    <div u-dismiss-wrapper class="indicated-select menu-input__wrapper menu-input__wrapper_select disabled" th:classappend="'indicated-select_' + ${advertiser.isNotDisMiss}">
-                                        <select u-dismiss-selector disabled class="editable menu-input__input menu-input__input_xsmall menu-input__input_select menu-input__input_white">
-                                            <option value="true" th:selected="${true == advertiser.isNotDisMiss}">Работает</option>
-                                            <option value="false" th:selected="${false == advertiser.isNotDisMiss}">Уволен</option>
-                                        </select>
-                                    </div>
-                                </td>
-                                <td class="custom-table__body-col custom-table__body-col_small staff-table__access">
-                                    <div class="input-element__checkbox input-element__checkbox_mid">
-                                        <input u-access
-                                               name="access"
-                                               type="checkbox"
-                                               class="checkbox"
-                                               value="true"
-                                               disabled
-                                               th:id="'keyAccess' + ${advertiser.id}"
-                                               th:checked="${advertiser.access}">
-                                        <label class="label-pk" th:for="'keyAccess' + ${advertiser.id}"></label>
-                                    </div>
-                                </td>
-                                <td class="custom-table__body-col custom-table__body-col_last staff-table__settings">
-                                    <div edit-btns class="column-links display-flex-none">
-                                        <div edit-user-accept class="column_mwidth column_mwidth-accept"></div>
-                                        <div edit-user-cancel class="column_mwidth column_mwidth-cancel"></div>
-                                    </div>
-                                    <div edit-menu class="column-links display-flex-none is-open">
-                                        <div edit-user class="column_mwidth div-table__body-col_center column_mwidth-edit column_mwidth-edit-b"></div>
-                                    </div>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </th:block>
-
-            <th:block th:if="${department.id != 1000 && department.id != 1001 && department.id != 9}">
-                <div class="content-main__wrapper content-main__wrapper_b50 staff">
-                    <div class="content-main__panel content-main__panel_col content-main__panel_align content-main__panel_large content-main__panel_p staff__department">
-
-                        <div class="table-title">
-                            <div class="table-title_wrapper">
-                                <div th:attr="department=${department.department}, id-department=${department.id}" class="table-title__title" th:utext="${department.title}"></div>
-                                <div js-create-employee class="add-button add-button_right button_add">Добавить сотрудника</div>
-                            </div>
-                        </div>
-
-                        <table class="custom-table staff-table">
-                            <tbody table-body class="custom-table__body custom-table__body_white">
-                            <tr class="custom-table__header-row staff-table__header-row">
-                                <td class="custom-table__header-col custom-table__header-col_big staff-table__id">#</td>
-                                <td class="custom-table__header-col custom-table__header-col_big staff-table__avatar"></td>
-                                <td class="custom-table__header-col custom-table__header-col_big staff-table__name">Имя</td>
-                                <td class="custom-table__header-col custom-table__header-col_big staff-table__login" th:if="${department.id == 7}">Логин</td>
-                                <td class="custom-table__header-col custom-table__header-col_big staff-table__password" th:if="${department.id == 7}">Пароль</td>
-                                <td class="custom-table__header-col custom-table__header-col_big staff-table__tel">Телефон</td>
-                                <td class="custom-table__header-col custom-table__header-col_big staff-table__vk">Ссылка ВК</td>
-                                <td class="custom-table__header-col custom-table__header-col_big staff-table__card">Номер карты</td>
-                                <td class="custom-table__header-col custom-table__header-col_big staff-table__birthday">День рождения</td>
-                                <td class="custom-table__header-col custom-table__header-col_big staff-table__key">Ключ</td>
-                                <td class="custom-table__header-col custom-table__header-col_big staff-table__position">Должность</td>
-                                <td class="custom-table__header-col custom-table__header-col_big staff-table__status">Статус</td>
-                                <td class="custom-table__header-col custom-table__header-col_big staff-table__settings"></td>
-                            </tr>
-                            <th:block th:if="${employeeData.key == department.department}" th:each="employeeData : ${staffDepartment}">         
-                                <th:block th:if="employeeData.value.length != 0" th:each="employee : ${employeeData.value}">
-                                <tr class="custom-table__body-row staff-table__body-row">
-                                    <input type="hidden" u-id th:value="${employee.idEmployee}" name="id" required>
-                                    <td class="custom-table__body-col staff-table__id" th:utext="${employee.idEmployee}"></td>
-                                    <td class="custom-table__body-col staff-table__avatar">
-                                        <div class="avatar-upload">
-                                            <form u-upload-avatar-form action="#" enctype="multipart/form-data">
-                                                <input type="hidden" th:value="${employee.idEmployee}" name="id" required>
-                                                <input u-upload-avatar accept="image/*,image/jpeg" class="input-file" name="file" type="file" th:id="'avatar' + ${employee.idEmployee}">
-                                                <label th:for="'avatar' + ${employee.idEmployee}">
-                                                <span class="avatar-upload__upload" th:classappend="${#strings.isEmpty(employee.avatar) ? 'avatar-upload__upload_default-user' : ''}">
-                                                    <img th:if="${!#strings.isEmpty(employee.avatar)}" th:src="'/' + ${employee.avatar}" alt="">
-                                                </span>
-                                                </label>
-                                            </form>
-                                        </div>
-                                    </td>
-                                    <td class="custom-table__body-col custom-table__body-col_xlarge staff-table__name" >
-                                        <input u-name name="name"
-                                               class="menu-input__input menu-input__input_small editable"
-                                               th:attr="title=${employee.name}"
-                                               th:value="${employee.name}"
-                                               disabled
-                                               placeholder="—">
-                                    </td>
-                                    <td class="custom-table__body-col custom-table__body-col_xlarge staff-table__login" th:if="${department.id == 7}">
-                                        <input u-username name="username"
-                                               class="menu-input__input menu-input__input_small editable"
-                                               th:attr="title=${employee.user.username}"
-                                               th:value="${employee.user.username}"
-                                               disabled
-                                               placeholder="—"
-                                               required>
-                                    </td>
-                                    <td class="custom-table__body-col custom-table__body-col_medium staff-table__password" th:if="${department.id == 7}">
-                                        <input u-password name="password"
-                                               class="menu-input__input menu-input__input_small editable"
-                                               th:value="${''}"
-                                               disabled
-                                               placeholder="✱✱✱✱✱✱"
-                                               required>
-                                    </td>
-                                    <td class="custom-table__body-col custom-table__body-col_medium staff-table__tel">
-                                        <input u-phone name="phone"
-                                               class="menu-input__input menu-input__input_small editable"
-                                               th:attr="title=${employee.phone}"
-                                               th:value="${employee.phone}"
-                                               disabled
-                                               placeholder="—">
-                                    </td>
-                                    <td class="custom-table__body-col custom-table__body-col_medium staff-table__vk">
-                                        <input u-link name="link"
-                                               class="menu-input__input menu-input__input_small editable"
-                                               th:attr="title=${employee.link}"
-                                               th:value="${employee.link}"
-                                               disabled
-                                               placeholder="—">
-                                    </td>
-                                    <td class="custom-table__body-col custom-table__body-col_medium staff-table__card">
-                                        <input u-doorscardnumber name="doorsCardNumber"
-                                               class="menu-input__input menu-input__input_small editable"
-                                               th:attr="title=${employee.doorsCardNumber}"
-                                               th:value="${employee.doorsCardNumber}"
-                                               disabled
-                                               placeholder="—">
-                                    </td>
-                                    <td class="custom-table__body-col custom-table__body-col_small staff-table__birthday">
-                                        <input u-birthday
-                                               data-position="top left"
-                                               name="birthday"
-                                               class="datepicker-here-e menu-input__input menu-input__input_small editable"
-                                               autocomplete="off"
-                                               th:value="${employee.birthday}"
-                                               disabled
-                                               data-autoclose="true"
-                                               placeholder="—">
-                                    </td>
-                                    <td class="custom-table__body-col staff-table__key">
-                                        <div class="input-element__checkbox input-element__checkbox_mid">
-                                            <input u-ishaskey
-                                                   name="isHasKey"
-                                                   type="checkbox"
-                                                   class="checkbox"
-                                                   value="true"
-                                                   disabled
-                                                   th:id="'key' + ${employee.idEmployee}"
-                                                   th:checked="${employee.isHasKey}">
-                                            <label class="checkbox-label checkbox-label_gray" th:for="'key' + ${employee.idEmployee}"></label>
-                                        </div>
-                                    </td>
-                                    <td class="custom-table__body-col custom-table__body-col_medium staff-table__position">
-                                        <div u-type-wrapper class="menu-input__wrapper menu-input__wrapper_select disabled">
-                                            <select u-type-selector disabled class="editable menu-input__input menu-input__input_medium menu-input__input_select menu-input__input_white">
-                                                <option th:value="0" disabled>Выберите тип</option>
-                                                <option th:each="type : ${typesDepartment.get(department.department)}"
-                                                        th:value="${type.id}"
-                                                        th:utext="${type.title}"
-                                                        th:selected="${type.id == employee.type}"
-                                                ></option>
-                                            </select>
-                                        </div>
-                                    </td>
-                                    <td class="custom-table__body-col custom-table__body-col_medium staff-table__status">
-                                        <div u-dismiss-wrapper class="indicated-select menu-input__wrapper menu-input__wrapper_select disabled" th:classappend="'indicated-select_' + ${employee.isNotDisMiss}">
-                                            <select u-dismiss-selector disabled class="editable menu-input__input menu-input__input_xsmall menu-input__input_select menu-input__input_white">
-                                                <option value="true" th:selected="${true == employee.isNotDisMiss}">Работает</option>
-                                                <option value="false" th:selected="${false == employee.isNotDisMiss}">Уволен</option>
-                                            </select>
-                                        </div>
-                                    </td>
-                                    <td class="custom-table__body-col custom-table__body-col_last staff-table__settings">
-                                        <div edit-btns class="column-links display-flex-none">
-                                            <div edit-employee-accept class="column_mwidth column_mwidth-accept"></div>
-                                            <div edit-employee-cancel class="column_mwidth column_mwidth-cancel"></div>
-                                        </div>
-                                        <div edit-menu class="column-links display-flex-none is-open">
-                                            <div edit-employee class="column_mwidth div-table__body-col_center column_mwidth-edit column_mwidth-edit-b"></div>
-                                        </div>
-                                    </td>
-                                    </tr>
-                                </th:block>
-                            </th:block>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </th:block>
-        </th:block>
-    </div>
-</div>
 
 <div th:replace="base :: menu-create-examiner"></div>
 <div th:replace="base :: menu-create-employee"></div>

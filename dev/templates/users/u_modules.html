@@ -27,232 +27,236 @@
 	<!--/Yandex.Metrika counter -->
 </head>
 
-<body class="body" onload="getCountdownOnUserModulesPage()">
-	<div th:replace="base :: user-nav"></div>
-	<div th:replace="base :: user-mobile-nav"></div>
+<body class="page body" onload="getCountdownOnUserModulesPage()">
+    <div class="page__content">
+        <div th:replace="base :: user-nav"></div>
+        <div th:replace="base :: user-mobile-nav"></div>
 
-	<div class="body__wrapper modules">
-		<div class="body__header modules-header">
-			<header class="header modules-header__inner">
-				<div class="header__box block modules-header__box">
-					<div class="header__wrapper block-wrapper">
-						<div class="header__main">
-							<div class="header__items">
-								<div class="header__items-wrapper">
-									<div class="header__item header__item_title">
-										<h3>Модули курса</h3>
-									</div>
-									<div class="header__item header__item_btn">
-										<a th:if="${idBlock}" th:href="'/user/courses/' + ${idDeal} + '/byTariff/'" class="btn btn_outline">
-											<div class="btn__content btn__content_large">
+        <div class="platform__wrapper custom-scroll courses">
+            <div class="body__wrapper modules">
+                <div class="body__header modules-header">
+                    <header class="header modules-header__inner">
+                        <div class="header__box block modules-header__box">
+                            <div class="header__wrapper block-wrapper">
+                                <div class="header__main">
+                                    <div class="header__items">
+                                        <div class="header__items-wrapper">
+                                            <div class="header__item header__item_title">
+                                                <h3>Модули курса</h3>
+                                            </div>
+                                            <div class="header__item header__item_btn">
+                                                <a th:if="${idBlock}" th:href="'/user/courses/' + ${idDeal} + '/byTariff/'" class="btn btn_outline">
+                                                    <div class="btn__content btn__content_large">
 												<span class="btn__title btn__title_small btn__icon btn__icon_arrow-left">
 													<span class="btn_title-text btn_title-text_small">К списку блоков</span>
 												</span>
-											</div>
-										</a>
-										<a th:unless="${idBlock}" href="/user/courses/" class="btn btn_outline">
-											<div class="btn__content btn__content_large">
+                                                    </div>
+                                                </a>
+                                                <a th:unless="${idBlock}" href="/user/courses/" class="btn btn_outline">
+                                                    <div class="btn__content btn__content_large">
 												<span class="btn__title btn__title_small btn__icon btn__icon_arrow-left">
 													<span class="btn_title-text btn_title-text_small">Вернуться в
 														каталог</span>
 												</span>
-											</div>
-										</a>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</header>
-		</div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </header>
+                </div>
 
 
-		<div class="body__content modules-content">
-			<div class="modules-content__inner block -gap-inner-bottom_5">
+                <div class="body__content modules-content">
+                    <div class="modules-content__inner block -gap-inner-bottom_5">
 
-				<a class="back" th:if="${idBlock}" th:href="'/user/courses/' + ${idDeal} + '/byTariff'">
-					<span class="back__icon"></span>
-					<span class="back__text">Назад к списку блоков</span>
-				</a>
+                        <a class="back" th:if="${idBlock}" th:href="'/user/courses/' + ${idDeal} + '/byTariff'">
+                            <span class="back__icon"></span>
+                            <span class="back__text">Назад к списку блоков</span>
+                        </a>
 
-				<a class="back" th:unless="${idBlock}" th:href="'/user/courses/'">
-					<span class="back__icon"></span>
-					<span class="back__text">Назад к списку курсов</span>
-				</a>
+                        <a class="back" th:unless="${idBlock}" th:href="'/user/courses/'">
+                            <span class="back__icon"></span>
+                            <span class="back__text">Назад к списку курсов</span>
+                        </a>
 
-				<div class="modules-content__wrapper mt_20">
-					<div class="modules__main modules-main">
-						<div class="content-element modules-item current">
-							<div class="content-element__wrapper modules-item__inner">
-								<!--                                <div class="logo">-->
-								<!--                                    <img src="/img/sa-logo.svg" alt="">-->
-								<!--                                </div>-->
+                        <div class="modules-content__wrapper mt_20">
+                            <div class="modules__main modules-main">
+                                <div class="content-element modules-item current">
+                                    <div class="content-element__wrapper modules-item__inner">
+                                        <!--                                <div class="logo">-->
+                                        <!--                                    <img src="/img/sa-logo.svg" alt="">-->
+                                        <!--                                </div>-->
 
-								<div class="content-element__header modules-item__header ">
-									<div class="content-element__header-item modules-item__left modules-left">
-										<div class="content-element__header-main modules-left__about">
-											<div class="modules-left__left">
-												<div class="content-element__header-element modules-left__title">
-													<span class="content-element__title title title-h2" th:utext="${course.name}"></span>
-												</div>
+                                        <div class="content-element__header modules-item__header ">
+                                            <div class="content-element__header-item modules-item__left modules-left">
+                                                <div class="content-element__header-main modules-left__about">
+                                                    <div class="modules-left__left">
+                                                        <div class="content-element__header-element modules-left__title">
+                                                            <span class="content-element__title title title-h2" th:utext="${course.name}"></span>
+                                                        </div>
 
-												<div class="content-element__header-element modules-left__type">
-													<div class="outline-text">
-														<div class="outline-text__content outline-text__content_dark">
-															<div class="outline-text__text" th:utext="${course.type}">
-																Online</div>
-														</div>
-													</div>
-												</div>
-											</div>
-											<div class="content-element__header-element modules-left__countdown">
+                                                        <div class="content-element__header-element modules-left__type">
+                                                            <div class="outline-text">
+                                                                <div class="outline-text__content outline-text__content_dark">
+                                                                    <div class="outline-text__text" th:utext="${course.type}">
+                                                                        Online</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="content-element__header-element modules-left__countdown">
 												<span class="content-element__title countdown css_countdown" th:id="countdown"
-													th:data-startDate="${course.fullStartTime}"></span>
-											</div>
-										</div>
-										<div class="content-element__header-side modules-left__content modules-info">
-											<div class="info-blocks modules-info__inner">
-												<div
-													class="info-block info-block_icon info-block_icon_module modules-info__item info-block__modules">
-													<span class="info-block__text" th:utext="${course.modulesCount} + ' модулей'"></span>
-												</div>
-												<div
-													class="info-block info-block_icon info-block_icon_video modules-info__item info-block__lessons">
+                              th:data-startDate="${course.fullStartTime}"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="content-element__header-side modules-left__content modules-info">
+                                                    <div class="info-blocks modules-info__inner">
+                                                        <div
+                                                            class="info-block info-block_icon info-block_icon_module modules-info__item info-block__modules">
+                                                            <span class="info-block__text" th:utext="${course.modulesCount} + ' модулей'"></span>
+                                                        </div>
+                                                        <div
+                                                            class="info-block info-block_icon info-block_icon_video modules-info__item info-block__lessons">
 													<span class="info-block__text"
-														th:utext="${course.lessonsCount + course.homeworkCount} + ' уроков'"></span>
-												</div>
-												<div
-													class="info-block info-block_icon info-block_icon_work modules-info__item info-block__homework">
+                                th:utext="${course.lessonsCount + course.homeworkCount} + ' уроков'"></span>
+                                                        </div>
+                                                        <div
+                                                            class="info-block info-block_icon info-block_icon_work modules-info__item info-block__homework">
 													<span class="info-block__text"
-														th:utext="${course.homeworkCount} + ' домашнее задание'"></span>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="content-element__content modules-progress">
-									<div class="progress-bar modules-progress__inner">
-										<div class="progress-bar__wrapper">
-											<div class="progress-bar__progress" th:style="'width:' + ${course.completedModulesPercent} + '%;'"
-												th:classappend="${course.completedModulesClass}"></div>
-											<span class="progress-bar__text" th:utext="${course.completedModulesPercent + ' %'}"></span>
-											<span class="progress-bar__text"
-												th:utext="${course.completedModulesCount + ' модуля пройдено'}"></span>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
+                                th:utext="${course.homeworkCount} + ' домашнее задание'"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="content-element__content modules-progress">
+                                            <div class="progress-bar modules-progress__inner">
+                                                <div class="progress-bar__wrapper">
+                                                    <div class="progress-bar__progress" th:style="'width:' + ${course.completedModulesPercent} + '%;'"
+                                                         th:classappend="${course.completedModulesClass}"></div>
+                                                    <span class="progress-bar__text" th:utext="${course.completedModulesPercent + ' %'}"></span>
+                                                    <span class="progress-bar__text"
+                                                          th:utext="${course.completedModulesCount + ' модуля пройдено'}"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
-						<div class="block-delimiter"></div>
+                                <div class="block-delimiter"></div>
 
-						<th:block th:if="${banner}">
-							<th:block th:if="${#lists.size(banner)}">
-								<a target="_blank" rel="noopener noreferrer" class="modules__banner mobile" th:href="${banner[0].link}">
-									<img class="modules-banner__link" th:src="${'/' + banner[#lists.size(banner) - 1].mobileImagePath}">
-								</a>
-								<a target="_blank" rel="noopener noreferrer" class="modules__banner desktop"
-									th:href="${banner[0].link}">
-									<img class="modules-banner__link" th:src="${'/' + banner[#lists.size(banner) - 1].mainImagePath}">
-								</a>
-								<div class="block-delimiter"></div>
-							</th:block>
-						</th:block>
+                                <th:block th:if="${banner}">
+                                    <th:block th:if="${#lists.size(banner)}">
+                                        <a target="_blank" rel="noopener noreferrer" class="modules__banner mobile" th:href="${banner[0].link}">
+                                            <img class="modules-banner__link" th:src="${'/' + banner[#lists.size(banner) - 1].mobileImagePath}">
+                                        </a>
+                                        <a target="_blank" rel="noopener noreferrer" class="modules__banner desktop"
+                                           th:href="${banner[0].link}">
+                                            <img class="modules-banner__link" th:src="${'/' + banner[#lists.size(banner) - 1].mainImagePath}">
+                                        </a>
+                                        <div class="block-delimiter"></div>
+                                    </th:block>
+                                </th:block>
 
-						<div class="modules-group vk-chat">
-							<div class="modules-group__inner">
-								<div class="modules-group__left">
-									<div class="modules-group__info">
-										<div class="modules-group__title">Групповой чат
-											<span class="modules-group__icon"></span>
-										</div>
-										<div class="modules-group__desc">
-											Там вы можете общаться с кураторами и однокурсниками,
-											делиться впечатлениями и спрашивать если что-то не получается
-										</div>
-									</div>
-								</div>
+                                <div class="modules-group vk-chat">
+                                    <div class="modules-group__inner">
+                                        <div class="modules-group__left">
+                                            <div class="modules-group__info">
+                                                <div class="modules-group__title">Групповой чат
+                                                    <span class="modules-group__icon"></span>
+                                                </div>
+                                                <div class="modules-group__desc">
+                                                    Там вы можете общаться с кураторами и однокурсниками,
+                                                    делиться впечатлениями и спрашивать если что-то не получается
+                                                </div>
+                                            </div>
+                                        </div>
 
-								<div class="modules-grop__dialog dialog-img">
-									<img class="dialog-img__image1" src="../../../../img/dialog-item.png" alt="dialog">
-									<img class="dialog-img__image2" src="../../../../img/dialog-item2.png" alt="dialogitem">
-									<div class="dialog-img__box">
-										<div class="dialog-img__item"></div>
-										<div class="dialog-img__item"></div>
-										<div class="dialog-img__item"></div>
-									</div>
-								</div>
+                                        <div class="modules-grop__dialog dialog-img">
+                                            <img class="dialog-img__image1" src="../../../../img/dialog-item.png" alt="dialog">
+                                            <img class="dialog-img__image2" src="../../../../img/dialog-item2.png" alt="dialogitem">
+                                            <div class="dialog-img__box">
+                                                <div class="dialog-img__item"></div>
+                                                <div class="dialog-img__item"></div>
+                                                <div class="dialog-img__item"></div>
+                                            </div>
+                                        </div>
 
-								<a class="modules-group__btn" href="#">Перейти в чат</a>
-							</div>
-						</div>
-						<th:block th:each="module, stat : ${modules}">
-							<div class="content-element part-item" th:classappend="${module.statusCode}">
-								<div class="part-item__inner">
-									<img class="part-item__img" th:src="'/' + ${module.logoPath}" alt="img">
-									<div class="part-item__right part-right">
-										<div class="part-right__header">
-											<div class="part-right__id">
-												<span class="part-right__id-value" th:utext="${stat.count}"></span>
-											</div>
-											<div class="part-right__about">
-												<p class="part-right__title" th:utext="${module.name}"></p>
-												<ul class="part-right__content part-content">
-													<li class="part-content__item lessons module-info__lesson">
-														<span class="part-content__icon"></span>
-														<span class="part-content__type"
-															th:utext="${module.lessonsCount + module.homeworkCount} + ' уроков'"></span>
-													</li>
-													<li class="part-content__item modules">
-														<span class="part-content__icon"></span>
-														<span class="part-content__type homework-type"
-															th:utext="${module.homeworkCount} + ' домашних заданий'"></span>
-													</li>
-												</ul>
-											</div>
-										</div>
-										<div class="part-item__column">
-											<div class="part-right__description" th:utext="${module.description}">
-											</div>
+                                        <a class="modules-group__btn" href="#">Перейти в чат</a>
+                                    </div>
+                                </div>
+                                <th:block th:each="module, stat : ${modules}">
+                                    <div class="content-element part-item" th:classappend="${module.statusCode}">
+                                        <div class="part-item__inner">
+                                            <img class="part-item__img" th:src="'/' + ${module.logoPath}" alt="img">
+                                            <div class="part-item__right part-right">
+                                                <div class="part-right__header">
+                                                    <div class="part-right__id">
+                                                        <span class="part-right__id-value" th:utext="${stat.count}"></span>
+                                                    </div>
+                                                    <div class="part-right__about">
+                                                        <p class="part-right__title" th:utext="${module.name}"></p>
+                                                        <ul class="part-right__content part-content">
+                                                            <li class="part-content__item lessons module-info__lesson">
+                                                                <span class="part-content__icon"></span>
+                                                                <span class="part-content__type"
+                                                                      th:utext="${module.lessonsCount + module.homeworkCount} + ' уроков'"></span>
+                                                            </li>
+                                                            <li class="part-content__item modules">
+                                                                <span class="part-content__icon"></span>
+                                                                <span class="part-content__type homework-type"
+                                                                      th:utext="${module.homeworkCount} + ' домашних заданий'"></span>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div class="part-item__column">
+                                                    <div class="part-right__description" th:utext="${module.description}">
+                                                    </div>
 
-											<div class="part-right__status part-status" th:if="${module.allowStart && module.enabled}">
-												<div class="part-status__status-list" th:classappend="${module.statusCode}">
-													<div class="part-status__estimation status-estimation" th:if="${module.rate != 0}">
-														<span class="status-estimation__icon"></span>
-														<p class="status-estimation__text" th:text="${module.rate}"></p>
-													</div>
-													<div class="part-status__item" th:classappend="'btn_' + ${module.statusCode}">
-														<span class="part-status__icon"></span>
-													</div>
-												</div>
-												<th:block th:if="${module.enabled}">
-													<a th:if="${idBlock}"
-														th:href="'/user/courses/' + ${idDeal} + '/' + ${module.id} + '?idBlock=' + ${idBlock}"
-														class="part-status__btn">
-														Перейти к урокам
-													</a>
-													<a th:unless="${idBlock}" th:href="'/user/courses/' + ${idDeal} + '/' + ${module.id} + '/'"
-														class="part-status__btn">
-														Перейти к урокам
-													</a>
-												</th:block>
-											</div>
+                                                    <div class="part-right__status part-status" th:if="${module.allowStart && module.enabled}">
+                                                        <div class="part-status__status-list" th:classappend="${module.statusCode}">
+                                                            <div class="part-status__estimation status-estimation" th:if="${module.rate != 0}">
+                                                                <span class="status-estimation__icon"></span>
+                                                                <p class="status-estimation__text" th:text="${module.rate}"></p>
+                                                            </div>
+                                                            <div class="part-status__item" th:classappend="'btn_' + ${module.statusCode}">
+                                                                <span class="part-status__icon"></span>
+                                                            </div>
+                                                        </div>
+                                                        <th:block th:if="${module.enabled}">
+                                                            <a th:if="${idBlock}"
+                                                               th:href="'/user/courses/' + ${idDeal} + '/' + ${module.id} + '?idBlock=' + ${idBlock}"
+                                                               class="part-status__btn">
+                                                                Перейти к урокам
+                                                            </a>
+                                                            <a th:unless="${idBlock}" th:href="'/user/courses/' + ${idDeal} + '/' + ${module.id} + '/'"
+                                                               class="part-status__btn">
+                                                                Перейти к урокам
+                                                            </a>
+                                                        </th:block>
+                                                    </div>
 
-											<div class="module__lessons-closed" th:if="${!(module.allowStart && module.enabled)}">
-												Урок будет доступен при выполнении домашнего задания
-												прошлого модуля!
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</th:block>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+                                                    <div class="module__lessons-closed" th:if="${!(module.allowStart && module.enabled)}">
+                                                        Урок будет доступен при выполнении домашнего задания
+                                                        прошлого модуля!
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </th:block>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 
 <th:block th:insert="base :: jquery" />

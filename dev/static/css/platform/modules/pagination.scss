@@ -3,8 +3,11 @@
   flex-direction: column;
   width: calc(100% - 70px);
   height: auto;
-  margin-left: 70px;
+  margin-left: 0;
   cursor: default;
+  max-height: 100vh;
+  overflow-y: auto;
+  overflow-x: auto;
 }
 
 /* Пагинация */
@@ -89,4 +92,14 @@
   background: black;
   border-color: black;
   cursor: default;
+}
+
+@media (max-width: 1000px) {
+  .platform {
+    &__wrapper {
+      &.courses {
+        width: 100%;
+      }
+    }
+  }
 }

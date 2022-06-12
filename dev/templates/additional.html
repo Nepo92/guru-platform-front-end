@@ -10,8 +10,48 @@
     <link th:href="@{/css/jquery.fancybox.min.css}" rel="stylesheet">
 </head>
 
-<body class="custom-scroll">
-    <div th:replace="base :: main-nav"></div>
+<body class="page">
+    <div class="page__content">
+        <div th:replace="base :: main-nav"></div>
+        <div class="platform__wrapper custom-scroll analytic">
+            <div class="platform__header analytic__top">
+                <h1 class="platform__title">Аналитика</h1>
+                <div th:replace="base :: funnel-tab"></div>
+            </div>
+
+            <div class="analytic__content">
+                <div class="analytic__nav">
+                    <div class="nav-right">
+                        <div class="platform__filter--btn no-selector">Фильтр</div>
+                    </div>
+                    <div class="nav-left">
+                        <form class="analytic__filter-form" action="#" th:action="@{/funnel/additional/}" th:method="post">
+                            <div class="nav-left__start start-icon">
+                                <input type="hidden" js-start-date name="startDate" th:value="${filter.startDate}">
+                                <input placeholder="Выберите начальную дату" js-start-date-wrapper type="text"
+                                       class="datepicker-here-months platform__input nav-left__filter-input">
+                            </div>
+                            <div class="nav-left__end end-icon">
+                                <input type="hidden" js-end-date name="endDate" th:value="${filter.endDate}">
+                                <input placeholder="Выберите конечную дату" js-end-date-wrapper type="text"
+                                       class="datepicker-here-months platform__input nav-left__filter-input">
+                            </div>
+
+                            <div class="platform-select__wrapper nav-left__select">
+                                <select js-period class="platform__select" name="idSort">
+                                    <option value="2">По дням</option>
+                                    <option value="1">По неделям</option>
+                                    <option value="0">По месяцам</option>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div analytics-board class="analytic__board"></div>
+            </div>
+        </div>
+    </div>
+
     <div th:replace="base :: transition-loader"></div>
     <script th:src="@{/js/transition-loader.js}"></script>
 <script th:inline='javascript'>
@@ -19,44 +59,6 @@
     showLoader();
 /*]]>*/
 </script>
-
-    <div class="platform__wrapper analytic">
-        <div class="platform__header analytic__top">
-            <h1 class="platform__title">Аналитика</h1>
-            <div th:replace="base :: funnel-tab"></div>
-        </div>
-
-        <div class="analytic__content">
-            <div class="analytic__nav">
-                <div class="nav-right">
-                    <div class="platform__filter--btn no-selector">Фильтр</div>
-                </div>
-                <div class="nav-left">
-                    <form class="analytic__filter-form" action="#" th:action="@{/funnel/additional/}" th:method="post">
-                        <div class="nav-left__start start-icon">
-                            <input type="hidden" js-start-date name="startDate" th:value="${filter.startDate}">
-                            <input placeholder="Выберите начальную дату" js-start-date-wrapper type="text" 
-                                class="datepicker-here-months platform__input nav-left__filter-input">
-                        </div>
-                        <div class="nav-left__end end-icon">
-                            <input type="hidden" js-end-date name="endDate" th:value="${filter.endDate}">
-                            <input placeholder="Выберите конечную дату" js-end-date-wrapper type="text"
-                                class="datepicker-here-months platform__input nav-left__filter-input">
-                        </div>
-
-                        <div class="platform-select__wrapper nav-left__select">
-                            <select js-period class="platform__select" name="idSort">
-                                <option value="2">По дням</option>
-                                <option value="1">По неделям</option>
-                                <option value="0">По месяцам</option>
-                            </select>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <div analytics-board class="analytic__board"></div>
-        </div>
-    </div>
 
     <div class="platform__filter">
         <div class="filter__wrapper">

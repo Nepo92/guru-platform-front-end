@@ -108,266 +108,212 @@
   </div>
 
   <div th:fragment="user-nav" class="platform-menu main-nav_none">
-    <div class="platform-menu__logo company" th:classappend="${logoClass}">
-      <img class="company__logo" th:classappend="${#strings.isEmpty(companyLogo) ? 'company-logo__image_default' : ''}"
-        th:if="${!#strings.isEmpty(companyLogo)}" th:src="'/' + ${companyLogo}" alt="company-logo">
-      <div class="company__caption">
-        <p class="company-caption__title" th:utext="${companyName}"></p>
-        <p class="company-caption__subtitle" th:utext="${currentClient.name}"></p>
+    <div class="platform-menu__main">
+      <div class="platform-menu__logo company" th:classappend="${logoClass}">
+        <img class="company__logo" th:classappend="${#strings.isEmpty(companyLogo) ? 'company-logo__image_default' : ''}"
+             th:if="${!#strings.isEmpty(companyLogo)}" th:src="'/' + ${companyLogo}" alt="company-logo">
+      </div>
+      <ul class="platform-menu__list custom-scroll">
+        <li class="platform-menu__item" title="Moи курсы">
+          <a class="platform-menu__link dashboard" th:href="@{/user/courses/}">Мои курсы</a>
+        </li>
+      </ul>
+      <div class="platform-menu__logout">
+        <div class="platform-logout__info" th:if="${avatar}">
+          <div class="platform-logout__image">
+            <img th:if="${!#strings.isEmpty(avatar.path)}" th:src="'/' + ${avatar.path}"
+                 class=" avatar-image avatar-image_large"
+                 th:classappend="${#strings.isEmpty(avatar.path) ? 'avatar-image_default' : ''}" alt="user-logo">
+          </div>
+        </div>
+        <a th:href="@{/logout}" title="Выход" class="platform-logout__item exit"></a>
       </div>
     </div>
-    <div class="platform-menu__selector"></div>
-
-    <ul class="platform-menu__list">
-      <li class="platform-menu__item">
-        <a class="platform-menu__link dashboard" th:href="@{/user/courses/}">Мои курсы</a>
-      </li>
-    </ul>
-    <div class="platform-menu__logout">
-      <div class="platform-logout__selector"></div>
-      <a th:href="@{/logout}" class="platform-logout__item exit">
-        Выход
-      </a>
+    <div class="platform-menu__sub">
     </div>
   </div>
 
   <div th:fragment="main-nav" class="platform-menu">
-    <div class="platform-menu__logo company" th:classappend="${logoClass}">
-      <img class="company__logo" th:classappend="${#strings.isEmpty(company.logo) ? 'company-logo__image_default' : ''}"
-        th:if="${!#strings.isEmpty(company.logo)}" th:src="'/' + ${company.logo}" alt="company-logo">
-      <div class="company__caption">
-        <p class="company-caption__title" th:utext="${company.name}"></p>
-        <p class="company-caption__subtitle" th:utext="${company.legalName}"></p>
+    <div class="platform-menu__main">
+      <div class="platform-menu__logo company" th:classappend="${logoClass}">
+        <img class="company__logo" th:classappend="${#strings.isEmpty(company.logo) ? 'company-logo__image_default' : ''}"
+             th:if="${!#strings.isEmpty(company.logo)}" th:src="'/' + ${company.logo}" alt="company-logo">
       </div>
-    </div>
-    <div class="platform-menu__selector"></div>
-    <ul class="platform-menu__list">
-      <li class="platform-menu__item"
-        th:classappend="${module == 'monitor' ? 'active' : module == 'manager-monitor' ? 'active' : module == 'examiner-control' ? 'active' : ''}"
-        th:if="${role == 'ROLE_ADMIN' || role == 'ROLE_HEAD_MANAGER' || role == 'ROLE_MANAGER' || role == 'ROLE_EXAMINER'}">
-        <a class="platform-menu__link dashboard"
-          th:href="${role == 'ROLE_ADMIN' ? '/monitor/' : role == 'ROLE_HEAD_MANAGER' || role == 'ROLE_MANAGER' ? '/manager-monitor/' : role == 'ROLE_EXAMINER' ? '/examiner-control/' : ''}">Рабочий
-          стол</a>
-      </li>
-      <li class="platform-menu__item" th:if="${role == 'ROLE_ADVERTISER' || role == 'ROLE_ADMIN'}"
-        th:classappend="${module == 'funnel' ? 'active' : module == 'analytics' ? 'active' : ''}">
-        <a class="platform-menu__link analytics"
-          th:href="${role == 'ROLE_ADVERTISER' ? '/funnel/traffic/' : role == 'ROLE_ADMIN' ? '/funnel/' : ''}">Аналитика</a>
-      </li>
-      <!--            <li class="platform-menu__item" th:if="${role == 'ROLE_ADMIN'}">-->
-      <!--                <a class="platform-menu__link funnels" href="/settings/funnels/">Туннели продаж</a>-->
-      <!--            </li>-->
-      <li class="platform-menu__item"
-        th:if="${role == 'ROLE_HEAD_MANAGER' || role == 'ROLE_MANAGER' || role == 'ROLE_ADMIN'}"
-        th:classappend="${module == 'head-manager-transactions' ? 'active' : module == 'transactions' ? 'active' : ''}">
-        <a class="platform-menu__link transactions"
-          th:href="${role == 'ROLE_HEAD_MANAGER' ? '/head-manager-transactions/' : role == 'ROLE_MANAGER' ? '/transactions/' : role == 'ROLE_ADMIN' ? '/deals/' : ''}">
-          CRM
-        </a>
-      </li>
-      <li class="platform-menu__item lk submenu"
-        th:if="${role == 'ROLE_HEAD_MANAGER' || role == 'ROLE_MANAGER' || role == 'ROLE_ADVERTISER'}"
-        th:classappend="${tab == 'salary' ? 'active' : tab == 'reports' ? 'active' : tab == 'password' ? 'active' : ''}">
-        Рабочий кабинет
-        <ul class="platform-submenu">
-          <li class="platform-submenu__item"
-            th:if="${role == 'ROLE_HEAD_MANAGER' || role == 'ROLE_MANAGER' || role == 'ROLE_ADVERTISER'}"
-            th:classappend="${tab == 'salary' ? 'active' : ''}">
-            <a class="platform-submenu__link"
-              th:href="${role == 'ROLE_HEAD_MANAGER' || role == 'ROLE_MANAGER' ? '/employee-salary/' : '/advertiser-salary/'}">Вознаграждение</a>
-          </li>
-          <li class="platform-submenu__item" th:if="${role == 'ROLE_HEAD_MANAGER' || role == 'ROLE_MANAGER'}"
-            th:classappend="${tab == 'reports' ? 'active' : ''}">
-            <a class="platform-submenu__link" th:href="@{/reports/}">Отчеты</a>
-          </li>
-          <li class="platform-submenu__item"
-            th:if="${role == 'ROLE_HEAD_MANAGER' || role == 'ROLE_MANAGER' || role == 'ROLE_ADVERTISER'}"
-            th:classappend="${tab == 'password' ? 'active' : ''}">
-            <a class="platform-submenu__link" th:href="@{/e-passwords/}">Пароли</a>
-          </li>
-        </ul>
-      </li>
-      <li class="platform-menu__item office submenu" th:unless="${role == 'ROLE_EXAMINER' || role == 'ROLE_CURATOR'}"
-        th:classappend="${module == 'corporate-center' ? 'active' : module == 'a-corporate-center' ? 'active' : ''}">
-        Онлайн-офис
-        <ul class="platform-submenu">
-          <li class="platform-submenu__item" th:classappend="${type == 'about-company' ? 'active' : ''}">
-            <a class="platform-submenu__link"
-              th:href="${role == 'ROLE_ADMIN' ? '/a-corporate-center/about-company/' : '/corporate-center/about-company/' }">О
-              компании</a>
-          </li>
-          <li class="platform-submenu__item" th:classappend="${type == 'regulations' ? 'active' : ''}">
-            <a class="platform-submenu__link"
-              th:href="${role == 'ROLE_ADMIN' ? '/a-corporate-center/regulations/' : '/corporate-center/regulations/' }">Регламенты</a>
-          </li>
-          <li class="platform-submenu__item" th:classappend="${type == 'bookmarks' ? 'active' : ''}">
-            <a class="platform-submenu__link"
-              th:href="${role == 'ROLE_ADMIN' ? '/a-corporate-center/bookmarks/' : '/corporate-center/bookmarks/' }">База
-              знаний</a>
-          </li>
-          <li class="platform-submenu__item"
-            th:classappend="${type == 'training-center' ? 'active' : type == 'manager' ? 'active' : ''}">
-            <a class="platform-submenu__link" th:href="${role == 'ROLE_ADMIN' ? '/a-corporate-center/training-center/' :
-                        role == 'ROLE_MANAGER' || role == 'ROLE_HEAD_MANAGER' ? '/corporate-center/training-center/manager/' :
-                        role == 'ROLE_ADVERTISER' ? '/corporate-center/training-center/advertiser/' : ''}">Обучающий
-              центр</a>
-          </li>
-          <li class="platform-submenu__item" th:classappend="${type == 'events' ? 'active' : ''}">
-            <a class="platform-submenu__link"
-              th:href="${role == 'ROLE_ADMIN' ? '/a-corporate-center/events/' : '/corporate-center/events/'}">Мероприятия</a>
-          </li>
-          <li class="platform-submenu__item" th:classappend="${type == 'production' ? 'active' : ''}"
-            th:if="${role != 'ROLE_EXAMINER' || role != 'ROLE_CURATOR'}">
-            <a class="platform-submenu__link" th:href="@{'/a-corporate-center/production/'}">Продакшн</a>
-          </li>
-        </ul>
-      </li>
-      <li class="platform-menu__item finance submenu" th:if="${role == 'ROLE_ADMIN'}"
-        th:classappend="${module == 'finance' ? 'active' : ''}">
-        Финансы
-        <ul class="platform-submenu">
-          <li class="platform-submenu__item" th:classappend="${type == 'workers-salary' ? 'active' : ''}">
-            <a class="platform-submenu__link" th:href="@{/workers-salary/}">Расчет вознаграждения</a>
-          </li>
-          <li class="platform-submenu__item" th:classappend="${type == 'bonus' ? 'active' : ''}">
-            <a class="platform-submenu__link" th:href="@{/salary/bonus/}">Награды</a>
-          </li>
-        </ul>
-      </li>
-      <li class="platform-menu__item team submenu" th:if="${role == 'ROLE_ADMIN'}">
-        Команда
-        <ul class="platform-submenu">
-          <li class="platform-submenu__item" th:classappend="${settings == 'users' ? 'active' : ''}">
-            <a class="platform-submenu__link" th:href="@{/settings/users/staff/}">Сотрудники</a>
-          </li>
-          <li class="platform-submenu__item" th:classappend="${settings == 'action' ? 'active' : ''}">
-            <a class="platform-submenu__link" th:href="@{/settings/action/}">Акция</a>
-          </li>
-          <li class="platform-submenu__item" th:classappend="${settings == 'motivation-builder' ? 'active' : ''}">
-            <a class="platform-submenu__link" th:href="@{/motivation-builder/}">Мотивация</a>
-          </li>
-          <li class="platform-submenu__item" th:classappend="${settings == 'work-tracker' ? 'active' : ''}">
-            <a class="platform-submenu__link" th:href="@{/work-tracker/}">Рабочие часы</a>
-          </li>
-          <li class="platform-submenu__item" th:classappend="${settings == 'rating' ? 'active' : ''}"
-            th:if="${role == 'ROLE_EXAMINER'}">
-            <a class="platform-submenu__link" th:href="@{/performance-assessment/rating/}">Оценка работы</a>
-          </li>
-        </ul>
-      </li>
-      <li class="platform-menu__item products-menu submenu" th:if="${role == 'ROLE_ADMIN' || role == 'ROLE_CURATOR'}"
-        th:classappend="${module == 'products' ? 'active' : ''}">
-        <th:block th:if="${role == 'ROLE_CURATOR'}">
-          <a class="platform-menu__link" href="/homework/">Проверка ДЗ</a>
-        </th:block>
-        <th:block th:if="${role == 'ROLE_ADMIN'}">
-          Продукты
-        </th:block>
-        <ul class="platform-submenu" th:if="${role == 'ROLE_ADMIN'}">
-          <li class="platform-submenu__item" th:classappend="${tab == 'courses' ? 'active' : ''}"
-            th:if="${role == 'ROLE_ADMIN'}">
-            <a class="platform-submenu__link" th:href="@{/products/}">Продукты</a>
-          </li>
-          <li class="platform-submenu__item" th:if="${role == 'ROLE_ADMIN'}"
-            th:classappend="${tab == 'products' ? 'active' : ''}">
-            <a class="platform-submenu__link" th:href="@{/streams/}">Потоки</a>
-          </li>
-          <li class="platform-submenu__item" th:classappend="${tab == 'homework' ? 'active' : ''}">
-            <a class="platform-submenu__link" th:href="@{/homework/}">Проверка ДЗ</a>
-          </li>
-        </ul>
-      </li>
-      <li class="platform-menu__item" th:classappend="${
+      <ul class="platform-menu__list custom-scroll">
+        <li class="platform-menu__item" title="Рабочий стол"
+            th:classappend="${module == 'monitor' ? 'active' : module == 'manager-monitor' ? 'active' : module == 'examiner-control' ? 'active' : ''}"
+            th:if="${role == 'ROLE_ADMIN' || role == 'ROLE_HEAD_MANAGER' || role == 'ROLE_MANAGER' || role == 'ROLE_EXAMINER'}">
+          <a class="platform-menu__link dashboard"
+             th:href="${role == 'ROLE_ADMIN' ? '/monitor/' : role == 'ROLE_HEAD_MANAGER' || role == 'ROLE_MANAGER' ? '/manager-monitor/' : role == 'ROLE_EXAMINER' ? '/examiner-control/' : ''}">Рабочий стол</a>
+        </li>
+        <li class="platform-menu__item" title="Аналитика" th:if="${role == 'ROLE_ADVERTISER' || role == 'ROLE_ADMIN'}"
+            th:classappend="${module == 'funnel' ? 'active' : module == 'analytics' ? 'active' : ''}">
+          <a class="platform-menu__link analytics"
+             th:href="${role == 'ROLE_ADVERTISER' ? '/funnel/traffic/' : role == 'ROLE_ADMIN' ? '/funnel/' : ''}">Аналитика</a>
+        </li>
+        <li class="platform-menu__item" title="Рекламный кабинет" data-item="Рекламный кабинет" th:classappend="${
             (module == 'advertising' && role == 'ROLE_ADMIN') ? 'active' :
             (module != 'advertising' && role == 'ROLE_ADVERTISER') ? 'platform-menu_link marketing submenu' :
             (module == 'advertising' && role == 'ROLE_ADVERTISER') ? 'active platform-menu_link marketing submenu' :
             ''
             }" th:if="${role == 'ROLE_ADMIN' || role == 'ROLE_ADVERTISER'}">
-        <a class="platform-menu__link marketing" th:if="${role == 'ROLE_ADMIN'}"
-          th:href="${role == 'ROLE_ADMIN' ? '/a-advertising/' : '#'}">
-          Маркетинг
-        </a>
-        <th:block th:if="${role == 'ROLE_ADVERTISER'}">
-          Маркетинг
-          <ul class="platform-submenu">
-            <li class="platform-submenu__item"
-              th:classappend="${type == 'undistributed' || type == 'distributed' ? 'active' : ''}">
-              <a class="platform-submenu__link" th:href="@{/payment/page?id=1}">Распределение сделок</a>
-            </li>
-            <li class="platform-submenu__item" th:classappend="${type == 'links' ? 'active' : ''}">
-              <a class="platform-submenu__link" th:href="@{/a-advertising/}">Распределение заявок</a>
-            </li>
-          </ul>
-        </th:block>
-      </li>
-      <li class="platform-menu__item"
-        th:if="${role == 'ROLE_ADMIN' || role == 'ROLE_HEAD_MANAGER' || role == 'ROLE_MANAGER' || role == 'ROLE_EXAMINER'}"
-        th:classappend="${(tab == 'rating') ? 'active' : (tab == 'quality') ? 'active' : (tab == 'debate') ? 'active' : (tab == 'history') ? 'active' : (tab == 'list') ? 'active' : ''}">
-        <a class="platform-menu__link control" th:href="${(role == 'ROLE_ADMIN' || role == 'ROLE_EXAMINER') ? '/performance-assessment/rating/' :
-                role == 'ROLE_MANAGER' || role == 'ROLE_HEAD_MANAGER' ? '/performance-assessment/' : ''}">Контроль</a>
-      </li>
-      <li class="platform-menu__item settings submenu" th:if="${role == 'ROLE_ADMIN'}"
-        th:classappend="${module == 'settings' ? 'active' : ''}">Настройки
-        <ul class="platform-submenu">
-          <li class="platform-submenu__item" th:if="${company.id == 1}"
-            th:classappend="${settings == 'companies' ? 'active' : ''}">
-            <a class="platform-submenu__link" th:href="@{/settings/companies/}">Организации</a>
-          </li>
-          <li class="platform-submenu__item" th:classappend="${settings == 'projects' ? 'active' : ''}">
-            <a class="platform-submenu__link" th:href="@{/settings/projects/}">Проекты</a>
-          </li>
-          <li class="platform-submenu__item" th:classappend="${settings == 'banners-settings' ? 'active' : ''}">
-            <a class="platform-submenu__link" th:href="@{/banners-settings/}">Баннер</a>
-          </li>
-          <li class="platform-submenu__item" th:classappend="${settings == 'client-cleaner' ? 'active' : ''}">
-            <a class="platform-submenu__link" th:href="@{/client-cleaner/}">Чистка дублей</a>
-          </li>
-          <li class="platform-submenu__item" th:classappend="${settings == 'funnels' ? 'active' : ''}">
-            <a class="platform-submenu__link" th:href="@{/settings/funnels/}">Воронки</a>
-          </li>
-          <li class="platform-submenu__item" th:classappend="${settings == 'payment-form' ? 'active' : ''}">
-            <a class="platform-submenu__link" th:href="@{/payment-form-builder/}">Формы оплаты</a>
-          </li>
-          <li class="platform-submenu__item" th:classappend="${settings == 'common-plans' ? 'active' : ''}">
-            <a class="platform-submenu__link" th:href="@{/settings/common-plans/}">Планы</a>
-          </li>
-          <li class="platform-submenu__item" th:classappend="${settings == 'excel' ? 'active' : ''}">
-            <a class="platform-submenu__link" th:href="@{/a-advertising/links/}">Рекламные данные</a>
-          </li>
-          <li class="platform-submenu__item" th:classappend="${settings == 'lists' ? 'active' : ''}">
-            <a class="platform-submenu__link" th:href="@{/settings/lists/payment-method/}">Способы
-              оплаты</a>
-          </li>
-          <li class="platform-submenu__item" th:classappend="${settings == 'contracts' ? 'active' : ''}">
-            <a class="platform-submenu__link" th:href="@{/settings-contracts/}">Договора</a>
-          </li>
-          <li class="platform-submenu__item">
-            <a class="platform-submenu__link" th:href="@{/bill-pattern/}">Шаблоны счетов</a>
-          </li>
-          <li class="platform-submenu__item" th:classappend="${settings == 'password' ? 'active' : ''}">
-            <a class="platform-submenu__link" th:href="@{/settings/password/}">Пароли</a>
-          </li>
-        </ul>
-      </li>
-    </ul>
-    <div class="platform-menu__logout">
-      <div class="platform-logout__info" th:if="${avatar}">
-        <div class="platform-logout__image">
-          <img th:if="${!#strings.isEmpty(avatar.path)}" th:src="'/' + ${avatar.path}"
-            class=" avatar-image avatar-image_large"
-            th:classappend="${#strings.isEmpty(avatar.path) ? 'avatar-image_default' : ''}" alt="user-logo">
+          <a class="platform-menu__link marketing" th:if="${role == 'ROLE_ADMIN'}"
+             th:href="${role == 'ROLE_ADMIN' ? '/a-advertising/' : '#'}">
+            Рекламный кабинет
+          </a>
+          <th:block th:if="${role == 'ROLE_ADVERTISER'}">
+            Рекламный кабинет
+          </th:block>
+        </li>
+        <li class="platform-menu__item" title="Сделки"
+            th:if="${role == 'ROLE_HEAD_MANAGER' || role == 'ROLE_MANAGER' || role == 'ROLE_ADMIN'}"
+            th:classappend="${module == 'head-manager-transactions' ? 'active' : module == 'transactions' ? 'active' : ''}">
+          <a class="platform-menu__link transactions"
+             th:href="${role == 'ROLE_HEAD_MANAGER' ? '/head-manager-transactions/' : role == 'ROLE_MANAGER' ? '/transactions/' : role == 'ROLE_ADMIN' ? '/deals/' : ''}">
+            Сделки
+          </a>
+        </li>
+        <li class="platform-menu__item" title="Счета и платежи"
+            th:if="${role == 'ROLE_HEAD_MANAGER' || role == 'ROLE_MANAGER' || role == 'ROLE_ADMIN'}"
+            th:classappend="${module == 'head-manager-transactions/bills' ? 'active' : module == 'transactions/bills' ? 'active' : ''}">
+          <a class="platform-menu__link bills-item"
+             th:href="${role == 'ROLE_HEAD_MANAGER' ? '/head-manager-transactions/bills' : role == 'ROLE_MANAGER' ? '/transactions/bills/' : role == 'ROLE_ADMIN' ? '/deals/bills/' : ''}">
+            Счета и платежи
+          </a>
+        </li>
+        <li class="platform-menu__item" title="Клиенты"
+            th:if="${role == 'ROLE_HEAD_MANAGER' || role == 'ROLE_MANAGER' || role == 'ROLE_ADMIN'}"
+            th:classappend="${module == 'head-manager-transactions' ? 'active' : module == 'transactions' ? 'active' : ''}">
+          <a href="/clients-list/" class="platform-menu__link clients">
+            Клиенты
+          </a>
+        </li>
+        <li class="platform-menu__item" title="Оценка диалогов"
+            th:if="${role == 'ROLE_ADMIN' || role == 'ROLE_HEAD_MANAGER' || role == 'ROLE_MANAGER' || role == 'ROLE_EXAMINER'}"
+            th:classappend="${(tab == 'rating') ? 'active' : (tab == 'quality') ? 'active' : (tab == 'debate') ? 'active' : (tab == 'history') ? 'active' : (tab == 'list') ? 'active' : ''}">
+          <a class="platform-menu__link control" th:href="${(role == 'ROLE_ADMIN' || role == 'ROLE_EXAMINER') ? '/performance-assessment/rating/' :
+                role == 'ROLE_MANAGER' || role == 'ROLE_HEAD_MANAGER' ? '/performance-assessment/' : ''}">Оценка диалогов</a>
+        </li>
+        <li class="platform-menu__item" title="Проверка ДЗ" th:if="${role == 'ROLE_ADMIN' || role == 'ROLE_CURATOR'}" th:classappend="${module == 'products' ? 'active' : ''}">
+          <a class="platform-menu__link homework" href="/homework/">Проверка ДЗ</a>
+        </li>
+        <li class="platform-menu__item lk" title="Вознаграждение"
+            th:if="${role == 'ROLE_HEAD_MANAGER' || role == 'ROLE_MANAGER' || role == 'ROLE_ADVERTISER'}"
+            th:classappend="${tab == 'salary' ? 'active' : ''}">
+          <a class="platform-menu__link salary-item"
+             th:href="${role == 'ROLE_HEAD_MANAGER' || role == 'ROLE_MANAGER' ? '/employee-salary/' : '/advertiser-salary/'}">Вознаграждение</a>
+        </li>
+        <li th:if="${role == 'ROLE_ADMIN'}" class="platform-menu__item" title="Воронки" th:classappend="${settings == 'funnels' ? 'active' : ''}">
+          <a class="platform-menu__link funnels" th:href="@{/settings/funnels/}">Воронки</a>
+        </li>
+        <li class="platform-menu__item products-menu submenu" title="Продукты" data-item="Продукты" th:if="${role == 'ROLE_ADMIN'}"
+            th:classappend="${module == 'products' ? 'active' : ''}">
+          <th:block th:if="${role == 'ROLE_ADMIN'}">
+            Продукты
+          </th:block>
+        </li>
+        <li class="platform-menu__item team submenu" title="Команда" data-item="Команда" th:if="${role == 'ROLE_ADMIN'}">
+          Команда
+        </li>
+        <li class="platform-menu__item settings submenu" title="Настройки" data-item="Настройки" th:if="${role == 'ROLE_ADMIN'}"
+            th:classappend="${module == 'settings' ? 'active' : ''}">Настройки
+        </li>
+      </ul>
+      <div class="platform-menu__logout">
+        <div class="platform-logout__info" th:if="${avatar}">
+          <div class="platform-logout__image">
+            <img th:if="${!#strings.isEmpty(avatar.path)}" th:src="'/' + ${avatar.path}"
+                 class=" avatar-image avatar-image_large"
+                 th:classappend="${#strings.isEmpty(avatar.path) ? 'avatar-image_default' : ''}" alt="user-logo">
+          </div>
         </div>
-        <div class="platform-logout__desc main-nav__avatar-desc">
-          <p class="platform-logot__name main-nav__avatar-name" th:utext="${avatar.name}"></p>
-          <p th:if="${avatar.currentScore != null}" class="platform-logout__rating main-nav__avatar-score"
-            th:utext="${#numbers.formatDecimal(avatar.currentScore, 1, 'COMMA', 2, 'POINT')}">
-          </p>
-        </div>
+        <a th:href="@{/logout}" title="Выход" class="platform-logout__item exit"></a>
       </div>
-      <div class="platform-logout__selector"></div>
-      <a th:href="@{/logout}" class="platform-logout__item exit">
-        Выход
-      </a>
+    </div>
+    <div class="platform-menu__sub">
+      <ul class="platform-submenu" data-item="Рекламный кабинет">
+        <li class="platform-submenu__item title">
+          <span title="Рекламный кабинет">
+            Рекламный кабинет
+          </span>
+        </li>
+        <li class="platform-submenu__item"
+            th:classappend="${type == 'undistributed' || type == 'distributed' ? 'active' : ''}">
+          <a class="platform-submenu__link" th:href="@{/payment/page?id=1}">Распределение сделок</a>
+        </li>
+        <li class="platform-submenu__item" th:classappend="${type == 'links' ? 'active' : ''}">
+          <a class="platform-submenu__link" th:href="@{/a-advertising/}">Распределение заявок</a>
+        </li>
+      </ul>
+      <ul class="platform-submenu" data-item="Продукты">
+        <li class="platform-submenu__item title">
+          Продукты
+        </li>
+        <li class="platform-submenu__item" th:classappend="${tab == 'courses' ? 'active' : ''}"
+            th:if="${role == 'ROLE_ADMIN'}">
+          <a class="platform-submenu__link" th:href="@{/products/}">Продукты</a>
+        </li>
+        <li class="platform-submenu__item" th:if="${role == 'ROLE_ADMIN'}"
+            th:classappend="${tab == 'products' ? 'active' : ''}">
+          <a class="platform-submenu__link" th:href="@{/streams/}">Потоки</a>
+        </li>
+      </ul>
+      <ul class="platform-submenu" data-item="Команда">
+        <li class="platform-submenu__item title">
+          Команда
+        </li>
+        <li class="platform-submenu__item" th:classappend="${settings == 'users' ? 'active' : ''}">
+          <a class="platform-submenu__link" th:href="@{/settings/users/staff/}">Пользователи</a>
+        </li>
+        <li class="platform-submenu__item" th:classappend="${type == 'workers-salary' ? 'active' : ''}">
+          <a class="platform-submenu__link" th:href="@{/workers-salary/}">Расчет вознаграждений</a>
+        </li>
+        <li class="platform-submenu__item" th:classappend="${settings == 'work-tracker' ? 'active' : ''}">
+          <a class="platform-submenu__link" th:href="@{/work-tracker/}">График работы</a>
+        </li>
+        <li class="platform-submenu__item" th:classappend="${settings == 'common-plans' ? 'active' : ''}">
+          <a class="platform-submenu__link" th:href="@{/settings/common-plans/}">Планы</a>
+        </li>
+        <li class="platform-submenu__item" th:classappend="${settings == 'motivation-builder' ? 'active' : ''}">
+          <a class="platform-submenu__link" th:href="@{/motivation-builder/}">Мотивация</a>
+        </li>
+        <li class="platform-submenu__item" th:classappend="${settings == 'action' ? 'active' : ''}">
+          <a class="platform-submenu__link" th:href="@{/settings/action/}">Акции</a>
+        </li>
+      </ul>
+      <ul class="platform-submenu" data-item="Настройки">
+        <li class="platform-submenu__item title">
+          Настройки
+        </li>
+        <li class="platform-submenu__item" th:if="${company.id == 1}"
+            th:classappend="${settings == 'companies' ? 'active' : ''}">
+          <a class="platform-submenu__link" th:href="@{/settings/companies/}">Основные</a>
+        </li>
+        <li class="platform-submenu__item" th:classappend="${settings == 'contracts' ? 'active' : ''}">
+          <a class="platform-submenu__link" th:href="@{/settings-contracts/}">Договора</a>
+        </li>
+        <li class="platform-submenu__item" th:classappend="${settings == 'lists' ? 'active' : ''}">
+          <a class="platform-submenu__link" th:href="@{/settings/lists/payment-method/}">Счета</a>
+        </li>
+        <li class="platform-submenu__item" th:classappend="${settings == 'projects' ? 'active' : ''}">
+          <a class="platform-submenu__link" th:href="@{/settings/projects/}">Проекты</a>
+        </li>
+        <li class="platform-submenu__item" th:classappend="${settings == 'payment-form' ? 'active' : ''}">
+          <a class="platform-submenu__link" th:href="@{/payment-form-builder/}">Эквайринг</a>
+        </li>
+        <li class="platform-submenu__item" th:classappend="${settings == 'excel' ? 'active' : ''}">
+          <a class="platform-submenu__link" th:href="@{/a-advertising/links/}">Интеграции</a>
+        </li>
+        <li class="platform-submenu__item" th:classappend="${settings == 'client-cleaner' ? 'active' : ''}">
+          <a class="platform-submenu__link" th:href="@{/client-cleaner/}">Чистка дублей</a>
+        </li>
+        <li class="platform-submenu__item">
+          <a class="platform-submenu__link" th:href="@{/bill-pattern/}">Шаблоны счетов</a>
+        </li>
+        <li class="platform-submenu__item" th:classappend="${settings == 'banners-settings' ? 'active' : ''}">
+          <a class="platform-submenu__link" th:href="@{/banners-settings/}">Баннер</a>
+        </li>
+      </ul>
     </div>
   </div>
 

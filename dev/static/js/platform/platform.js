@@ -3,13 +3,14 @@ import Admin from './users/admin/admin.js';
 import Manager from './users/manager/manager.js';
 import Examiner from './users/examiner/examiner.js';
 import HeadManager from './users/headManager/headManager.js';
-import Control from './users/control/control.js';
 import Client from './users/client/client.js';
 import Utils from './utils/utils.js';
 import Curator from './users/curator/curator.js';
+import Advertiser from './users/advertiser/advertiser';
 
 const menu = new Menu();
 const utils = new Utils();
+
 class Platform {
 	init(props) {
 		const { role } = props;
@@ -52,12 +53,12 @@ class Platform {
 				role: 'ROLE_HEAD_MANAGER',
 			},
 			{
-				instance: new Control(),
-				role: 'ROLE_CONTROL',
-			},
-			{
 				instance: new Curator(),
 				role: 'ROLE_CURATOR',
+			},
+			{
+				instance: new Advertiser(),
+				role: 'ROLE_ADVERTISER',
 			},
 			{
 				instance: new Client(),

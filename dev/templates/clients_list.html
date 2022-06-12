@@ -10,8 +10,153 @@
     <link th:href="@{/css/jquery.fancybox.min.css}" rel="stylesheet">
 </head>
 
-<body class="page custom-scroll">
-<div th:replace="base :: main-nav"></div>
+<body class="page">
+    <div class="page__content">
+        <div th:replace="base :: main-nav"></div>
+
+        <div class="platform__wrapper custom-scroll">
+            <div class="platform__header">
+                <h1 class="platform__title">Клиенты</h1>
+            </div>
+
+            <div class="platform__content">
+                <div class="platform__nav clients-list">
+                    <div class="platform__nav--left">
+                        <div class="platform__filter--btn">Фильтр</div>
+                        <form th:action="@{/clients-list/}" class="platform__search" th:object="${filter}" th:method="post">
+                            <input id="searchClient" class="platform__input--search" type="text"
+                                   placeholder="Введите ссылку, ФИО или телефон клиента" th:field="*{searchRow}">
+                            <label search-client-btn for="searchClient" class="platform__search--start"
+                                   th:classappend="${#strings.isEmpty(filter.searchRow) == true}? '' : 'active'"></label>
+                        </form>
+                        <form class="platform__showed-toggle" th:action="@{/clients-list/}" th:method="post">
+                            <span class="showed-toggle__text">Отображать удаленных</span>
+                            <input class="platform__checkbox" th:if="${filter.hiddenClient == false}" checked type="checkbox" th:value="${null}" name="hiddenClient" js-filter-hidden-deals>
+                            <input class="platform__checkbox" th:if="${filter.hiddenClient == null}" checked type="checkbox" th:value="${false}" name="hiddenClient" js-filter-hidden-deals>
+                            <label class="platform__toggle" th:classappend="${filter.hiddenClient == null ? 'active' : ''}" for="hide-deals">
+                                <span class="platform__thumb"></span>
+                            </label>
+                        </form>
+                    </div>
+                    <div class="platform__nav--right">
+                        <span deals-counter th:utext="${'клиентов: ' + clientCount}"></span>
+                        <a th:if="${role == 'ROLE_HEAD_MANAGER' || role == 'ROLE_ADMIN'}" th:href="@{/clients-list/download/clientDeals.xlsx}"
+                           download-deals download class="platform__download--btn">Экспортировать</a>
+                        <div th:if="${role == 'ROLE_MANAGER' || role == 'ROLE_HEAD_MANAGER'}" search-client-add-deal
+                             class="platform__download--btn search">Добавить клиента
+                        </div>
+                    </div>
+                </div>
+
+                <div class="clients__list">
+                    <div js-client-card href="#" class="clients__item" th:each="client : ${clients.pageItems}"
+                         th:attr="data-client=${client.id}">
+                        <input type="hidden" js-client-id th:attr="data-client=${client.id}" th:value="${client.id}">
+                        <div class="clients__info">
+                            <span th:attr="title=${client.name}" class="clients__name" th:utext="${client.name}"></span>
+                            <span class="clients__social clients-social">
+                            <span class="clients-social__vk"
+                                  th:if="${client.link != ''}? (${client.link != null}? ${client.link} : false) : false "></span>
+                            <span class="clients-social__wa"
+                                  th:if="${client.phone != ''}? (${client.phone != null}? ${client.phone} : false) : false "></span>
+                        </span>
+                        </div>
+
+                        <div class="clients__contacts clients-contacts">
+                            <div class="clients-contacts__vk">
+                                <span class="clients-contacts__icon"></span>
+                                <span
+                                    th:text="${client.link != ''}? (${client.link != null}? ${client.link} : '&mdash;') : '&mdash;'"></span>
+                            </div>
+                            <div class="clients-contacts__phone">
+                                <span class="clients-contacts__icon"></span>
+                                <span
+                                    th:text="${client.phone != ''}? (${client.phone != null}? ${client.phone} : '&mdash;') : '&mdash;'"></span>
+                            </div>
+                            <div class="clients-contacts__email">
+                                <span class="clients-contacts__icon"></span>
+                                <span
+                                    th:text="${client.email != ''}? (${client.email != null}? ${client.email} : '&mdash;') : '&mdash;'"></span>
+                            </div>
+                        </div>
+                        <div class="clients__sum">
+                            <span class="clients-sum__text">Оплачено</span>
+                            <span class="clients-sum__value" th:text="${client.sum + ' ' + '&#8381;'}"></span>
+                        </div>
+                        <div class="clients__from clients-from">
+                        <span class="clients-from__who">
+                            <span class="clients-from__icon"></span>
+                            <span class="clients-from__value" th:attr="title=${client.manager}" th:utext="${client.manager}"></span>
+                        </span>
+                            <span class="clients-from__when">
+                        <span class="clients-from__when--value" th:text="${#strings.arraySplit(client.createDate, '-')[2] + '.' + #strings.arraySplit(client.createDate, '-')[1] + '.' + #strings.arraySplit(client.createDate, '-')[0]}"></span>
+                        <span class="clients-from__icon"></span>
+                    </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="platform__pagination pagination" th:if="${clients.pagesAvailable > 1}"
+                     th:with="left=4,right=5">
+                    <div class="pagination__wrapper">
+                        <a th:attrappend="href=${clients.pageNumber - 1 > 0} ? 'page?id=' + ${clients.pageNumber - 1} : ''"
+                           th:classappend="${clients.pageNumber - 1} == 0 ? 'pagination__elem--disabled' : ''"
+                           class="pagination__elem pagination__elem--prev"></a>
+                        <th:block th:if="${clients.pagesAvailable <= 10}"
+                                  th:with="start=1,end=${clients.pagesAvailable}">
+                            <th:block th:each="i : ${#numbers.sequence(start,end)}">
+                                <a th:attrappend="href='page?id=' + ${i}"
+                                   th:classappend="${clients.pageNumber == i} ? 'active' : ''" th:utext="${i}"
+                                   class="pagination__elem"></a>
+                            </th:block>
+                        </th:block>
+                        <th:block th:unless="${clients.pagesAvailable <= 10}">
+                            <th:block
+                                th:if="${clients.pageNumber > left && clients.pageNumber < (clients.pagesAvailable - right)}"
+                                th:with="start=${clients.pageNumber - left},end=${clients.pageNumber + right}">
+                                <a class="pagination__elem" th:if="${clients.pageNumber > (left + 1)}"
+                                   th:attrappend="href='page?id=1'">1</a>
+                                <th:block th:each="i : ${#numbers.sequence(start,end)}">
+                                    <a th:attrappend="href='page?id=' + ${i}"
+                                       th:classappend="${clients.pageNumber == i} ? 'active' : ''" th:utext="${i}"
+                                       class="pagination__elem"></a>
+                                </th:block>
+                                <a class="pagination__elem"
+                                   th:if="${clients.pageNumber <= clients.pagesAvailable - right}"
+                                   th:attrappend="href='page?id=' + ${clients.pagesAvailable}"
+                                   th:text="${clients.pagesAvailable}"></a>
+                            </th:block>
+                            <th:block th:if="${clients.pageNumber <= left}"
+                                      th:with="start=1,end=${clients.pageNumber + (right + 1 + left - clients.pageNumber)}">
+                                <th:block th:each="i : ${#numbers.sequence(start,end)}">
+                                    <a th:attrappend="href='page?id=' + ${i}"
+                                       th:classappend="${clients.pageNumber == i} ? 'active' : ''" th:utext="${i}"
+                                       class="pagination__elem"></a>
+                                </th:block>
+                                <a class="pagination__elem"
+                                   th:if="${clients.pageNumber <= clients.pagesAvailable - right}"
+                                   th:attrappend="href='page?id=' + ${clients.pagesAvailable}"
+                                   th:text="${clients.pagesAvailable}"></a>
+                            </th:block>
+                            <th:block
+                                th:unless="${(clients.pageNumber > left && clients.pageNumber < (clients.pagesAvailable - right)) || (clients.pageNumber <= left)}"
+                                th:with="start=${clients.pageNumber - (left + right - (clients.pagesAvailable - clients.pageNumber))},end=${clients.pagesAvailable}">
+                                <a class="pagination__elem" th:attrappend="href='page?id=1'">1</a>
+                                <th:block th:each="i : ${#numbers.sequence(start,end)}">
+                                    <a th:attrappend="href='page?id=' + ${i}"
+                                       th:classappend="${clients.pageNumber == i} ? 'active' : ''" th:utext="${i}"
+                                       class="pagination__elem"></a>
+                                </th:block>
+                            </th:block>
+                        </th:block>
+                        <a th:attrappend="href=${clients.pageNumber + 1 <= clients.pagesAvailable } ? 'page?id=' + ${clients.pageNumber + 1} : ''"
+                           th:classappend="${clients.pageNumber != clients.pagesAvailable} ? '' : 'pagination__elem--disabled'"
+                           class="pagination__elem pagination__elem--next"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 <div th:replace="base :: transition-loader"></div>
 <div th:replace="base :: bill-copy-tooltip"></div>
 <script th:src="@{/js/transition-loader.js}"></script>
@@ -20,158 +165,6 @@
     showLoader();
 /*]]>*/
 </script>
-
-<div class="platform__wrapper">
-    <div class="platform__header">
-        <h1 class="platform__title">CRM</h1>
-        <th:block th:if="${role == 'ROLE_ADMIN'}" th:attrappend="class=content-top__menu">
-            <div th:replace="base :: deals-nav"></div>
-        </th:block>
-        <th:block th:if="${role == 'ROLE_MANAGER'}" th:attrappend="class=content-top__menu">
-            <div th:replace="base :: transactions-nav"></div>
-        </th:block>
-        <th:block th:if="${role == 'ROLE_HEAD_MANAGER'}" th:attrappend="class=content-top__menu">
-            <div th:replace="base :: head-manager-transactions-nav"></div>
-        </th:block>
-    </div>
-
-    <div class="platform__content">
-        <div class="platform__nav clients-list">
-            <div class="platform__nav--left">
-                <div class="platform__filter--btn">Фильтр</div>
-                <form th:action="@{/clients-list/}" class="platform__search" th:object="${filter}" th:method="post">
-                    <input id="searchClient" class="platform__input--search" type="text"
-                           placeholder="Введите ссылку, ФИО или телефон клиента" th:field="*{searchRow}">
-                    <label search-client-btn for="searchClient" class="platform__search--start"
-                           th:classappend="${#strings.isEmpty(filter.searchRow) == true}? '' : 'active'"></label>
-                </form>
-                <form class="platform__showed-toggle" th:action="@{/clients-list/}" th:method="post">
-                    <span class="showed-toggle__text">Отображать удаленных</span>
-                    <input class="platform__checkbox" th:if="${filter.hiddenClient == false}" checked type="checkbox" th:value="${null}" name="hiddenClient" js-filter-hidden-deals>
-                    <input class="platform__checkbox" th:if="${filter.hiddenClient == null}" checked type="checkbox" th:value="${false}" name="hiddenClient" js-filter-hidden-deals>
-                    <label class="platform__toggle" th:classappend="${filter.hiddenClient == null ? 'active' : ''}" for="hide-deals">
-                        <span class="platform__thumb"></span>
-                    </label>
-                </form>
-            </div>
-            <div class="platform__nav--right">
-                <span deals-counter th:utext="${'клиентов: ' + clientCount}"></span>
-                <a th:if="${role == 'ROLE_HEAD_MANAGER' || role == 'ROLE_ADMIN'}" th:href="@{/clients-list/download/clientDeals.xlsx}"
-                   download-deals download class="platform__download--btn">Экспортировать</a>
-                <div th:if="${role == 'ROLE_MANAGER' || role == 'ROLE_HEAD_MANAGER'}" search-client-add-deal
-                     class="platform__download--btn search">Добавить клиента
-                </div>
-            </div>
-        </div>
-
-        <div class="clients__list">
-            <div js-client-card href="#" class="clients__item" th:each="client : ${clients.pageItems}"
-                 th:attr="data-client=${client.id}">
-                <input type="hidden" js-client-id th:attr="data-client=${client.id}" th:value="${client.id}">
-                <div class="clients__info">
-                    <span th:attr="title=${client.name}" class="clients__name" th:utext="${client.name}"></span>
-                    <span class="clients__social clients-social">
-                            <span class="clients-social__vk"
-                                  th:if="${client.link != ''}? (${client.link != null}? ${client.link} : false) : false "></span>
-                            <span class="clients-social__wa"
-                                  th:if="${client.phone != ''}? (${client.phone != null}? ${client.phone} : false) : false "></span>
-                        </span>
-                </div>
-
-                <div class="clients__contacts clients-contacts">
-                    <div class="clients-contacts__vk">
-                        <span class="clients-contacts__icon"></span>
-                        <span
-                                th:text="${client.link != ''}? (${client.link != null}? ${client.link} : '&mdash;') : '&mdash;'"></span>
-                    </div>
-                    <div class="clients-contacts__phone">
-                        <span class="clients-contacts__icon"></span>
-                        <span
-                                th:text="${client.phone != ''}? (${client.phone != null}? ${client.phone} : '&mdash;') : '&mdash;'"></span>
-                    </div>
-                    <div class="clients-contacts__email">
-                        <span class="clients-contacts__icon"></span>
-                        <span
-                                th:text="${client.email != ''}? (${client.email != null}? ${client.email} : '&mdash;') : '&mdash;'"></span>
-                    </div>
-                </div>
-                <div class="clients__sum">
-                    <span class="clients-sum__text">Оплачено</span>
-                    <span class="clients-sum__value" th:text="${client.sum + ' ' + '&#8381;'}"></span>
-                </div>
-                <div class="clients__from clients-from">
-                        <span class="clients-from__who">
-                            <span class="clients-from__icon"></span>
-                            <span class="clients-from__value" th:attr="title=${client.manager}" th:utext="${client.manager}"></span>
-                        </span>
-                    <span class="clients-from__when">
-                        <span class="clients-from__when--value" th:text="${#strings.arraySplit(client.createDate, '-')[2] + '.' + #strings.arraySplit(client.createDate, '-')[1] + '.' + #strings.arraySplit(client.createDate, '-')[0]}"></span>
-                        <span class="clients-from__icon"></span>
-                    </span>
-                </div>
-            </div>
-        </div>
-
-        <div class="platform__pagination pagination" th:if="${clients.pagesAvailable > 1}"
-             th:with="left=4,right=5">
-            <div class="pagination__wrapper">
-                <a th:attrappend="href=${clients.pageNumber - 1 > 0} ? 'page?id=' + ${clients.pageNumber - 1} : ''"
-                   th:classappend="${clients.pageNumber - 1} == 0 ? 'pagination__elem--disabled' : ''"
-                   class="pagination__elem pagination__elem--prev"></a>
-                <th:block th:if="${clients.pagesAvailable <= 10}"
-                          th:with="start=1,end=${clients.pagesAvailable}">
-                    <th:block th:each="i : ${#numbers.sequence(start,end)}">
-                        <a th:attrappend="href='page?id=' + ${i}"
-                           th:classappend="${clients.pageNumber == i} ? 'active' : ''" th:utext="${i}"
-                           class="pagination__elem"></a>
-                    </th:block>
-                </th:block>
-                <th:block th:unless="${clients.pagesAvailable <= 10}">
-                    <th:block
-                            th:if="${clients.pageNumber > left && clients.pageNumber < (clients.pagesAvailable - right)}"
-                            th:with="start=${clients.pageNumber - left},end=${clients.pageNumber + right}">
-                        <a class="pagination__elem" th:if="${clients.pageNumber > (left + 1)}"
-                           th:attrappend="href='page?id=1'">1</a>
-                        <th:block th:each="i : ${#numbers.sequence(start,end)}">
-                            <a th:attrappend="href='page?id=' + ${i}"
-                               th:classappend="${clients.pageNumber == i} ? 'active' : ''" th:utext="${i}"
-                               class="pagination__elem"></a>
-                        </th:block>
-                        <a class="pagination__elem"
-                           th:if="${clients.pageNumber <= clients.pagesAvailable - right}"
-                           th:attrappend="href='page?id=' + ${clients.pagesAvailable}"
-                           th:text="${clients.pagesAvailable}"></a>
-                    </th:block>
-                    <th:block th:if="${clients.pageNumber <= left}"
-                              th:with="start=1,end=${clients.pageNumber + (right + 1 + left - clients.pageNumber)}">
-                        <th:block th:each="i : ${#numbers.sequence(start,end)}">
-                            <a th:attrappend="href='page?id=' + ${i}"
-                               th:classappend="${clients.pageNumber == i} ? 'active' : ''" th:utext="${i}"
-                               class="pagination__elem"></a>
-                        </th:block>
-                        <a class="pagination__elem"
-                           th:if="${clients.pageNumber <= clients.pagesAvailable - right}"
-                           th:attrappend="href='page?id=' + ${clients.pagesAvailable}"
-                           th:text="${clients.pagesAvailable}"></a>
-                    </th:block>
-                    <th:block
-                            th:unless="${(clients.pageNumber > left && clients.pageNumber < (clients.pagesAvailable - right)) || (clients.pageNumber <= left)}"
-                            th:with="start=${clients.pageNumber - (left + right - (clients.pagesAvailable - clients.pageNumber))},end=${clients.pagesAvailable}">
-                        <a class="pagination__elem" th:attrappend="href='page?id=1'">1</a>
-                        <th:block th:each="i : ${#numbers.sequence(start,end)}">
-                            <a th:attrappend="href='page?id=' + ${i}"
-                               th:classappend="${clients.pageNumber == i} ? 'active' : ''" th:utext="${i}"
-                               class="pagination__elem"></a>
-                        </th:block>
-                    </th:block>
-                </th:block>
-                <a th:attrappend="href=${clients.pageNumber + 1 <= clients.pagesAvailable } ? 'page?id=' + ${clients.pageNumber + 1} : ''"
-                   th:classappend="${clients.pageNumber != clients.pagesAvailable} ? '' : 'pagination__elem--disabled'"
-                   class="pagination__elem pagination__elem--next"></a>
-            </div>
-        </div>
-    </div>
-</div>
 
 <div class="platform__filter">
     <div class="filter__wrapper">

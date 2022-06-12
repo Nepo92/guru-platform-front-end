@@ -8,7 +8,6 @@ import Banner from '../../../menu/items/settings/banner/banner.js';
 import PaymentForm from '../../../menu/items/settings/payment-form/payment-form.js';
 import Analytics from '../../../menu/items/analytics/analytics.js';
 import Downloads from '../../../modules/downloads/downloads.js';
-import OnlineOffice from '../../../menu/items/onlineOffice/onlineOffice.js';
 import BillTemplates from '../../../menu/items/settings/bill-templates/billTemplates.js';
 import ClientCleaner from '../../../menu/items/settings/client-cleaner/clientCleaner.js';
 import SearchClient from '../../../menu/items/crm/searchClient/searchClient.js';
@@ -30,7 +29,6 @@ const banner = new Banner();
 const paymentForm = new PaymentForm();
 const analytics = new Analytics();
 const downloads = new Downloads();
-const onlineOffice = new OnlineOffice();
 const billTemplates = new BillTemplates();
 const clientCleaner = new ClientCleaner();
 const searchClient = new SearchClient();
@@ -54,7 +52,6 @@ class AdminEvents {
       downloads,
       banner,
       paymentForm,
-      onlineOffice,
       billTemplates,
       clientCleaner,
       searchClient,

@@ -8,8 +8,59 @@
     <th:block th:insert="base :: links"/>
 </head>
 
-<body class="custom-scroll">
-  <div th:replace="base :: main-nav"></div>
+<body class="page custom-scroll">
+  <div class="page__content">
+    <div th:replace="base :: main-nav"></div>
+
+    <div class="platform__wrapper cleaner">
+      <div class="platform__header">
+        <h1 class="platform__title">Чистка дублей</h1>
+      </div>
+
+      <div class="content-main__panel cleaner__nav">
+        <ul class="cleaner-nav__list">
+          <li class="cleaner-nav__item">
+            <input value="0" type="radio" name="copies" id="email" class="platform__checkbox cleaner__checkbox">
+            <label for="email" class="platform-checkbox__label cleaner__label">
+              <span class="platform__checkbox--fake radio-fake cleaner__fake"></span>
+              <span>E-mail</span>
+            </label>
+          </li>
+          <li class="cleaner-nav__item">
+            <input value="1" type="radio" name="copies" id="tel" class="platform__checkbox cleaner__checkbox">
+            <label for="tel" class="platform-checkbox__label cleaner__label">
+              <span class="platform__checkbox--fake radio-fake cleaner__fake"></span>
+              <span>Телефон</span>
+            </label>
+          </li>
+          <li class="cleaner-nav__item">
+            <input value="2" type="radio" name="copies" id="vk" class="platform__checkbox cleaner__checkbox">
+            <label for="vk" class="platform-checkbox__label cleaner__label">
+              <span class="platform__checkbox--fake radio-fake cleaner__fake"></span>
+              <span>VK</span>
+            </label>
+          </li>
+          <li class="cleaner-nav__item">
+            <input value="3" type="radio" name="copies" id="telegram" class="platform__checkbox cleaner__checkbox">
+            <label for="telegram" class="platform-checkbox__label cleaner__label">
+              <span class="platform__checkbox--fake radio-fake cleaner__fake"></span>
+              <span>Telegram</span>
+            </label>
+          </li>
+        </ul>
+      </div>
+
+      <ul cleaner-list class="coincedence__list">
+        <li class="coincedence__item--header">
+          <ul class="coincedence__header">
+            <li class="coincedence-header__item coincedence__name">Совпадение</li>
+            <li class="coincedence-header__item coincedence__quanity">Количество</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+
   <div th:replace="base :: transition-loader"></div>
   <script th:src="@{/js/transition-loader.js}"></script>
 <script th:inline='javascript'>
@@ -17,55 +68,6 @@
     showLoader();
 /*]]>*/
 </script>
-  
-
-  <div class="platform__wrapper cleaner">
-    <div class="platform__header">
-        <h1 class="platform__title">Чистка дублей</h1>
-    </div>
-
-    <div class="content-main__panel cleaner__nav">
-      <ul class="cleaner-nav__list">
-        <li class="cleaner-nav__item">
-          <input value="0" type="radio" name="copies" id="email" class="platform__checkbox cleaner__checkbox">
-          <label for="email" class="platform-checkbox__label cleaner__label">
-            <span class="platform__checkbox--fake radio-fake cleaner__fake"></span>
-            <span>E-mail</span>
-          </label>
-        </li>
-        <li class="cleaner-nav__item">
-          <input value="1" type="radio" name="copies" id="tel" class="platform__checkbox cleaner__checkbox">
-          <label for="tel" class="platform-checkbox__label cleaner__label">
-            <span class="platform__checkbox--fake radio-fake cleaner__fake"></span>
-            <span>Телефон</span>
-          </label>
-        </li>
-        <li class="cleaner-nav__item">
-          <input value="2" type="radio" name="copies" id="vk" class="platform__checkbox cleaner__checkbox">
-          <label for="vk" class="platform-checkbox__label cleaner__label">
-            <span class="platform__checkbox--fake radio-fake cleaner__fake"></span>
-            <span>VK</span>
-          </label>
-        </li>
-        <li class="cleaner-nav__item">
-          <input value="3" type="radio" name="copies" id="telegram" class="platform__checkbox cleaner__checkbox">
-          <label for="telegram" class="platform-checkbox__label cleaner__label">
-            <span class="platform__checkbox--fake radio-fake cleaner__fake"></span>
-            <span>Telegram</span>
-          </label>
-        </li>
-      </ul>
-    </div>
-
-    <ul cleaner-list class="coincedence__list">
-      <li class="coincedence__item--header">
-        <ul class="coincedence__header">
-          <li class="coincedence-header__item coincedence__name">Совпадение</li>
-          <li class="coincedence-header__item coincedence__quanity">Количество</li>
-        </ul>
-      </li>
-    </ul>
-</div>
 
 <div th:replace="base :: add-funnel-menu"></div>
 <div th:replace="base :: tunnel-links"></div>

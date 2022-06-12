@@ -23,7 +23,7 @@ class SettingsContract {
 
       data.id = savedId;
       data.createDate = `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}`;
-      data.userName = document.querySelector('.company-caption__title').innerText.trim();
+      data.userName = props.pack.company.name.trim();
       props.pack.contracts.push(data);
     }
 

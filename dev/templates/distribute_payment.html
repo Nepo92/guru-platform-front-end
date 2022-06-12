@@ -9,8 +9,91 @@
     <th:block th:insert="base :: links" />
 </head>
 
-<body>
-<div th:replace="base :: main-nav"></div>
+<body class="page">
+    <div class="page__content">
+        <div th:replace="base :: main-nav"></div>
+
+        <div class="platform-wrapper custom-scroll">
+            <div class="platform__header">
+                <div class="platform__title">Распределение сделок</div>
+            </div>
+            <div class="platform__content">
+                <div class="input-element input-element_b20">
+                    <div class="input-element__input input-element__input_black
+            input-element__input_max
+            input-element__input_bg
+            input-element__input_row">
+                        <div class="input-element__link" th:classappend="${type == 'undistributed'} ? active : ''">
+                            <a th:href="@{/payment/page?id=1}">Нераспределенные</a>
+                        </div>
+                        <div class="input-element__link" th:classappend="${type == 'distributed'} ? active : ''">
+                            <a th:href="@{/payment/distributed/page?id=1}">Распределенные</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="button-filter">
+                    <div class="platform__filter--btn">Фильтр</div>
+
+                    <span class="unchecked-counter"
+                          th:utext="${#numbers.formatInteger(payment.count,0,'WHITESPACE') + ' транзакций | ' + #numbers.formatInteger(payment.sum,0,'WHITESPACE') + ' рублей'}"></span>
+                </div>
+
+                <div class="payment">
+                    <div class="payment__wrapper payment-wrapper__distributed advertiser-table">
+                        <table id="is-need-sort-table"  class="white-table white-table_half-top">
+                            <thead class="white-table__header">
+                            <tr class="header__row">
+                                <th class="header__text">Дата оплаты</th>
+                                <th class="header__text">Курс</th>
+                                <th class="header__text">Сумма</th>
+                                <th class="header__text">Клиент</th>
+                                <th class="header__text">Дата обращ</th>
+                                <th class="header__text">Ссылка ВК</th>
+                                <th class="header__text">Телефон</th>
+                                <th class="header__text">Пометка</th>
+                                <th class="header__text">Подканал</th>
+                                <th class="header__text">Закуп</th>
+                                <th class="header__text"></th>
+                            </tr>
+                            </thead>
+                            <tbody class="white-table__body">
+                            <tr class="body__row" th:each="payment, stat : ${payments}">
+                                <td class="body__cell" th:utext="${payment.paymentDate}"></td>
+                                <td class="body__cell" th:utext="${payment.course}"></td>
+                                <td class="body__cell body__cell_bordered" th:utext="${#numbers.formatInteger(payment.sum,0,'WHITESPACE') + ' ₽'}"></td>
+                                <td class="body__cell body__cell_small" th:utext="${payment.client}"></td>
+                                <td class="body__cell" th:utext="${payment.dealDate}"></td>
+                                <td class="body__cell" th:utext="${payment.link}"></td>
+                                <td class="body__cell" th:utext="${payment.phone}"></td>
+                                <td class="body__cell body__cell_bordered" th:utext="${payment.tagging}"></td>
+                                <td class="body__cell" th:utext="${payment.channel}"></td>
+                                <td class="body__cell body__cell_bordered" th:utext="${payment.community}"></td>
+                                <td class="body__cell">
+                                    <form distribute-from action="#" class="channel-form" th:action="@{/payment/distributed/undistribute/}" th:method="get">
+                                        <input distribute-id type="hidden" name="id" th:value="${payment.id}"/>
+                                        <button distribute-submit-btn class="input-element__input input-element__input_small input-element__input_black-bord">Отдать</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div th:unless="${filter.isAllPayments()}" class="input-element input-element_b20 input-element_t20">
+                    <div class="input-element__input input-element__input_black
+                        input-element__input_max
+                        input-element__input_bg
+                        input-element__input_row">
+                        <div class="input-element__link active">
+                            <a th:href="@{'/payment/distributed/page?id=' + ${filter.pageId + 1}}">Загрузить еще</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 <div th:replace="base :: transition-loader"></div>
 <script th:src="@{/js/transition-loader.js}"></script>
 <script th:inline='javascript'>
@@ -18,86 +101,6 @@
     showLoader();
 /*]]>*/
 </script>
-
-<!--<div class="main-content main-content_pl40">-->
-<div class="main-content">
-    <!--<div th:replace="base :: advertising-nav"></div>-->
-    <div class="content-top">
-        <div class="content-top__title">Распределение сделок</div>
-    </div>
-    <div class="content-main">
-        <div class="input-element input-element_b20">
-            <div class="input-element__input input-element__input_black
-            input-element__input_max
-            input-element__input_bg
-            input-element__input_row">
-                <div class="input-element__link" th:classappend="${type == 'undistributed'} ? active : ''">
-                    <a th:href="@{/payment/page?id=1}">Нераспределенные</a>
-                </div>
-                <div class="input-element__link" th:classappend="${type == 'distributed'} ? active : ''">
-                    <a th:href="@{/payment/distributed/page?id=1}">Распределенные</a>
-                </div>
-            </div>
-        </div>
-        <div class="payment">
-            <div class="payment__wrapper payment-wrapper__distributed">
-                <div class="button-filter">
-                    <div class="platform__filter--btn">Фильтр</div>
-    
-                    <span class="unchecked-counter"
-                          th:utext="${#numbers.formatInteger(payment.count,0,'WHITESPACE') + ' транзакций | ' + #numbers.formatInteger(payment.sum,0,'WHITESPACE') + ' рублей'}"></span>
-                </div>
-                <table id="is-need-sort-table"  class="white-table white-table_half-top">
-                    <thead class="white-table__header">
-                    <tr class="header__row">
-                        <th class="header__text">Дата оплаты</th>
-                        <th class="header__text">Курс</th>
-                        <th class="header__text">Сумма</th>
-                        <th class="header__text">Клиент</th>
-                        <th class="header__text">Дата обращ</th>
-                        <th class="header__text">Ссылка ВК</th>
-                        <th class="header__text">Телефон</th>
-                        <th class="header__text">Пометка</th>
-                        <th class="header__text">Подканал</th>
-                        <th class="header__text">Закуп</th>
-                        <th class="header__text"></th>
-                    </tr>
-                    </thead>
-                    <tbody class="white-table__body">
-                    <tr class="body__row" th:each="payment, stat : ${payments}">
-                        <td class="body__cell" th:utext="${payment.paymentDate}"></td>
-                        <td class="body__cell" th:utext="${payment.course}"></td>
-                        <td class="body__cell body__cell_bordered" th:utext="${#numbers.formatInteger(payment.sum,0,'WHITESPACE') + ' ₽'}"></td>
-                        <td class="body__cell body__cell_small" th:utext="${payment.client}"></td>
-                        <td class="body__cell" th:utext="${payment.dealDate}"></td>
-                        <td class="body__cell" th:utext="${payment.link}"></td>
-                        <td class="body__cell" th:utext="${payment.phone}"></td>
-                        <td class="body__cell body__cell_bordered" th:utext="${payment.tagging}"></td>
-                        <td class="body__cell" th:utext="${payment.channel}"></td>
-                        <td class="body__cell body__cell_bordered" th:utext="${payment.community}"></td>
-                        <td class="body__cell">
-                            <form distribute-from action="#" class="channel-form" th:action="@{/payment/distributed/undistribute/}" th:method="get">
-                                <input distribute-id type="hidden" name="id" th:value="${payment.id}"/>
-                                <button distribute-submit-btn class="input-element__input input-element__input_small input-element__input_black-bord">Отдать</button>
-                            </form>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div th:unless="${filter.isAllPayments()}" class="input-element input-element_b20 input-element_t20">
-            <div class="input-element__input input-element__input_black
-                        input-element__input_max
-                        input-element__input_bg
-                        input-element__input_row">
-                <div class="input-element__link active">
-                    <a th:href="@{'/payment/distributed/page?id=' + ${filter.pageId + 1}}">Загрузить еще</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
 <div class="platform__filter">
     <div class="filter__wrapper">

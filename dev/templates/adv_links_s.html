@@ -10,9 +10,59 @@
     <link th:href="@{/css/tabs.css}" rel="stylesheet">
 </head>
 
-<body>
+<body class="page">
+
+<div class="page__content">
+    <div th:replace="base :: main-nav"></div>
+
+    <div class="platform__wrapper main-content_white-top-medium">
+        <div class="platform__header">
+            <div class="platform__title">Excel</div>
+        </div>
+
+        <div class="content-main adv-links__content">
+            <div class="content-main__wrapper content-main__wrapper_col">
+                <div class="content-main__panel panel-links content-main__panel_align content-main__panel_p content-main__panel_large content-main__panel_col">
+                    <div class="content-setting adv-nav">
+                        <div class="search-form menu-search__wrapper">
+                            <input link-search id="search" class="menu-search__input menu-search__input_small" placeholder="Поиск" >
+                            <label for="search"></label>
+                        </div>
+
+                        <div class="adv-nav__right">
+                            <button class="adv-nav__right--check-auth" title="Проверить авторизацию" type="button"></button>
+                            <button update-table class="adv-right__btn" type="submit" title="Обновить таблицы с рекламой"></button>
+                            <div js-add-link class="add-button add-button_right">Добавить ссылку на таблицу рекламы</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-main__panel content-main__panel_align content-main__panel_p content-main__panel_large content-main__panel_col">
+                    <table class="custom-table custom-table_fixed">
+                        <tbody links-table class="custom-table__body custom-table__body_white advertising-table">
+                        <tr class="custom-table__header-row">
+                            <td class="custom-table__header-col custom-table__header-col_big custom-table__header-col_30per">Назввание</td>
+                            <td class="custom-table__header-col custom-table__header-col_big custom-table__header-col_30per">Принадлежит</td>
+                            <td class="custom-table__header-col custom-table__header-col_big custom-table__header-col_30per">Ссылка</td>
+                        </tr>
+                        <tr class="custom-table__body-row link-row" th:each="advSheet : ${advSheets}" th:attr="data-id=${advSheet.id}">
+                            <td class="custom-table__body-col link-name" th:utext="${advSheet.name}"></td>
+                            <td class="custom-table__body-col" th:utext="${advSheet.advertiser}"></td>
+                            <td class="custom-table__body-col" th:utext="${advSheet.link}"></td>
+                            <td class="custom-table__body-col">
+                                <span class="link-row__remove" remove-table type="submit" onclick=""></span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
 <div th:replace="base :: dialog"></div>
-<div th:replace="base :: main-nav"></div>
 <div th:replace="base :: transition-loader"></div>
 <script th:src="@{/js/transition-loader.js}"></script>
 <script th:inline='javascript'>
@@ -20,52 +70,6 @@
     showLoader();
 /*]]>*/
 </script>
-
-<div class="platform__wrapper main-content_white-top-medium">
-    <div class="platform__header">
-        <div class="platform__title">Excel</div>
-    </div>
-
-    <div class="content-main adv-links__content">
-        <div class="content-main__wrapper content-main__wrapper_col">
-            <div class="content-main__panel panel-links content-main__panel_align content-main__panel_p content-main__panel_large content-main__panel_col">
-                <div class="content-setting adv-nav">
-                    <div class="search-form menu-search__wrapper">
-                        <input link-search id="search" class="menu-search__input menu-search__input_small" placeholder="Поиск" >
-                        <label for="search"></label>
-                    </div>
-
-                    <div class="adv-nav__right">
-                        <button class="adv-nav__right--check-auth" title="Проверить авторизацию" type="button"></button>
-                        <button update-table class="adv-right__btn" type="submit" title="Обновить таблицы с рекламой"></button>
-                        <div js-add-link class="add-button add-button_right">Добавить ссылку на таблицу рекламы</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="content-main__panel content-main__panel_align content-main__panel_p content-main__panel_large content-main__panel_col">
-                <table class="custom-table custom-table_fixed">
-                    <tbody links-table class="custom-table__body custom-table__body_white advertising-table">
-                    <tr class="custom-table__header-row">
-                        <td class="custom-table__header-col custom-table__header-col_big custom-table__header-col_30per">Назввание</td>
-                        <td class="custom-table__header-col custom-table__header-col_big custom-table__header-col_30per">Принадлежит</td>
-                        <td class="custom-table__header-col custom-table__header-col_big custom-table__header-col_30per">Ссылка</td>
-                    </tr>
-                    <tr class="custom-table__body-row link-row" th:each="advSheet : ${advSheets}" th:attr="data-id=${advSheet.id}">
-                        <td class="custom-table__body-col link-name" th:utext="${advSheet.name}"></td>
-                        <td class="custom-table__body-col" th:utext="${advSheet.advertiser}"></td>
-                        <td class="custom-table__body-col" th:utext="${advSheet.link}"></td>
-                        <td class="custom-table__body-col">
-                            <span class="link-row__remove" remove-table type="submit" onclick=""></span>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-
-</div>
 
 <div th:replace="base :: menu-add"></div>
 

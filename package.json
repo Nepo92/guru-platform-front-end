@@ -12,7 +12,10 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@babel/core": "^7.18.2",
+    "@babel/preset-env": "^7.18.2",
     "@principalstudio/html-webpack-inject-preload": "^1.2.7",
+    "babel-loader": "^8.2.5",
     "clean-webpack-plugin": "^4.0.0",
     "css-loader": "^6.7.1",
     "eslint": "^8.14.0",

@@ -67,11 +67,14 @@ class StateFromAJAX {
       case TRAFFIC:
       case ADDITIONAL:
       case A_ADVERTISING: {
-        const funnels = await dealAPI.getFunnels();
+        if (html.role !== 'ROLE_ADVERTISER') {
+          const funnels = await dealAPI.getFunnels();
 
-        this.state = {
-          funnels,
-        };
+          this.state = {
+            funnels,
+          };
+        }
+
         break;
       }
       case PAYMENT_FORM_BUILDER: {

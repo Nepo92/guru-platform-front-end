@@ -4,14 +4,72 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Способы оплаты">
 
-    <title>Способы оплаты</title>
+    <title>Счета</title>
 
     <th:block th:insert="base :: links" />
     <link th:href="@{/css/tabs.css}" rel="stylesheet">
 </head>
 
-<body class="custom-scroll">
-<div th:replace="base :: main-nav"></div>
+<body class="page custom-scroll">
+    <div class="page__content">
+        <div th:replace="base :: main-nav"></div>
+
+        <div class="platform__wrapper">
+            <div class="platform__header">
+                <h1 class="platform__title">Способы оплаты</h1>
+            </div>
+            <div class="content-main payment-method__content">
+                <div class="content-main__panel content-main__panel_large">
+                    <div js-create-row class="button button_add">Добавить</div>
+                </div>
+                <div class="content-main__wrapper payment">
+                    <div class="content-main__panel content-main__panel_align content-main__panel_p">
+                        <table class="custom-table">
+                            <tbody class="custom-table__body custom-table__body_white payment-methods__table" table-body>
+                            <tr class="custom-table__header-row payment-methods__header-row">
+                                <td class="custom-table__header-col custom-table__header-col_big payment-methods__id">#</td>
+                                <td class="custom-table__header-col custom-table__header-col_big payment-methods__icon"></td>
+                                <td class="custom-table__header-col custom-table__header-col_big payment-methods__name">Название</td>
+                                <td class="custom-table__header-col custom-table__header-col_big payment-methods__status">Статус</td>
+                                <td class="custom-table__header-col custom-table__header-col_big payment-methods__settings"></td>
+                                <td class="custom-table__header-col custom-table__header-col_big"></td>
+                            </tr>
+                            <tr class="custom-table__body-row payment-methods" th:each="paymentMethod, stat : ${paymentMethods}">
+                                <input type="hidden" pm-id th:value="${paymentMethod.id}" name="id" required>
+                                <input type="hidden" pm-idShop th:value="${paymentMethod.idShop}" required>
+                                <input type="hidden" pm-passwordShop th:value="${paymentMethod.passwordShop}" required>
+                                <input type="hidden" pm-apiKey th:value="${paymentMethod.apiCode == 0 ? 0 : paymentMethod.apiCode == '' ? '' : paymentMethod.apiCode}" name="id" required>
+                                <td class="custom-table__body-col payment-methods__id" counter th:utext="${stat.count}"></td>
+                                <td class="custom-table__body-col payment-methods__icon">
+                                    <input type="hidden" payment-code th:value="${paymentMethod.code}">
+                                    <div class="column_pmethod" th:classappend="'column_pmethod_' + ${paymentMethod.code}"></div>
+                                </td>
+                                <td class="custom-table__body-col payment-methods__name" payment-name th:utext="${paymentMethod.title}"></td>
+                                <td class="custom-table__body-col custom-table__body-col_medium payment-methods__status">
+                                    <div pm-enable-wrapper class="indicated-select menu-input__wrapper menu-input__wrapper_select disabled" th:classappend="'indicated-select_' + ${paymentMethod.isActive}">
+                                        <input type="hidden" payment-is-active th:value="${paymentMethod.isActive}">
+                                        <select pm-enable-selector disabled class="editable menu-input__input menu-input__input_medium menu-input__input_select menu-input__input_white">
+                                            <option value="true" th:selected="${true == paymentMethod.isActive}">Активен</option>
+                                            <option value="false" th:selected="${false == paymentMethod.isActive}">Не активен</option>
+                                        </select>
+                                    </div>
+                                </td>
+
+                                <td class="custom-table__body-col custom-table__body-col_last payment-methods__settings">
+                                    <div edit-menu class="column-links display-flex-none is-open">
+                                        <div edit-row-update class="column_mwidth div-table__body-col_center column_mwidth-edit column_mwidth-edit-b"></div>
+                                    </div>
+                                </td>
+                                <td title="Ссылка для вебхука" th:attrappend="data-id-shop=${paymentMethod.idShop}" th:if="${paymentMethod.apiCode != 0}" class="custom-table__body-col custom-table__body-col_last payment-methods__link"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 <div th:replace="base :: transition-loader"></div>
 <script th:src="@{/js/transition-loader.js}"></script>
 <script th:inline='javascript'>
@@ -19,61 +77,6 @@
     showLoader();
 /*]]>*/
 </script>
-
-<div class="platform__wrapper">
-    <div class="platform__header">
-        <h1 class="platform__title">Способы оплаты</h1>
-    </div>
-    <div class="content-main payment-method__content">
-        <div class="content-main__panel content-main__panel_large">
-            <div js-create-row class="button button_add">Добавить</div>
-        </div>
-        <div class="content-main__wrapper payment">
-            <div class="content-main__panel content-main__panel_align content-main__panel_p">
-                <table class="custom-table">
-                    <tbody class="custom-table__body custom-table__body_white payment-methods__table" table-body>
-                        <tr class="custom-table__header-row payment-methods__header-row">
-                            <td class="custom-table__header-col custom-table__header-col_big payment-methods__id">#</td>
-                            <td class="custom-table__header-col custom-table__header-col_big payment-methods__icon"></td>
-                            <td class="custom-table__header-col custom-table__header-col_big payment-methods__name">Название</td>
-                            <td class="custom-table__header-col custom-table__header-col_big payment-methods__status">Статус</td>
-                            <td class="custom-table__header-col custom-table__header-col_big payment-methods__settings"></td>
-                            <td class="custom-table__header-col custom-table__header-col_big"></td>
-                        </tr>
-                    <tr class="custom-table__body-row payment-methods" th:each="paymentMethod, stat : ${paymentMethods}">
-                        <input type="hidden" pm-id th:value="${paymentMethod.id}" name="id" required>
-                        <input type="hidden" pm-idShop th:value="${paymentMethod.idShop}" required>
-                        <input type="hidden" pm-passwordShop th:value="${paymentMethod.passwordShop}" required>
-                        <input type="hidden" pm-apiKey th:value="${paymentMethod.apiCode == 0 ? 0 : paymentMethod.apiCode == '' ? '' : paymentMethod.apiCode}" name="id" required>
-                        <td class="custom-table__body-col payment-methods__id" counter th:utext="${stat.count}"></td>
-                        <td class="custom-table__body-col payment-methods__icon">
-                            <input type="hidden" payment-code th:value="${paymentMethod.code}">
-                            <div class="column_pmethod" th:classappend="'column_pmethod_' + ${paymentMethod.code}"></div>
-                        </td>
-                        <td class="custom-table__body-col payment-methods__name" payment-name th:utext="${paymentMethod.title}"></td>
-                        <td class="custom-table__body-col custom-table__body-col_medium payment-methods__status">
-                            <div pm-enable-wrapper class="indicated-select menu-input__wrapper menu-input__wrapper_select disabled" th:classappend="'indicated-select_' + ${paymentMethod.isActive}">
-                                <input type="hidden" payment-is-active th:value="${paymentMethod.isActive}">
-                                <select pm-enable-selector disabled class="editable menu-input__input menu-input__input_medium menu-input__input_select menu-input__input_white">
-                                    <option value="true" th:selected="${true == paymentMethod.isActive}">Активен</option>
-                                    <option value="false" th:selected="${false == paymentMethod.isActive}">Не активен</option>
-                                </select>
-                            </div>
-                        </td>
-
-                        <td class="custom-table__body-col custom-table__body-col_last payment-methods__settings">
-                            <div edit-menu class="column-links display-flex-none is-open">
-                                <div edit-row-update class="column_mwidth div-table__body-col_center column_mwidth-edit column_mwidth-edit-b"></div>
-                            </div>
-                        </td>
-                        <td title="Ссылка для вебхука" th:attrappend="data-id-shop=${paymentMethod.idShop}" th:if="${paymentMethod.apiCode != 0}" class="custom-table__body-col custom-table__body-col_last payment-methods__link"></td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
 
 <div th:replace="base :: menu-create-row-payment"></div>
 

@@ -11,126 +11,128 @@
     <link th:href="@{/css/jquery.fancybox.min.css}" rel="stylesheet">
 </head>
 
-<body>
-<div th:replace="base :: dialog2"></div>
-<div th:replace="base :: transition-loader"></div>
-<div th:replace="base :: main-nav"></div>
-<script th:src="@{/js/transition-loader.js}"></script>
-<script th:inline='javascript'>
-    /*<![CDATA[*/
-    showLoader();
-/*]]>*/
-</script>
+<body class="page">
+    <div class="page__content">
+        <div th:replace="base :: main-nav"></div>
 
-<!--<div class="main-content main-content_pl40">-->
-<div class="main-content">
-    <!--<div th:replace="base :: advertising-nav"></div>-->
+        <div class="platform-wrapper custom-scroll">
+            <!--<div th:replace="base :: advertising-nav"></div>-->
 
-    <div class="drop-message" js-distributed-message>
-        <div class="drop-message__title">Количество выбранных транзакций <span js-distributed-count>#</span>, нажмите кнопку "забрать"</div>
+            <div class="drop-message" js-distributed-message>
+                <div class="drop-message__title">Количество выбранных транзакций <span js-distributed-count>#</span>, нажмите кнопку "забрать"</div>
 
-        <form distribute-form action="#" class="channel-form" th:action="@{/payment/distributeFew/}" th:method="post">
-            <input distribute-json type="hidden" name="jsonString" value=""/>
-            <button distribute-submit-btn class="input-element__input input-element__input_small input-element__input_black-bord pl_0">Забрать</button>
-        </form>
-    </div>
+                <form distribute-form action="#" class="channel-form" th:action="@{/payment/distributeFew/}" th:method="post">
+                    <input distribute-json type="hidden" name="jsonString" value=""/>
+                    <button distribute-submit-btn class="input-element__input input-element__input_small input-element__input_black-bord pl_0">Забрать</button>
+                </form>
+            </div>
 
-    <div class="content-top">
-        <div class="content-top__title">Распределение сделок</div>
-    </div>
-    <div class="content-main content-main_relative">
-        <div class="input-element payment-toggle input-element_b20">
-            <div class="input-element__input input-element__input_black
+            <div class="platform__header">
+                <div class="platform__title">Распределение сделок</div>
+            </div>
+            <div class="platform__content">
+                <div class="input-element payment-toggle input-element_b20">
+                    <div class="input-element__input input-element__input_black
             input-element__input_max
             input-element__input_bg
             input-element__input_row">
-                <div class="input-element__link" th:classappend="${type == 'undistributed'} ? active : ''">
-                    <a th:href="@{/payment/page?id=1}">Нераспределенные</a>
+                        <div class="input-element__link" th:classappend="${type == 'undistributed'} ? active : ''">
+                            <a th:href="@{/payment/page?id=1}">Нераспределенные</a>
+                        </div>
+                        <div class="input-element__link" th:classappend="${type == 'distributed'} ? active : ''">
+                            <a th:href="@{/payment/distributed/page?id=1}">Распределенные</a>
+                        </div>
+                    </div>
                 </div>
-                <div class="input-element__link" th:classappend="${type == 'distributed'} ? active : ''">
-                    <a th:href="@{/payment/distributed/page?id=1}">Распределенные</a>
-                </div>
-            </div>
-        </div>
 
-        <div class="payment">
-            <div class="content-main__panel content-main__panel_large statistic-payment">
-                <div class="platform__filter--btn no-selector">Фильтр</div>
-    
-                <div class="counter counter_right counter_bordered statistic-payment__counter" th:utext="${#numbers.formatInteger(payment.count,0,'WHITESPACE') + ' транзакций | ' + #numbers.formatInteger(payment.sum,0,'WHITESPACE') + ' рублей'}"></div>
-                <a th:href="@{/payment/download/payments.xlsx}" class="button button_download statistic-payment__upload">Выгрузить в таблицу</a>
-                <form js-report-form action="#" enctype="multipart/form-data">
-                    <input js-report-file accept=".xlsx" class="input-file" name="file" type="file" id="uploadReport"/>
-                    <label for="uploadReport" class="button button_download statistic-payment__download">Загрузить таблицу</label>
-                </form>
-            </div>
-            <div class="payment__wrapper">
-                <table id="is-need-sort-table" class="white-table white-table_half-top">
-                    <thead class="white-table__header">
-                    <tr class="header__row">
-                        <th class="header__text header headerSortUp">Дата оплаты</th>
-                        <th class="header__text">Менеджер</th>
-                        <th class="header__text">Курс</th>
-                        <th class="header__text">Сумма</th>
-                        <th class="header__text header headerSortUp">Клиент</th>
-                        <th class="header__text header headerSortUp">Дата обращ</th>
-                        <th class="header__text">Ссылка ВК</th>
-                        <th class="header__text">Телефон</th>
-                        <th class="header__text">Пометка</th>
-                        <th class="header__text">Подканал</th>
-                        <th class="header__text">Закуп</th>
-                        <!--<th class="header__text"></th>-->
-                    </tr>
-                    </thead>
-                    <tbody class="white-table__body">
-                    <tr class="body__row" th:each="payment, stat : ${payments}">
-                        <td class="body__cell" th:utext="${payment.paymentDate}"></td>
-                        <td class="body__cell" th:utext="${payment.name}"></td>
-                        <td class="body__cell" th:utext="${payment.course}"></td>
-                        <td class="body__cell body__cell_bordered" th:utext="${#numbers.formatInteger(payment.sum,0,'WHITESPACE') + ' ₽'}"></td>
-                        <td th:attr="title=${payment.client}" class="body__cell body__cell_small" th:utext="${payment.client}"></td>
-                        <td class="body__cell" th:utext="${payment.dealDate}"></td>
-                        <td th:attr="title=${payment.link}" class="body__cell" th:utext="${payment.link}"></td>
-                        <td th:attr="title=${payment.phone}" class="body__cell" th:utext="${payment.phone}"></td>
-                        <td th:attr="title=${payment.tagging}" class="body__cell body__cell_bordered" th:utext="${payment.tagging}"></td>
-                        <td class="body__cell">
-                            <select js-menu-channel class="input-element__input input-element__input_medium">
-                                <option disabled value selected>Выберите подканал</option>
-                                <th:block th:each="channel, stat : ${channels}">
-                                    <option th:value="${'channel' + stat.index}" th:utext="${channel.key}"></option>
-                                </th:block>
-                                <option value="unknown">Неопределен</option>
-                            </select>
-                            <input distribute-id type="hidden" name="id" th:value="${payment.id}"/>
-                        </td>
-                        <td class="body__cell body__cell_bordered">
-                            <input disabled js-menu-button class="input-element__input input-element__input_cursor input-element__input_medium" placeholder="Выберите закуп">
-                        </td>
-                        <!--<td class="body__cell">-->
-                            <!--<form distribute-from action="#" class="channel-form" th:action="@{/payment/distribute/}" th:method="get">-->
+                <div class="payment">
+                    <div class="content-main__panel content-main__panel_large statistic-payment">
+                        <div class="platform__filter--btn no-selector">Фильтр</div>
+
+                        <div class="counter counter_right counter_bordered statistic-payment__counter" th:utext="${#numbers.formatInteger(payment.count,0,'WHITESPACE') + ' транзакций | ' + #numbers.formatInteger(payment.sum,0,'WHITESPACE') + ' рублей'}"></div>
+                        <a th:href="@{/payment/download/payments.xlsx}" class="button button_download statistic-payment__upload">Выгрузить в таблицу</a>
+                        <form js-report-form action="#" enctype="multipart/form-data">
+                            <input js-report-file accept=".xlsx" class="input-file" name="file" type="file" id="uploadReport"/>
+                            <label for="uploadReport" class="button button_download statistic-payment__download">Загрузить таблицу</label>
+                        </form>
+                    </div>
+                    <div class="payment__wrapper advertiser-table">
+                        <table id="is-need-sort-table" class="white-table white-table_half-top">
+                            <thead class="white-table__header">
+                            <tr class="header__row">
+                                <th class="header__text header headerSortUp">Дата оплаты</th>
+                                <th class="header__text">Менеджер</th>
+                                <th class="header__text">Курс</th>
+                                <th class="header__text">Сумма</th>
+                                <th class="header__text header headerSortUp">Клиент</th>
+                                <th class="header__text header headerSortUp">Дата обращ</th>
+                                <th class="header__text">Ссылка ВК</th>
+                                <th class="header__text">Телефон</th>
+                                <th class="header__text">Пометка</th>
+                                <th class="header__text">Подканал</th>
+                                <th class="header__text">Закуп</th>
+                                <!--<th class="header__text"></th>-->
+                            </tr>
+                            </thead>
+                            <tbody class="white-table__body">
+                            <tr class="body__row" th:each="payment, stat : ${payments}">
+                                <td class="body__cell" th:utext="${payment.paymentDate}"></td>
+                                <td class="body__cell" th:utext="${payment.name}"></td>
+                                <td class="body__cell" th:utext="${payment.course}"></td>
+                                <td class="body__cell body__cell_bordered" th:utext="${#numbers.formatInteger(payment.sum,0,'WHITESPACE') + ' ₽'}"></td>
+                                <td th:attr="title=${payment.client}" class="body__cell body__cell_small" th:utext="${payment.client}"></td>
+                                <td class="body__cell" th:utext="${payment.dealDate}"></td>
+                                <td th:attr="title=${payment.link}" class="body__cell" th:utext="${payment.link}"></td>
+                                <td th:attr="title=${payment.phone}" class="body__cell" th:utext="${payment.phone}"></td>
+                                <td th:attr="title=${payment.tagging}" class="body__cell body__cell_bordered" th:utext="${payment.tagging}"></td>
+                                <td class="body__cell">
+                                    <select js-menu-channel class="input-element__input input-element__input_medium">
+                                        <option disabled value selected>Выберите подканал</option>
+                                        <th:block th:each="channel, stat : ${channels}">
+                                            <option th:value="${'channel' + stat.index}" th:utext="${channel.key}"></option>
+                                        </th:block>
+                                        <option value="unknown">Неопределен</option>
+                                    </select>
+                                    <input distribute-id type="hidden" name="id" th:value="${payment.id}"/>
+                                </td>
+                                <td class="body__cell body__cell_bordered">
+                                    <input disabled js-menu-button class="input-element__input input-element__input_cursor input-element__input_medium" placeholder="Выберите закуп">
+                                </td>
+                                <!--<td class="body__cell">-->
+                                <!--<form distribute-from action="#" class="channel-form" th:action="@{/payment/distribute/}" th:method="get">-->
                                 <!--<input distribute-id type="hidden" name="billNumber" th:value="${payment.id}"/>-->
                                 <!--<input distribute-id-channel type="hidden" name="idChannel" value="" required/>-->
                                 <!--<input distribute-channel type="hidden" name="channel" value="" required/>-->
                                 <!--<button distribute-submit-btn class="input-element__input input-element__input_small input-element__input_black-bord">Забрать</button>-->
-                            <!--</form>-->
-                        <!--</td>-->
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div th:unless="${filter.isAllPayments()}" class="input-element input-element_b20 input-element_t20">
-            <div class="input-element__input input-element__input_black
+                                <!--</form>-->
+                                <!--</td>-->
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div th:unless="${filter.isAllPayments()}" class="input-element input-element_b20 input-element_t20">
+                    <div class="input-element__input input-element__input_black
                         input-element__input_max
                         input-element__input_bg
                         input-element__input_row">
-                <div class="input-element__link active">
-                    <a th:href="@{'/payment/page?id=' + ${filter.pageId + 1}}">Загрузить еще</a>
+                        <div class="input-element__link active">
+                            <a th:href="@{'/payment/page?id=' + ${filter.pageId + 1}}">Загрузить еще</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+
+<div th:replace="base :: dialog2"></div>
+<div th:replace="base :: transition-loader"></div>
+<script th:src="@{/js/transition-loader.js}"></script>
+<script th:inline='javascript'>
+    /*<![CDATA[*/
+    showLoader();
+    /*]]>*/
+</script>
 
 <div th:replace="base :: menu-js-menu-payment"></div>
 

@@ -12,9 +12,139 @@
     <link th:href="@{/css/jquery.fancybox.min.css}" rel="stylesheet">
 </head>
 
-<body class="custom-scroll">
+<body class="page custom-scroll">
+    <div class="page__content">
+        <div th:replace="base :: main-nav"></div>
+
+        <div class="main-content main-content_white-top-medium">
+            <div class="platform__header">
+                <h1 class="platform__title">Контроль</h1>
+                <div th:replace="base :: performance-assessment-tab"></div>
+            </div>
+            <div class="content-main history">
+                <div class="content-main__panel content-main__panel_large history-panel">
+                    <div class="platform__nav">
+                        <div class="platform__nav--right">
+                            <div class="platform__filter--btn no-selector">Фильтр</div>
+                            <form search-client-form action="#" th:action="@{/performance-assessment/history/}"
+                                  th:object="${filter}"
+                                  th:method="post" class="platform__search">
+                                <input th:field="*{searchRow}" search-client id="searchClient"
+                                       class="platform__input--search"
+                                       placeholder="Введите № сделки">
+                                <label search-client-btn for="searchClient" class="platform__search--start"
+                                       th:classappend="${#strings.isEmpty(filter.searchRow) == true}? '' : 'active'"></label>
+                            </form>
+                        </div>
+                        <div class="platform__nav--left">
+                            <div class="counter counter_right--history-estimation" th:utext="
+             'всего оценённых сделок: ' + ${ratesCount.count} +
+             ' / средняя оценка: ' + ${ratesCount.score}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-main__wrapper">
+                    <div class="content-main__panel content-main__panel_align content-main__panel_p content-main__payment">
+                        <table class="custom-table platform-table">
+                            <tbody class="custom-table__body custom-table__body_white estimation-work">
+                            <tr class="custom-table__header-row">
+                                <td class="custom-table__header-col custom-table__header-col_big">Дата оценки</td>
+                                <td class="custom-table__header-col custom-table__header-col_big">Кто проверил</td>
+                                <td class="custom-table__header-col custom-table__header-col_xsmall custom-table__header-col_big">
+                                    Кому
+                                    поставили
+                                </td>
+                                <td class="custom-table__header-col custom-table__header-col_big">Что оценили</td>
+                                <td class="custom-table__header-col custom-table__header-col_big">Список</td>
+                                <td class="custom-table__header-col custom-table__header-col_big">Оценки по пунктам</td>
+                            </tr>
+                            <tr class="custom-table__body-row" th:attr="data-rate=${rate.id}"
+                                th:each="rate : ${rates.pageItems}">
+                                <td class="custom-table__body-col" th:utext="${rate.createDate}"></td>
+                                <td class="custom-table__body-col">&mdash;</td>
+                                <td class="custom-table__body-col" th:utext="${rate.managerName}"></td>
+                                <td class="custom-table__body-col" th:utext="${rate.productName}"></td>
+                                <td class="custom-table__body-col" th:utext="${rate.performanceAssessmentTemplateName}"></td>
+                                <td class="custom-table__body-col">
+                                    <div class="cell-wrapper estimation-work__list">
+                                        <th:block th:each="item : ${rate.items}">
+                                            <div class="cell-number c-tooltip"
+                                                 th:classappend="${item.score > 0} ? 'cell-number_green' : (${item.score < 0} ? 'cell-number_red' : '')">
+                                                <div class="c-tooltip__wrapper">
+                                                    <div class="c-tooltip__text" th:utext="${item.itemName}"></div>
+                                                </div>
+                                                <span th:utext="${item.score}"></span>
+                                            </div>
+                                        </th:block>
+                                    </div>
+                                    <!-- <div class="estimation-list">
+                                      <div class="estimation-list__item" th:each="estimation : ${rate.items}">
+                                        <span><span th:utext="${estimation.itemName}"></span></span>
+                                        <span><span th:utext="${estimation.score}"></span></span>
+                                      </div>
+                                    </div> -->
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="pagination" th:if="${rates.pagesAvailable > 1}" th:with="left=4,right=5">
+                            <div class="pagination__wrapper">
+                                <a th:attrappend="href=${rates.pageNumber - 1 > 0} ? 'page?id=' + ${rates.pageNumber - 1} : ''"
+                                   th:classappend="${rates.pageNumber - 1} == 0 ? 'active' : ''"
+                                   class="pagination__elem pagination__elem_prev"></a>
+                                <th:block th:if="${rates.pagesAvailable <= 10}"
+                                          th:with="start=1,end=${rates.pagesAvailable}">
+                                    <th:block th:each="i : ${#numbers.sequence(start,end)}">
+                                        <a th:attrappend="href='page?id=' + ${i}"
+                                           th:classappend="${rates.pageNumber == i} ? 'active' : ''"
+                                           th:utext="${i}" class="pagination__elem"></a>
+                                    </th:block>
+                                </th:block>
+                                <th:block th:unless="${rates.pagesAvailable <= 10}">
+                                    <th:block
+                                        th:if="${rates.pageNumber > left && rates.pageNumber < (rates.pagesAvailable - right)}"
+                                        th:with="start=${rates.pageNumber - left},end=${rates.pageNumber + right}">
+                                        <th:block th:each="i : ${#numbers.sequence(start,end)}">
+                                            <a th:attrappend="href='page?id=' + ${i}"
+                                               th:classappend="${rates.pageNumber == i} ? 'active' : ''"
+                                               th:utext="${i}" class="pagination__elem"></a>
+                                        </th:block>
+                                    </th:block>
+                                    <th:block th:if="${rates.pageNumber <= left}"
+                                              th:with="start=1,end=${rates.pageNumber + (right + 1 + left - rates.pageNumber)}">
+                                        <th:block th:each="i : ${#numbers.sequence(start,end)}">
+                                            <a th:attrappend="href='page?id=' + ${i}"
+                                               th:classappend="${rates.pageNumber == i} ? 'active' : ''"
+                                               th:utext="${i}" class="pagination__elem"></a>
+                                        </th:block>
+                                    </th:block>
+                                    <th:block
+                                        th:unless="${(rates.pageNumber > left && rates.pageNumber < (rates.pagesAvailable - right)) || (rates.pageNumber <= left)}"
+                                        th:with="start=${rates.pageNumber - (left + right - (rates.pagesAvailable - rates.pageNumber))},end=${rates.pagesAvailable}">
+                                        <th:block th:each="i : ${#numbers.sequence(start,end)}">
+                                            <a th:attrappend="href='page?id=' + ${i}"
+                                               th:classappend="${rates.pageNumber == i} ? 'active' : ''"
+                                               th:utext="${i}" class="pagination__elem"></a>
+                                        </th:block>
+                                    </th:block>
+                                </th:block>
+
+                                <a th:attrappend="href=${rates.pageNumber + 1 <= rates.pagesAvailable } ? 'page?id=' + ${rates.pageNumber + 1} : ''"
+                                   th:classappend="${rates.pageNumber + 1 > rates.pagesAvailable} ? 'active' : ''"
+                                   class="pagination__elem pagination__elem_next"></a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 <div th:replace="base :: dialog"></div>
-<div th:replace="base :: main-nav"></div>
 <div th:replace="base :: transition-loader"></div>
 <script th:src="@{/js/transition-loader.js}"></script>
 <script th:inline='javascript'>
@@ -22,135 +152,6 @@
     showLoader();
 /*]]>*/
 </script>
-
-<div class="main-content main-content_white-top-medium">
-    <div class="platform__header">
-        <h1 class="platform__title">Контроль</h1>
-        <div th:replace="base :: performance-assessment-tab"></div>
-    </div>
-    <div class="content-main history">
-        <div class="content-main__panel content-main__panel_large history-panel">
-                <div class="platform__nav">
-                    <div class="platform__nav--right">
-                        <div class="platform__filter--btn no-selector">Фильтр</div>
-                        <form search-client-form action="#" th:action="@{/performance-assessment/history/}"
-                              th:object="${filter}"
-                              th:method="post" class="search-form menu-search__wrapper">
-                            <input th:field="*{searchRow}" search-client id="searchClient"
-                                   class="menu-search__input menu-search__input_search"
-                                   placeholder="Введите № сделки">
-                            <label th:classappend="${#strings.isEmpty(filter.searchRow)} ? 'is-open' : ''" search-client-btn
-                                   for="searchClient" class="menu-input_close"></label>
-                            <label th:classappend="${#strings.isEmpty(filter.searchRow)} ? '' : 'is-open'" search-client-clear
-                                   class="clear menu-input_close"></label>
-                        </form>
-                    </div>
-                    <div class="platform__nav--left">
-                        <div class="counter counter_right--history-estimation" th:utext="
-             'всего оценённых сделок: ' + ${ratesCount.count} +
-             ' / средняя оценка: ' + ${ratesCount.score}">
-                        </div>
-                    </div>
-            </div>
-        </div>
-
-        <div class="content-main__wrapper">
-            <div class="content-main__panel content-main__panel_align content-main__panel_p content-main__payment">
-                <table class="custom-table platform-table">
-                    <tbody class="custom-table__body custom-table__body_white estimation-work">
-                    <tr class="custom-table__header-row">
-                        <td class="custom-table__header-col custom-table__header-col_big">Дата оценки</td>
-                        <td class="custom-table__header-col custom-table__header-col_big">Кто проверил</td>
-                        <td class="custom-table__header-col custom-table__header-col_xsmall custom-table__header-col_big">
-                            Кому
-                            поставили
-                        </td>
-                        <td class="custom-table__header-col custom-table__header-col_big">Что оценили</td>
-                        <td class="custom-table__header-col custom-table__header-col_big">Список</td>
-                        <td class="custom-table__header-col custom-table__header-col_big">Оценки по пунктам</td>
-                    </tr>
-                    <tr class="custom-table__body-row" th:attr="data-rate=${rate.id}"
-                        th:each="rate : ${rates.pageItems}">
-                        <td class="custom-table__body-col" th:utext="${rate.createDate}"></td>
-                        <td class="custom-table__body-col">&mdash;</td>
-                        <td class="custom-table__body-col" th:utext="${rate.managerName}"></td>
-                        <td class="custom-table__body-col" th:utext="${rate.productName}"></td>
-                        <td class="custom-table__body-col" th:utext="${rate.performanceAssessmentTemplateName}"></td>
-                        <td class="custom-table__body-col">
-                            <div class="cell-wrapper estimation-work__list">
-                                <th:block th:each="item : ${rate.items}">
-                                    <div class="cell-number c-tooltip"
-                                         th:classappend="${item.score > 0} ? 'cell-number_green' : (${item.score < 0} ? 'cell-number_red' : '')">
-                                        <div class="c-tooltip__wrapper">
-                                            <div class="c-tooltip__text" th:utext="${item.itemName}"></div>
-                                        </div>
-                                        <span th:utext="${item.score}"></span>
-                                    </div>
-                                </th:block>
-                            </div>
-                            <!-- <div class="estimation-list">
-                              <div class="estimation-list__item" th:each="estimation : ${rate.items}">
-                                <span><span th:utext="${estimation.itemName}"></span></span>
-                                <span><span th:utext="${estimation.score}"></span></span>
-                              </div>
-                            </div> -->
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-
-                <div class="pagination" th:if="${rates.pagesAvailable > 1}" th:with="left=4,right=5">
-                    <div class="pagination__wrapper">
-                        <a th:attrappend="href=${rates.pageNumber - 1 > 0} ? 'page?id=' + ${rates.pageNumber - 1} : ''"
-                           th:classappend="${rates.pageNumber - 1} == 0 ? 'active' : ''"
-                           class="pagination__elem pagination__elem_prev"></a>
-                        <th:block th:if="${rates.pagesAvailable <= 10}"
-                                  th:with="start=1,end=${rates.pagesAvailable}">
-                            <th:block th:each="i : ${#numbers.sequence(start,end)}">
-                                <a th:attrappend="href='page?id=' + ${i}"
-                                   th:classappend="${rates.pageNumber == i} ? 'active' : ''"
-                                   th:utext="${i}" class="pagination__elem"></a>
-                            </th:block>
-                        </th:block>
-                        <th:block th:unless="${rates.pagesAvailable <= 10}">
-                            <th:block
-                                    th:if="${rates.pageNumber > left && rates.pageNumber < (rates.pagesAvailable - right)}"
-                                    th:with="start=${rates.pageNumber - left},end=${rates.pageNumber + right}">
-                                <th:block th:each="i : ${#numbers.sequence(start,end)}">
-                                    <a th:attrappend="href='page?id=' + ${i}"
-                                       th:classappend="${rates.pageNumber == i} ? 'active' : ''"
-                                       th:utext="${i}" class="pagination__elem"></a>
-                                </th:block>
-                            </th:block>
-                            <th:block th:if="${rates.pageNumber <= left}"
-                                      th:with="start=1,end=${rates.pageNumber + (right + 1 + left - rates.pageNumber)}">
-                                <th:block th:each="i : ${#numbers.sequence(start,end)}">
-                                    <a th:attrappend="href='page?id=' + ${i}"
-                                       th:classappend="${rates.pageNumber == i} ? 'active' : ''"
-                                       th:utext="${i}" class="pagination__elem"></a>
-                                </th:block>
-                            </th:block>
-                            <th:block
-                                    th:unless="${(rates.pageNumber > left && rates.pageNumber < (rates.pagesAvailable - right)) || (rates.pageNumber <= left)}"
-                                    th:with="start=${rates.pageNumber - (left + right - (rates.pagesAvailable - rates.pageNumber))},end=${rates.pagesAvailable}">
-                                <th:block th:each="i : ${#numbers.sequence(start,end)}">
-                                    <a th:attrappend="href='page?id=' + ${i}"
-                                       th:classappend="${rates.pageNumber == i} ? 'active' : ''"
-                                       th:utext="${i}" class="pagination__elem"></a>
-                                </th:block>
-                            </th:block>
-                        </th:block>
-
-                        <a th:attrappend="href=${rates.pageNumber + 1 <= rates.pagesAvailable } ? 'page?id=' + ${rates.pageNumber + 1} : ''"
-                           th:classappend="${rates.pageNumber + 1 > rates.pagesAvailable} ? 'active' : ''"
-                           class="pagination__elem pagination__elem_next"></a>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-</div>
 
 <div class="platform__filter">
     <div class="filter__wrapper">

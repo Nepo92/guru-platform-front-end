@@ -9,8 +9,55 @@
     <th:block th:insert="base :: links"/>
 </head>
 
-<body class="custom-scroll">
-<div th:replace="base :: main-nav"></div>
+<body class="page custom-scroll">
+    <div class="page__content">
+        <div th:replace="base :: main-nav"></div>
+
+        <div class="platform__wrapper tracker">
+            <div class="platform__header tracker__top">
+                <div class="platform__title tracker__title">
+                    Рабочие часы
+                </div>
+            </div>
+
+            <div class="tracker__filter">
+                <form th:action="@{/work-tracker/}" th:object="${filter}" th:method="post" class="tracker-filter__form">
+
+                    <div class="menu-input__wrapper menu-input__wrapper_select tracker-select__wrapper">
+                        <select tracker-year name="year"
+                                class="tracker__year menu-input__input menu-input__input_small menu-input__input_select">
+                            <option selected value="0">Выберите год</option>
+                            <option th:value="${year}" th:each="year : ${yearOptions}" th:text="${year}"></option>
+                        </select>
+                    </div>
+
+                    <div class="menu-input__wrapper menu-input__wrapper_select tracker-select__wrapper">
+                        <select tracker-month name="month"
+                                class="tracker__month menu-input__input menu-input__input_small menu-input__input_select">
+                            <option selected value="0">Выберите месяц</option>
+                            <option value="1">Январь</option>
+                            <option value="2">Февраль</option>
+                            <option value="3">Март</option>
+                            <option value="4">Апрель</option>
+                            <option value="5">Май</option>
+                            <option value="6">Июнь</option>
+                            <option value="7">Июль</option>
+                            <option value="8">Август</option>
+                            <option value="9">Сентябрь</option>
+                            <option value="10">Октябрь</option>
+                            <option value="11">Ноябрь</option>
+                            <option value="12">Декабрь</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+
+            <div class="tracker__content" tables-wrapper>
+
+            </div>
+        </div>
+    </div>
+
 <div th:replace="base :: transition-loader"></div>
 <script th:src="@{/js/transition-loader.js}"></script>
 <script th:inline='javascript'>
@@ -18,50 +65,6 @@
     showLoader();
 /*]]>*/
 </script>
-
-<div class="platform__wrapper tracker">
-    <div class="platform__header tracker__top">
-        <div class="platform__title tracker__title">
-            Рабочие часы
-        </div>
-    </div>
-
-    <div class="tracker__filter">
-        <form th:action="@{/work-tracker/}" th:object="${filter}" th:method="post" class="tracker-filter__form">
-
-            <div class="menu-input__wrapper menu-input__wrapper_select tracker-select__wrapper">
-                <select tracker-year name="year"
-                        class="tracker__year menu-input__input menu-input__input_small menu-input__input_select">
-                    <option selected value="0">Выберите год</option>
-                    <option th:value="${year}" th:each="year : ${yearOptions}" th:text="${year}"></option>
-                </select>
-            </div>
-
-            <div class="menu-input__wrapper menu-input__wrapper_select tracker-select__wrapper">
-                <select tracker-month name="month"
-                        class="tracker__month menu-input__input menu-input__input_small menu-input__input_select">
-                    <option selected value="0">Выберите месяц</option>
-                    <option value="1">Январь</option>
-                    <option value="2">Февраль</option>
-                    <option value="3">Март</option>
-                    <option value="4">Апрель</option>
-                    <option value="5">Май</option>
-                    <option value="6">Июнь</option>
-                    <option value="7">Июль</option>
-                    <option value="8">Август</option>
-                    <option value="9">Сентябрь</option>
-                    <option value="10">Октябрь</option>
-                    <option value="11">Ноябрь</option>
-                    <option value="12">Декабрь</option>
-                </select>
-            </div>
-        </form>
-    </div>
-
-    <div class="tracker__content" tables-wrapper>
-
-    </div>
-</div>
 
 <div th:replace="base :: tracker-settings"></div>
 

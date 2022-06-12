@@ -7,106 +7,110 @@
 	<title>Блоки</title>
 </head>
 
-<body>
-	<div th:replace="base :: user-nav"></div>
-	<div th:replace="base :: user-mobile-nav"></div>
+<body class="page">
+	<div class="page__content">
+		<div th:replace="base :: user-nav"></div>
+		<div th:replace="base :: user-mobile-nav"></div>
 
-	<div class="body__wrapper modules">
-		<div class="body__header modules-header">
-			<header class="header modules-header__inner">
-				<div class="header__box block modules-header__box">
-					<div class="header__wrapper block-wrapper">
-						<div class="header__main">
-							<div class="header__items">
-								<div class="header__items-wrapper">
-									<div class="header__item header__item_title">
-										<h3>Блоки курса</h3>
-									</div>
-									<div class="header__item header__item_btn">
-										<a href="/user/courses/" class="btn btn_outline">
-											<div class="btn__content btn__content_large">
+		<div class="platform__wrapper custom-scroll courses">
+			<div class="body__wrapper modules">
+				<div class="body__header modules-header">
+					<header class="header modules-header__inner">
+						<div class="header__box block modules-header__box">
+							<div class="header__wrapper block-wrapper">
+								<div class="header__main">
+									<div class="header__items">
+										<div class="header__items-wrapper">
+											<div class="header__item header__item_title">
+												<h3>Блоки курса</h3>
+											</div>
+											<div class="header__item header__item_btn">
+												<a href="/user/courses/" class="btn btn_outline">
+													<div class="btn__content btn__content_large">
 												<span class="btn__title btn__title_small btn__icon btn__icon_arrow-left">
 													<span class="btn_title-text btn_title-text_small">Вернуться в
 														каталог</span>
 												</span>
-											</div>
-										</a>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</header>
-		</div>
-
-		<div class="body__content modules-content">
-			<div class="modules-content__inner block -gap-inner-bottom_5">
-
-				<a class="back" href="/user/courses/">
-					<span class="back__icon"></span>
-					<span class="back__text">Назад к списку курсов</span>
-				</a>
-
-				<th:block th:if="${#lists.size(banner)}">
-					<a target="_blank" rel="noopener noreferrer" class="modules__banner mobile" th:href="${banner[0].link}">
-						<img class="modules-banner__link" th:src="${'/' + banner[#lists.size(banner) - 1].mobileImagePath}">
-					</a>
-					<a target="_blank" rel="noopener noreferrer" class="modules__banner desktop blocks"
-						th:href="${banner[0].link}">
-						<img class="modules-banner__link" th:src="${'/' + banner[#lists.size(banner) - 1].mainImagePath}">
-					</a>
-
-					<div class="block-delimiter delimiter-blocks"></div>
-				</th:block>
-
-				<div class="modules-content__wrapper mt_20">
-					<div class="modules__main modules-main">
-						<th:block th:each="block, stat : ${blocks}">
-							<div class="content-element part-item">
-								<div class="part-item__inner">
-									<img class="part-item__img" th:src="'/' + ${block.courseBlock.filePath}" alt="img">
-									<div class="part-item__right part-right">
-										<div class="part-right__header">
-											<div class="part-right__id">
-												<span class="part-right__id-value" th:utext="${stat.count}"></span>
-											</div>
-											<div class="part-right__about">
-												<p class="part-right__title" th:utext="${block.courseBlock.name}"></p>
-												<ul class="part-right__content part-content blocks__modules">
-													<li class="module__stat">
-														<span class="part-content__icon"></span>
-														<span class="part-content__type blocks-modules__text"
-															th:utext="${block.courseBlock.modulesCount} + ' модулей'"></span>
-													</li>
-													<li class="part-content__item blocks-lesson">
-														<span class="part-content__icon"></span>
-														<span class="part-content__type blocks-lesson__text"
-															th:utext="${block.courseBlock.lessonsCount + block.courseBlock.homeworkCount} + ' уроков'"></span>
-													</li>
-													<li class="part-content__item block-stat blocks__homework">
-														<span class="part-content__icon"></span>
-														<span class="part-content__type homework-type"
-															th:utext="${block.courseBlock.homeworkCount} + ' домашних заданий'"></span>
-													</li>
-												</ul>
-											</div>
-										</div>
-										<div class="part-item__column">
-											<div class="part-right__description" th:utext="${block.courseBlock.description}">
-											</div>
-
-											<div class="part-right__status part-status">
-												<a th:href="'/user/courses/' + ${idDeal} + '/byTariff/' + ${block.courseBlock.id} + '/'"
-													class="part-status__btn">
-													Перейти к модулям
+													</div>
 												</a>
 											</div>
 										</div>
 									</div>
 								</div>
 							</div>
+						</div>
+					</header>
+				</div>
+
+				<div class="body__content modules-content">
+					<div class="modules-content__inner block -gap-inner-bottom_5">
+
+						<a class="back" href="/user/courses/">
+							<span class="back__icon"></span>
+							<span class="back__text">Назад к списку курсов</span>
+						</a>
+
+						<th:block th:if="${#lists.size(banner)}">
+							<a target="_blank" rel="noopener noreferrer" class="modules__banner mobile" th:href="${banner[0].link}">
+								<img class="modules-banner__link" th:src="${'/' + banner[#lists.size(banner) - 1].mobileImagePath}">
+							</a>
+							<a target="_blank" rel="noopener noreferrer" class="modules__banner desktop blocks"
+								 th:href="${banner[0].link}">
+								<img class="modules-banner__link" th:src="${'/' + banner[#lists.size(banner) - 1].mainImagePath}">
+							</a>
+
+							<div class="block-delimiter delimiter-blocks"></div>
 						</th:block>
+
+						<div class="modules-content__wrapper mt_20">
+							<div class="modules__main modules-main">
+								<th:block th:each="block, stat : ${blocks}">
+									<div class="content-element part-item">
+										<div class="part-item__inner">
+											<img class="part-item__img" th:src="'/' + ${block.courseBlock.filePath}" alt="img">
+											<div class="part-item__right part-right">
+												<div class="part-right__header">
+													<div class="part-right__id">
+														<span class="part-right__id-value" th:utext="${stat.count}"></span>
+													</div>
+													<div class="part-right__about">
+														<p class="part-right__title" th:utext="${block.courseBlock.name}"></p>
+														<ul class="part-right__content part-content blocks__modules">
+															<li class="module__stat">
+																<span class="part-content__icon"></span>
+																<span class="part-content__type blocks-modules__text"
+																			th:utext="${block.courseBlock.modulesCount} + ' модулей'"></span>
+															</li>
+															<li class="part-content__item blocks-lesson">
+																<span class="part-content__icon"></span>
+																<span class="part-content__type blocks-lesson__text"
+																			th:utext="${block.courseBlock.lessonsCount + block.courseBlock.homeworkCount} + ' уроков'"></span>
+															</li>
+															<li class="part-content__item block-stat blocks__homework">
+																<span class="part-content__icon"></span>
+																<span class="part-content__type homework-type"
+																			th:utext="${block.courseBlock.homeworkCount} + ' домашних заданий'"></span>
+															</li>
+														</ul>
+													</div>
+												</div>
+												<div class="part-item__column">
+													<div class="part-right__description" th:utext="${block.courseBlock.description}">
+													</div>
+
+													<div class="part-right__status part-status">
+														<a th:href="'/user/courses/' + ${idDeal} + '/byTariff/' + ${block.courseBlock.id} + '/'"
+															 class="part-status__btn">
+															Перейти к модулям
+														</a>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</th:block>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>

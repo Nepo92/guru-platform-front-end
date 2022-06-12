@@ -10,53 +10,56 @@
     <th:block th:insert="base :: links" />
 </head>
 
-<body class="custom-scroll">
-<div th:replace="base :: main-nav"></div>
-<div th:replace="base :: transition-loader"></div>
+<body class="page custom-scroll">
+    <div class="page__content">
+        <div th:replace="base :: main-nav"></div>
+        <div th:replace="base :: transition-loader"></div>
+
+        <div class="platform__wrapper">
+            <div class="platform__header">
+                <h1 class="platform__title" th:utext="${title}"></h1>
+            </div>
+            <div class="content-main article-container">
+                <div js-create-article class="add-button add-button_right add-button_black content-top__add-button">Добавить мероприятие</div>
+                <th:block th:each="article, cnt : ${articles}">
+                    <th:block th:unless="${article.editable}">
+                        <div class="theme">
+                            <div class="theme-wrapper theme-wrapper_row">
+                                <div class="theme__text-wrapper">
+                                    <img th:if="${article.kind == 1}" class="article__img" th:src="'/' + ${article.previewImg}">
+                                    <img th:if="${article.kind == 2}" js-open-article class="article__img article__img_modal" th:src="'/' + ${article.previewImg}">
+                                    <a th:if="${article.kind == 3}" target="_blank" th:href="${article.link}">
+                                        <img class="article__img" th:src="'/' + ${article.previewImg}">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </th:block>
+                    <th:block th:if="${article.editable}">
+                        <div class="theme" th:attr="data-article=${article.id}">
+                            <div class="theme-wrapper theme-wrapper_row">
+                                <div class="theme__text-wrapper">
+                                    <img th:if="${article.kind == 1}" class="article__img" th:src="'/' + ${article.previewImg}">
+                                    <img th:if="${article.kind == 2}" js-open-article class="article__img article__img_modal" th:src="'/' + ${article.previewImg}">
+                                    <a th:if="${article.kind == 3}" target="_blank" th:href="${article.link}">
+                                        <img class="article__img" th:src="'/' + ${article.previewImg}">
+                                    </a>
+                                </div>
+                                <div js-update-article class="theme-setting theme-setting_top theme-setting_big"></div>
+                            </div>
+                        </div>
+                    </th:block>
+                </th:block>
+            </div>
+        </div>
+    </div>
+
 <script th:src="@{/js/transition-loader.js}"></script>
 <script th:inline='javascript'>
     /*<![CDATA[*/
     showLoader();
 /*]]>*/
 </script>
-
-<div class="platform__wrapper">
-    <div class="platform__header">
-            <h1 class="platform__title" th:utext="${title}"></h1>
-    </div>
-    <div class="content-main article-container">
-        <div js-create-article class="add-button add-button_right add-button_black content-top__add-button">Добавить мероприятие</div>
-        <th:block th:each="article, cnt : ${articles}">
-            <th:block th:unless="${article.editable}">
-                <div class="theme">
-                    <div class="theme-wrapper theme-wrapper_row">
-                        <div class="theme__text-wrapper">
-                            <img th:if="${article.kind == 1}" class="article__img" th:src="'/' + ${article.previewImg}">
-                            <img th:if="${article.kind == 2}" js-open-article class="article__img article__img_modal" th:src="'/' + ${article.previewImg}">
-                            <a th:if="${article.kind == 3}" target="_blank" th:href="${article.link}">
-                                <img class="article__img" th:src="'/' + ${article.previewImg}">
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </th:block>
-            <th:block th:if="${article.editable}">
-                <div class="theme" th:attr="data-article=${article.id}">
-                    <div class="theme-wrapper theme-wrapper_row">
-                        <div class="theme__text-wrapper">
-                            <img th:if="${article.kind == 1}" class="article__img" th:src="'/' + ${article.previewImg}">
-                            <img th:if="${article.kind == 2}" js-open-article class="article__img article__img_modal" th:src="'/' + ${article.previewImg}">
-                            <a th:if="${article.kind == 3}" target="_blank" th:href="${article.link}">
-                                <img class="article__img" th:src="'/' + ${article.previewImg}">
-                            </a>
-                        </div>
-                        <div js-update-article class="theme-setting theme-setting_top theme-setting_big"></div>
-                    </div>
-                </div>
-            </th:block>
-        </th:block>
-    </div>
-</div>
 
 <div th:replace="base :: menu-create-article-events"></div>
 <div th:replace="base :: menu-open-article"></div>

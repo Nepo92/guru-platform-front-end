@@ -29,10 +29,6 @@
   display: none !important;
 }
 
-.main-content {
-  margin-left: 70px;
-}
-
 .content-main {
   margin-left: 40px;
   margin-top: 20px;
@@ -11474,6 +11470,7 @@ div[js-menu-create-deal] {
 
 .payment-wrapper__distributed {
   flex-direction: column;
+  width: 100%;
 }
 
 .fs_11 {

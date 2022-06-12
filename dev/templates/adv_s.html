@@ -10,41 +10,35 @@
     <th:block th:insert="base :: links" />
 </head>
 
-<body class="custom-scroll">
-    <div th:replace="base :: transition-loader"></div>
-    <div th:replace="base :: dialog"></div>
-    <div th:replace="base :: main-nav (logoClass='main-nav__logo_white')"></div>
-    <script th:src="@{/js/transition-loader.js}"></script>
-<script th:inline='javascript'>
-    /*<![CDATA[*/
-    showLoader();
-/*]]>*/
-</script>
+<body class="page">
 
-    <div class="platform__wrapper">
-        <div class="platform__header">
-            <div class="platform__title" th:unless="${role == 'ROLE_ADMIN'}">Распределение сделок</div>
-            <div class="platform__title" th:if="${role == 'ROLE_ADMIN'}">Рекламный кабинет</div>
-        </div>
-        <div class="content-main advertising">
-            <div class="content-main__wrapper content-main__wrapper_col">
-                <div
-                    class="content-main__panel adv-panel content-main__panel_align content-main__panel_p content-main__panel_large content-main__panel_col">
-                    <div class="content-setting">
-                        <div class="search-form menu-search__wrapper">
-                            <input link-search id="search" class="menu-search__input menu-search__input_small"
-                                placeholder="Поиск">
-                            <label for="search"></label>
+    <div class="page__content">
+        <div th:replace="base :: main-nav (logoClass='main-nav__logo_white')"></div>
+
+        <div class="platform__wrapper custom-scroll">
+            <div class="platform__header">
+                <div class="platform__title" th:unless="${role == 'ROLE_ADMIN'}">Распределение сделок</div>
+                <div class="platform__title" th:if="${role == 'ROLE_ADMIN'}">Рекламный кабинет</div>
+            </div>
+            <div class="content-main advertising">
+                <div class="content-main__wrapper content-main__wrapper_col">
+                    <div
+                        class="content-main__panel adv-panel content-main__panel_align content-main__panel_p content-main__panel_large content-main__panel_col">
+                        <div class="content-setting">
+                            <div class="search-form menu-search__wrapper">
+                                <input link-search id="search" class="menu-search__input menu-search__input_small"
+                                       placeholder="Поиск">
+                                <label for="search"></label>
+                            </div>
+
+                            <div js-add-outside-link class="add-button add-button_right">Добавить внешнюю ссылку</div>
                         </div>
-
-                        <div js-add-outside-link class="add-button add-button_right">Добавить внешнюю ссылку</div>
                     </div>
-                </div>
 
-                <div
-                    class="content-main__panel content-main__panel_align content-main__panel_p content-main__panel_large content-main__panel_col">
-                    <table class="custom-table custom-table_fixed">
-                        <tbody links-table class="custom-table__body custom-table__body_white">
+                    <div
+                        class="content-main__panel content-main__panel_align content-main__panel_p content-main__panel_large content-main__panel_col">
+                        <table class="custom-table custom-table_fixed">
+                            <tbody links-table class="custom-table__body custom-table__body_white">
                             <tr class="custom-table__header-row">
                                 <td
                                     class="custom-table__header-col custom-table__header-col_big custom-table__header-col_30per">
@@ -59,18 +53,18 @@
                                 <tr th:attr="data-outside=${outsideLink.id}" class="custom-table__body-row link-row">
                                     <td class="custom-table__body-col">
                                         <input o-name name="name"
-                                            class="menu-input__input menu-input__input_small link-name editable link-name__left"
-                                            th:value="${outsideLink.name}" disabled required
-                                            placeholder="Введите название">
+                                               class="menu-input__input menu-input__input_small link-name editable link-name__left"
+                                               th:value="${outsideLink.name}" disabled required
+                                               placeholder="Введите название">
                                     </td>
                                     <td class="custom-table__body-col">
                                         <div class="column-wrapper">
                                             <div class="column-full-text" th:utext="${outsideLink.link}"></div>
                                             <div class="column-links">
                                                 <div js-copy-link class="column_mwidth column_mwidth-copy"
-                                                    th:attr="data-link=${outsideLink.link}"></div>
+                                                     th:attr="data-link=${outsideLink.link}"></div>
                                                 <a th:attr="href=${outsideLink.link}" target="_blank"
-                                                    class="column_mwidth column_mwidth-open"></a>
+                                                   class="column_mwidth column_mwidth-open"></a>
                                             </div>
                                         </div>
                                     </td>
@@ -85,13 +79,13 @@
                                             </div>
                                             <div js-edit-menu class="column-links display-flex-none is-open">
                                                 <div js-edit-outside
-                                                    class="column_mwidth div-table__body-col_center column_mwidth-edit">
+                                                     class="column_mwidth div-table__body-col_center column_mwidth-edit">
                                                 </div>
                                                 <form delete-outside-link-form class="column-form" action="#">
                                                     <input type="hidden" th:value="${outsideLink.id}" name="id"
-                                                        required>
+                                                           required>
                                                     <button delete-outside-link-btn type="button"
-                                                        class="column_mwidth column_mwidth-delete"></button>
+                                                            class="column_mwidth column_mwidth-delete"></button>
                                                 </form>
                                             </div>
                                         </div>
@@ -99,8 +93,8 @@
                                     <td class="custom-table__body-col">
                                         <div class="accordion-btn">
                                             <div data-toggle="collapse" aria-expanded="false"
-                                                th:attr="data-target=${'#out' + outsideLink.id}, aria-controls=${'out' + outsideLink.id}"
-                                                class="accordion-btn__wrapper collapsed">
+                                                 th:attr="data-target=${'#out' + outsideLink.id}, aria-controls=${'out' + outsideLink.id}"
+                                                 class="accordion-btn__wrapper collapsed">
 
                                             </div>
                                         </div>
@@ -115,9 +109,9 @@
                                                     class="custom-table__body-row custom-table__body-row_gray">
                                                     <td class="custom-table__body-col custom-table__body-col_15per">
                                                         <input i-name name="name"
-                                                            class="menu-input__input menu-input__input_small editable"
-                                                            th:value="${insideLink.name}" disabled required
-                                                            placeholder="Введите имя">
+                                                               class="menu-input__input menu-input__input_small editable"
+                                                               th:value="${insideLink.name}" disabled required
+                                                               placeholder="Введите имя">
                                                     </td>
                                                     <td class="custom-table__body-col custom-table__body-col_15per"
                                                         th:utext="${insideLink.counter + ' переходов'}"></td>
@@ -126,41 +120,41 @@
                                                         <div class="column-wrapper">
                                                             <div class="column-full-text">
                                                                 <input i-link name="link"
-                                                                    class="menu-input__input menu-input__input_small editable editable__adv"
-                                                                    th:value="${insideLink.link}" disabled required
-                                                                    placeholder="Введите ссылку">
+                                                                       class="menu-input__input menu-input__input_small editable editable__adv"
+                                                                       th:value="${insideLink.link}" disabled required
+                                                                       placeholder="Введите ссылку">
                                                             </div>
                                                             <div class="column-links">
                                                                 <div js-copy-link
-                                                                    class="column_mwidth column_mwidth-copy"
-                                                                    th:attr="data-link=${insideLink.link}"></div>
+                                                                     class="column_mwidth column_mwidth-copy"
+                                                                     th:attr="data-link=${insideLink.link}"></div>
                                                                 <a th:attr="href=${insideLink.link}" target="_blank"
-                                                                    class="column_mwidth column_mwidth-open"></a>
+                                                                   class="column_mwidth column_mwidth-open"></a>
                                                             </div>
                                                         </div>
                                                     </td>
                                                     <td class="custom-table__body-col custom-table__body-col_center">
                                                         <form action="#" js-link-active-form
-                                                            class="input-element__input input-element__input_status input-element__input_max input-element__input_right input-element__input_row">
+                                                              class="input-element__input input-element__input_status input-element__input_max input-element__input_right input-element__input_row">
                                                             <div
                                                                 class="input-element__radio input-element__input_xxsmall">
                                                                 <input js-link-active type="radio"
-                                                                    th:id="${'active' + insideLink.id}"
-                                                                    th:checked="${insideLink.isActive}"
-                                                                    class="radio radio_green" name="isActive"
-                                                                    value="true">
+                                                                       th:id="${'active' + insideLink.id}"
+                                                                       th:checked="${insideLink.isActive}"
+                                                                       class="radio radio_green" name="isActive"
+                                                                       value="true">
                                                                 <label th:for="${'active' + insideLink.id}"
-                                                                    class="label">Включена</label>
+                                                                       class="label">Включена</label>
                                                             </div>
                                                             <div
                                                                 class="input-element__radio input-element__input_xxsmall">
                                                                 <input js-link-active type="radio"
-                                                                    th:id="${'inactive' + insideLink.id}"
-                                                                    th:checked="${!insideLink.isActive}"
-                                                                    class="radio radio_red" name="isActive"
-                                                                    value="false">
+                                                                       th:id="${'inactive' + insideLink.id}"
+                                                                       th:checked="${!insideLink.isActive}"
+                                                                       class="radio radio_red" name="isActive"
+                                                                       value="false">
                                                                 <label th:for="${'inactive' + insideLink.id}"
-                                                                    class="label">Выключена</label>
+                                                                       class="label">Выключена</label>
                                                             </div>
                                                             <input type="hidden" name="id" th:value="${insideLink.id}">
                                                         </form>
@@ -170,21 +164,21 @@
                                                             class="div-table__body-col div-table__body-col_center div-table__body-col_xxsmall">
                                                             <div js-edit-btns class="column-links display-flex-none">
                                                                 <div js-edit-inside-accept
-                                                                    class="column_mwidth column_mwidth-accept"></div>
+                                                                     class="column_mwidth column_mwidth-accept"></div>
                                                                 <div js-edit-inside-cancel
-                                                                    class="column_mwidth column_mwidth-cancel"></div>
+                                                                     class="column_mwidth column_mwidth-cancel"></div>
                                                             </div>
                                                             <div js-edit-menu
-                                                                class="column-links display-flex-none is-open">
+                                                                 class="column-links display-flex-none is-open">
                                                                 <div js-edit-inside
-                                                                    class="column_mwidth div-table__body-col_center column_mwidth-edit">
+                                                                     class="column_mwidth div-table__body-col_center column_mwidth-edit">
                                                                 </div>
                                                                 <form delete-inside-link-form class="column-form"
-                                                                    action="#">
+                                                                      action="#">
                                                                     <input type="hidden" th:value="${insideLink.id}"
-                                                                        name="id" required>
+                                                                           name="id" required>
                                                                     <button delete-inside-link-btn type="button"
-                                                                        class="column_mwidth column_mwidth-delete"></button>
+                                                                            class="column_mwidth column_mwidth-delete"></button>
                                                                 </form>
                                                             </div>
                                                         </div>
@@ -196,7 +190,7 @@
                                                     class="custom-table__body-col custom-table__body-col_p18 custom-table__body-col_r30">
                                                     <div class="column-wrapper">
                                                         <div js-add-inside-link
-                                                            class="add-button add-button_right add-button_medium">
+                                                             class="add-button add-button_right add-button_medium">
                                                             Добавить внутреннюю ссылку</div>
                                                     </div>
                                                 </td>
@@ -205,13 +199,23 @@
                                     </td>
                                 </tr>
                             </th:block>
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <div th:replace="base :: transition-loader"></div>
+    <div th:replace="base :: dialog"></div>
+
+    <script th:src="@{/js/transition-loader.js}"></script>
+<script th:inline='javascript'>
+    /*<![CDATA[*/
+    showLoader();
+/*]]>*/
+</script>
     <div th:replace="base :: menu-add-outside"></div>
     <div th:replace="base :: menu-add-inside"></div>
 

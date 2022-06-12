@@ -13,9 +13,105 @@
     <link th:href="@{/css/jquery.fancybox.min.css}" rel="stylesheet">
 </head>
 
-<body>
+<body class="page">
+    <div class="page__content">
+        <div th:replace="base :: main-nav"></div>
+
+        <div class="main-content main-content_white-top-medium">
+            <div class="content-top">
+                <div class="content-top__title">Продукты</div>
+                <div th:replace="base :: products-tab"></div>
+            </div>
+            <div class="content-main">
+                <div class="content-main__wrapper">
+                    <div class="content-main__panel content-main__panel_align content-main__panel_p content-main__panel_large content-main__panel_col">
+                        <th:block th:each="project : ${projects}">
+                            <div class="products" th:attr="data-project=${project.id}">
+                                <div class="products__wrapper">
+                                    <div class="products__title">
+                                        <div class="block-title" th:utext="${project.name}"></div>
+                                        <div class="block-subtitle" th:utext="${project.tag}"></div>
+                                        <div js-create-product-type class="add-button add-button_right">Добавить категорию</div>
+                                    </div>
+                                    <div class="products__content">
+                                        <div class="tabs">
+                                            <div class="tabs__wrapper">
+                                                <div class="tabs__list">
+                                                    <div class="tabs__list-wrapper">
+                                                        <div js-tab class="tab hidden-setting active" data-tab="all">Все</div>
+                                                        <th:block th:each="productType, stat : ${productTypesByProjects.get(project.id)}">
+                                                            <div js-tab class="tab hidden-setting" th:attr="data-cat=${productType.id}, data-tab=${project.id + 'type' + productType.id}">
+                                                                <span th:utext="${productType.name}"></span>
+                                                                <div js-update-category class="hidden-setting__wrapper"></div>
+                                                            </div>
+                                                        </th:block>
+                                                    </div>
+                                                </div>
+                                                <div class="tabs__blocks">
+                                                    <div js-tab-panel data-type="all" data-tab="all" class="tab-content is-open">
+                                                        <div class="tab-content__wrapper tab-content__wrapper_overflow-unset">
+                                                            <div class="products__list">
+                                                                <th:block th:each="productType, stat : ${productTypesByProjects.get(project.id )}">
+                                                                    <th:block th:each="product : ${productsMap.get(project.id).get(productType.id)}">
+                                                                        <div js-update-product th:attr="data-product=${product.id}, data-project=${project.id}, data-type=${productType.id}" class="product-block" th:style="${'background: ' + product.backgroundColor + ';'}">
+                                                                            <div class="product-block__wrapper" th:classappend="${product.theme}">
+                                                                                <div class="product-block__background" th:if="${product.backgroundImage != null}">
+                                                                                    <img th:src="@{'/' + ${product.backgroundImage}}" alt="">
+                                                                                </div>
+                                                                                <div class="product-block__title" th:utext="${product.name}"></div>
+                                                                                <div category class="product-block__type" th:utext="${product.productType}"></div>
+                                                                                <div class="product-block__text product-block__text_gray" th:utext="${'Арт: ' + product.vendorCode}"></div>
+                                                                                <div class="product-block__text product-block__text_desc" th:utext="${product.description}"></div>
+                                                                                <div class="product-block__price" th:utext="${#numbers.formatInteger(product.price,0,'WHITESPACE') + ' ₽'}"></div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </th:block>
+                                                                </th:block>
+                                                                <div js-create-product th:attr="data-project=${project.id}" class="product-block product-block_create">
+                                                                    <div class="product-block__message">Добавить товар</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <th:block th:each="productType, stat : ${productTypesByProjects.get(project.id )}">
+                                                        <div js-tab-panel th:attr="data-type=${productType.id}, data-tab=${project.id + 'type' + productType.id}" class="tab-content " >
+                                                            <div class="tab-content__wrapper tab-content__wrapper_overflow-unset">
+                                                                <div class="products__list">
+                                                                    <th:block th:each="product : ${productsMap.get(project.id).get(productType.id)}">
+                                                                        <div js-update-product th:attr="data-product=${product.id}, data-project=${project.id}, data-type=${productType.id}" class="product-block" th:style="${'background: ' + product.backgroundColor + ';'}">
+                                                                            <div class="product-block__wrapper" th:classappend="${product.theme}">
+                                                                                <div class="product-block__background" th:if="${product.backgroundImage != null}">
+                                                                                    <img th:src="@{'/' + ${product.backgroundImage}}" alt="">
+                                                                                </div>
+                                                                                <div class="product-block__title" th:utext="${product.name}"></div>
+                                                                                <div category class="product-block__type" th:utext="${product.productType}"></div>
+                                                                                <div class="product-block__text product-block__text_gray" th:utext="${'Арт: ' + product.vendorCode}"></div>
+                                                                                <div class="product-block__text product-block__text_desc" th:utext="${product.description}"></div>
+                                                                                <div class="product-block__price" th:utext="${#numbers.formatInteger(product.price,0,'WHITESPACE') + ' ₽'}"></div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </th:block>
+                                                                    <div js-create-product th:attr="data-type=${productType.id}, data-project=${project.id}" class="product-block product-block_create">
+                                                                        <div class="product-block__message">Добавить товар</div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </th:block>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </th:block>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 <div th:replace="base :: dialog"></div>
-<div th:replace="base :: main-nav"></div>
 <div th:replace="base :: transition-loader"></div>
 <script th:src="@{/js/transition-loader.js}"></script>
 <script th:inline='javascript'>
@@ -23,99 +119,6 @@
     showLoader();
 /*]]>*/
 </script>
-
-<div class="main-content main-content_white-top-medium">
-    <div class="content-top">
-        <div class="content-top__title">Продукты</div>
-        <div th:replace="base :: products-tab"></div>
-    </div>
-    <div class="content-main">
-        <div class="content-main__wrapper">
-            <div class="content-main__panel content-main__panel_align content-main__panel_p content-main__panel_large content-main__panel_col">
-                <th:block th:each="project : ${projects}">
-                    <div class="products" th:attr="data-project=${project.id}">
-                        <div class="products__wrapper">
-                            <div class="products__title">
-                                <div class="block-title" th:utext="${project.name}"></div>
-                                <div class="block-subtitle" th:utext="${project.tag}"></div>
-                                <div js-create-product-type class="add-button add-button_right">Добавить категорию</div>
-                            </div>
-                            <div class="products__content">
-                                <div class="tabs">
-                                    <div class="tabs__wrapper">
-                                        <div class="tabs__list">
-                                            <div class="tabs__list-wrapper">
-                                                <div js-tab class="tab hidden-setting active" data-tab="all">Все</div>
-                                                <th:block th:each="productType, stat : ${productTypesByProjects.get(project.id)}">
-                                                    <div js-tab class="tab hidden-setting" th:attr="data-cat=${productType.id}, data-tab=${project.id + 'type' + productType.id}">
-                                                        <span th:utext="${productType.name}"></span>
-                                                        <div js-update-category class="hidden-setting__wrapper"></div>
-                                                    </div>
-                                                </th:block>
-                                            </div>
-                                        </div>
-                                        <div class="tabs__blocks">
-                                            <div js-tab-panel data-type="all" data-tab="all" class="tab-content is-open">
-                                                <div class="tab-content__wrapper tab-content__wrapper_overflow-unset">
-                                                    <div class="products__list">
-                                                        <th:block th:each="productType, stat : ${productTypesByProjects.get(project.id )}">
-                                                            <th:block th:each="product : ${productsMap.get(project.id).get(productType.id)}">
-                                                                <div js-update-product th:attr="data-product=${product.id}, data-project=${project.id}, data-type=${productType.id}" class="product-block" th:style="${'background: ' + product.backgroundColor + ';'}">
-                                                                    <div class="product-block__wrapper" th:classappend="${product.theme}">
-                                                                        <div class="product-block__background" th:if="${product.backgroundImage != null}">
-                                                                            <img th:src="@{'/' + ${product.backgroundImage}}" alt="">
-                                                                        </div>
-                                                                        <div class="product-block__title" th:utext="${product.name}"></div>
-                                                                        <div category class="product-block__type" th:utext="${product.productType}"></div>
-                                                                        <div class="product-block__text product-block__text_gray" th:utext="${'Арт: ' + product.vendorCode}"></div>
-                                                                        <div class="product-block__text product-block__text_desc" th:utext="${product.description}"></div>
-                                                                        <div class="product-block__price" th:utext="${#numbers.formatInteger(product.price,0,'WHITESPACE') + ' ₽'}"></div>
-                                                                    </div>
-                                                                </div>
-                                                            </th:block>
-                                                        </th:block>
-                                                        <div js-create-product th:attr="data-project=${project.id}" class="product-block product-block_create">
-                                                            <div class="product-block__message">Добавить товар</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <th:block th:each="productType, stat : ${productTypesByProjects.get(project.id )}">
-                                                <div js-tab-panel th:attr="data-type=${productType.id}, data-tab=${project.id + 'type' + productType.id}" class="tab-content " >
-                                                    <div class="tab-content__wrapper tab-content__wrapper_overflow-unset">
-                                                        <div class="products__list">
-                                                            <th:block th:each="product : ${productsMap.get(project.id).get(productType.id)}">
-                                                                <div js-update-product th:attr="data-product=${product.id}, data-project=${project.id}, data-type=${productType.id}" class="product-block" th:style="${'background: ' + product.backgroundColor + ';'}">
-                                                                    <div class="product-block__wrapper" th:classappend="${product.theme}">
-                                                                        <div class="product-block__background" th:if="${product.backgroundImage != null}">
-                                                                            <img th:src="@{'/' + ${product.backgroundImage}}" alt="">
-                                                                        </div>
-                                                                        <div class="product-block__title" th:utext="${product.name}"></div>
-                                                                        <div category class="product-block__type" th:utext="${product.productType}"></div>
-                                                                        <div class="product-block__text product-block__text_gray" th:utext="${'Арт: ' + product.vendorCode}"></div>
-                                                                        <div class="product-block__text product-block__text_desc" th:utext="${product.description}"></div>
-                                                                        <div class="product-block__price" th:utext="${#numbers.formatInteger(product.price,0,'WHITESPACE') + ' ₽'}"></div>
-                                                                    </div>
-                                                                </div>
-                                                            </th:block>
-                                                            <div js-create-product th:attr="data-type=${productType.id}, data-project=${project.id}" class="product-block product-block_create">
-                                                                <div class="product-block__message">Добавить товар</div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </th:block>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </th:block>
-            </div>
-        </div>
-    </div>
-</div>
 
 <div th:replace="base :: menu-product"></div>
 <div th:replace="base :: menu-update-product"></div>

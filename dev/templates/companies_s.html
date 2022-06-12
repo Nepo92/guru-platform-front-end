@@ -9,8 +9,154 @@
     <th:block th:insert="base :: links" />
 </head>
 
-<body>
-<div th:replace="base :: main-nav (logoClass='main-nav__logo_white')"></div>
+<body class="page">
+    <div class="page__content">
+        <div th:replace="base :: main-nav (logoClass='main-nav__logo_white')"></div>
+
+        <div class="platform__wrapper custom-scroll">
+            <div class="platform__header">
+                <div class="platform__title">Компании</div>
+            </div>
+            <div class="content-main">
+                <div class="content-main__panel content-main__panel_large content-main__company">
+                    <div js-create-user class="button button_add">Добавить компанию</div>
+                </div>
+                <div class="content-main__wrapper">
+                    <div class="content-main__panel content-main__panel_align content-main__panel_p content-main__company">
+                        <table class="custom-table">
+                            <tbody class="custom-table__body custom-table__body_white">
+                            <tr class="custom-table__header-row">
+                                <td class="custom-table__header-col custom-table__header-col_big">#</td>
+                                <td class="custom-table__header-col custom-table__header-col_big"></td>
+                                <td class="custom-table__header-col custom-table__header-col_big">Название</td>
+                                <td class="custom-table__header-col custom-table__header-col_big">Юр. название</td>
+                                <td class="custom-table__header-col custom-table__header-col_big">Логин</td>
+                                <td class="custom-table__header-col custom-table__header-col_big">Пароль</td>
+                                <td class="custom-table__header-col custom-table__header-col_big">Таймзона</td>
+                                <td class="custom-table__header-col custom-table__header-col_big">Код</td>
+                                <td class="custom-table__header-col custom-table__header-col_big">Фон</td>
+                                <td class="custom-table__header-col custom-table__header-col_big">Ссылка</td>
+                                <td class="custom-table__header-col custom-table__header-col_big">Онлайн-офис GURU</td>
+                                <td class="custom-table__header-col custom-table__header-col_big">Тип</td>
+                                <td class="custom-table__header-col custom-table__header-col_big"></td>
+                            </tr>
+                            <tr class="custom-table__body-row" th:each="company, stat : ${companies}">
+                                <input type="hidden" u-id th:value="${company.id}" name="id" required>
+                                <input type="hidden" u-id-company th:value="${company.idCompany}" name="idCompany" required>
+                                <td class="custom-table__body-col" th:utext="${company.idCompany}"></td>
+                                <td class="custom-table__body-col">
+                                    <div class="avatar-upload">
+                                        <form u-upload-avatar-form action="#" enctype="multipart/form-data">
+                                            <input type="hidden" th:value="${company.idCompany}" name="id" required>
+                                            <input u-upload-avatar accept="image/*,image/jpeg" class="input-file" name="file" type="file" th:id="'avatar' + ${stat.index}">
+                                            <label th:for="'avatar' + ${stat.index}">
+                                                <span class="avatar-upload__upload " th:classappend="${#strings.isEmpty(company.logo) ? 'avatar-upload__upload_default-company' : ''}">
+                                                    <img th:if="${!#strings.isEmpty(company.logo)}" th:src="'/' + ${company.logo}" alt="">
+                                                </span>
+                                            </label>
+                                        </form>
+                                    </div>
+                                </td>
+                                <td class="custom-table__body-col custom-table__body-col_xlarge" >
+                                    <input u-company-name name="name"
+                                           class="menu-input__input menu-input__input_small editable"
+                                           th:attr="title=${company.name}"
+                                           th:value="${company.name}"
+                                           disabled
+                                           placeholder="—">
+                                </td>
+                                <td class="custom-table__body-col custom-table__body-col_xlarge" >
+                                    <input u-legal-name name="legalName"
+                                           class="menu-input__input menu-input__input_small editable"
+                                           th:attr="title=${company.legalName}"
+                                           th:value="${company.legalName}"
+                                           disabled
+                                           placeholder="—">
+                                </td>
+                                <td class="custom-table__body-col custom-table__body-col_xlarge">
+                                    <input u-username name="username"
+                                           class="menu-input__input menu-input__input_small editable"
+                                           th:attr="title=${company.username}"
+                                           th:value="${company.username}"
+                                           disabled
+                                           placeholder="—"
+                                           required>
+                                </td>
+                                <td class="custom-table__body-col custom-table__body-col_medium">
+                                    <input u-password name="password"
+                                           class="menu-input__input menu-input__input_small editable"
+                                           th:value="${''}"
+                                           disabled
+                                           placeholder="✱✱✱✱✱✱"
+                                           required>
+                                </td>
+                                <td class="custom-table__body-col custom-table__body-col_medium">
+                                    <input u-timezone name="timezoneHour"
+                                           class="menu-input__input menu-input__input_small editable"
+                                           th:value="${company.timezoneHour}"
+                                           disabled
+                                           placeholder="0"
+                                           required>
+                                </td>
+                                <td class="custom-table__body-col custom-table__body-col_medium">
+                                    <input u-company-code name="companyCode"
+                                           class="menu-input__input menu-input__input_small editable"
+                                           th:value="${company.companyCode}"
+                                           disabled
+                                           placeholder="-"
+                                           required>
+                                </td>
+                                <td class="custom-table__body-col">
+                                    <div class="avatar-upload">
+                                        <form u-upload-background-form action="#" enctype="multipart/form-data">
+                                            <input type="hidden" th:value="${company.idCompany}" name="id" required>
+                                            <input u-upload-background accept="image/*,image/jpeg" class="input-file" name="file" type="file" th:id="'background' + ${company.idCompany}">
+                                            <label th:for="'background' + ${company.idCompany}">
+                                                <span class="avatar-upload__upload avatar-upload__upload_height" th:classappend="${#strings.isEmpty(company.companyBackground) ? 'avatar-upload__upload_default-company' : ''}">
+                                                    <img th:if="${!#strings.isEmpty(company.companyBackground)}" th:src="'/' + ${company.companyBackground}" alt="">
+                                                </span>
+                                            </label>
+                                        </form>
+                                    </div>
+                                </td>
+                                <td class="custom-table__body-col ">
+                                    <div class="column-links" u-company-link>
+                                        <div js-copy-company-link th:attr="data-link=${serverProperties.scheme + '://' + serverProperties.host + '/company='}" class="column_mwidth column_mwidth-copy"></div>
+                                        <div js-open-company-link th:attr="data-link=${serverProperties.scheme + '://' + serverProperties.host + '/company='}" class="column_mwidth column_mwidth-open"></div>
+                                    </div>
+                                </td>
+                                <td class="custom-table__body-col custom-table__body-col_medium custom-table__body-col_center">
+                                    <th:block th:unless="${company.id == 1}">
+                                        <div js-set-access class="setting-wrapper">
+                                            <div class="theme-setting theme-setting_big"></div>
+                                            <div class="setting-title">Настроить</div>
+                                        </div>
+                                    </th:block>
+                                </td>
+                                <td class="custom-table__body-col custom-table__body-col_medium custom-table__body-col_center">
+                                    <div js-set-sale-type class="setting-wrapper">
+                                        <div class="theme-setting theme-setting_big"></div>
+                                        <div class="setting-title">Настроить</div>
+                                    </div>
+                                </td>
+                                <td class="custom-table__body-col custom-table__body-col_last">
+                                    <div edit-btns class="column-links display-flex-none">
+                                        <div edit-user-accept class="column_mwidth column_mwidth-accept"></div>
+                                        <div edit-user-cancel class="column_mwidth column_mwidth-cancel"></div>
+                                    </div>
+                                    <div edit-menu class="column-links display-flex-none is-open">
+                                        <div edit-user class="column_mwidth div-table__body-col_center column_mwidth-edit column_mwidth-edit-b"></div>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 <div th:replace="base :: transition-loader"></div>
 <script th:src="@{/js/transition-loader.js}"></script>
 <script th:inline='javascript'>
@@ -19,153 +165,9 @@
 /*]]>*/
 </script>
 
-<div class="platform__wrapper custom-scroll">
-    <div class="platform__header">
-        <div class="platform__title">Компании</div>
-    </div>
-    <div class="content-main">
-        <div class="content-main__panel content-main__panel_large content-main__company">
-            <div js-create-user class="button button_add">Добавить компанию</div>
-        </div>
-        <div class="content-main__wrapper">
-            <div class="content-main__panel content-main__panel_align content-main__panel_p content-main__company">
-                <table class="custom-table">
-                    <tbody class="custom-table__body custom-table__body_white">
-                        <tr class="custom-table__header-row">
-                            <td class="custom-table__header-col custom-table__header-col_big">#</td>
-                            <td class="custom-table__header-col custom-table__header-col_big"></td>
-                            <td class="custom-table__header-col custom-table__header-col_big">Название</td>
-                            <td class="custom-table__header-col custom-table__header-col_big">Юр. название</td>
-                            <td class="custom-table__header-col custom-table__header-col_big">Логин</td>
-                            <td class="custom-table__header-col custom-table__header-col_big">Пароль</td>
-                            <td class="custom-table__header-col custom-table__header-col_big">Таймзона</td>
-                            <td class="custom-table__header-col custom-table__header-col_big">Код</td>
-                            <td class="custom-table__header-col custom-table__header-col_big">Фон</td>
-                            <td class="custom-table__header-col custom-table__header-col_big">Ссылка</td>
-                            <td class="custom-table__header-col custom-table__header-col_big">Онлайн-офис GURU</td>
-                            <td class="custom-table__header-col custom-table__header-col_big">Тип</td>
-                            <td class="custom-table__header-col custom-table__header-col_big"></td>
-                        </tr>
-                        <tr class="custom-table__body-row" th:each="company, stat : ${companies}">
-                            <input type="hidden" u-id th:value="${company.id}" name="id" required>
-                            <input type="hidden" u-id-company th:value="${company.idCompany}" name="idCompany" required>
-                            <td class="custom-table__body-col" th:utext="${company.idCompany}"></td>
-                            <td class="custom-table__body-col">
-                                <div class="avatar-upload">
-                                    <form u-upload-avatar-form action="#" enctype="multipart/form-data">
-                                        <input type="hidden" th:value="${company.idCompany}" name="id" required>
-                                        <input u-upload-avatar accept="image/*,image/jpeg" class="input-file" name="file" type="file" th:id="'avatar' + ${stat.index}">
-                                        <label th:for="'avatar' + ${stat.index}">
-                                                <span class="avatar-upload__upload " th:classappend="${#strings.isEmpty(company.logo) ? 'avatar-upload__upload_default-company' : ''}">
-                                                    <img th:if="${!#strings.isEmpty(company.logo)}" th:src="'/' + ${company.logo}" alt="">
-                                                </span>
-                                        </label>
-                                    </form>
-                                </div>
-                            </td>
-                            <td class="custom-table__body-col custom-table__body-col_xlarge" >
-                                <input u-company-name name="name"
-                                       class="menu-input__input menu-input__input_small editable"
-                                       th:attr="title=${company.name}"
-                                       th:value="${company.name}"
-                                       disabled
-                                       placeholder="—">
-                            </td>
-                            <td class="custom-table__body-col custom-table__body-col_xlarge" >
-                                <input u-legal-name name="legalName"
-                                       class="menu-input__input menu-input__input_small editable"
-                                       th:attr="title=${company.legalName}"
-                                       th:value="${company.legalName}"
-                                       disabled
-                                       placeholder="—">
-                            </td>
-                            <td class="custom-table__body-col custom-table__body-col_xlarge">
-                                <input u-username name="username"
-                                       class="menu-input__input menu-input__input_small editable"
-                                       th:attr="title=${company.username}"
-                                       th:value="${company.username}"
-                                       disabled
-                                       placeholder="—"
-                                       required>
-                            </td>
-                            <td class="custom-table__body-col custom-table__body-col_medium">
-                                <input u-password name="password"
-                                       class="menu-input__input menu-input__input_small editable"
-                                       th:value="${''}"
-                                       disabled
-                                       placeholder="✱✱✱✱✱✱"
-                                       required>
-                            </td>
-                            <td class="custom-table__body-col custom-table__body-col_medium">
-                                <input u-timezone name="timezoneHour"
-                                       class="menu-input__input menu-input__input_small editable"
-                                       th:value="${company.timezoneHour}"
-                                       disabled
-                                       placeholder="0"
-                                       required>
-                            </td>
-                            <td class="custom-table__body-col custom-table__body-col_medium">
-                                <input u-company-code name="companyCode"
-                                       class="menu-input__input menu-input__input_small editable"
-                                       th:value="${company.companyCode}"
-                                       disabled
-                                       placeholder="-"
-                                       required>
-                            </td>
-                            <td class="custom-table__body-col">
-                                <div class="avatar-upload">
-                                    <form u-upload-background-form action="#" enctype="multipart/form-data">
-                                        <input type="hidden" th:value="${company.idCompany}" name="id" required>
-                                        <input u-upload-background accept="image/*,image/jpeg" class="input-file" name="file" type="file" th:id="'background' + ${company.idCompany}">
-                                        <label th:for="'background' + ${company.idCompany}">
-                                                <span class="avatar-upload__upload avatar-upload__upload_height" th:classappend="${#strings.isEmpty(company.companyBackground) ? 'avatar-upload__upload_default-company' : ''}">
-                                                    <img th:if="${!#strings.isEmpty(company.companyBackground)}" th:src="'/' + ${company.companyBackground}" alt="">
-                                                </span>
-                                        </label>
-                                    </form>
-                                </div>
-                            </td>
-                            <td class="custom-table__body-col ">
-                                <div class="column-links" u-company-link>
-                                    <div js-copy-company-link th:attr="data-link=${serverProperties.scheme + '://' + serverProperties.host + '/company='}" class="column_mwidth column_mwidth-copy"></div>
-                                    <div js-open-company-link th:attr="data-link=${serverProperties.scheme + '://' + serverProperties.host + '/company='}" class="column_mwidth column_mwidth-open"></div>
-                                </div>
-                            </td>
-                            <td class="custom-table__body-col custom-table__body-col_medium custom-table__body-col_center">
-                                <th:block th:unless="${company.id == 1}">
-                                    <div js-set-access class="setting-wrapper">
-                                        <div class="theme-setting theme-setting_big"></div>
-                                        <div class="setting-title">Настроить</div>
-                                    </div>
-                                </th:block>
-                            </td>
-                            <td class="custom-table__body-col custom-table__body-col_medium custom-table__body-col_center">
-                                <div js-set-sale-type class="setting-wrapper">
-                                    <div class="theme-setting theme-setting_big"></div>
-                                    <div class="setting-title">Настроить</div>
-                                </div>
-                            </td>
-                            <td class="custom-table__body-col custom-table__body-col_last">
-                                <div edit-btns class="column-links display-flex-none">
-                                    <div edit-user-accept class="column_mwidth column_mwidth-accept"></div>
-                                    <div edit-user-cancel class="column_mwidth column_mwidth-cancel"></div>
-                                </div>
-                                <div edit-menu class="column-links display-flex-none is-open">
-                                    <div edit-user class="column_mwidth div-table__body-col_center column_mwidth-edit column_mwidth-edit-b"></div>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
-
 <div th:replace="base :: menu-create-user"></div>
 <div th:replace="base :: menu-set-access"></div>
 <div th:replace="base :: menu-sale-type"></div>
-<!--<div th:replace="base :: yookassa-settings"></div>-->
 
 <th:block th:insert="base :: scripts" />
 <script th:inline='javascript'>

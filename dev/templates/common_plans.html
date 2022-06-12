@@ -8,8 +8,34 @@
     <th:block th:insert="base :: links" />
 </head>
 
-<body class="custom-scroll">
-<div th:replace="base :: main-nav"></div>
+<body class="page custom-scroll">
+    <div class="page__content">
+        <div th:replace="base :: main-nav"></div>
+
+        <div class="main-content plans">
+            <div class="content-top plans__top">
+                <h1 class="content-top__title plans-head__title">Планы</h1>
+            </div>
+
+            <div class="content-main__panel plans__panel">
+                <div class="plans__choose">
+                    <form js-month-form class="plans__year" th:action="@{/settings/common-plans/}" th:object="${filter}"
+                          th:method="post">
+                        <div class="menu-input__wrapper menu-input__wrapper_select plans-select__wrapper plans-year">
+                            <select name="year" js-select-year
+                                    class="menu-input__input menu-input__input_small menu-input__input_select menu-input__select-year">
+                            </select>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div js-plans-now__block class="plans-now__list">
+
+            </div>
+        </div>
+    </div>
+
 <div th:replace="base :: transition-loader"></div>
 <script th:src="@{/js/transition-loader.js}"></script>
 <script th:inline='javascript'>
@@ -17,29 +43,6 @@
     showLoader();
 /*]]>*/
 </script>
-
-<div class="main-content plans">
-    <div class="content-top plans__top">
-        <h1 class="content-top__title plans-head__title">Планы</h1>
-    </div>
-
-    <div class="content-main__panel plans__panel">
-        <div class="plans__choose">
-            <form js-month-form class="plans__year" th:action="@{/settings/common-plans/}" th:object="${filter}"
-                  th:method="post">
-                <div class="menu-input__wrapper menu-input__wrapper_select plans-select__wrapper plans-year">
-                    <select name="year" js-select-year
-                            class="menu-input__input menu-input__input_small menu-input__input_select menu-input__select-year">
-                    </select>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <div js-plans-now__block class="plans-now__list">
-
-    </div>
-</div>
 
 <div th:replace="base :: menu-plan-add"></div>
 <div th:replace="base :: menu-funnel-add-to-plans"></div>
