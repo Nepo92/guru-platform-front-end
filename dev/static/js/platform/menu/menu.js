@@ -169,7 +169,7 @@ class Menu {
       currentMethod.method(props);
 
       props.menu.classList.add('open');
-    }, 200);
+    }, 150);
   }
 
   dispatchMouseOver(props) {
