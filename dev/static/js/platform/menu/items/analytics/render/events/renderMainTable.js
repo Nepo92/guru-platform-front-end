@@ -28,7 +28,7 @@ class RenderMainTable {
 
     const div = document.createElement('div');
     div.classList.add('analytic-board__values');
-    div.classList.add('custom-scroll');
+    div.classList.add('overflowX');
 
     board.appendChild(div);
   }

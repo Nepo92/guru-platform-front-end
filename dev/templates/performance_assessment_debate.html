@@ -42,10 +42,12 @@
                         th:attr="data-client=${rate.clientId}, data-deal=${rate.idDeal}">
                         <td class="platform-table__column date-debate" th:utext="${rate.rateDate}"></td>
                         <td class="platform-table__column employee">
-                            <div th:if="${managersMap.get(rate.idManager).avatar}" class="employee__img">
-                                <img th:src="'/' + ${managersMap.get(rate.idManager).avatar}" alt="">
+                            <div class="employee__wrapper">
+                                <div th:if="${managersMap.get(rate.idManager).avatar}" class="employee__img">
+                                    <img th:src="'/' + ${managersMap.get(rate.idManager).avatar}">
+                                </div>
+                                <div class="employee-name" th:utext="${managersMap.get(rate.idManager).name}"></div>
                             </div>
-                            <div class="employee-name" th:utext="${managersMap.get(rate.idManager).name}"></div>
                         </td>
                         <td class="platform-table__column column-client">
                             <a js-client-card href="" class="platform-table__row--link client-name" th:title="${rate.clientName}"

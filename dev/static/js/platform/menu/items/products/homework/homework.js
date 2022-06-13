@@ -45,7 +45,9 @@ class Homework {
           }
         });
 
-        saveHomework.addEventListener("click", function (e) {
+        const cloneSaveHomework = utils.setCloneElement(saveHomework);
+
+        cloneSaveHomework.addEventListener("click", function (e) {
           const t = e.target;
 
           t.classList.add("disabled");
@@ -513,34 +515,6 @@ class Homework {
       );
     }
 
-    // Функция добавления оценки в комментарий
-    function getHomeworkRate(menu, data) {
-      const rate = data.rate;
-      const comment = menu.querySelectorAll(".homework-comments__item");
-      const lastComment = comment[comment.length - 1];
-
-      if (rate !== 0) {
-        const div = document.createElement("div");
-        div.classList.add("homework-rating");
-
-        const span = document.createElement("span");
-        span.style.fontSize = "16px";
-        span.style.marginRight = "5px";
-        span.innerHTML = "Оценка:";
-
-        div.appendChild(span);
-        lastComment.appendChild(div);
-
-        for (let i = 0; i < data.rate; i++) {
-          // setRateStarInComment(menu, false);
-        }
-
-        for (let i = 0; i < 5 - data.rate; i++) {
-          // setRateStarInComment(menu, true);
-        }
-      }
-    }
-
     function clearHomeworkForm() {
       const rates = document.querySelectorAll(
         ".homework__estimation--checkbox"
@@ -689,21 +663,6 @@ class Homework {
             </li>`;
     }
 
-    function setRateStarInComment(menu, isEmpty) {
-      const commentRate = menu.querySelector(".homework-rating");
-      const span = document.createElement("span");
-      span.classList.add(
-        isEmpty ? "homework-rate__score-empty" : "homework-rate__score"
-      );
-      span.classList.add(
-        isEmpty
-          ? "homework-menu__score-impty-icon"
-          : "homework-menu__score-icon"
-      );
-
-      commentRate.appendChild(span);
-    }
-
     function adaptiveSlide(items) {
       if (items && items.length) {
         items.forEach((item) => {
@@ -799,66 +758,6 @@ class Homework {
           hideLoader();
         }
       );
-    }
-
-    function changeRatedCounter() {
-      const ratedCounter = Number($("[rated-counter]").html()) + 1;
-      $("[rated-counter]").html(ratedCounter);
-    }
-
-    function updateHomeworkRow(data) {
-      const homeworkRow = $("[data-homework]");
-
-      $.each(homeworkRow, (index, item) => {
-        if (+$(item).attr("data-homework") === data.id) {
-          const ratingCol = $(item).find("[homework-rate]");
-          $(ratingCol).css({ display: "flex" });
-
-          if (data.rate !== 0) {
-            ratingCol.text(" ");
-            ratingCol.append($("<div/>").attr("class", "homework-rate__score"));
-            ratingCol.append(
-              $("<span/>").attr("class", "homework-rate__text").html(data.rate)
-            );
-          } else {
-            ratingCol.text("Нет");
-          }
-
-          $(item)
-            .find(".btn_title-text_small")
-            .html(
-              data.rate == 0
-                ? data.checker
-                  ? "Пересдача"
-                  : "Проверить"
-                : "Проверено"
-            );
-          $(item).find("[homework-checker]").html(data.checker);
-
-          if (data.accepted) {
-            const btnClasses = $(item).find("[rate-homework]");
-            $(btnClasses).removeClass("btn__content");
-            $(btnClasses).addClass("btn_rated");
-
-            $(btnClasses).css({
-              backgroundColor: "#27ae60",
-              color: "white",
-            });
-          } else {
-            const btnClasses = $(item)
-              .find("[rate-homework]")
-              .css({ borderRadius: "5px" });
-            $(btnClasses).removeClass("btn__content");
-            $(btnClasses).find(".btn__content").addClass("btn__retake");
-
-            $(btnClasses).css({
-              backgroundColor: "rgb(255, 238, 1)",
-              border: "1px solid rgb(255, 238, 1)",
-              color: "black",
-            });
-          }
-        }
-      });
     }
 
     (function setFilterDefault() {

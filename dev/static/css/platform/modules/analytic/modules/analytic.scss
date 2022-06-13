@@ -139,6 +139,11 @@
   flex-direction: column;
   overflow-x: auto;
   overflow-y: hidden;
+
+  &.overflowX {
+    overflow-y: hidden;
+    overflow-x: auto;
+  }
 }
 
 .analytic-board__header-values .analytic__column:last-child {

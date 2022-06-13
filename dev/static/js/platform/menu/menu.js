@@ -8,10 +8,10 @@ const desktopMenu = new DesktopMenu();
 const mobileMenu = new MobileMenu();
 
 class Menu {
-  init() {
+  init(props) {
     const menu = document.querySelector('.platform-menu');
 
-    if (menu) {
+    if (menu && props.pack.role) {
       this.initMenu();
       this.#addClassActive();
     }

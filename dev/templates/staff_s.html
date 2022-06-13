@@ -16,6 +16,7 @@
         <div class="platform__wrapper">
             <div class="platform__header">
                 <h1 class="platform__title">Сотрудники</h1>
+                <div th:replace="base :: team-tabs"></div>
             </div>
             <div class="content-main">
                 <th:block th:each="department : ${departments}">

@@ -6,6 +6,9 @@
   line-height: 21px;
   letter-spacing: 0;
   text-align: left;
+  transform: translateY(20px);
+  width: 100%;
+  display: flex;
 }
 
 .platform-tabs__link {
@@ -13,6 +16,7 @@
   margin-right: 15px;
   color: rgb(22 23 24 / 50%);
   display: flex;
+  white-space: nowrap;
 }
 
 .platform-tabs__link.top-nav__item_active::after {

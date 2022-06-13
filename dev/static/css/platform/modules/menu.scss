@@ -1,6 +1,7 @@
 .platform-menu {
   display: flex;
   min-width: 70px;
+  max-width: 70px;
   height: 100vh;
   background-color: white;
   overflow: hidden;
@@ -63,8 +64,6 @@
   cursor: pointer;
   padding-top: 20px;
 
-  &.products-menu::after,
-  &.team::after,
   &.settings::after,
   &.marketing::after {
     content: "";
@@ -105,7 +104,7 @@
 .platform-submenu {
   position: relative;
   right: 0;
-  width: 0;
+  min-width: 0;
   height: 0;
   display: flex;
   flex-direction: column;
@@ -117,35 +116,20 @@
   padding: 0;
 
   &.open {
-    width: 310px;
-    transition: width 0.2s ease-in-out;
+    min-width: 310px;
     height: 100vh;
+    transition: min-width 0.2s ease-in-out;
   }
 
   &.open_t0 {
-    width: 310px;
-    transition: width 0s linear;
+    min-width: 310px;
+    transition: min-width 0s linear;
     height: 100vh;
-  }
-
-  &.closed {
-    width: 0;
-    transition: width 0.2s ease-in-out;
   }
 
   &.height_100vh {
     height: 100vh;
   }
-}
-
-.platform-menu__item.products-menu::after {
-  mask-image: url("../../img/nav-products.svg");
-  mask-size: 22px 22px;
-}
-
-.platform-menu__item.team::after {
-  mask-image: url("../../img/nav-team.svg");
-  mask-size: 22px 22px;
 }
 
 .platform-menu__item.settings::after {
@@ -154,7 +138,7 @@
 }
 
 .platform-menu__item.marketing::after {
-  mask-image: url("../../img/nav-adv-cabinet.svg");
+  mask-image: url("../../img/nav-advertising-cabinet.svg");
   mask-size: 22px 22px;
 }
 
@@ -174,6 +158,7 @@
   color: inherit;
   font-size: 14px;
   line-height: 14px;
+  white-space: nowrap;
 }
 
 .platform-menu__link:hover {
@@ -193,7 +178,9 @@
 .platform-menu__link.homework::after,
 .platform-menu__link.salary-item::after,
 .platform-menu__link.bills-item::after,
-.platform-menu__link.adv-cabinet::after {
+.platform-menu__link.adv-cabinet::after,
+.platform-menu__link.products-menu::after,
+.platform-menu__link.team::after {
   content: "";
   display: inline-block;
   min-width: 70px;
@@ -222,7 +209,7 @@
 }
 
 .platform-menu__link.analytics::after {
-  mask-image: url("../../img/nav-analytics.svg");
+  mask-image: url("../../img/nav-chart.svg");
   mask-size: 23px 22px;
 }
 
@@ -237,23 +224,33 @@
 }
 
 .platform-menu__link.transactions::after {
-  mask-image: url("../../img/nav-crm.svg");
-  mask-size: 17px 22px;
+  mask-image: url("../../img/nav-cart.svg");
+  mask-size: 24px 22px;
 }
 
 .platform-menu__link.marketing::after {
-  mask-image: url("../../img/nav-marketing.svg");
+  mask-image: url("../../img/nav-advertising-cabinet.svg");
   mask-size: 22px 22px;
 }
 
 .platform-menu__link.control::after {
-  mask-image: url("../../img/nav-control.svg");
+  mask-image: url("../../img/nav-estimation-dialogs.svg");
   mask-size: 23px 22px;
 }
 
 .platform-menu__link.bills-item::after {
-  mask-image: url("../../img/nav-bills.svg");
+  mask-image: url("../../img/nav-bills-item.svg");
   mask-size: 19px 24px;
+}
+
+.platform-menu__link.products-menu::after {
+  mask-image: url("../../img/nav-products.svg");
+  mask-size: 22px 22px;
+}
+
+.platform-menu__link.team::after {
+  mask-image: url("../../img/nav-team.svg");
+  mask-size: 22px 22px;
 }
 
 .platform-menu_link {
@@ -592,10 +589,12 @@
     width: 100vw;
     min-height: 70px;
     height: 70px;
+    max-width: 100%;
 
     &.open {
       min-height: 100vh;
       height: 100vh;
+      max-width: 100%;
     }
 
     &__header {
@@ -608,7 +607,7 @@
     }
 
     &__main {
-      width: 100%;
+      min-width: 100vw;
     }
 
     &__burger {
@@ -666,6 +665,7 @@
   .platform-menu {
     &.open {
       min-width: 380px;
+      width: 380px;
     }
   }
 }

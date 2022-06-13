@@ -162,3 +162,9 @@
   line-height: 12px;
   text-align: left;
 }
+
+.tooltip-menu {
+  &__item {
+    display: none;
+  }
+}

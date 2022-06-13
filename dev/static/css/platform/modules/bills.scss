@@ -565,6 +565,8 @@
   flex-direction: column;
   overflow: hidden;
   width: 100%;
+  text-align: left;
+  padding-right: 15px;
 }
 
 .platform-table__column.column-client-pa {
@@ -573,6 +575,7 @@
   flex-direction: column;
   margin-right: 40px;
   width: 100%;
+  text-align: left;
 }
 
 .platform-table__column.link {

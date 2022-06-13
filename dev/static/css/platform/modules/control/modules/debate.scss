@@ -1,20 +1,3 @@
-.employee__img {
-  width: 40px;
-  height: 40px;
-  overflow: hidden;
-  border-radius: 100%;
-  margin-right: 10px;
-}
-
-.employee__img img {
-  width: 100%;
-  height: 100%;
-}
-
-.date-debate {
-  width: 70px;
-}
-
 .employee {
   width: 140px;
   min-width: 140px;
@@ -22,6 +5,32 @@
   justify-content: flex-start;
   align-items: center;
   margin-right: 20px;
+
+  &__img {
+    width: 40px;
+    height: 40px;
+    overflow: hidden;
+    border-radius: 100%;
+    margin-right: 10px;
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &__wrapper {
+    display: flex;
+    align-items: center;
+  }
+
+  &-name {
+    white-space: nowrap;
+  }
+}
+
+.date-debate {
+  width: 70px;
 }
 
 .comment {

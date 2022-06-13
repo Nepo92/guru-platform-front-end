@@ -5,16 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="панель администратора">
     <title>Новые планы</title>
-    <th:block th:insert="base :: links" />
 </head>
 
 <body class="page custom-scroll">
     <div class="page__content">
         <div th:replace="base :: main-nav"></div>
 
-        <div class="main-content plans">
+        <div class="platform__wrapper">
             <div class="content-top plans__top">
                 <h1 class="content-top__title plans-head__title">Планы</h1>
+                <div th:replace="base :: team-tabs"></div>
             </div>
 
             <div class="content-main__panel plans__panel">

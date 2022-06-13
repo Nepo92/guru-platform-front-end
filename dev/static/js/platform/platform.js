@@ -1,4 +1,5 @@
 import Menu from './menu/menu.js';
+import Tabs from './modules/tabs/tabs';
 import Admin from './users/admin/admin.js';
 import Manager from './users/manager/manager.js';
 import Examiner from './users/examiner/examiner.js';
@@ -9,6 +10,7 @@ import Curator from './users/curator/curator.js';
 import Advertiser from './users/advertiser/advertiser';
 
 const menu = new Menu();
+const tabs = new Tabs();
 const utils = new Utils();
 
 class Platform {
@@ -24,7 +26,7 @@ class Platform {
 			user,
 		};
 
-		const items = [menu, user];
+		const items = [menu, user, tabs];
 
 		items.forEach((item) => {
 			const init = item.init.bind(item);
