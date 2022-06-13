@@ -11,7 +11,7 @@
 @media (max-width: $mobile) {
   .platform {
     &__wrapper {
-      width: calc(100% - 70px);
+      width: 100%;
     }
 
     &__header {
@@ -32,6 +32,14 @@
       flex-direction: column;
       width: 100%;
       align-items: flex-start;
+    }
+  }
+}
+
+@media (max-width: 1000px) {
+  .platform {
+    &__wrapper {
+      height: calc(100vh - 70px);
     }
   }
 }

@@ -135,9 +135,14 @@
 
   <div th:fragment="main-nav" class="platform-menu">
     <div class="platform-menu__main">
-      <div class="platform-menu__logo company" th:classappend="${logoClass}">
-        <img class="company__logo" th:classappend="${#strings.isEmpty(company.logo) ? 'company-logo__image_default' : ''}"
-             th:if="${!#strings.isEmpty(company.logo)}" th:src="'/' + ${company.logo}" alt="company-logo">
+      <div class="platform-menu__header">
+        <div class="platform-menu__logo company" th:classappend="${logoClass}">
+          <img class="company__logo" th:classappend="${#strings.isEmpty(company.logo) ? 'company-logo__image_default' : ''}"
+               th:if="${!#strings.isEmpty(company.logo)}" th:src="'/' + ${company.logo}" alt="company-logo">
+        </div>
+        <div class="platform-menu__burger burger">
+          <span class="burger__row"></span>
+        </div>
       </div>
       <ul class="platform-menu__list custom-scroll">
         <li class="platform-menu__item" title="Рабочий стол"
