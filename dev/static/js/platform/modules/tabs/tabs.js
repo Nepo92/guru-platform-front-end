@@ -4,15 +4,19 @@ const pageData = new PageData();
 
 class Tabs {
   init() {
-    const tabs = Array.from(document.querySelector('.platform__tabs').children);
+    const tabsCollection = document.querySelector('.platform__tabs')?.children;
 
-    if (tabs) {
-      const page = pageData.getPage();
+    if (tabsCollection?.length) {
+      const tabs = Array.from(tabsCollection);
 
-      const currentTab = tabs.find((el) => el.getAttribute('href').includes(page));
+      if (tabs.length) {
+        const page = pageData.getPage();
 
-      if (currentTab) {
-        currentTab.classList.add('active');
+        const currentTab = tabs.find((el) => el.getAttribute('href').includes(page));
+
+        if (currentTab) {
+          currentTab.classList.add('active');
+        }
       }
     }
   }

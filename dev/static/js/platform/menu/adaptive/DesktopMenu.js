@@ -1,3 +1,8 @@
+import { menuItems } from '../menuItemsList';
+import Utils from '../../utils/utils';
+
+const utils = new Utils();
+
 class DesktopMenu {
   hoverTimeout = null;
 
@@ -46,7 +51,10 @@ class DesktopMenu {
       if (window.innerWidth > 1000) {
         props.menu.classList.remove('open');
         this.desktopMenu(props);
+        this.autoOpen(props);
       } else {
+        props.menu.classList.remove('open');
+        Array.from(props.subMenuList.children).forEach((el) => el.classList.remove('open'));
         props.platformWrapper.removeEventListener('click', props.closeMenu);
         props.menuList.removeEventListener('click', props.clickMenuItem);
 
@@ -123,6 +131,22 @@ class DesktopMenu {
             currentSubMenu.classList.add('open_t0');
           }
         }
+      }
+    }
+  }
+
+  autoOpen(props) {
+    const [, settings] = Object.entries(menuItems).find((el) => el[0] === 'settings');
+
+    const page = utils.getPage();
+
+    if (settings.includes(page)) {
+      props.menu.classList.add('open');
+
+      const settingsSubMenu = Array.from(props.subMenuList.children).find((el) => el.dataset.item === 'Настройки');
+
+      if (settingsSubMenu) {
+        settingsSubMenu.classList.add('open');
       }
     }
   }

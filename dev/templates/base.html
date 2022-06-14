@@ -134,6 +134,13 @@
   </div>
 
   <div th:fragment="main-nav" class="platform-menu">
+    <script th:inline='javascript'>
+      /*<![CDATA[*/
+        console.log(/*[[${tab}]]*/);
+        console.log(/*[[${tabs}]]*/);
+      /*]]>*/
+    </script>
+
     <div class="platform-menu__main">
       <div class="platform-menu__header">
         <div class="platform-menu__logo company" th:classappend="${logoClass}">
