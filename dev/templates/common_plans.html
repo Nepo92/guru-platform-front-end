@@ -12,13 +12,12 @@
         <div th:replace="base :: main-nav"></div>
 
         <div class="platform__wrapper">
-            <div class="content-top plans__top">
-                <h1 class="content-top__title plans-head__title">Планы</h1>
+            <div class="platform__header plans__top">
+                <h1 class="platform__title plans-head__title">Планы</h1>
                 <div th:replace="base :: team-tabs"></div>
             </div>
 
-            <div class="content-main__panel plans__panel">
-                <div class="plans__choose">
+                <div class="plans__choose plans__panel">
                     <form js-month-form class="plans__year" th:action="@{/settings/common-plans/}" th:object="${filter}"
                           th:method="post">
                         <div class="menu-input__wrapper menu-input__wrapper_select plans-select__wrapper plans-year">
@@ -28,7 +27,6 @@
                         </div>
                     </form>
                 </div>
-            </div>
 
             <div js-plans-now__block class="plans-now__list">
 
