@@ -149,6 +149,18 @@ class DesktopMenu {
         settingsSubMenu.classList.add('open');
       }
     }
+
+    const [, marketing] = Object.entries(menuItems).find((el) => el[0] === 'marketing');
+
+    if (marketing.includes(page)) {
+      props.menu.classList.add('open');
+
+      const settingsSubMenu = Array.from(props.subMenuList.children).find((el) => el.dataset.item === 'Рекламный кабинет');
+
+      if (settingsSubMenu) {
+        settingsSubMenu.classList.add('open');
+      }
+    }
   }
 }
 

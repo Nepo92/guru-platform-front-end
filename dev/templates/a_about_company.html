@@ -7,7 +7,7 @@
 
     <title th:utext="${title}"></title>
 
-    <th:block th:insert="base :: links"/>
+    <th:block th:insert="base :: links" />
     <link th:href="@{/css/section.css}" rel="stylesheet">
     <link th:href="@{/css/access.css}" rel="stylesheet">
 </head>
@@ -23,7 +23,8 @@
                 <h1 type="all" js-type class="platform__title">О компании</h1>
             </div>
             <div class="content-main theme-container">
-                <div js-create-theme class="add-button add-button_right add-button_black content-top__add-button">Добавить
+                <div js-create-theme class="add-button add-button_right add-button_black content-top__add-button">
+                    Добавить
                     раздел
                 </div>
                 <th:block th:each="theme, counter : ${articles}">
@@ -36,17 +37,17 @@
                                 </div>
                                 <div class="theme__articles">
                                     <div class="article" th:each="article : ${theme.value}"
-                                         th:attr="data-article=${article.id}">
+                                        th:attr="data-article=${article.id}">
                                         <div class="article-wrapper">
                                             <div class="article__title" th:utext="${article.name}"></div>
                                             <div class="article-preview">
                                                 <div class="article__preview">
                                                     <div class="article__preview-hover"></div>
                                                     <img th:src="@{'/' + ${article.previewImg}}" alt=""
-                                                         class="article__img">
+                                                        class="article__img">
                                                     <div class="article__link-wrapper">
                                                         <a th:href="${article.link}" target="_blank"
-                                                           class="article__link">Открыть</a>
+                                                            class="article__link">Открыть</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -62,25 +63,26 @@
                             <div class="theme-wrapper about-wrapper">
                                 <div class="theme__title-wrapper">
                                     <div theme-name class="theme-title theme-title_delim theme-title_delim--about"
-                                         th:utext="${theme.key.name}">
+                                        th:utext="${theme.key.name}">
                                     </div>
                                     <div js-update-theme class="theme-setting mt_1"></div>
                                     <div js-create-article class="add-button add-button_right">Добавить файл</div>
                                 </div>
                                 <div class="theme__articles">
                                     <div class="article" th:each="article : ${theme.value}"
-                                         th:attr="data-article=${article.id}">
+                                        th:attr="data-article=${article.id}">
                                         <div class="article-wrapper">
                                             <div class="article__title" th:utext="${article.name}"></div>
                                             <div class="article-preview">
                                                 <div class="article__preview">
                                                     <div class="article__preview-hover"></div>
                                                     <img th:src="@{'/' + ${article.previewImg}}" alt=""
-                                                         class="article__img">
+                                                        class="article__img">
                                                     <div class="article__link-wrapper">
                                                         <a th:href="${article.link}" target="_blank"
-                                                           class="article__link">Открыть</a>
-                                                        <div js-update-article class="article__btn-link">Редактировать</div>
+                                                            class="article__link">Открыть</a>
+                                                        <div js-update-article class="article__btn-link">Редактировать
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -96,31 +98,31 @@
     </div>
 
 
-<script th:src="@{/js/transition-loader.js}"></script>
-<script th:inline='javascript'>
-    /*<![CDATA[*/
-    showLoader();
+    <script th:src="@{/js/transition-loader.js}"></script>
+    <script th:inline='javascript'>
+        /*<![CDATA[*/
+        showLoader();
 /*]]>*/
-</script>
+    </script>
 
-<div th:replace="base :: menu-create-theme"></div>
-<div th:replace="base :: menu-update-theme"></div>
-<div th:replace="base :: menu-create-article"></div>
-<div th:replace="base :: menu-update-article"></div>
+    <div th:replace="base :: menu-create-theme"></div>
+    <div th:replace="base :: menu-update-theme"></div>
+    <div th:replace="base :: menu-create-article"></div>
+    <div th:replace="base :: menu-update-article"></div>
 
-<th:block th:insert="base :: scripts"/>
-<script th:src="@{/js/timer.js}"></script>
-<script th:inline='javascript'>
-    /*<![CDATA[*/
-    var filter = [[${filter}]];
-    var role = [[${role}]];
-    var items = null;
-    var today = null;
-    var manager = null;
-    var company = [[${company}]];
-    var managers = null;
+    <th:block th:insert="base :: scripts" />
+    <script th:src="@{/js/timer.js}"></script>
+    <script th:inline='javascript'>
+        /*<![CDATA[*/
+        var filter = [[${ filter }]];
+        var role = [[${ role }]];
+        var items = null;
+        var today = null;
+        var manager = null;
+        var company = [[${ company }]];
+        var managers = null;
     /*]]>*/
-</script>
+    </script>
 </body>
 
 </html>

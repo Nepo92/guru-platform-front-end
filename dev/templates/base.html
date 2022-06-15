@@ -111,7 +111,7 @@
     <div class="platform-menu__main">
       <div class="platform-menu__logo company" th:classappend="${logoClass}">
         <img class="company__logo" th:classappend="${#strings.isEmpty(companyLogo) ? 'company-logo__image_default' : ''}"
-             th:if="${!#strings.isEmpty(companyLogo)}" th:src="'/' + ${companyLogo}" alt="company-logo">
+             th:if="${!#strings.isEmpty(companyLogo)}" th:src="'/' + ${companyLogo}" alt="logo">
       </div>
       <ul class="platform-menu__list custom-scroll">
         <li class="platform-menu__item" title="Moи курсы">
@@ -133,14 +133,7 @@
     </div>
   </div>
 
-  <div th:fragment="main-nav" class="platform-menu">
-    <script th:inline='javascript'>
-      /*<![CDATA[*/
-        console.log(/*[[${tab}]]*/);
-        console.log(/*[[${tabs}]]*/);
-      /*]]>*/
-    </script>
-
+  <div th:fragment="main-nav" th:with="submenuAdmin=${#strings.arraySplit('/settings/companies/,/settings-contracts/,/settings/lists/payment-method/,/settings/projects/,/payment-form-builder/,/a-advertising/links/,/client-cleaner/,/bill-pattern/,/banners-settings/', ',')}, hasSubMenuAdmin=${#arrays.contains(submenuAdmin, #httpServletRequest.requestURI)}, submenuAdv=${#strings.arraySplit('/payment/,/a-advertising/', ',')}, hasSubmenuAdv=${#arrays.contains(submenuAdv, #httpServletRequest.requestURI)}" class="platform-menu" th:classappend="${role == 'ROLE_ADMIN' && hasSubMenuAdmin ? 'open' : role == 'ROLE_ADVERTISER' && hasSubmenuAdv ? 'open' : '' }">
     <div class="platform-menu__main">
       <div class="platform-menu__header">
         <div class="platform-menu__logo company" th:classappend="${logoClass}">
