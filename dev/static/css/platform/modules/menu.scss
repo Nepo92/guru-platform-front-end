@@ -180,7 +180,8 @@
 .platform-menu__link.bills-item::after,
 .platform-menu__link.adv-cabinet::after,
 .platform-menu__link.products-menu::after,
-.platform-menu__link.team::after {
+.platform-menu__link.team::after,
+.platform-menu__link.settings::after {
   content: "";
   display: inline-block;
   min-width: 70px;
@@ -250,6 +251,11 @@
 
 .platform-menu__link.team::after {
   mask-image: url("../../img/nav-team.svg");
+  mask-size: 22px 22px;
+}
+
+.platform-menu__link.settings::after {
+  mask-image: url("../../img/nav-settings.svg");
   mask-size: 22px 22px;
 }
 

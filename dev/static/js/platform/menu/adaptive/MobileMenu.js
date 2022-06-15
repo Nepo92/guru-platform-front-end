@@ -32,6 +32,7 @@ class MobileMenu {
       mobileMenu: mobileMenuProps.mobileMenu,
       subMenuButtons,
       mainMenu,
+      role: mobileMenuProps.pack?.role || mobileMenuProps.role,
     };
 
     const toggleMenu = this.toggleMenu.bind(this, props);
@@ -74,6 +75,7 @@ class MobileMenu {
         const desktopProps = {
           desktopMenu: props.desktopMenu,
           mobileMenu: props.mobileMenu,
+          role: props.role,
         };
 
         props.desktopMenu.init(desktopProps);

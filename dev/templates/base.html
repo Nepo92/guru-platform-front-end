@@ -156,14 +156,10 @@
              th:href="${role == 'ROLE_ADVERTISER' ? '/funnel/traffic/' : role == 'ROLE_ADMIN' ? '/funnel/' : ''}">Аналитика</a>
           <div class="tooltip-menu__item">Аналитика</div>
         </li>
-        <li class="platform-menu__item tooltip-menu" th:classappend="${role == 'ROLE_ADVERTISER' ? 'marketing submenu' : ''}" title="Рекламный кабинет" data-item="Рекламный кабинет" th:if="${role == 'ROLE_ADMIN' || role == 'ROLE_ADVERTISER'}">
-          <a class="platform-menu__link marketing" th:if="${role == 'ROLE_ADMIN'}"
-             th:href="${role == 'ROLE_ADMIN' ? '/a-advertising/' : '#'}">
+        <li class="platform-menu__item tooltip-menu" title="Рекламный кабинет" data-item="Рекламный кабинет" th:if="${role == 'ROLE_ADMIN' || role == 'ROLE_ADVERTISER'}">
+          <a class="platform-menu__link marketing" th:href="${role == 'ROLE_ADMIN' ? '/a-advertising/' : '/payment/'}">
             Рекламный кабинет
           </a>
-          <th:block th:if="${role == 'ROLE_ADVERTISER'}">
-            Рекламный кабинет
-          </th:block>
           <div class="tooltip-menu__item">Рекламный кабинет</div>
         </li>
         <li class="platform-menu__item tooltip-menu" title="Сделки"
@@ -217,8 +213,8 @@
           <a class="platform-menu__link team" th:href="@{/settings/users/staff/}">Команда</a>
           <div class="tooltip-menu__item">Команда</div>
         </li>
-        <li class="platform-menu__item settings submenu tooltip-menu" title="Настройки" data-item="Настройки" th:if="${role == 'ROLE_ADMIN'}">
-          Настройки
+        <li class="platform-menu__item tooltip-menu" title="Настройки" data-item="Настройки" th:if="${role == 'ROLE_ADMIN'}">
+          <a class="platform-menu__link settings" th:href="@{/settings/companies/}">Настройки</a>
           <div class="tooltip-menu__item">Настройки</div>
         </li>
       </ul>

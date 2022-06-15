@@ -31,6 +31,7 @@ class DesktopMenu {
       desktopMenu: desktopMenuProps.desktopMenu,
       mobileMenu: desktopMenuProps.mobileMenu,
       platformWrapper,
+      role: desktopMenuProps.pack?.role || desktopMenuProps.role,
     };
 
     const clickMenuItem = this.clickMenuItem.bind(this, props);
@@ -61,6 +62,7 @@ class DesktopMenu {
         const mobileProps = {
           desktopMenu: props.desktopMenu,
           mobileMenu: props.mobileMenu,
+          role: props.role,
         };
 
         props.mobileMenu.init(mobileProps);
@@ -152,7 +154,7 @@ class DesktopMenu {
 
     const [, marketing] = Object.entries(menuItems).find((el) => el[0] === 'marketing');
 
-    if (marketing.includes(page)) {
+    if (marketing.includes(page) && props.role === 'ROLE_ADVERTISER') {
       props.menu.classList.add('open');
 
       const settingsSubMenu = Array.from(props.subMenuList.children).find((el) => el.dataset.item === 'Рекламный кабинет');

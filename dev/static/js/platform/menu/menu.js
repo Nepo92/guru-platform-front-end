@@ -12,15 +12,16 @@ class Menu {
     const menu = document.querySelector('.platform-menu');
 
     if (menu && props.pack.role) {
-      this.initMenu();
+      this.initMenu(props);
       this.#addClassActive();
     }
   }
 
-  initMenu() {
+  initMenu(menuProps) {
     const props = {
       mobileMenu,
       desktopMenu,
+      ...menuProps,
     };
 
     if (window.innerWidth > 1000) {
