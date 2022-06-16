@@ -41,7 +41,7 @@
                                 <td class="custom-table__header-col custom-table__header-col_big">Статус акции</td>
                                 <td class="custom-table__header-col custom-table__header-col_big"></td>
                             </tr>
-                            <tr class="custom-table__body-row" th:each="historyRow, statCount : ${historyRows}">
+                            <tr class="custom-table__body-row action-row" th:each="historyRow, statCount : ${historyRows}">
                                 <td class="custom-table__body-col" th:utext="${historyRow.processDate}"></td>
                                 <td class="custom-table__body-col">
                                     <div th:attr="title=${historyRow.name}" class="column-text"
