@@ -25,12 +25,12 @@
                     <div class="content-main__panel content-main__panel_align content-main__panel_p content-main__company">
                         <table class="custom-table">
                             <tbody class="custom-table__body custom-table__body_white">
-                            <tr class="custom-table__header-row">
+                            <tr class="custom-table__header-row company-header__row">
                                 <td class="custom-table__header-col custom-table__header-col_big">#</td>
-                                <td class="custom-table__header-col custom-table__header-col_big"></td>
-                                <td class="custom-table__header-col custom-table__header-col_big">Название</td>
-                                <td class="custom-table__header-col custom-table__header-col_big">Юр. название</td>
-                                <td class="custom-table__header-col custom-table__header-col_big">Логин</td>
+                                <td class="custom-table__header-col custom-table__header-col_big company__avatar"></td>
+                                <td class="custom-table__header-col custom-table__header-col_big company-name">Название</td>
+                                <td class="custom-table__header-col custom-table__header-col_big company-legal-name">Юр. название</td>
+                                <td class="custom-table__header-col custom-table__header-col_big company__login">Логин</td>
                                 <td class="custom-table__header-col custom-table__header-col_big">Пароль</td>
                                 <td class="custom-table__header-col custom-table__header-col_big">Таймзона</td>
                                 <td class="custom-table__header-col custom-table__header-col_big">Код</td>
@@ -40,11 +40,11 @@
                                 <td class="custom-table__header-col custom-table__header-col_big">Тип</td>
                                 <td class="custom-table__header-col custom-table__header-col_big"></td>
                             </tr>
-                            <tr class="custom-table__body-row" th:each="company, stat : ${companies}">
+                            <tr class="custom-table__body-row company-body__row" th:each="company, stat : ${companies}">
                                 <input type="hidden" u-id th:value="${company.id}" name="id" required>
                                 <input type="hidden" u-id-company th:value="${company.idCompany}" name="idCompany" required>
                                 <td class="custom-table__body-col" th:utext="${company.idCompany}"></td>
-                                <td class="custom-table__body-col">
+                                <td class="custom-table__body-col company__avatar">
                                     <div class="avatar-upload">
                                         <form u-upload-avatar-form action="#" enctype="multipart/form-data">
                                             <input type="hidden" th:value="${company.idCompany}" name="id" required>
@@ -57,7 +57,7 @@
                                         </form>
                                     </div>
                                 </td>
-                                <td class="custom-table__body-col custom-table__body-col_xlarge" >
+                                <td class="custom-table__body-col custom-table__body-col_xlarge company-name" >
                                     <input u-company-name name="name"
                                            class="menu-input__input menu-input__input_small editable"
                                            th:attr="title=${company.name}"
@@ -65,7 +65,7 @@
                                            disabled
                                            placeholder="—">
                                 </td>
-                                <td class="custom-table__body-col custom-table__body-col_xlarge" >
+                                <td class="custom-table__body-col custom-table__body-col_xlarge company-legal-name" >
                                     <input u-legal-name name="legalName"
                                            class="menu-input__input menu-input__input_small editable"
                                            th:attr="title=${company.legalName}"
@@ -73,7 +73,7 @@
                                            disabled
                                            placeholder="—">
                                 </td>
-                                <td class="custom-table__body-col custom-table__body-col_xlarge">
+                                <td class="custom-table__body-col custom-table__body-col_xlarge company__login">
                                     <input u-username name="username"
                                            class="menu-input__input menu-input__input_small editable"
                                            th:attr="title=${company.username}"
@@ -135,8 +135,7 @@
                                 </td>
                                 <td class="custom-table__body-col custom-table__body-col_medium custom-table__body-col_center">
                                     <div js-set-sale-type class="setting-wrapper">
-                                        <div class="theme-setting theme-setting_big"></div>
-                                        <div class="setting-title">Настроить</div>
+                                        <div class="theme-setting theme-setting_big mt_0 ml_0"></div>
                                     </div>
                                 </td>
                                 <td class="custom-table__body-col custom-table__body-col_last">

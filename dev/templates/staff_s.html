@@ -15,7 +15,7 @@
 
         <div class="platform__wrapper">
             <div class="platform__header">
-                <h1 class="platform__title">Пользователи</h1>
+                <h1 class="platform__title">Команда</h1>
                 <div th:replace="base :: team-tabs"></div>
             </div>
             <div class="content-main">
@@ -71,7 +71,7 @@
                                                    disabled
                                                    placeholder="—">
                                         </td>
-                                        <td class="custom-table__body-col custom-table__body-col_xlarge staff-table__login">
+                                        <td class="custom-table__body-col staff-table__login">
                                             <input u-username name="user.username"
                                                    class="menu-input__input menu-input__input_small editable"
                                                    th:attr="title=${employee.user.username}"
@@ -228,7 +228,7 @@
                                                    disabled
                                                    placeholder="—">
                                         </td>
-                                        <td class="custom-table__body-col custom-table__body-col_xlarge staff-table__login">
+                                        <td class="custom-table__body-col staff-table__login">
                                             <input u-username name="username"
                                                    class="menu-input__input menu-input__input_small editable"
                                                    th:attr="title=${manager.username}"
@@ -398,7 +398,7 @@
                                                    disabled
                                                    placeholder="—">
                                         </td>
-                                        <td class="custom-table__body-col custom-table__body-col_xlarge staff-table__login">
+                                        <td class="custom-table__body-col staff-table__login">
                                             <input u-username name="username"
                                                    class="menu-input__input menu-input__input_small editable"
                                                    th:attr="title=${advertiser.username}"
@@ -567,7 +567,7 @@
                                                            disabled
                                                            placeholder="—">
                                                 </td>
-                                                <td class="custom-table__body-col custom-table__body-col_xlarge staff-table__login" th:if="${department.id == 7}">
+                                                <td class="custom-table__body-col staff-table__login" th:if="${department.id == 7}">
                                                     <input u-username name="username"
                                                            class="menu-input__input menu-input__input_small editable"
                                                            th:attr="title=${employee.user.username}"

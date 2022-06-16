@@ -12,7 +12,7 @@ class Tabs {
       if (tabs.length) {
         const page = pageData.getPage();
 
-        const currentTab = tabs.find((el) => el.getAttribute('href').includes(page));
+        const currentTab = tabs.find((el) => el.getAttribute('href')?.includes(page));
 
         if (currentTab) {
           currentTab.classList.add('active');

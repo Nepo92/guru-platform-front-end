@@ -33,6 +33,7 @@
   margin-left: 40px;
   margin-top: 20px;
   margin-bottom: 30px;
+  max-width: 1215px;
 }
 
 .content-main__payment {
@@ -86,12 +87,12 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 1260px;
+  width: 1215px;
 }
 
 .advertising,
 .sms-checks {
-  max-width: 1260px;
+  max-width: 1215px;
 }
 
 .content-main__panel-side {
@@ -644,7 +645,6 @@
 }
 
 .salary_delim {
-  margin-bottom: 105px;
   margin-left: 0;
   margin-right: 0;
 }
@@ -1692,11 +1692,11 @@
 
 .action {
   margin-right: 35px;
-  max-width: 1645px;
+  max-width: 1215px;
 }
 
 .history {
-  max-width: 1260px;
+  max-width: 1215px;
 }
 
 .action_delim {
@@ -1705,11 +1705,11 @@
 }
 
 .list {
-  max-width: 1260px;
+  max-width: 1215px;
 }
 
 .article-container {
-  max-width: 1260px;
+  max-width: 1215px;
 }
 
 .plans-content {
@@ -5631,7 +5631,7 @@ label.error,
 }
 
 .streams {
-  max-width: 1220px;
+  max-width: 1215px;
 }
 
 .homework {
@@ -10470,7 +10470,7 @@ label.error,
 }
 
 .staff {
-  width: 1645px;
+  width: 1215px;
 }
 
 .staff-table__id,
@@ -10486,7 +10486,7 @@ label.error,
 .staff-table__birthday,
 .staff-table__status,
 .staff-table__password {
-  width: 120px;
+  width: 90px;
   padding: 0;
   min-width: 0;
 }
@@ -10501,7 +10501,7 @@ label.error,
 .staff-table__monitor,
 .staff-table__settings,
 .staff-table__projects {
-  width: 60px;
+  width: 50px;
   padding: 0;
   min-width: 0;
 }
@@ -10532,7 +10532,7 @@ label.error,
 }
 
 .staff-table__login {
-  width: 260px;
+  width: 100px;
   padding: 0;
 }
 
@@ -10555,7 +10555,7 @@ label.error,
 }
 
 .content-main__company {
-  width: 1570px;
+  width: 1215px;
 }
 
 .monitor-panel__banner {
@@ -10741,7 +10741,7 @@ label.error,
 }
 
 .payment-method__content {
-  max-width: 1260px;
+  max-width: 1215px;
 }
 
 .content-main__distribution {
@@ -11696,4 +11696,10 @@ div[distribute-submit-btn] {
 
 .create-employee__list {
   padding-bottom: 20px;
+}
+
+.salary__wrapper {
+  min-width: 1215px;
+  width: 1215px;
+  overflow-y: hidden;
 }

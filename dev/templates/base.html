@@ -619,13 +619,13 @@
     </div>
   </div>
 
-  <div class="platform__tabs" th:fragment="products-tab">
+  <div class="platform__tabs bb_0" th:fragment="products-tab">
     <a th:href="@{/products/courses/}" class="platform-tabs__link">Образовательные продукты</a>
     <a class="platform-tabs__link" th:href="@{/streams/}">Потоки</a>
   </div>
 
-  <div class="platform__tabs" th:fragment="team-tabs">
-    <a class="platform-tabs__link" th:href="@{/settings/users/staff/}">Пользователи</a>
+  <div class="platform__tabs bb_0" th:fragment="team-tabs">
+    <a class="platform-tabs__link" th:href="@{/settings/users/staff/}">Команда</a>
     <a class="platform-tabs__link" th:href="@{/workers-salary/}">Расчет вознаграждений</a>
     <a class="platform-tabs__link" th:href="@{/work-tracker/}">График работы</a>
     <a class="platform-tabs__link" th:href="@{/settings/common-plans/}">Планы</a>
@@ -638,7 +638,7 @@
       class="platform-tabs__link">Ссылки на рекламу</a>
   </div>
 
-  <div class="platform__tabs" th:fragment="performance-assessment-tab">
+  <div class="platform__tabs bb_0" th:fragment="performance-assessment-tab">
     <a th:classappend="${tab == 'rating' ? 'active' : ''}" th:href="@{/performance-assessment/rating/}"
       class="platform-tabs__link">Оценки</a>
     <a th:classappend="${(role != 'ROLE_ADMIN' && tab == 'quality') ? 'active' : (role == 'ROLE_ADMIN' && tab == 'debate' || role == 'ROLE_EXAMINER' && tab == 'debate') ? 'active' : ''}"
@@ -649,14 +649,14 @@
       th:href="@{/performance-assessment/list/}" class="platform-tabs__link">Список оценок</a>
   </div>
 
-  <div class="platform__tabs" th:fragment="m-performance-assessment-tab">
+  <div class="platform__tabs bb_0" th:fragment="m-performance-assessment-tab">
     <a th:classappend="${settings == 'rating' ? 'active' : ''}" th:href="@{/performance-assessment/}"
       class="platform-tabs__link">Оценки</a>
     <a th:classappend="${settings == 'debate' ? 'active' : ''}" th:href="@{/performance-assessment/debate-list/}"
       class="platform-tabs__link">Споры</a>
   </div>
 
-  <div class="platform__tabs" th:fragment="funnel-tab">
+  <div class="platform__tabs bb_0" th:fragment="funnel-tab">
     <div th:if="${role == 'ROLE_ADMIN'}" th:classappend="${funnel == 'common' ? 'top-nav__item_active' : ''}"
       class="platform-tabs__link">
       <a th:href="@{/funnel/}" class="top-nav__link">Общая</a>

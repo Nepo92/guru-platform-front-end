@@ -24,8 +24,7 @@ h2 {
 }
 
 .motivation__choose {
-  margin-left: 40px;
-  width: 1220px;
+  width: 100%;
   display: flex;
   justify-content: space-between;
 }
@@ -41,11 +40,12 @@ h2 {
 }
 
 .motivation__panel {
-  width: 1260px;
+  width: 1215px;
   margin-top: 20px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  margin-left: 40px;
 }
 
 .motivation__menu {
@@ -492,7 +492,7 @@ h2 {
   padding: 20px 25px;
   margin-right: 20px;
   margin-top: 0;
-  width: 290px;
+  width: 288px;
   background-color: #fff;
   border-radius: 10px;
   cursor: pointer;
@@ -1086,10 +1086,9 @@ h2 {
   margin-top: 30px;
   padding-top: 30px;
   border-top: 1px solid #c4c4c433;
-  width: calc(100% - 40px);
+  width: 100%;
   flex-flow: row wrap;
   align-content: flex-start;
-  margin-left: 40px;
   margin-bottom: 40px;
 }
 

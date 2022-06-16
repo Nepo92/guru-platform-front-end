@@ -80,7 +80,7 @@ class SettingsContract {
 
     const name = menu.querySelector('[contract-name]').value.trim();
     const link = menu.querySelector('[contract-link]').value.trim();
-    const code = +Array.from(document.querySelectorAll('.contract-tabs__item')).find((el) => el.classList.contains('active')).getAttribute('data-type');
+    const code = +Array.from(document.querySelectorAll('.platform-tabs__link')).find((el) => el.classList.contains('active')).getAttribute('data-type');
     const { keyField } = props.pack.typesContracts.find((el) => el.keyField === code);
 
     const type = menu.querySelector('[data-select-type="select-contract"] [id-selected]')?.value;
@@ -124,9 +124,14 @@ class SettingsContract {
 
     const update = contractAPI.updateContract(currentContract);
 
-    const loader = setTimeout(utils.showLoader);
+    const loader = setTimeout(() => {
+      utils.showLoader();
+    }, 400);
 
     update.then(() => {
+      clearTimeout(loader);
+      utils.hideLoader();
+
       const sameTape = props.pack.contracts.filter((el) => el.type === currentContract.type);
       const sameTapeisActive = sameTape.find((el) => el.active && el.id !== currentContract.id);
 

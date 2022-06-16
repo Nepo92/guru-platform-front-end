@@ -1,0 +1,22 @@
+.action-type {
+  width: 130px;
+  min-width: 130px;
+  max-width: 130px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.action-reward,
+.action-winner,
+.action-consider,
+.action-managers {
+  width: 100px;
+  min-width: 100px;
+  max-width: 100px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}

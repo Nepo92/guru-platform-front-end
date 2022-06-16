@@ -80,10 +80,15 @@ class IContractTemplate {
   }
 
   getContractTypeCode() {
-    const tabs = document.querySelectorAll('.contract-tabs__item');
-    const current = Array.from(tabs).find((el) => el.classList.contains('active'));
+    const tabs = document.querySelectorAll('.platform-tabs__link');
 
-    return +current.getAttribute('data-type');
+    if (tabs.length) {
+      const current = Array.from(tabs).find((el) => el.classList.contains('active'));
+
+      if (current) {
+        return +current.getAttribute('data-type');
+      }
+    }
   }
 }
 

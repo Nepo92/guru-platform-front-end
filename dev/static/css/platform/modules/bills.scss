@@ -436,8 +436,8 @@
 }
 
 .bills__exposed {
-  min-width: 124px;
-  width: 124px;
+  min-width: 90px;
+  width: 90px;
   margin-right: 15px;
 }
 
@@ -560,7 +560,7 @@
 }
 
 .platform-table__column.column-client {
-  max-width: 180px;
+  max-width: 150px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -570,10 +570,10 @@
 }
 
 .platform-table__column.column-client-pa {
-  max-width: 180px;
+  max-width: 100px;
   display: flex;
   flex-direction: column;
-  margin-right: 40px;
+  margin-right: 10px;
   width: 100%;
   text-align: left;
 }
@@ -646,12 +646,13 @@
 .platform-table__column.bills__account--number {
   border: 0;
   background-color: transparent;
-  min-width: 155px;
-  width: 155px;
+  min-width: 115px;
+  width: 115px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   display: inline-block;
+  text-align: left;
 }
 
 .platform-table__column.bills__add {
@@ -707,6 +708,7 @@
   min-width: 65px;
   width: 65px;
   margin-right: 15px;
+  text-align: left;
 }
 
 .exposed {

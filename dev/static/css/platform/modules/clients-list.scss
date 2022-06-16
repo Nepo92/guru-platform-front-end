@@ -1,5 +1,6 @@
 .clients__list {
-  width: 1181px;
+  width: 1215px;
+  min-width: 1215px;
   display: flex;
   flex-wrap: wrap;
   margin: 20px 0 40px;
@@ -8,7 +9,7 @@
 }
 
 .clients__item {
-  width: 280px;
+  width: 288px;
   height: auto;
   background-color: white;
   box-shadow: 0 8px 18px 0 rgb(5 4 20 / 8%);

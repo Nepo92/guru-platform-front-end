@@ -74,6 +74,10 @@
 @import "./modules/payment-report";
 @import "./modules/calculate-wage";
 @import "./modules/payment/payment";
+@import "./modules/actions";
+@import "./modules/settings/general/general";
+@import "./modules/salary";
+@import "./modules/custom";
 
 /* Main settings */
 @import "./modules/custom-scroll";

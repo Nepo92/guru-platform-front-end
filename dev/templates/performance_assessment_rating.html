@@ -40,8 +40,8 @@
                 </div>
                 <table class="platform-table performance-assessment mt_20">
                     <tbody class="custom-table__body custom-table__body_white custom-table__body--crm">
-                    <tr class="platform-table__row--header">
-                        <td class="platform-table__column date__rating">Дата изменения</td>
+                    <tr class="platform-table__row--header rating-header">
+                        <td class="platform-table__column date__rating">Изменили</td>
                         <td class="platform-table__column action">Действия</td>
                         <td class="platform-table__column social"></td>
                         <td class="platform-table__column client-column">Клиент</td>
@@ -51,7 +51,6 @@
                         <td class="platform-table__column type">Тип</td>
                         <td class="platform-table__column price">Цена / Получено</td>
                         <td class="platform-table__column stream">Старт</td>
-                        <td class="platform-table__column column-mailing coupling"></td>
                         <td class="platform-table__column crm-deals__status status">Статус сделки</td>
                         <td class="platform-table__column estimation-column"></td>
                         <td class="platform-table__column do-rate">Оценки</td>
@@ -120,7 +119,6 @@
                         </td>
                         <td class="platform-table__column stream"
                             th:text="${deal.idSaleType == 2} ? ${deal.startDate} : '&mdash;'"></td>
-                        <td data-deal-mailing class="platform-table__column coupling" th:text="${deal.coupling}"></td>
                         <td class="platform-table__column status">
                             <div class="select select-deal__status select__rating"
                                  th:classappend="'deal-status__form_' + ${deal.statusCode}">

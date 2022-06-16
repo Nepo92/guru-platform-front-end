@@ -29,39 +29,32 @@
                         <table class="custom-table">
                             <tbody class="custom-table__body custom-table__body_white">
                             <tr class="custom-table__header-row">
-                                <td class="custom-table__header-col custom-table__header-col_big">#</td>
                                 <td class="custom-table__header-col custom-table__header-col_big">Дата</td>
                                 <td class="custom-table__header-col custom-table__header-col_big">Название акции</td>
-                                <td class="custom-table__header-col custom-table__header-col_big">Вид акции</td>
-                                <td class="custom-table__header-col custom-table__header-col_big">Механика</td>
-                                <td class="custom-table__header-col custom-table__header-col_big">Менеджер(ы)</td>
-                                <td class="custom-table__header-col custom-table__header-col_big">Что учитывать</td>
+                                <td class="custom-table__header-col custom-table__header-col_big action-type">Вид акции</td>
+                                <td class="custom-table__header-col custom-table__header-col_big action-managers">Менеджер(ы)</td>
                                 <td class="custom-table__header-col custom-table__header-col_big">Дата от</td>
                                 <td class="custom-table__header-col custom-table__header-col_big">Дата до</td>
                                 <td class="custom-table__header-col custom-table__header-col_big">Значение</td>
-                                <td class="custom-table__header-col custom-table__header-col_big">Тип награды</td>
-                                <td class="custom-table__header-col custom-table__header-col_big">Награда</td>
-                                <td class="custom-table__header-col custom-table__header-col_big">Победитель</td>
+                                <td class="custom-table__header-col custom-table__header-col_big action-reward">Награда</td>
+                                <td class="custom-table__header-col custom-table__header-col_big action-winner">Победитель</td>
                                 <td class="custom-table__header-col custom-table__header-col_big">Статус акции</td>
                                 <td class="custom-table__header-col custom-table__header-col_big"></td>
                             </tr>
                             <tr class="custom-table__body-row" th:each="historyRow, statCount : ${historyRows}">
-                                <td class="custom-table__body-col" th:utext="${historyRow.id}"></td>
                                 <td class="custom-table__body-col" th:utext="${historyRow.processDate}"></td>
                                 <td class="custom-table__body-col">
                                     <div th:attr="title=${historyRow.name}" class="column-text"
                                          th:utext="${historyRow.name}"></div>
                                 </td>
-                                <td class="custom-table__body-col">
+                                <td class="custom-table__body-col action-type">
                                     <div th:attr="title=${historyRow.type}" class="column-text"
                                          th:utext="${historyRow.type}"></div>
                                 </td>
-                                <td class="custom-table__body-col" th:utext="${historyRow.mechanics}"></td>
-                                <td class="custom-table__body-col">
+                                <td class="custom-table__body-col action-managers">
                                     <div th:attr="title=${historyRow.managers}" class="column-text"
                                          th:utext="${historyRow.managers}"></div>
                                 </td>
-                                <td class="custom-table__body-col" th:utext="${historyRow.proceedType}"></td>
                                 <td class="custom-table__body-col" th:utext="${historyRow.startDate}"></td>
                                 <td class="custom-table__body-col" th:utext="${historyRow.endDate}"></td>
                                 <td class="custom-table__body-col">
@@ -69,11 +62,7 @@
                                          th:utext="${historyRow.value}"></div>
                                 </td>
                                 <td class="custom-table__body-col" th:utext="${historyRow.bonusType}"></td>
-                                <td class="custom-table__body-col">
-                                    <div th:attr="title=${historyRow.bonus}" class="column-text"
-                                         th:utext="${historyRow.bonus}"></div>
-                                </td>
-                                <td class="custom-table__body-col">
+                                <td class="custom-table__body-col action-winner">
                                     <div th:attr="title=${historyRow.winner}" class="column-text"
                                          th:utext="${historyRow.winner}"></div>
                                 </td>

@@ -1,0 +1,9 @@
+.company-header__row,
+.company-body__row {
+  display: grid;
+  max-width: 1215px;
+  justify-content: space-between;
+  width: 1215px;
+  grid-template-columns: 23px 46px 100px 120px 100px 110px 100px 110px 70px 125px 132px 50px 50px;
+  align-items: center;
+}

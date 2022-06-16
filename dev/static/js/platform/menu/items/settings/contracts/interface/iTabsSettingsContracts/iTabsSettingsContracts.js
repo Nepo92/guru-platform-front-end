@@ -4,7 +4,7 @@ const utils = new Utils();
 
 class ITabsSettingsContracts {
   init(props) {
-    const tabs = document.querySelector('.contract__tabs');
+    const tabs = document.querySelector('.platform__tabs');
 
     if (tabs) {
       const changeTab = this.#changeTab.bind(this, props);
@@ -15,14 +15,16 @@ class ITabsSettingsContracts {
   }
 
   #changeTab(props, e) {
-    const tabsItems = document.querySelectorAll('.contract-tabs__item');
+    const t = e.target;
 
-    if (tabsItems.length) {
+    const tabsItems = document.querySelectorAll('.platform-tabs__link');
+    const isTabItem = t.classList.contains('platform-tabs__link');
+
+    if (tabsItems.length && isTabItem) {
       tabsItems.forEach((item) => {
         item.classList.remove('active');
       });
 
-      const t = e.target;
       t.classList.add('active');
 
       props.rerenderContent.init(props);

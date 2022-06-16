@@ -17,14 +17,14 @@
             <div class="platform__header">
                 <h1 class="platform__title">Вознаграждение</h1>
             </div>
-            <div class="content-main content-main_xl">
+            <div class="content-main content-main_xl salary__wrapper">
                 <div class="salary salary_delim">
-                    <div class="managers-monitor__element block_90">
+                    <div class="managers-monitor__element block_90 salary-year">
                         <div class="manager-element__header manager-element__header_bg">
-                            <div class="header-element">Год <br><br></div>
+                            <div class="header-element">Год</div>
                         </div>
                         <div class="manager manager_name">
-                            <form filter-form action="#" th:action="@{/employee-salary/}" th:object="${filter}" th:method="post">
+                            <form class="salary-year__form" filter-form action="#" th:action="@{/employee-salary/}" th:object="${filter}" th:method="post">
                                 <div class="selects-wrapper selects-wrapper_small">
                                     <select class="filter__element" filter-param th:field="*{year}">
                                         <option th:each="y : ${ys}" th:value="${y}" th:utext="${y}"></option>

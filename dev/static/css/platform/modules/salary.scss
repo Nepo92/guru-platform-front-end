@@ -1,0 +1,12 @@
+.salary-year {
+  &__form {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    color: #7d7c85;
+
+    select {
+      color: #7d7c85;
+    }
+  }
+}
