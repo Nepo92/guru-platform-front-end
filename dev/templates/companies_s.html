@@ -13,15 +13,15 @@
     <div class="page__content">
         <div th:replace="base :: main-nav (logoClass='main-nav__logo_white')"></div>
 
-        <div class="platform__wrapper custom-scroll">
-            <div class="platform__header">
+        <div class="platform__wrapper settings custom-scroll">
+            <div class="platform__header settings">
                 <div class="platform__title">Компании</div>
             </div>
-            <div class="content-main">
-                <div class="content-main__panel content-main__panel_large content-main__company">
+            <div class="content-main settings">
+                <div class="content-main__panel content-main__panel_large content-main__company settings">
                     <div js-create-user class="button button_add">Добавить компанию</div>
                 </div>
-                <div class="content-main__wrapper">
+                <div class="content-main__wrapper settings">
                     <div class="content-main__panel content-main__panel_align content-main__panel_p content-main__company">
                         <table class="custom-table">
                             <tbody class="custom-table__body custom-table__body_white">
@@ -37,8 +37,8 @@
                                 <td class="custom-table__header-col custom-table__header-col_big">Фон</td>
                                 <td class="custom-table__header-col custom-table__header-col_big">Ссылка</td>
                                 <td class="custom-table__header-col custom-table__header-col_big">Онлайн-офис GURU</td>
-                                <td class="custom-table__header-col custom-table__header-col_big">Тип</td>
-                                <td class="custom-table__header-col custom-table__header-col_big"></td>
+                                <td class="custom-table__header-col custom-table__header-col_big companies-column">Тип</td>
+                                <td class="custom-table__header-col custom-table__header-col_big companies-column"></td>
                             </tr>
                             <tr class="custom-table__body-row company-body__row" th:each="company, stat : ${companies}">
                                 <input type="hidden" u-id th:value="${company.id}" name="id" required>
@@ -133,12 +133,12 @@
                                         </div>
                                     </th:block>
                                 </td>
-                                <td class="custom-table__body-col custom-table__body-col_medium custom-table__body-col_center">
+                                <td class="custom-table__body-col custom-table__body-col_medium custom-table__body-col_center companies-column">
                                     <div js-set-sale-type class="setting-wrapper">
                                         <div class="theme-setting theme-setting_big mt_0 ml_0"></div>
                                     </div>
                                 </td>
-                                <td class="custom-table__body-col custom-table__body-col_last">
+                                <td class="custom-table__body-col custom-table__body-col_last companies-column">
                                     <div edit-btns class="column-links display-flex-none">
                                         <div edit-user-accept class="column_mwidth column_mwidth-accept"></div>
                                         <div edit-user-cancel class="column_mwidth column_mwidth-cancel"></div>

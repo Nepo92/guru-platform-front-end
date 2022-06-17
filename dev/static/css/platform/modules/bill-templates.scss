@@ -295,11 +295,11 @@
   box-shadow: 0 5px 5px rgb(0 0 0 / 40%);
 }
 
-.templates__item:nth-child(4n) {
+.templates__item:nth-child(3n) {
   margin-right: 0;
 }
 
-.templates__item:nth-child(n+5) {
+.templates__item:nth-child(n+3) {
   margin-top: 20px;
 }
 

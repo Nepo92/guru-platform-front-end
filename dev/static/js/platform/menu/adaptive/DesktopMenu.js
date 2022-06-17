@@ -37,9 +37,6 @@ class DesktopMenu {
     const clickMenuItem = this.clickMenuItem.bind(this, props);
     props.clickMenuItem = clickMenuItem;
 
-    const closeMenu = this.closeMenu.bind(this, props);
-    props.closeMenu = closeMenu;
-
     return props;
   }
 
@@ -56,7 +53,6 @@ class DesktopMenu {
       } else {
         props.menu.classList.remove('open');
         Array.from(props.subMenuList.children).forEach((el) => el.classList.remove('open'));
-        props.platformWrapper.removeEventListener('click', props.closeMenu);
         props.menuList.removeEventListener('click', props.clickMenuItem);
 
         const mobileProps = {
@@ -80,32 +76,6 @@ class DesktopMenu {
     if (props.menuList) {
       props.menuList.removeEventListener('click', props.clickMenuItem);
       props.menuList.addEventListener('click', props.clickMenuItem);
-    }
-
-    if (props.platformWrapper) {
-      props.platformWrapper.removeEventListener('click', props.closeMenu);
-      props.platformWrapper.addEventListener('click', props.closeMenu);
-    }
-  }
-
-  closeMenu(props) {
-    const subMenus = Array.from(props.subMenuList.children);
-
-    if (subMenus.length) {
-      subMenus.forEach((item) => {
-        if (item.classList.contains('open') || item.classList.contains('open_t0')) {
-          item.classList.add('height_100vh');
-
-          setTimeout(() => {
-            item.classList.remove('height_100vh');
-          }, 400);
-        }
-
-        item.classList.remove('open');
-        item.classList.remove('open_t0');
-      });
-
-      props.menu.classList.remove('open');
     }
   }
 

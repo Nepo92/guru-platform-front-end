@@ -7,6 +7,10 @@
   height: auto;
   background-color: white;
   padding: 40px 40px 20px;
+
+  &.settings {
+    width: 100%;
+  }
 }
 
 .platform__header.monitor {

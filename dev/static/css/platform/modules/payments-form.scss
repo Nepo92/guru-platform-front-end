@@ -36,11 +36,11 @@
   margin-top: 20px;
 }
 
-.payment-form:nth-child(4n) {
+.payment-form:nth-child(3n) {
   margin-right: 0;
 }
 
-.payment-form:nth-child(n+5) {
+.payment-form:nth-child(n+4) {
   margin-top: 20px;
 }
 
@@ -49,6 +49,11 @@
   display: flex;
   flex-direction: column;
   margin-left: 40px;
+
+  &.settings {
+    width: calc(100vw - 420px);
+    overflow-x: auto;
+  }
 }
 
 .payment-forms__panel {

@@ -1,17 +1,5 @@
 @import "../../../helpers/variables";
 
-@media (max-width: $mobile) {
-  .contract {
-    &__search {
-      width: 100%;
-    }
-
-    &__wrapper {
-      width: calc(100% - 20px);
-    }
-  }
-}
-
 .contract {
   width: 100%;
   height: 100%;
@@ -20,6 +8,7 @@
     margin-top: 20px;
     padding-top: 20px;
     border-top: 1px solid $content-selector;
+    margin-bottom: 40px;
   }
 
   &__search {
@@ -79,7 +68,6 @@
     min-width: 1215px;
     width: 1215px;
     max-width: 1215px;
-    margin-bottom: 40px;
   }
 
   &__row {
@@ -562,6 +550,18 @@
       &::after {
         background-color: $black;
       }
+    }
+  }
+}
+
+@media (max-width: $mobile) {
+  .contract {
+    &__search {
+      width: 100%;
+    }
+
+    &__wrapper {
+      width: calc(100% - 20px);
     }
   }
 }

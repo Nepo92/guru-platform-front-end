@@ -42,6 +42,7 @@ class BannerDefault {
 
     const wrapperCheckList = document.createElement('div');
     wrapperCheckList.classList.add('managment__checklist');
+    wrapperCheckList.classList.add('settings');
 
     wrapper.appendChild(wrapperCheckList);
 

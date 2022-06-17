@@ -88,6 +88,10 @@
   justify-content: space-between;
   align-items: center;
   width: 1215px;
+
+  &.settings {
+    width: 970px;
+  }
 }
 
 .advertising,
@@ -1710,6 +1714,10 @@
 
 .article-container {
   max-width: 1215px;
+
+  &.settings {
+    max-width: 970px;
+  }
 }
 
 .plans-content {
@@ -5191,6 +5199,11 @@ s #editor {
 .custom-table__body-col_medium {
   width: 125px;
   min-width: 125px;
+
+  &.companies-column {
+    min-width: 110px;
+    width: 110px;
+  }
 }
 
 .custom-table__body-col_lsmall {
@@ -5612,6 +5625,11 @@ label.error,
   flex-direction: row;
   margin-top: 20px;
   width: 100%;
+
+  &.settings {
+    width: 970px;
+    overflow-x: auto;
+  }
 }
 
 .content-main__wrapper_col {

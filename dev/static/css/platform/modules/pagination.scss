@@ -8,6 +8,10 @@
   max-height: 100vh;
   overflow-y: auto;
   overflow-x: auto;
+
+  &.settings {
+    width: calc(100vw - 380px);
+  }
 }
 
 /* Пагинация */

@@ -4,6 +4,10 @@
   flex-direction: column;
   margin-top: 20px;
   width: 1215px;
+
+  &.settings {
+    width: 970px;
+  }
 }
 
 .platform__content.overflowed {
