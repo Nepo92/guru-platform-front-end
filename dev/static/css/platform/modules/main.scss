@@ -11631,6 +11631,13 @@ div[js-menu] {
   color: black;
 }
 
+.link-row-header {
+  display: grid;
+  width: 970px;
+  grid-template-columns: 350px 200px 350px 40px;
+  align-content: center;
+}
+
 .link-row {
   display: grid;
   width: 970px;
