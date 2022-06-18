@@ -5629,6 +5629,7 @@ label.error,
   &.settings {
     width: 970px;
     overflow-x: auto;
+    box-shadow: 0 5px 13px -13px rgb(0 0 0 / 20%);
   }
 }
 
@@ -7221,17 +7222,16 @@ label.error,
   border-radius: 5px;
   font-size: 12px;
   line-height: 16px;
-  color: black;
   padding: 0 30px;
-  background: none;
+  background-color: $black;
+  color: $white;
   cursor: pointer;
   transition: all 0.2s linear;
 }
 
 .add-button:hover {
-  background-color: black;
-  color: white;
-  border: 1px solid black;
+  background-color: transparent;
+  color: $black;
 }
 
 .add-button_violet,
@@ -10573,7 +10573,11 @@ label.error,
 }
 
 .content-main__company {
-  width: 1215px;
+  width: 970px;
+
+  .button {
+    margin-left: auto;
+  }
 }
 
 .monitor-panel__banner {
@@ -10623,7 +10627,7 @@ label.error,
 }
 
 .projects__table {
-  width: 50%;
+  width: 100%;
 }
 
 .plans-bottom {
@@ -11627,6 +11631,30 @@ div[js-menu] {
   color: black;
 }
 
+.link-row {
+  display: grid;
+  width: 970px;
+  grid-template-columns: 350px 200px 350px 40px;
+  align-content: center;
+
+  &:nth-child(2) {
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+  }
+
+  &:last-child {
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+  }
+
+  &__link {
+    overflow: hidden;
+    display: inline-block;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
 .link-row__remove {
   display: inline-block;
   width: 15px;
@@ -11720,4 +11748,35 @@ div[distribute-submit-btn] {
   min-width: 1215px;
   width: 1215px;
   overflow-y: hidden;
+}
+
+.settings-projects-row {
+  display: flex;
+  width: 970px;
+  align-items: center;
+  justify-content: center;
+
+  &:nth-child(2) {
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+  }
+
+  &:last-child {
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom: 0;
+  }
+}
+
+.project-header__row {
+  display: flex;
+  justify-content: center;
+}
+
+.projects-header__name {
+  width: 384px;
+}
+
+.projects-header__settings {
+  width: 68px;
 }

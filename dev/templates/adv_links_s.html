@@ -48,7 +48,7 @@
                         <tr class="custom-table__body-row link-row" th:each="advSheet : ${advSheets}" th:attr="data-id=${advSheet.id}">
                             <td class="custom-table__body-col link-name" th:utext="${advSheet.name}"></td>
                             <td class="custom-table__body-col" th:utext="${advSheet.advertiser}"></td>
-                            <td class="custom-table__body-col" th:utext="${advSheet.link}"></td>
+                            <td class="custom-table__body-col link-row__link" th:utext="${advSheet.link}"></td>
                             <td class="custom-table__body-col">
                                 <span class="link-row__remove" remove-table type="submit" onclick=""></span>
                             </td>

@@ -4,26 +4,30 @@ const utils = new Utils();
 
 class CloseFilter {
   init() {
-      const closeFilterBtn = document.querySelector('.platform__close--btn-modal');
+    const closeFilterBtn = document.querySelector('.platform__close--btn-modal');
 
-      if (closeFilterBtn) {
-          const closeFilter = this.closeFilter.bind(this);
+    if (closeFilterBtn) {
+      const isFilter = utils.getParent(closeFilterBtn, 'platform__filter');
 
-          closeFilterBtn.removeEventListener('click', closeFilter);
-          closeFilterBtn.addEventListener('click', closeFilter);
+      if (closeFilterBtn && isFilter) {
+        const closeFilter = this.closeFilter.bind(this);
+
+        closeFilterBtn.removeEventListener('click', closeFilter);
+        closeFilterBtn.addEventListener('click', closeFilter);
       }
+    }
   }
 
   closeFilter() {
-      const filterButton = document.querySelector('.platform__filter--btn');
-      if (filterButton) {
-          filterButton.classList.remove('active');
-      }
+    const filterButton = document.querySelector('.platform__filter--btn');
+    if (filterButton) {
+      filterButton.classList.remove('active');
+    }
 
-      const filter = document.querySelector('.platform__filter');
-      const filterWrapper = filter.querySelector('.filter__wrapper');
+    const filter = document.querySelector('.platform__filter');
+    const filterWrapper = filter.querySelector('.filter__wrapper');
 
-      utils.closeModalAnimation(filter, filterWrapper, true, false, false);
+    utils.closeModalAnimation(filter, filterWrapper, true, false, false);
   }
 }
 

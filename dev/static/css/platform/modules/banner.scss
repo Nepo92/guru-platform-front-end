@@ -1,3 +1,5 @@
+@import "../helpers/variables";
+
 .banner__content {
   display: flex;
   flex-direction: column;
@@ -16,11 +18,13 @@
 
 .banner__link,
 .banner__name {
-  width: 320px;
-  height: 35px;
+  width: 100%;
+  height: 40px;
   padding: 0 15px;
   border-radius: 5px;
-  border: 0;
+  background-color: white;
+  border: 1px solid #c3c2c9;
+  margin-top: 5px;
 }
 
 .banner__link {
@@ -29,7 +33,7 @@
 
 .banner__label {
   display: flex;
-  width: 320px;
+  width: 100%;
   height: 160px;
   justify-content: flex-end;
   align-items: center;
@@ -114,17 +118,18 @@
 .banner__save,
 .banner__remove {
   width: 180px;
-  height: 35px;
+  height: 40px;
   font-size: 12px;
   line-height: 12px;
-  border: 1px solid rgb(0 0 0 / 70%);
+  border: 1px solid $black;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 7px;
-  color: rgb(0 0 0 / 70%);
   transition: all 0.2s linear;
   cursor: pointer;
+  background-color: $black;
+  color: $white;
 }
 
 .banner__remove {
@@ -133,8 +138,9 @@
 
 .banner__save:hover,
 .banner__remove:hover {
-  color: black;
-  border-color: black;
+  color: $black;
+  border-color: $black;
+  background-color: transparent;
 }
 
 .banner__save.disabled,
@@ -164,7 +170,7 @@
   right: 20px;
   border-radius: 100%;
   transition: all 0.2s linear;
-  opacity: 0;
+  opacity: 1;
 }
 
 .banner__file-wrapper:hover .banner__remove-preloader {
@@ -173,7 +179,7 @@
 
 .banner__img {
   width: 100%;
-  height: 100%;
+  height: 200px;
 }
 
 .banner__controls {
@@ -326,7 +332,7 @@
 .banner__search {
   display: flex;
   width: 280px;
-  height: 33px;
+  height: 40px;
   font-size: 12px;
   border: 1px solid lightgray;
   padding: 0 20px 0 10px;
@@ -355,13 +361,14 @@
 .banner__managment {
   display: flex;
   flex-direction: column;
+  width: 970px;
 }
 
 .banner__checklist {
   margin-top: 25px;
   border: 1px solid lightgray;
   list-style: none;
-  width: 375px;
+  width: 100%;
   border-radius: 8px;
   max-height: 400px;
 }
@@ -384,15 +391,20 @@
   width: 150px;
   height: 40px;
   border-radius: 5px;
-  background: black;
+  background-color: black;
   color: white;
-  border: 1px solid transparent;
-}
+  border: 1px solid $black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: auto;
+  cursor: pointer;
+  transition: all 0.2s linear;
 
-.banner__add:hover {
-  border: 1px solid black;
-  color: black;
-  background-color: transparent;
+  &:hover {
+    background-color: transparent;
+    color: $white;
+  }
 }
 
 .checklist-item__img {
@@ -454,10 +466,14 @@
   margin-top: 30px;
 
   &.settings {
-    width: 375px;
+    width: 100%;
   }
 }
 
 .banner-preview {
   width: 100%;
+}
+
+.banner-menu__item {
+  border-top: 0;
 }

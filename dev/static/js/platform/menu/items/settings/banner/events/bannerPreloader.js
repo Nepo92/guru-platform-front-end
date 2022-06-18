@@ -37,7 +37,7 @@ class BannerPreloader {
       const remove = document.createElement('span');
       remove.classList.add('banner__remove-preloader');
 
-      const wrapper = utils.getParent(t, 'banner__file-wrapper');
+      const wrapper = utils.getParent(t, 'platform-form__item');
 
       const label = wrapper.querySelector('label');
 
@@ -60,8 +60,7 @@ class BannerPreloader {
 
   removePreloader(e) {
     const t = e.target;
-
-    const wrapper = utils.getParent(t, 'banner__file-wrapper');
+    const wrapper = utils.getParent(t, 'platform-form__item');
     const img = wrapper.querySelector('img');
     img.remove();
 

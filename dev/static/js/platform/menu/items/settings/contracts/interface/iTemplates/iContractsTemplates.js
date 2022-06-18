@@ -10,7 +10,7 @@ class IContractTemplate {
     return `
       <div class="contract-menu__item">
         <p class="contract-menu__name">Имя *</p>
-        <input contract-name type="text" value="${name}" class="contract__input" required placeholder="Введите имя договора">
+        <input contract-name type="text" value="${name}" class="contract__input contract__input--menu" required placeholder="Введите имя договора">
       </div>
       <div class="contract-menu__item">
         <p class="contract-menu__name">Выберите тип документа *</p>
@@ -18,7 +18,7 @@ class IContractTemplate {
       </div>
       <div class="contract-menu__item">
         <p class="contract-menu__name">Ссылка *</p>
-        <input contract-link type="text" value="${link}" class="contract__input" required placeholder="Введите ссылку">
+        <input contract-link type="text" value="${link}" class="contract__input contract__input--menu" required placeholder="Введите ссылку">
       </div>
     `;
   }
@@ -55,11 +55,15 @@ class IContractTemplate {
     return `
       <tr class="contract__row" ${contractId}>
         <td class="contract__cell date">${createDate}</td>
-        <td class="contract__cell type">${contractType}</td>
         <td need-disable title="${contractName}" class="contract__cell contract-disable">
-          <input type="text" contract-name value="${contractName}" class="contract__input contract-name">
+          <div class="contract__info">
+            <input type="text" contract-name value="${contractName}" class="contract__input contract-name">
+            <p class="contract__type">${contractType}</p>
+          </div>
         </td>
-        <td class="contract__cell who">${userName}</td>
+        <td class="contract__cell who">
+          ${userName}
+        </td>
         <td class="contract__cell status contract-status ${contract.active ? 'active' : 'disable'}">
           <input type="radio" class="platform__checkbox" name="contract_${contract.type}" id="status_${count}" ${contract.active ? 'checked="true"' : ''}">
           <label class="platform-checkbox__label" for="status_${count}">

@@ -7803,6 +7803,47 @@
     Ссылка скопирована
     <span class="tooltip__copy--icon"></span>
   </div>
+
+  <div js-add-banner-menu class="platform-modal banner-menu" th:fragment="add-banner">
+    <div class="platform-modal__wrapper pay-menu__wrapper transparent-wrapper">
+      <div class="platform-modal__form pay-menu__form">
+        <div class="platform-form__header platform-form__header--bills">
+          <h2 class="platform-form__title">Добавить баннер</h2>
+          <span close-add-banner-menu class="platform__close--btn-modal"></span>
+        </div>
+        <form action="" pay-form class="platform-form">
+          <ul class="platform-form__items bills__items bills__items--checks custom-scroll">
+            <li class="platform-form__item banner-menu__item">
+              <p class="platform-form__name pay__name">Ссылка</p>
+              <input type="text"  placeholder="Введите ссылку" class="platform__input banner__link">
+            </li>
+            <li class="platform-form__item banner-menu__item">
+              <p class="platform-form__name">Название *</p>
+              <input type="text"  placeholder="Введите имя баннера" class="platform__input banner__name">
+            </li>
+            <li class="platform-form__item banner-menu__item">
+              <input type="file" accept=".jpg,.svg,.png,.webp,.gif,.avif,.jpeg" class="platform__input banner__file" id="banner-mobile">
+              <label for="banner-mobile" class="platform__label banner__label">
+                <span class="banner__icon"></span>
+                Загрузить мобильную версию 640х440
+              </label>
+            </li>
+            <li class="platform-form__item banner-menu__item">
+              <input type="file" accept=".jpg,.svg,.png,.webp,.gif,.avif,.jpeg" class="platform__input banner__file" id="banner-desktop">
+              <label for="banner-desktop" class="platform__label banner__label">
+                <span class="banner__icon"></span>
+                Загрузить десктоп версию 1180х350
+              </label>
+            </li>
+          </ul>
+        </form>
+
+        <div class="platform-form__footer banner__controls">
+          <div class="platform-form__access-btn banner__save disabled">Сохранить</div>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 
 </html>

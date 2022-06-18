@@ -1,24 +1,4 @@
 class BannersTemplates {
-  emptyBanners() {
-    return `
-      <div class="banner__file-wrapper">
-        <input type="file" accept=".jpg,.svg,.png,.webp,.gif,.avif,.jpeg" class="platform__input banner__file" id="banner-mobile">
-        <label for="banner-mobile" class="platform__label banner__label">
-          <span class="banner__icon"></span>
-          Загрузить мобильную версию 640х440
-        </label>
-      </div>
-
-      <div class="banner__file-wrapper">
-        <input type="file" accept=".jpg,.svg,.png,.webp,.gif,.avif,.jpeg" class="platform__input banner__file" id="banner-desktop">
-        <label for="banner-desktop" class="platform__label banner__label">
-          <span class="banner__icon"></span>
-          Загрузить десктоп версию 1180х350
-        </label>
-      </div>
-    `;
-  }
-
   bannerCheckList() {
     return `
         <div class="banner__files"></div>

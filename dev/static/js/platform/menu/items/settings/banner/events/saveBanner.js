@@ -49,6 +49,10 @@ class SaveBanner {
       utils.showLoader();
 
       saveBanner.then(() => {
+        const menu = document.querySelector('[js-add-banner-menu]');
+        const wrapper = menu.querySelector('.platform-modal__wrapper');
+        utils.closeModalAnimation(menu, wrapper, false, false);
+
         const getBanners = bannerAPI.getBanners(id);
 
         getBanners.then((banners) => {

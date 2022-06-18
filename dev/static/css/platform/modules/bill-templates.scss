@@ -1,3 +1,5 @@
+@import "../helpers/variables";
+
 .templates {
   margin-top: 0;
 }
@@ -261,7 +263,8 @@
   padding: 0 25px;
   border: 1px solid black;
   border-radius: 5px;
-  color: black;
+  color: $white;
+  background-color: $black;
   cursor: pointer;
   transition: all 0.2s linear;
 }
@@ -270,13 +273,14 @@
   display: flex;
   margin-top: 20px;
   padding-top: 20px;
-  border-top: 1px solid #c4c4c433;
+  border-top: 1px solid rgba(#c4c4c4, 0.2);
   flex-flow: row wrap;
   max-width: 1215px;
+  margin-bottom: 40px;
 }
 
 .templates__item {
-  width: 300px;
+  width: 310px;
   height: 140px;
   margin-right: 20px;
   background-color: white;
@@ -299,7 +303,7 @@
   margin-right: 0;
 }
 
-.templates__item:nth-child(n+3) {
+.templates__item:nth-child(n+4) {
   margin-top: 20px;
 }
 
@@ -321,8 +325,8 @@
 }
 
 .templates__add-btn:hover {
-  background-color: black;
-  color: white;
+  background-color: transparent;
+  color: $black;
 }
 
 .templates__name {

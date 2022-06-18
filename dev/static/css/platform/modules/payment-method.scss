@@ -68,6 +68,16 @@
   justify-content: flex-start;
   align-items: center;
 
+  &:nth-child(2) {
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+  }
+
+  &:last-child {
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+  }
+
   &__table {
     display: flex;
     flex-direction: column;
@@ -132,4 +142,8 @@
       }
     }
   }
+}
+
+.add-payment-method {
+  margin-left: auto;
 }

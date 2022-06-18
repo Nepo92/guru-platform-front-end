@@ -8,13 +8,13 @@ const bannerPreloader = new BannerPreloader();
 
 class BannerDefault {
   init(props) {
-    const wrapper = document.querySelector('.banner__files');
+    const wrapper = document.querySelector('.banner__managment');
 
     if (wrapper) {
       utils.removeChildren(wrapper);
 
       this.setBanners(props);
-      this.setEmptyBanners(props, wrapper);
+      this.clearAddBannerMenu();
 
       bannerPreloader.init(props);
     }
@@ -50,16 +50,6 @@ class BannerDefault {
     bannerCheckList.classList.add('banner__checklist');
     bannerCheckList.classList.add('custom-scroll');
 
-    const search = document.createElement('div');
-    const searchInput = document.createElement('input');
-    searchInput.setAttribute('type', 'text');
-    searchInput.setAttribute('placeholder', 'Поиск баннера...');
-    searchInput.classList.add('banner__search');
-    searchInput.classList.add('banner-preview');
-
-    search.appendChild(searchInput);
-    wrapperCheckList.appendChild(search);
-
     wrapperCheckList.appendChild(bannerCheckList);
 
     const sortedBanners = banners.sort((a, b) => b.id - a.id);
@@ -77,7 +67,7 @@ class BannerDefault {
     });
   }
 
-  setEmptyBanners(props, wrapper) {
+  clearAddBannerMenu() {
     const link = document.querySelector('.banner__link');
     link.value = '';
 
@@ -86,8 +76,6 @@ class BannerDefault {
 
     const addBanner = document.querySelector('.banner__save');
     addBanner.classList.remove('disabled');
-
-    wrapper.innerHTML = bannerTemplates.emptyBanners();
   }
 }
 

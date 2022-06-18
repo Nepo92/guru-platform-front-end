@@ -1,3 +1,9 @@
+@import "../../../helpers/variables";
+
+.companies__table {
+  box-shadow: 0 0 0 0 rgba($black, 0.2);
+}
+
 .company-header__row,
 .company-body__row {
   display: grid;
@@ -6,4 +12,15 @@
   width: 1215px;
   grid-template-columns: 23px 46px 100px 120px 100px 110px 100px 110px 70px 125px 132px 50px 50px;
   align-items: center;
+
+  &:nth-child(2) {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+
+  &:last-child {
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-bottom: 0;
+  }
 }

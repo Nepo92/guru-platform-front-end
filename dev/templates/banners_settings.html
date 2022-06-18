@@ -1,72 +1,60 @@
 <html lang="ru" xmlns:th="http://www.w3.org/1999/xhtml">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="воронки">
-    <title>Настройка баннера</title>
-    <th:block th:insert="base :: links" />
-    <link rel="stylesheet" th:href="@{/css/jquery.fancybox.min.css}">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="воронки">
+  <title>Настройка баннера</title>
+  <th:block th:insert="base :: links"/>
+  <link rel="stylesheet" th:href="@{/css/jquery.fancybox.min.css}">
 </head>
 
 <body class="page custom-scroll">
-    <div class="page__content">
-        <div th:replace="base :: main-nav"></div>
+<div class="page__content">
+  <div th:replace="base :: main-nav"></div>
 
-        <div class="platform__wrapper settings banners">
-            <div class="platform__header settings banners__top">
-                <h1 class="platform__title banners-head__title">Баннер</h1>
-            </div>
-
-            <div class="banner__content settings">
-                <div class="banner__nav">
-                    <div class="banner__info">
-                        <div class="banner__item">
-                            <input type="text"  placeholder="Введите ссылку *" class="platform__input banner__link">
-                        </div>
-                        <div class="banner__item">
-                            <input type="text"  placeholder="Введите имя баннера *" class="platform__input banner__name">
-                        </div>
-                    </div>
-
-                    <div class="banner__controls">
-                        <div class="banner__save disabled">Сохранить</div>
-                    </div>
-                </div>
-
-                <div class="banner__managment">
-                    <div class="banner__files">
-                    </div>
-                </div>
-            </div>
-        </div>
+  <div class="platform__wrapper settings banners">
+    <div class="platform__header settings banners__top">
+      <h1 class="platform__title banners-head__title">Баннер</h1>
     </div>
 
-    <div th:replace="base :: transition-loader"></div>
-    <script th:src="@{/js/transition-loader.js}"></script>
+    <div class="banner__content settings">
+      <div class="banner__nav">
+        <div class="">
+          <input type="text" class="banner__search" placeholder="Поиск баннера...">
+        </div>
+        <div class="banner__add">Добавить баннер</div>
+      </div>
+
+      <div class="banner__managment"></div>
+    </div>
+  </div>
+</div>
+
+<div th:replace="base :: transition-loader"></div>
+<script th:src="@{/js/transition-loader.js}"></script>
 <script th:inline='javascript'>
-    /*<![CDATA[*/
-    showLoader();
-/*]]>*/
+  /*<![CDATA[*/
+  showLoader();
+  /*]]>*/
 </script>
 
-<div th:replace="base :: add-funnel-menu"></div>
+<div th:replace="base :: add-banner"></div>
 
 <th:block th:insert="base :: scripts"/>
 <script th:inline='javascript'>
-    /*<![CDATA[*/
-    var filter = [[${ filter }]];
-    var role = [[${ role }]];
-
-    var items = null;
-    var today = [[${ today }]];
-    var manager = [[${ manager }]];
-    var company = [[${ company }]];
-    var managers = null;
-    var banners = [[${banners}]]
-    /*]]>*/
-    </script>
-    <script th:src="@{/js/jquery.fancybox.min.js}"></script>
+  /*<![CDATA[*/
+  var filter = [[${ filter }]];
+  var role = [[${ role }]];
+  var items = null;
+  var today = [[${ today }]];
+  var manager = [[${ manager }]];
+  var company = [[${ company }]];
+  var managers = null;
+  var banners = [[${banners}]];
+  /*]]>*/
+</script>
+<script th:src="@{/js/jquery.fancybox.min.js}"></script>
 </body>
 
 </html>
