@@ -76,11 +76,20 @@ class SettingsContract {
   }
 
   #getContractData(props, isUpdate) {
-    const { menu, contractId } = props;
+    const {
+      menu,
+      contractId,
+    } = props;
 
-    const name = menu.querySelector('[contract-name]').value.trim();
-    const link = menu.querySelector('[contract-link]').value.trim();
-    const code = +Array.from(document.querySelectorAll('.platform-tabs__link')).find((el) => el.classList.contains('active')).getAttribute('data-type');
+    const name = menu.querySelector('[contract-name]')
+        .value
+        .trim();
+    const link = menu.querySelector('[contract-link]')
+        .value
+        .trim();
+    const code = +Array.from(document.querySelectorAll('.platform-tabs__link'))
+        .find((el) => el.classList.contains('active'))
+        .getAttribute('data-type');
     const { keyField } = props.pack.typesContracts.find((el) => el.keyField === code);
 
     const type = menu.querySelector('[data-select-type="select-contract"] [id-selected]')?.value;
@@ -108,13 +117,17 @@ class SettingsContract {
   }
 
   changeContractStatus(props) {
-    const { target, pack } = props;
+    const {
+      target,
+      pack,
+    } = props;
 
     if (!props.prevTarget) {
       props.prevTarget = target;
     }
 
-    const contractId = +utils.getParent(target, 'contract__row').getAttribute('data-id');
+    const contractId = +utils.getParent(target, 'contract__row')
+        .getAttribute('data-id');
 
     const currentContract = pack.contracts.find((el) => el.id === contractId);
 
@@ -132,13 +145,21 @@ class SettingsContract {
       clearTimeout(loader);
       utils.hideLoader();
 
-      const sameTape = props.pack.contracts.filter((el) => el.type === currentContract.type);
-      const sameTapeisActive = sameTape.find((el) => el.active && el.id !== currentContract.id);
+      const sameTape = props.pack.contracts.filter((el) => {
+        const isSameType = el.type === currentContract.type;
+        const isSameCode = el.code === currentContract.code;
 
-      if (sameTapeisActive) {
-        sameTapeisActive.active = false;
+        if (isSameCode && isSameType) {
+          return el;
+        }
+      });
 
-        const updatePrev = contractAPI.updateContract(sameTapeisActive);
+      const sameTapeIsActive = sameTape.find((el) => el.active && el.id !== currentContract.id);
+
+      if (sameTapeIsActive) {
+        sameTapeIsActive.active = false;
+
+        const updatePrev = contractAPI.updateContract(sameTapeIsActive);
 
         updatePrev.then(() => {
           this.#rerenderContent(props, loader);
@@ -173,7 +194,10 @@ class SettingsContract {
         const name = item.querySelector('[contract-name]');
 
         if (name) {
-          if (!(~name.value.trim().toLowerCase().indexOf(value.trim().toLowerCase()))) {
+          if (!(~name.value.trim()
+              .toLowerCase()
+              .indexOf(value.trim()
+                  .toLowerCase()))) {
             item.classList.add('hide');
           } else {
             item.classList.remove('hide');
